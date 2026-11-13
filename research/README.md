@@ -4,7 +4,9 @@
 |---|---|
 | [`phase0-report.md`](phase0-report.md) | hand-written report for the first milestone: what is proved, what is only checked, limitations, next questions |
 | [`literature-cst.md`](literature-cst.md) | how the lab's objects map to the Coefficient Stopping Time literature: sources, equivalence proof, count reconciliation, open obligations |
-| [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and one bounded next experiment |
+| [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and the bounded Phase 2 experiment |
+| [`envelope/summary.md`](envelope/summary.md) | generated Phase 2 table: all exact extrema and envelope factors for `1 <= r <= 12` |
+| [`envelope/evidence.json`](envelope/evidence.json) | exact Phase 2 evidence, all ties, independent counts and Terras offsets |
 | [`example/summary.md`](example/summary.md) | generated summary of the reference experiment |
 | [`example/ledger.jsonl`](example/ledger.jsonl) | generated machine-readable ledger of the reference experiment |
 
@@ -22,6 +24,17 @@ cargo run --release -- verify --ledger research/example/ledger.jsonl
 ```
 
 Ad-hoc runs default to `research/runs/latest`, which is git-ignored.
+
+The Phase 2 table and evidence are reproduced byte for byte with:
+
+```text
+cargo run --locked --release -- envelope --out-dir research/envelope
+```
+
+This fixed experiment terminates at `r=12` or on the first invariant failure.
+Its first counterexample to the finite prediction `E_r<=2` is `r=11`, with
+`E_r=479207/179707`. It makes no all-`r` claim and does not prove P1b.
+Performance and independent verification are documented in the repository README.
 
 ## Certificate families on record
 

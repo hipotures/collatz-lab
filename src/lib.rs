@@ -18,6 +18,7 @@
 //! * [`prefix`] - parity prefixes, affine forms, congruence cylinders.
 //! * [`certificate`] - conditional descent certificates and first-descent covers.
 //! * [`counting`] - independent exact counts of first crossings and survivors.
+//! * [`envelope`] - bounded exact comparison of Terras's mini-max envelope.
 //! * [`nogo`] - the Mersenne adversarial baseline against fixed descent windows.
 //! * [`verifier`] - an independent checker that only trusts direct iteration.
 //! * [`hypothesis`] - bounded hypothesis workflow and the JSONL research ledger.
@@ -28,6 +29,7 @@
 pub mod certificate;
 pub mod collatz;
 pub mod counting;
+pub mod envelope;
 pub mod hypothesis;
 pub mod nogo;
 pub mod prefix;

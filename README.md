@@ -22,6 +22,7 @@ kind of statement it is.
 | `prefix` | parity prefixes, the affine form `T^k(n) = (3^r n + c) / 2^k`, and the residue class modulo `2^k` of each prefix |
 | `certificate` | exact conditional descent certificates and the first-descent cover of the integers to a given depth |
 | `counting` | two independent exact recurrences for the number of first coefficient crossings and of surviving classes |
+| `envelope` | exhaustive comparison of Terras's mini-max envelope with exact class ratios for `1 <= r <= 12` |
 | `nogo` | the Mersenne family `2^L - 1`, which rules out every fixed universal descent window |
 | `verifier` | an independent checker that trusts only direct iteration and elementary integer identities |
 | `hypothesis` | a bounded generate-and-falsify workflow writing a JSONL research ledger |
@@ -51,6 +52,7 @@ collatz-lab prefixes      --length K | --parity BITS | --n N --length K
 collatz-lab certificates  [--depth K] [--parity BITS] [--out FILE.jsonl]
 collatz-lab experiment    [--seed S] [--depth K] [--limit N] [--window W] ... [--out-dir DIR]
 collatz-lab counts        [--max-depth K] [--walker-depth K]
+collatz-lab envelope      [--out-dir DIR]
 ```
 
 - `verify` runs the deterministic self-checks (range oracle, fast path against
@@ -65,6 +67,9 @@ collatz-lab counts        [--max-depth K] [--walker-depth K]
 - `experiment` runs the bounded hypothesis workflow.
 - `counts` tabulates first coefficient crossings and survivors by two
   recurrences that do not use the cover walker, and compares all three.
+- `envelope` measures the slack from separately maximizing the offset and
+  minimizing the class representative. Its bounds are fixed at `1 <= r <= 12`
+  and `k <= 20`; it has no `--allow-large` override.
 
 Defaults run promptly on a laptop. Bounds beyond the defaults (for example
 `--depth` above 24) are refused unless `--allow-large` is passed; long
@@ -81,6 +86,38 @@ $ collatz-lab certificates --parity 10
 certificate: for all n >= 2 with n = 1 (mod 2^2): T^2(n) = (3^1 n + 1) / 2^2 < n
 positive class members below the threshold: 1 {1}
 ```
+
+## Mini-max envelope experiment (issue #5)
+
+Reproduce the [exact table](research/envelope/summary.md) and
+[machine-readable evidence](research/envelope/evidence.json) with:
+
+```text
+cargo run --locked --release -- envelope --out-dir research/envelope
+```
+
+This exhausts all 4,403 first-crossing words with `1 <= r <= 12`, cross-checks
+each family size against both counting recurrences, and independently computes
+Terras's maximal offset. All classes are checked through modular inversion,
+residue lifting, closed-form affine identities and direct iteration. All extrema
+and ties are retained; fractions and rankings use arbitrary-precision integers.
+The residue-1 class `10` uses its least member at least 2, namely 5.
+
+The finite prediction `E_r <= 2` is **refuted**: its first counterexample is
+`r=11`, `k=18`, where `E_r=479207/179707 > 2`. The other eleven tested values
+satisfy the inequality. This is a bounded comparison only: P1a remains refuted,
+P1b remains open, and no CST, Collatz, originality or all-`r` claim follows.
+If `R_r=0`, the envelope factor and its comparison with 2 are explicitly N/A
+(`null` in JSON).
+
+The release command took 19 ms after compilation in the implementation
+environment (Rust 1.100.0); timing is machine-dependent. It retains at most
+one family of 2,652 classes plus the summaries, stops after `r=12` or immediately
+on an invariant failure, and finishes all mathematical checks before replacing
+outputs. Timing goes to stderr, so artifacts reproduce byte for byte. The new
+evidence format is separate from the reference experiment's unchanged JSONL
+ledger. `tests/envelope.rs` independently scans a full residue period to recheck
+all extrema, ties and exact fractions, and checks CLI artifact reproduction.
 
 ## Epistemic statuses
 

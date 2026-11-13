@@ -1,0 +1,600 @@
+{
+  "schema": "collatz-lab-envelope-v1",
+  "tool_version": "0.1.0",
+  "min_r": 1,
+  "max_r": 12,
+  "max_k": 20,
+  "zero_ratio_policy": "If R_r=0, E_r and e_le_two are null (N/A); no value is imputed.",
+  "e_le_two_status": "refuted",
+  "first_counterexample_r": 11,
+  "rows": [
+    {
+      "r": 1,
+      "k": 2,
+      "family_count": "1",
+      "count_by_length": "1",
+      "count_by_odd_positions": "1",
+      "d": "1",
+      "max_c": "1",
+      "min_m": "5",
+      "terras_word": "10",
+      "terras_c": "1",
+      "max_c_witnesses": [
+        {
+          "parity": "10",
+          "residue": "1",
+          "m": "5",
+          "c": "1"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "10",
+          "residue": "1",
+          "m": "5",
+          "c": "1"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "10",
+          "residue": "1",
+          "m": "5",
+          "c": "1"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "1",
+        "denominator": "5"
+      },
+      "u_ratio": {
+        "numerator": "1",
+        "denominator": "5"
+      },
+      "e_ratio": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 2,
+      "k": 4,
+      "family_count": "1",
+      "count_by_length": "1",
+      "count_by_odd_positions": "1",
+      "d": "7",
+      "max_c": "5",
+      "min_m": "3",
+      "terras_word": "1100",
+      "terras_c": "5",
+      "max_c_witnesses": [
+        {
+          "parity": "1100",
+          "residue": "3",
+          "m": "3",
+          "c": "5"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1100",
+          "residue": "3",
+          "m": "3",
+          "c": "5"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1100",
+          "residue": "3",
+          "m": "3",
+          "c": "5"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "5",
+        "denominator": "21"
+      },
+      "u_ratio": {
+        "numerator": "5",
+        "denominator": "21"
+      },
+      "e_ratio": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 3,
+      "k": 5,
+      "family_count": "2",
+      "count_by_length": "2",
+      "count_by_odd_positions": "2",
+      "d": "5",
+      "max_c": "23",
+      "min_m": "11",
+      "terras_word": "11010",
+      "terras_c": "23",
+      "max_c_witnesses": [
+        {
+          "parity": "11010",
+          "residue": "11",
+          "m": "11",
+          "c": "23"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11010",
+          "residue": "11",
+          "m": "11",
+          "c": "23"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11010",
+          "residue": "11",
+          "m": "11",
+          "c": "23"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "23",
+        "denominator": "55"
+      },
+      "u_ratio": {
+        "numerator": "23",
+        "denominator": "55"
+      },
+      "e_ratio": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 4,
+      "k": 7,
+      "family_count": "3",
+      "count_by_length": "3",
+      "count_by_odd_positions": "3",
+      "d": "47",
+      "max_c": "85",
+      "min_m": "7",
+      "terras_word": "1101100",
+      "terras_c": "85",
+      "max_c_witnesses": [
+        {
+          "parity": "1101100",
+          "residue": "59",
+          "m": "59",
+          "c": "85"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1110100",
+          "residue": "7",
+          "m": "7",
+          "c": "73"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1110100",
+          "residue": "7",
+          "m": "7",
+          "c": "73"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "73",
+        "denominator": "329"
+      },
+      "u_ratio": {
+        "numerator": "85",
+        "denominator": "329"
+      },
+      "e_ratio": {
+        "numerator": "85",
+        "denominator": "73"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 5,
+      "k": 8,
+      "family_count": "7",
+      "count_by_length": "7",
+      "count_by_odd_positions": "7",
+      "d": "13",
+      "max_c": "319",
+      "min_m": "39",
+      "terras_word": "11011010",
+      "terras_c": "319",
+      "max_c_witnesses": [
+        {
+          "parity": "11011010",
+          "residue": "123",
+          "m": "123",
+          "c": "319"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11101100",
+          "residue": "39",
+          "m": "39",
+          "c": "251"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11101100",
+          "residue": "39",
+          "m": "39",
+          "c": "251"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "251",
+        "denominator": "507"
+      },
+      "u_ratio": {
+        "numerator": "319",
+        "denominator": "507"
+      },
+      "e_ratio": {
+        "numerator": "319",
+        "denominator": "251"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 6,
+      "k": 10,
+      "family_count": "12",
+      "count_by_length": "12",
+      "count_by_odd_positions": "12",
+      "d": "295",
+      "max_c": "1085",
+      "min_m": "287",
+      "terras_word": "1101101100",
+      "terras_c": "1085",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101100",
+          "residue": "507",
+          "m": "507",
+          "c": "1085"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1111101000",
+          "residue": "287",
+          "m": "287",
+          "c": "697"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1101110100",
+          "residue": "347",
+          "m": "347",
+          "c": "989"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "989",
+        "denominator": "102365"
+      },
+      "u_ratio": {
+        "numerator": "31",
+        "denominator": "2419"
+      },
+      "e_ratio": {
+        "numerator": "53785",
+        "denominator": "40549"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 7,
+      "k": 12,
+      "family_count": "30",
+      "count_by_length": "30",
+      "count_by_odd_positions": "30",
+      "d": "1909",
+      "max_c": "3767",
+      "min_m": "231",
+      "terras_word": "110110110100",
+      "terras_c": "3767",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110100",
+          "residue": "1019",
+          "m": "1019",
+          "c": "3767"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111011101000",
+          "residue": "231",
+          "m": "231",
+          "c": "2707"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111011101000",
+          "residue": "231",
+          "m": "231",
+          "c": "2707"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "2707",
+        "denominator": "440979"
+      },
+      "u_ratio": {
+        "numerator": "3767",
+        "denominator": "440979"
+      },
+      "e_ratio": {
+        "numerator": "3767",
+        "denominator": "2707"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 8,
+      "k": 13,
+      "family_count": "85",
+      "count_by_length": "85",
+      "count_by_odd_positions": "85",
+      "d": "1631",
+      "max_c": "13349",
+      "min_m": "191",
+      "terras_word": "1101101101010",
+      "terras_c": "13349",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101010",
+          "residue": "3067",
+          "m": "3067",
+          "c": "13349"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1111110100010",
+          "residue": "191",
+          "m": "191",
+          "c": "8417"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1111001110100",
+          "residue": "207",
+          "m": "207",
+          "c": "9937"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "9937",
+        "denominator": "337617"
+      },
+      "u_ratio": {
+        "numerator": "1907",
+        "denominator": "44503"
+      },
+      "e_ratio": {
+        "numerator": "2763243",
+        "denominator": "1897967"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 9,
+      "k": 15,
+      "family_count": "173",
+      "count_by_length": "173",
+      "count_by_odd_positions": "173",
+      "d": "13085",
+      "max_c": "44143",
+      "min_m": "127",
+      "terras_word": "110110110101100",
+      "terras_c": "44143",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101100",
+          "residue": "7163",
+          "m": "7163",
+          "c": "44143"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111111101000100",
+          "residue": "127",
+          "m": "127",
+          "c": "23395"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111111101000100",
+          "residue": "127",
+          "m": "127",
+          "c": "23395"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "4679",
+        "denominator": "332359"
+      },
+      "u_ratio": {
+        "numerator": "44143",
+        "denominator": "1661795"
+      },
+      "e_ratio": {
+        "numerator": "44143",
+        "denominator": "23395"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 10,
+      "k": 16,
+      "family_count": "476",
+      "count_by_length": "476",
+      "count_by_odd_positions": "476",
+      "d": "6487",
+      "max_c": "148813",
+      "min_m": "359",
+      "terras_word": "1101101101011010",
+      "terras_c": "148813",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101011010",
+          "residue": "56315",
+          "m": "56315",
+          "c": "148813"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1110111110001010",
+          "residue": "359",
+          "m": "359",
+          "c": "100609"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1110111110001010",
+          "residue": "359",
+          "m": "359",
+          "c": "100609"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "100609",
+        "denominator": "2328833"
+      },
+      "u_ratio": {
+        "numerator": "148813",
+        "denominator": "2328833"
+      },
+      "e_ratio": {
+        "numerator": "148813",
+        "denominator": "100609"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 11,
+      "k": 18,
+      "family_count": "961",
+      "count_by_length": "961",
+      "count_by_odd_positions": "961",
+      "d": "84997",
+      "max_c": "479207",
+      "min_m": "511",
+      "terras_word": "110110110101101100",
+      "terras_c": "479207",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101101100",
+          "residue": "23547",
+          "m": "23547",
+          "c": "479207"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111111111010100000",
+          "residue": "511",
+          "m": "511",
+          "c": "179707"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111111111010100000",
+          "residue": "511",
+          "m": "511",
+          "c": "179707"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "16337",
+        "denominator": "3948497"
+      },
+      "u_ratio": {
+        "numerator": "479207",
+        "denominator": "43433467"
+      },
+      "e_ratio": {
+        "numerator": "479207",
+        "denominator": "179707"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 12,
+      "k": 20,
+      "family_count": "2652",
+      "count_by_length": "2652",
+      "count_by_odd_positions": "2652",
+      "d": "517135",
+      "max_c": "1568693",
+      "min_m": "239",
+      "terras_word": "11011011010110110100",
+      "terras_c": "1568693",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110100",
+          "residue": "416763",
+          "m": "416763",
+          "c": "1568693"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11110111110001010100",
+          "residue": "239",
+          "m": "239",
+          "c": "911873"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11110111110001010100",
+          "residue": "239",
+          "m": "239",
+          "c": "911873"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "911873",
+        "denominator": "123595265"
+      },
+      "u_ratio": {
+        "numerator": "1568693",
+        "denominator": "123595265"
+      },
+      "e_ratio": {
+        "numerator": "1568693",
+        "denominator": "911873"
+      },
+      "e_le_two": true
+    }
+  ]
+}

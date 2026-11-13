@@ -45,7 +45,7 @@ also omitted initial record holders: directly,
 Counting or a shrinking density cannot show that every fixed integer
 ultimately leaves the surviving set.
 
-## 3. One proposed experiment: tightness of the mini-max envelope
+## 3. Selected experiment: tightness of the mini-max envelope
 
 **Question.** How much is lost by bounding the numerator and the least
 representative separately? For the first-crossing family at each `r`, define
@@ -76,6 +76,18 @@ extremizing words with `(m,c)`, and reduced exact fractions `R_r`, `U_r`,
 inequality `E_r<=2` holds on the tested domain; a counterexample refutes only
 that finite prediction. No extrapolation to P1b or to arbitrary `r`.
 
-**Status.** Proposed, not run as part of issue #4. The only slack
-census in the repository is the twelve-word `r=6` regression. No deeper cover, large seed scan,
-autonomous hypothesis loop, or proof of CST/Collatz is proposed.
+**Status.** Implemented for issue #5 after the issue #4 audit. The
+[generated table](envelope/summary.md) and [exact evidence](envelope/evidence.json)
+cover all 4,403 classes in the specified domain; all counts and Terras offsets
+agree. The finite prediction `E_r<=2` is **refuted**: the first counterexample
+is `r=11`, `k=18`, with `E_r=479207/179707 > 2`. Every other tested `r` satisfies
+it. This result does not prove P1b or extend to arbitrary `r`.
+
+Reproduce both artifacts with:
+
+```text
+cargo run --locked --release -- envelope --out-dir research/envelope
+```
+
+No deeper cover, large seed scan, autonomous hypothesis loop, or proof of
+CST/Collatz is proposed.

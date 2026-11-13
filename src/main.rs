@@ -12,10 +12,11 @@ use num_bigint::BigUint;
 use collatz_lab::certificate::{certify, walk_first_descent, CoverNode};
 use collatz_lab::collatz;
 use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
+use collatz_lab::envelope::run_envelope;
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
-use collatz_lab::report::render_summary;
+use collatz_lab::report::{render_envelope, render_summary};
 use collatz_lab::verifier;
 
 type CliResult<T> = Result<T, Box<dyn Error>>;
@@ -53,6 +54,15 @@ enum Command {
     Experiment(ExperimentArgs),
     /// Count first coefficient crossings and survivors by independent recurrences.
     Counts(CountArgs),
+    /// Measure Terras's mini-max envelope for exactly 1 <= r <= 12 (k <= 20).
+    Envelope(EnvelopeArgs),
+}
+
+#[derive(Args)]
+struct EnvelopeArgs {
+    /// Output directory for evidence.json and summary.md.
+    #[arg(long, default_value = "research/envelope")]
+    out_dir: PathBuf,
 }
 
 #[derive(Args)]
@@ -654,6 +664,35 @@ fn cmd_counts(args: &CountArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_envelope(args: &EnvelopeArgs) -> CliResult<()> {
+    let start = std::time::Instant::now();
+    let outcome = run_envelope()?;
+    // Finish all mathematical checks before creating or replacing artifacts.
+    let mut evidence = serde_json::to_vec_pretty(&outcome)?;
+    evidence.push(b'\n');
+    let summary = render_envelope(&outcome);
+    fs::create_dir_all(&args.out_dir)?;
+    let evidence_path = args.out_dir.join("evidence.json");
+    let summary_path = args.out_dir.join("summary.md");
+    fs::write(&evidence_path, evidence)?;
+    fs::write(&summary_path, summary)?;
+    println!(
+        "E_r <= 2 on 1 <= r <= 12: {}",
+        outcome.e_le_two_status.label()
+    );
+    if let Some(r) = outcome.first_counterexample_r {
+        println!("first counterexample: r={r}; see the exact ratios and witnesses in the report");
+    }
+    println!("wrote {}", evidence_path.display());
+    println!("wrote {}", summary_path.display());
+    println!("bounded comparison only; P1a is refuted, P1b remains open; no CST or Collatz claim");
+    eprintln!(
+        "[envelope] completed r=1..=12 in {} ms",
+        start.elapsed().as_millis()
+    );
+    Ok(())
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
     let result = match &cli.command {
@@ -662,6 +701,7 @@ fn main() -> ExitCode {
         Command::Certificates(args) => cmd_certificates(args),
         Command::Experiment(args) => cmd_experiment(args),
         Command::Counts(args) => cmd_counts(args),
+        Command::Envelope(args) => cmd_envelope(args),
     };
     match result {
         Ok(()) => ExitCode::SUCCESS,
