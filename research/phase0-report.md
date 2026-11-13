@@ -81,8 +81,10 @@ rests on the argument, which is short enough to read in full.
   (1976), also conjectured by Garner (1981) and named by Lagarias (1985):
   `sigma(n) = tau(n)` for all `n >= 2`. The two-way reduction, the sources
   and their provenance are in [`literature-cst.md`](literature-cst.md). The
-  finite checks above are implied by the published verified range and are a
-  consistency test of the tool only.
+  finite checks above are implied already by Terras's p. 252 argument for
+  `tau<=2592`, reproduced in `tests/primary_sources.rs`, and are a consistency
+  test of the tool only. Rozier–Terracol arXiv v5, Corollary 5.4, gives a
+  separate seed bound `n<=2.8*10^19`; neither is the full conjecture.
 
 ### Refuted candidates
 
@@ -133,31 +135,21 @@ with two independent recurrences (`collatz-lab counts`) and with OEIS A076227
    does not address adaptive horizons, potential functions, or other
    certificate shapes, and should not be cited as if it did.
 
-## Next research questions
+## Follow-up after the primary-source audit
 
-The three questions below were written before the literature audit. The
-audited, sharpened versions are in
-[`phase1-next-questions.md`](phase1-next-questions.md); question 3 in
-particular concerns known sequences.
+The earlier three exploratory questions have been re-evaluated in
+[`phase1-next-questions.md`](phase1-next-questions.md). Terras's mini-max
+bound and Garner's power-gap estimates already address threshold envelopes;
+the finite recurrences and structural results in the literature audit cover
+much of the proposed counting work. The adaptive-round rate was not proved,
+and a finite density trend cannot resolve the all-integers question.
 
-1. **Adaptive certificates for the uncovered families.** The uncovered
-   classes at depth `K` are not arbitrary: each is a prefix with
-   `2^j < 3^(r_j)` throughout. Can they be grouped into finitely many
-   parametrised families (as `1^L` is, with its closed form
-   `3^L 2^0 - 1` after `L` steps) whose continuation is again described
-   symbolically, giving a certificate whose horizon depends on the family
-   parameter rather than on a fixed `K`?
-2. **Threshold size versus the gap `2^k - 3^r`.** For first-descent prefixes,
-   how large can `c / (2^k - 3^r)` be relative to the least class member?
-   The margin `2^k - 3^r` is smallest when `k / r` is a good rational
-   approximation of `log2(3)`; a targeted enumeration along those lengths
-   (still exact, still bounded) would show where the finite check is closest
-   to failing.
-3. **Growth rate of the uncovered count.** The counts above grow by a factor
-   near 10 per four levels. Is the exact growth exponent the one predicted by
-   counting lattice paths below the line of slope `log2(3)`, and does the
-   cross-scale structure (how the uncovered set at depth `K` embeds in depth
-   `K + 1`) admit a finite-state description?
+P1a (the claim that the smallest representative maximizes the normalized
+threshold ratio) is **refuted** at `r=6`: the cylinders of 287 and 347 give
+`697/84665 < 989/102365`. All twelve words are checked independently in
+`tests/p1a_refutation.rs`. This follow-up is recorded in that test and the
+research plan, not in the historical Phase 0 ledger above. P1b is not settled.
+The revised plan proposes just one bounded envelope-tightness comparison.
 
 ## Handoff
 

@@ -7,27 +7,111 @@ Collatz conjecture, and nothing here is claimed to be new.
 
 ## 1. How the sources were consulted
 
-Audit date: 2026-11-13. "Read" below means the text was retrieved and its
-statements extracted by an automated reader, then cross-checked against the
-lab's own computations where possible. Statements quoted from a source that
-was only reached second-hand are marked. Before any of this is cited outside
-the repository, the theorem numbers should be rechecked against the
-published versions.
+Audit date: 2026-11-13 (issue #4). "Directly read" means that the primary
+text was inspected, not that its proofs were formally verified. Terras and
+Garner were inspected as locally cached scan images from the interrupted
+session; the other cached papers have extracted text. ResearchGate text was
+read through the search service's indexed HTML, **not a downloaded PDF**.
+Access failures are not evidence of nonexistence. No blocked PDF endpoint
+was retried during continuation, and no source PDF is redistributed here.
 
-| source | kind | how consulted | used here for |
-|---|---|---|---|
-| R. Terras, *A stopping time problem on the positive integers*, Acta Arith. 30 (1976), 241-252 | peer-reviewed, historical | **not read**; known through Lagarias, Rozier-Terracol and OEIS comments | origin of the coefficient stopping time, of the conjecture, and of the counting recursion |
-| L. E. Garner, *On the Collatz 3n+1 algorithm*, Proc. Amer. Math. Soc. 82 (1981), 19-22, DOI 10.1090/S0002-9939-1981-0603593-2 | peer-reviewed, historical | **not read** (the AMS PDF returned HTTP 403); bibliographic data from the DOI record | second attribution of the conjecture; computational verification as reported by Rozier-Terracol |
-| J. C. Lagarias, *The 3x+1 problem and its generalizations*, Amer. Math. Monthly 92 (1985), 3-23 | peer-reviewed survey | read in the HTML edition hosted at cecm.sfu.ca (formulas are images, so only the prose was readable) | name "Coefficient Stopping Time Conjecture"; Theorem C (Terras) |
-| O. Rozier, C. Terracol, *Paradoxical behavior in Collatz sequences*, Discrete Math. 349 (2026) 115167, DOI 10.1016/j.disc.2026.115167 | peer-reviewed | read as arXiv:2502.00948v5 (17 May 2026), not the journal PDF | CST statement, paradoxical sequences, the `n = 7` example, verified range |
-| M. Winkler, *Deterministic Structures in the Stopping Time Dynamics of the 3x+1 Problem*, arXiv:1709.03385v8 (28 Jul 2026) | preprint, not peer-reviewed | abstract only | enumeration of coefficient stopping-time classes by odd positions |
-| M. Winkler, revised preprint of 23 Aug 2026, DOI 10.13140/RG.2.2.20089.94563 | preprint | **not read** (ResearchGate returned HTTP 403); assumed, not verified, to be a revision of the arXiv paper | - |
-| OEIS A076227, A100982, A020914 | curated database | read 2026-11-13 | names and terms of the count sequences |
-| `msharpe248/collatz` at commit `ec8174b` | author-supplied Lean 4 project, MIT licence | theorem statements read in `NoGo.lean`, `Density.lean`, `Paradoxical.lean` and one analysis note; **nothing was compiled or kernel-checked here** | comparison of scope only |
-| V. Angeltveit, *An improved algorithm for checking the Collatz conjecture for all n < 2^N*, arXiv:2602.10466 (11 Feb 2026) | preprint | abstract only | context: a verification algorithm, not about CST |
-| D. Barina, J. Supercomput. 77 (2021) 2681-2688 and 81 (2025) 810; pcbarina.fit.vut.cz | peer-reviewed computation | project page only | context: convergence verified below `2^71` (page entry dated 2025-01-15) |
+| source | kind and version | access and inspected locations |
+|---|---|---|
+| R. Terras, *A stopping time problem on the positive integers*, Acta Arith. 30 (1976), 241–252, [DOI](https://doi.org/10.4064/aa-30-3-241-252), [scan](https://matwbn.icm.edu.pl/ksiazki/aa/aa30/aa3034.pdf) | peer-reviewed historical paper | **directly read**, printed pp. 241–252 in the cached scan; PDF spreads also contain adjacent articles |
+| L. E. Garner, *On the Collatz 3n+1 algorithm*, Proc. Amer. Math. Soc. 82 (1981), 19–22, [DOI](https://doi.org/10.1090/S0002-9939-1981-0603593-2) | peer-reviewed historical paper | **directly read**, cached [Wayback copy of the AMS scan](https://web.archive.org/web/2id_/https://www.ams.org/journals/proc/1981-082-01/S0002-9939-1981-0603593-2/S0002-9939-1981-0603593-2.pdf), pp. 19–22; equations in §§4–6 checked visually; direct AMS/SciSpace access had failed |
+| J. C. Lagarias, *The 3x+1 problem and its generalizations*, Amer. Math. Monthly 92 (1985), 3–23 | peer-reviewed survey | previous audit: [HTML prose](https://www.cecm.sfu.ca/organics/papers/lagarias/paper/html/paper.html) read; image formulas not read; Theorem C is now checked against Terras directly |
+| O. Rozier, C. Terracol, *Paradoxical behavior in Collatz sequences*, Discrete Math. 349(10) (2026), 115167, [DOI](https://doi.org/10.1016/j.disc.2026.115167) | peer-reviewed work; consulted **arXiv:2502.00948v5**, 17 May 2026 | **directly read** in cached extracted text and [versioned HTML](https://arxiv.org/html/2502.00948v5); Theorem 1.3 p. 4, Theorem 5.3 pp. 15–16, Corollary 5.4 p. 17; journal numbering **not checked** |
+| M. Winkler, *Deterministic Structures in the Coefficient Stopping-Time Dynamics of the 3x+1 Problem*, [arXiv:1709.03385v8](https://arxiv.org/pdf/1709.03385v8) | preprint; title page revised 27 July 2026, arXiv stamp 28 July | **directly read**, cached extracted §§2–5: Theorem 7 pp. 4–5, Proposition 8 pp. 5–6, Theorem 16 pp. 10–11, arithmetic transitions pp. 12–16, coverage pp. 17–18 |
+| M. Winkler, [ResearchGate manuscript](https://www.researchgate.net/publication/400315289_Deterministic_Structures_in_the_Coefficient_Stopping-Time_Dynamics_of_the_3x1_Problem), DOI 10.13140/RG.2.2.20089.94563 | preprint; indexed title page says revised **23 August 2026** | primary indexed text inspected: §§2–5, Proposition 9, Theorem 17, Propositions 27–28; PDF unavailable; keep separate from arXiv v8 |
+| K. Hikawa, K. Nakanishi, *Parity Vector Analysis in the Study of the Collatz Conjecture*, [author PDF](https://kanazawa-j.sakura.ne.jp/Collatz/Edited_English_paper.pdf) | preprint; 25 January 2026 | **directly read** in cached extracted text, §§1–2, especially Theorem 1 p. 8 and Theorem 2 p. 11; linked tables/software not independently audited |
+| K. Hikawa, [*Finite-Dimensional Combinatorial and Arithmetic Structures of Parity Vectors for the Accelerated Collatz Map*](https://www.researchgate.net/publication/408442963_Finite-Dimensional_Combinatorial_and_Arithmetic_Structures_of_Parity_Vectors_for_the_Accelerated_Collatz_Map), DOI 10.13140/RG.2.2.29894.84804/1 | preprint; page describes **v2.1, 2 August 2026** | primary indexed text inspected: Theorem 3.3 p. 14, Theorem 5.2 p. 22, Theorem 6.3 pp. 28–29, Conjecture 7.1 §7.3; PDF unavailable; pagination is that rendered by the index and may change |
+| [OEIS A076227](https://oeis.org/A076227), [A100982](https://oeis.org/A100982), [A020914](https://oeis.org/A020914) | curated database | previous audit: terms and comments read; reproducible comparisons in `tests/counts.rs` |
+| [`msharpe248/collatz`](https://github.com/msharpe248/collatz) at `ec8174b` | author-supplied Lean 4 project, MIT licence | previous audit: selected theorem statements only; **not compiled or kernel-checked** |
+| V. Angeltveit, [arXiv:2602.10466](https://arxiv.org/abs/2602.10466), 11 February 2026 | preprint | previous audit: abstract only; verification-algorithm context |
+| D. Barina, J. Supercomput. 77 (2021), 2681–2688 and 81 (2025), 810; [project page](https://pcbarina.fit.vut.cz/) | peer-reviewed computation | previous audit: project page only; convergence bound below `2^71`, entry dated 2025-01-15; not a CST bound |
 
-No code or theorem text was copied from any of these.
+The changing ResearchGate pages are not immutable versions; theorem labels
+above identify the text actually inspected. No byte identity with arXiv is
+assumed. The older title *The Recursive Stopping Time Structure of the 3x+1
+Function* belongs to earlier arXiv revisions, not the inspected v8 title page.
+The optional Zenodo toolkit comparison was not performed. No code was copied
+from these sources; mathematical statements below are paraphrased.
+
+### Primary-source claims and conventions
+
+**Terras.** His `chi` is our actual stopping time `sigma`; his `tau` is our
+`tau`. His rational remainder `varrho_k` is `c/2^k`, not our integer `c`.
+Theorem 1.1 (p. 242) gives the affine decomposition; Theorem 1.2
+(pp. 242–243) and Corollary 1.3 identify parity words with residue classes.
+Definition 1.5 (p. 243) defines `tau`, including infinity. Proposition 1.7
+(p. 244) supplies the threshold criterion on the contracting branch
+`lambda_k = 3^r/2^k < 1`; Proposition 1.8 proves `tau <= chi`.
+Theorem 1.9 (p. 244) gives eventual equality in each finite-`tau` class.
+Theorem 1.14 (pp. 245–246) is the modified binomial recurrence;
+Theorems 1.11 and 1.17 (pp. 244–247) give the density distribution and its
+vanishing tail. A density-one result allows an exceptional set of density zero.
+
+Theorem 2.6 (p. 250), **Mini-Max**, identifies a unique residue in `[1,2^k]`
+maximizing `varrho_k` among classes with `tau = k`. At fixed crossing length
+both `r` and `d = 2^k - 3^r` are fixed. Thus it maximizes `c` and `c/d`,
+**not** `c/(d*m)` where the least member `m` changes with the class.
+Its extremal word is the first `k-1` entries of the sequence in Theorem 2.4
+(p. 249), followed by zero: start `nu_0=1`, and choose `nu_i=1` exactly when
+`3^(nu_0+...+nu_(i-1)) < 2^(i+1)`. Use only possible crossing lengths.
+Writing the resulting maximum integer offset as `C_k`, Corollary 2.8
+(p. 251) says `n > C_k/d` suffices for `sigma(n)=tau(n)=k`.
+Conjecture 2.9 (p. 251) asserts equality for **all** `n >= 2`; it remains a
+conjecture. The numerical argument on p. 252 establishes equality when
+`tau <= 2592`, using Table C and a finite seed check. Section 5 explains its
+reproduction here.
+
+**Garner.** His map `s` uses odd step `3n+1`. After `k` lab steps with `r`
+odd steps, exactly `K=k+r` ordinary steps have occurred and
+`s^K(n)=T^k(n)`. His coefficient `3^r/2^(K-r)` is therefore `3^r/2^k`.
+An odd ordinary step increases both the integer and its coefficient, so the
+first descent and first coefficient crossing occur at paired endpoints.
+For finite times, `kappa_G = tau + r_tau` and
+`sigma_G = sigma + r_sigma`; equality of the two times translates correctly,
+although the numerical indices differ. Section 4 (p. 20) conjectures equality
+and reports checking seeds through 1,150,000. The first three examples on
+p. 20 convert `(n, sigma, r, sigma_G)` to `(27,59,37,96)`,
+`(703,81,51,132)`, `(35655,135,85,220)` (`tests/primary_sources.rs`).
+
+In §5 (pp. 20–21), put `p(j)=floor(j log_2 3)`. His `b(M)` and `B(M)`
+are negative base-3 logarithms of the minimum relative gaps
+`(3^j-2^p(j))/3^j` and `(2^(p(j)+1)-3^j)/3^j`, for `1 <= j <= M`.
+Equations (2)–(3) give finite power-gap lower bounds; §6 (pp. 21–22)
+uses them to give a sufficient bound on the odd-step count for CST.
+Small gaps concern rational approximations to `log_2 3`, but §5 does **not**
+prove a uniform all-orders gap estimate or a continued-fraction theorem.
+It supplies no ordering of `c/(d*m)` by `m`, and does not settle P1a or P1b.
+
+**Winkler.** In the indexed August manuscript, `sigma*` is our `tau`,
+order `n=r-1`, and `sigma_n=k(r)`. Admissible odd positions form a tree
+by deleting the final position; Proposition 9 counts these via a Pascal-type
+recurrence, matching our position recurrence after this index shift.
+Theorem 17 constructs the tree, §4 gives arithmetic transitions, and
+Propositions 27–28 give finite periodic coverage and its relation to
+finiteness of coefficient times. These are finite structures, without
+asserting CST or finiteness for every integer. The July arXiv version has
+Proposition 8, Theorem 16 and Propositions 26–27 instead.
+
+**Hikawa–Nakanishi.** January §§2.1–2.2 distinguish survivors, first
+crossings and already-crossed words. Their Theorem 1 uses
+`W(k+1,r) = [2^(k+1)<3^r] (W(k,r)+W(k,r-1))`, the lab's length recurrence.
+Theorem 2 groups by weight and obtains `X(r+1)=W(r)`, summing survivors over
+all lengths of that weight. "Convergence" of a word here is coefficient
+crossing, not proof that its integer orbit reaches 1.
+
+**Hikawa, indexed v2.1.** Theorem 3.3 gives the explicit bijection
+`U(d) -> J(d+1)`, `d>=1`, by appending `1` and then zeros until crossing.
+Thus `X(d+1)=W(d)`; `X(d)=A100982(d)` and length-count `W(k)=A076227(k)`.
+Theorem 5.2 requires equal length **and equal weight**: for distinct words
+starting with `1`, `v_2(c(v)-c(w))=j_min-1`, with one-based positions.
+Theorem 6.3 states `log_2 W(d)=gamma*d+O(log d)`,
+`gamma=(log_2 3) H(1/log_2 3)`; Conjecture 7.1 separately proposes the
+stronger `Theta(d^(-3/2) 2^(gamma*d))` form. These are finite counting and
+arithmetic results; they do not determine every infinite orbit.
 
 ## 2. Definitions
 
@@ -76,8 +160,8 @@ These conditions involve only the first `k` parities of `n`. ∎
 `n > c / (2^k - 3^r)` iff `n >= floor(c / (2^k - 3^r)) + 1`, all quantities
 being integers and `2^k - 3^r > 0`. ∎
 
-Lemma 2 with Lemma 3 is, as far as the readable prose shows, the content of
-what Lagarias states as Theorem C and attributes to Terras: the integers with
+Lemma 2 with Lemma 3 recovers Terras Theorem 1.9 (p. 244), also
+stated as Theorem C by Lagarias: the integers with
 coefficient stopping time `k` are exactly certain congruence classes modulo
 `2^k`, and all sufficiently large members of such a class have stopping time
 `k`. The lab's "first-descent certificates" are these classes with the
@@ -119,16 +203,45 @@ Remarks on the infinite cases.
 
 ## 5. What the lab's finite check is worth
 
-The enumeration to depth 24 shows: `sigma(n) = tau(n)` for every `n >= 2`
-with `tau(n) <= 24`. That covers infinitely many integers but is **already
-implied by published work**. Rozier and Terracol report (their Corollary 5.4,
-as read from arXiv v5) that `t(n) = tau(n)` for all `2 <= n <= 2.8 * 10^19`.
-Given that, take any first crossing `p` of length `k <= 64`. Its least member
-`m >= 2` is below `2^k + 2 <= 2.8 * 10^19`, so `sigma(m) = tau(m) = k`, hence
-`m >= N0(p)` by Lemma 3, hence every member `n >= 2` is `>= N0(p)`. So for
-`k <= 64` Statement L follows from the verified range, and no enumeration
-below length 65 can find an exception. The lab's check is a consistency test
-of the tool, not new evidence.
+The enumeration to depth 24 shows `sigma(n)=tau(n)` for every `n>=2`
+with `tau(n)<=24`. This is already implied by **Terras, p. 252**, whose
+finite argument reaches `tau<=2592` without enumerating `2^2592` classes.
+For each possible `k`, the mini-max bound reduces exceptions to seeds
+`n <= C_k/(2^k-3^r)`. Our exact implementation finds
+
+```text
+max floor(C_k/(2^k-3^r)), possible k <= 2592: 238670
+floor(C_2593/(2^2593-3^1636)):              420841
+```
+
+The test `terras_2592_cutoff_has_a_small_exact_exception_bound` in
+`tests/primary_sources.rs` independently reproduces the extremal recurrence
+with `BigUint` and checks `sigma=tau` by direct iteration for every
+`2<=n<=250000`. It also checks descent within 135 accelerated steps on that
+finite range. This reproduces the numerical ingredients of the historical
+argument, relying on Terras's mini-max theorem for the all-class bound;
+it is not a new CST result. A separate exhaustive test through length 14
+cross-checks the extremal construction and uniqueness. We do not require
+identity with rounded entries of Table C (p. 251): for example its printed
+238672 at 1539 is a conservative bound, whereas exact floor-plus-one is
+238671. Both are below 250000.
+
+A different domain is covered by **Rozier–Terracol, arXiv v5**:
+
+- Theorem 1.3 (p. 4): 593 paradoxical sequences start at seeds at most 4614;
+  any others start above `2.8*10^19`; absence of others implies Collatz.
+- Theorem 5.3 (pp. 15–16): the 593 have length at most 92; there are no
+  others with `93<=j<=301993`, or with `4615<=n<=2.8*10^19`.
+- Corollary 5.4 (p. 17): `sigma(n)=tau(n)` for `2<=n<=2.8*10^19`, using
+  Theorem 5.3 and prior finite checks. Their actual stopping time is `t`. See the [versioned primary text](https://arxiv.org/html/2502.00948v5).
+
+Theorem statements were inspected; the large computations and external
+record tables in their proof were **not rerun**. Journal theorem numbering
+is not asserted. Their seed bound alone implies Statement L through length
+64: the least member `>=2` of any such cylinder is below `2^k+2`, hence
+inside that bound, and the threshold test then covers the entire cylinder.
+That implication is weaker in the length parameter than Terras's result.
+Neither a seed bound nor a coefficient-time bound settles all integers.
 
 ## 6. What separates all this from the Collatz conjecture
 
@@ -150,7 +263,7 @@ Then:
   length `l` other than `{1, 2}`. Then `sigma(m) = +infinity`. From
   `T^l(m) = m`, `3^r m + c = 2^l m` with `c > 0` (a cycle has an odd step),
   so `3^r < 2^l` and `tau(m) <= l`, contradicting (A).
-- (A) alone does **not** exclude divergent orbits. It only says that the
+- (A) alone does **not by the argument given here** exclude divergent orbits. It only says that the
   least element `m` of such an orbit has `tau(m) = +infinity`, i.e. every
   prefix of its parity sequence keeps `3^(r_j) > 2^j`. Threshold properties of
   first-crossing cylinders say nothing about integers that lie in no such
@@ -179,8 +292,7 @@ So `3^r < 2^k` together with `T^k(n) >= n` proves nothing about CST unless
 In the lab's terms a paradoxical pair `(n, j)` is exactly a member above 2
 below the threshold of the single-cylinder certificate of length `j` (up to
 their exclusion of trivial-cycle repetitions, which only concerns `n <= 2`
-here). The
-test `tests/paradoxical.rs` enumerates them without any bound on the seed for
+here). The test `tests/paradoxical.rs` enumerates them without any bound on the seed for
 all lengths up to 14 and finds five, all of length 8: `n = 7, 9, 18, 19, 25`,
 with first descents at steps `7, 2, 1, 4, 2`. The third-party Lean project
 states the same five seeds at length eight as a theorem
@@ -190,7 +302,8 @@ The hardened verifier (`tests/adversarial.rs`) rejects
 `ThresholdException { parity: "11101001", n: 7 }` with the reason that the
 coefficient already crosses at step 7.
 
-Results reported by Rozier and Terracol, not rechecked here: exactly 593
+Results reported by Rozier and Terracol (arXiv v5 statements checked, large
+computations not rerun): exactly 593
 paradoxical sequences start at integers up to 4614, and any other must start
 above `2.8 * 10^19` (Theorem 1.3); if there are only finitely many paradoxical
 sequences then the Collatz conjecture holds (Corollary 3.3); their
@@ -255,8 +368,8 @@ the class of `n = 1` are included; "crossing" uses the strict comparison
 
 | lab object | known as | source |
 |---|---|---|
-| parity prefix, affine form, residue class modulo `2^k` | parity vectors and their congruence classes | Terras 1976 (via Lagarias) |
-| first-descent certificate with threshold `N0` | classes of coefficient stopping time `k`; "all sufficiently large" members have stopping time `k` | Theorem C in Lagarias, attributed to Terras |
+| parity prefix, affine form, residue class modulo `2^k` | parity vectors and their congruence classes | Terras 1976, Theorems 1.1–1.2 |
+| first-descent certificate with threshold `N0` | classes of coefficient stopping time `k`; "all sufficiently large" members have stopping time `k` | Terras Theorem 1.9; Theorem C in Lagarias |
 | `threshold-exceptions-trivial-all-depths` | the CST conjecture | Terras 1976, Garner 1981, named by Lagarias 1985 |
 | uncovered classes at depth `K` | surviving residues, A076227 | Terras; OEIS |
 | first crossings by odd steps | admissible sequences, A100982; coefficient stopping-time classes | Terras; Winkler |
@@ -277,10 +390,13 @@ examined.
 
 ## 10. Open obligations, stated exactly
 
-1. **CST.** For every first coefficient crossing `p` of length `k >= 65`:
+1. **CST.** For every first coefficient crossing `p` of length `k >= 2593`:
    `c(p) < (2^k - 3^r) m(p)`, where `m(p)` is the least member `>= 2`. Open.
-   (Lengths up to 64 follow from the verified range, section 5.)
+   (The historical argument covers lengths up to 2592, section 5; this is
+   a lower bound on the remaining search domain, not a claim of the best
+   current bound.)
 2. **Finiteness of `tau`.** For every `n >= 2` some prefix has
-   `3^(r_j) < 2^j`. Open; independent of 1.
+   `3^(r_j) < 2^j`. Open; not supplied by the threshold argument in 1. No logical
+   independence theorem is claimed.
 3. Neither 1 nor 2 is approached by counting classes: the counts in section 8
    are exact but carry no information about a particular integer.

@@ -168,10 +168,20 @@ The objects built here are classical and are attributed in
 - the counts are OEIS A076227 and A100982; the enumeration by odd positions
   follows M. Winkler, arXiv:1709.03385.
 
-That document also records which sources were actually read and which were
-not (Terras's and Garner's papers were not accessible). No code or theorem
-text was copied from any source, including the Lean project
-`msharpe248/collatz`, whose statements were read but not compiled.
+The primary-source audit now includes Terras's and Garner's cached scans,
+versioned arXiv text and the indexed ResearchGate preprints, with exact
+access and theorem references. Terras's historical argument covers
+`tau<=2592`; our finite-depth checks are reproductions, not new evidence.
+No third-party code was copied, and the Lean project was not compiled.
+
+The slack hypothesis **P1a is refuted**: among the twelve first-crossing
+words with six odd steps, the least member is 287, while the largest
+`c/((2^k-3^r)*m)` occurs at 347. See
+[`tests/p1a_refutation.rs`](tests/p1a_refutation.rs) and the
+[revised research plan](research/phase1-next-questions.md). P1b remains open
+in that plan; no conclusion about it follows from this counterexample.
+Primary-source convention and bound checks are in
+[`tests/primary_sources.rs`](tests/primary_sources.rs).
 
 ## License
 

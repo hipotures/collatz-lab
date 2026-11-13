@@ -4,7 +4,7 @@
 |---|---|
 | [`phase0-report.md`](phase0-report.md) | hand-written report for the first milestone: what is proved, what is only checked, limitations, next questions |
 | [`literature-cst.md`](literature-cst.md) | how the lab's objects map to the Coefficient Stopping Time literature: sources, equivalence proof, count reconciliation, open obligations |
-| [`phase1-next-questions.md`](phase1-next-questions.md) | three bounded, falsifiable follow-up experiments with stopping rules |
+| [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and one bounded next experiment |
 | [`example/summary.md`](example/summary.md) | generated summary of the reference experiment |
 | [`example/ledger.jsonl`](example/ledger.jsonl) | generated machine-readable ledger of the reference experiment |
 
