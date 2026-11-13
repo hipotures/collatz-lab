@@ -11,6 +11,7 @@ use num_bigint::BigUint;
 
 use collatz_lab::certificate::{certify, walk_first_descent, CoverNode};
 use collatz_lab::collatz;
+use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
@@ -50,6 +51,21 @@ enum Command {
     Certificates(CertificateArgs),
     /// Run the bounded hypothesis experiment and write ledger + summary.
     Experiment(ExperimentArgs),
+    /// Count first coefficient crossings and survivors by independent recurrences.
+    Counts(CountArgs),
+}
+
+#[derive(Args)]
+struct CountArgs {
+    /// Print one row per depth 0..=MAX_DEPTH.
+    #[arg(long, default_value_t = 24)]
+    max_depth: usize,
+    /// Also run the constructive cover walker up to this depth and compare.
+    #[arg(long, default_value_t = 20)]
+    walker_depth: usize,
+    /// Permit bounds above the laptop-friendly defaults.
+    #[arg(long)]
+    allow_large: bool,
 }
 
 #[derive(Args)]
@@ -584,6 +600,60 @@ fn cmd_experiment(args: &ExperimentArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_counts(args: &CountArgs) -> CliResult<()> {
+    require_bound("max-depth", args.max_depth, 2000, args.allow_large)?;
+    require_bound(
+        "walker-depth",
+        args.walker_depth,
+        MAX_DEFAULT_DEPTH,
+        args.allow_large,
+    )?;
+    let by_length = count_by_length(args.max_depth);
+    println!("first coefficient crossings and survivors of the accelerated map T");
+    println!("  crossings <= K : parity words whose first length with 2^k > 3^r is some k <= K");
+    println!("  survivors      : words of length K with 2^j < 3^(r_j) for all 1 <= j <= K");
+    println!("                   (= uncovered residue classes modulo 2^K, OEIS A076227)");
+    println!(
+        "{:>5}  {:>22}  {:>22}  checks",
+        "K", "crossings <= K", "survivors"
+    );
+    for depth in 0..=args.max_depth {
+        let crossings = by_length.first_crossings_up_to(depth);
+        let survivors = &by_length.survivors[depth];
+        let by_positions = count_by_odd_positions(depth);
+        if by_positions.first_crossings_up_to_depth() != crossings
+            || &by_positions.survivors != survivors
+        {
+            return Err(format!("the two recurrences disagree at depth {depth}").into());
+        }
+        let mut checks = String::from("length = odd-position");
+        if depth <= args.walker_depth {
+            let (mut certified, mut uncovered) = (0u64, 0u64);
+            walk_first_descent(depth, |node| match node {
+                CoverNode::Certified(_) => certified += 1,
+                CoverNode::Uncovered(_) => uncovered += 1,
+            });
+            if BigUint::from(certified) != crossings || &BigUint::from(uncovered) != survivors {
+                return Err(format!("cover walker disagrees at depth {depth}").into());
+            }
+            checks.push_str(" = walker");
+        }
+        println!("{depth:>5}  {crossings:>22}  {survivors:>22}  {checks}");
+    }
+    let by_positions = count_by_odd_positions(args.max_depth);
+    println!(
+        "first crossings by number of odd steps r (r >= 1: OEIS A100982), all of length k(r):"
+    );
+    for (r, count) in by_positions.first_crossings_by_odd_steps.iter().enumerate() {
+        println!(
+            "  r = {r:>3}  k(r) = {:>4}  count = {count}",
+            crossing_length(r)
+        );
+    }
+    println!("exact finite counts only; they say nothing about any individual integer");
+    Ok(())
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
     let result = match &cli.command {
@@ -591,6 +661,7 @@ fn main() -> ExitCode {
         Command::Prefixes(args) => cmd_prefixes(args),
         Command::Certificates(args) => cmd_certificates(args),
         Command::Experiment(args) => cmd_experiment(args),
+        Command::Counts(args) => cmd_counts(args),
     };
     match result {
         Ok(()) => ExitCode::SUCCESS,

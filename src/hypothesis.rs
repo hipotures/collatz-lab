@@ -472,8 +472,14 @@ fn threshold_exceptions(
         cover.depth
     ));
     general.evidence.push(
-        "appears to coincide with what the literature calls the coefficient stopping time \
-         conjecture; that identification has not been reviewed in this project"
+        "not a new conjecture: this statement is equivalent to the Coefficient Stopping Time \
+         (CST) conjecture of Terras (1976), sigma(n) = tau(n) for all n >= 2; the two-way \
+         reduction is written out in research/literature-cst.md"
+            .into(),
+    );
+    general.proof_obligations.push(
+        "CST alone does not give convergence: finiteness of the coefficient stopping time \
+         for every n >= 2 is a separate open statement"
             .into(),
     );
     general.proof_obligations.push(

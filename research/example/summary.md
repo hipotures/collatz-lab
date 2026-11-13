@@ -132,10 +132,11 @@ cargo run --release -- experiment --out-dir research/example
 **Evidence.**
 
 - only the finite check up to length 16 (entry threshold-exceptions-trivial); this is not evidence of truth for longer prefixes
-- appears to coincide with what the literature calls the coefficient stopping time conjecture; that identification has not been reviewed in this project
+- not a new conjecture: this statement is equivalent to the Coefficient Stopping Time (CST) conjecture of Terras (1976), sigma(n) = tau(n) for all n >= 2; the two-way reduction is written out in research/literature-cst.md
 
 **Open proof obligations.**
 
+- CST alone does not give convergence: finiteness of the coefficient stopping time for every n >= 2 is a separate open statement
 - bound c / (2^k - 3^r) below the least positive class member for every first-descent prefix; this needs control of how close 2^k can be to 3^r
 
 ### `sampled-stopping-times` (experimentally-observed)

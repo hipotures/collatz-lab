@@ -21,6 +21,7 @@ kind of statement it is.
 | `collatz` | the map, direct orbit evaluation, stopping times, a small-range oracle, a checked `u64` fast path |
 | `prefix` | parity prefixes, the affine form `T^k(n) = (3^r n + c) / 2^k`, and the residue class modulo `2^k` of each prefix |
 | `certificate` | exact conditional descent certificates and the first-descent cover of the integers to a given depth |
+| `counting` | two independent exact recurrences for the number of first coefficient crossings and of surviving classes |
 | `nogo` | the Mersenne family `2^L - 1`, which rules out every fixed universal descent window |
 | `verifier` | an independent checker that trusts only direct iteration and elementary integer identities |
 | `hypothesis` | a bounded generate-and-falsify workflow writing a JSONL research ledger |
@@ -49,6 +50,7 @@ collatz-lab verify        [--limit N] [--depth K] [--mersenne-max L] [--ledger F
 collatz-lab prefixes      --length K | --parity BITS | --n N --length K
 collatz-lab certificates  [--depth K] [--parity BITS] [--out FILE.jsonl]
 collatz-lab experiment    [--seed S] [--depth K] [--limit N] [--window W] ... [--out-dir DIR]
+collatz-lab counts        [--max-depth K] [--walker-depth K]
 ```
 
 - `verify` runs the deterministic self-checks (range oracle, fast path against
@@ -61,6 +63,8 @@ collatz-lab experiment    [--seed S] [--depth K] [--limit N] [--window W] ... [-
   the classes that remain uncovered**. `--out` streams one JSON object per
   leaf, so an interrupted run leaves a valid partial file.
 - `experiment` runs the bounded hypothesis workflow.
+- `counts` tabulates first coefficient crossings and survivors by two
+  recurrences that do not use the cover walker, and compares all three.
 
 Defaults run promptly on a laptop. Bounds beyond the defaults (for example
 `--depth` above 24) are refused unless `--allow-large` is passed; long
@@ -106,7 +110,8 @@ did not descend":
 - A **first-crossing exception**: the prefix is the *first* length at which
   the coefficient drops below 1 (`2^j < 3^(r_j)` for all `1 <= j < k`, and
   `2^k > 3^r`) and still `T^k(n) >= n` for some `n >= 2`. None is known;
-  one would be a counterexample to the coefficient stopping time conjecture.
+  one would be a counterexample to the Coefficient Stopping Time conjecture
+  (see [`research/literature-cst.md`](research/literature-cst.md)).
 
 The `n = 7` example is only the first kind: its coefficient first crosses at
 step 7, where `T^7(7) = 5 < 7`. The ledger kind `threshold-exception` means
@@ -149,12 +154,24 @@ rejects one. No autonomous agent loop is implemented.
 
 ## References and attribution
 
-The originating issue lists three external sources (arXiv:2602.10466, the
-`msharpe248/collatz` repository, and the verification project at
-pcbarina.fit.vut.cz). They have **not** been reviewed for this milestone,
-nothing here depends on them, and no code or theorem statement was copied
-from them. The mathematics used here is the classical parity-vector
-description of the accelerated map.
+The objects built here are classical and are attributed in
+[`research/literature-cst.md`](research/literature-cst.md):
+
+- parity vectors, coefficient stopping time and its congruence classes:
+  R. Terras, Acta Arith. 30 (1976) 241-252;
+- the open statement the lab tests, `sigma(n) = tau(n)` for all `n >= 2`, is
+  the **Coefficient Stopping Time conjecture** (Terras 1976; Garner, Proc.
+  Amer. Math. Soc. 82 (1981) 19-22; named in Lagarias, Amer. Math. Monthly 92
+  (1985) 3-23);
+- paradoxical sequences and the `n = 7` example: O. Rozier and C. Terracol,
+  Discrete Math. 349 (2026) 115167, arXiv:2502.00948;
+- the counts are OEIS A076227 and A100982; the enumeration by odd positions
+  follows M. Winkler, arXiv:1709.03385.
+
+That document also records which sources were actually read and which were
+not (Terras's and Garner's papers were not accessible). No code or theorem
+text was copied from any source, including the Lean project
+`msharpe248/collatz`, whose statements were read but not compiled.
 
 ## License
 

@@ -76,10 +76,13 @@ rests on the argument, which is short enough to read in full.
 ### Conjectured (open)
 
 - For first-descent prefixes of **every** length, no class member `n >= 2`
-  lies below the certificate threshold. The tool has only the finite checks
-  above. This looks like the statement known in the literature as the
-  coefficient stopping time conjecture; that identification has not been
-  reviewed here.
+  lies below the certificate threshold. This is not a new conjecture: it is
+  equivalent to the **Coefficient Stopping Time (CST) conjecture** of Terras
+  (1976), also conjectured by Garner (1981) and named by Lagarias (1985):
+  `sigma(n) = tau(n)` for all `n >= 2`. The two-way reduction, the sources
+  and their provenance are in [`literature-cst.md`](literature-cst.md). The
+  finite checks above are implied by the published verified range and are a
+  consistency test of the tool only.
 
 ### Refuted candidates
 
@@ -104,7 +107,10 @@ All counterexamples are stored in the ledger and re-verified by
 | 20 | 4404 | 27328 | 27328 / 1048576 |
 | 24 | 81119 | 286581 | 286581 / 16777216 |
 
-These are exact counts for the listed depths and nothing more.
+These are exact counts for the listed depths and nothing more. They agree
+with two independent recurrences (`collatz-lab counts`) and with OEIS A076227
+(uncovered classes) and A100982 (first crossings by number of odd steps); see
+[`literature-cst.md`](literature-cst.md), section 8.
 
 ## Limitations of naive finite-window certification
 
@@ -128,6 +134,11 @@ These are exact counts for the listed depths and nothing more.
    certificate shapes, and should not be cited as if it did.
 
 ## Next research questions
+
+The three questions below were written before the literature audit. The
+audited, sharpened versions are in
+[`phase1-next-questions.md`](phase1-next-questions.md); question 3 in
+particular concerns known sequences.
 
 1. **Adaptive certificates for the uncovered families.** The uncovered
    classes at depth `K` are not arbitrary: each is a prefix with
