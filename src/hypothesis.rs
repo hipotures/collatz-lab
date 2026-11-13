@@ -81,8 +81,15 @@ pub enum FailureCase {
         #[serde(with = "serde_dec")]
         witness: BigUint,
     },
-    /// A member `n >= 2` of a cylinder with `2^k > 3^r` for which
-    /// `T^k(n) >= n` (it lies below the certificate threshold).
+    /// A first-crossing exception: `parity` is the parity prefix of `n >= 2`,
+    /// it is a *first coefficient crossing* (`2^j < 3^(r_j)` for every
+    /// `1 <= j < k`, and `2^k > 3^r`), and yet `T^k(n) >= n`.
+    ///
+    /// This is strictly narrower than a paradoxical prefix (`2^k > 3^r` with
+    /// `T^k(n) >= n` at *some* length): `n = 7` with prefix `11101001` is
+    /// paradoxical but is not a `ThresholdException`, because its coefficient
+    /// first crosses at step 7, where `T^7(7) = 5 < 7`. The verifier rejects
+    /// such cases. No genuine instance of this variant is known.
     ThresholdException {
         parity: String,
         #[serde(with = "serde_dec")]

@@ -92,6 +92,31 @@ Every ledger entry and report line carries exactly one of:
 
 Statuses are never promoted: a finite check never becomes a general claim.
 
+## Paradoxical prefixes are not first-crossing counterexamples
+
+Two different things can look like "the coefficient is below 1 but the orbit
+did not descend":
+
+- A **paradoxical prefix**: some parity prefix of `n` has `2^k > 3^r` and yet
+  `T^k(n) >= n`. These exist and are classical. For `n = 7` the orbit is
+  `7, 11, 17, 26, 13, 20, 10, 5, 8`; the prefix `11101001` has
+  `3^5 / 2^8 = 243/256 < 1` while `T^8(7) = 8 >= 7`. As a single-cylinder
+  certificate this is simply a below-threshold member (`7 < N0`), and it is
+  listed as such.
+- A **first-crossing exception**: the prefix is the *first* length at which
+  the coefficient drops below 1 (`2^j < 3^(r_j)` for all `1 <= j < k`, and
+  `2^k > 3^r`) and still `T^k(n) >= n` for some `n >= 2`. None is known;
+  one would be a counterexample to the coefficient stopping time conjecture.
+
+The `n = 7` example is only the first kind: its coefficient first crosses at
+step 7, where `T^7(7) = 5 < 7`. The ledger kind `threshold-exception` means
+the second kind exclusively, and `verifier::verify_failure_case` re-derives
+the whole first-crossing premise from the parity string before accepting
+one, so `verify --ledger` rejects the `n = 7` case. Likewise
+`verify_certificate` requires the exception list to be exactly the first
+`min(exception_count, 16)` below-threshold members. Nothing here proves or
+refutes that conjecture.
+
 ## Exactness rules
 
 - Validity checks use `num-bigint` integers only. There is no floating point

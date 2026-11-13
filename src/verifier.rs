@@ -15,12 +15,33 @@
 //!   `floor(c / margin) + 1`, checked by the two integer inequalities
 //!   `margin * N0 > c >= margin * (N0 - 1)`;
 //! * a few members at or above the threshold really descend and all listed
-//!   exceptions really do not (direct iteration).
+//!   exceptions really do not (direct iteration);
+//! * the exception list is *exactly* the first
+//!   `min(exception_count, MAX_LISTED_EXCEPTIONS)` positive class members
+//!   below the threshold, in increasing order: omissions, duplicates, extra
+//!   entries and wrongly truncated lists are all rejected.
+//!
+//! # Paradoxical prefixes versus first-crossing counterexamples
+//!
+//! A parity prefix of `n` with `2^k > 3^r` whose iterate nevertheless has
+//! `T^k(n) >= n` is called *paradoxical*. Such prefixes exist and are
+//! classical: for `n = 7` the prefix `11101001` has `3^5 / 2^8 < 1` and
+//! `T^8(7) = 8 >= 7`. That is **not** a counterexample to the statement the
+//! lab tests about first-descent certificates, because the coefficient
+//! already crossed below 1 at step 7 (`3^4 < 2^7`), where `T^7(7) = 5 < 7`.
+//!
+//! [`FailureCase::ThresholdException`] means only the strong thing: the
+//! prefix is a *first coefficient crossing* (`2^j < 3^(r_j)` for every
+//! `1 <= j < k`, and `2^k > 3^r`) and still `T^k(n) >= n` for some `n >= 2`.
+//! [`verify_failure_case`] re-derives that whole premise from the parity
+//! string, so a later paradoxical segment can never be recorded under this
+//! kind. No genuine instance is known; accepting one would be a
+//! counterexample to the coefficient stopping time conjecture.
 
 use num_bigint::BigUint;
 use num_traits::{One, Pow, Zero};
 
-use crate::certificate::DescentCertificate;
+use crate::certificate::{DescentCertificate, MAX_LISTED_EXCEPTIONS};
 use crate::collatz::{is_odd, t_step};
 use crate::hypothesis::FailureCase;
 
@@ -143,6 +164,18 @@ pub fn verify_certificate(cert: &DescentCertificate, samples: usize) -> Result<(
     ensure(cert.exception_count == expected_count, || {
         "exception count is wrong".into()
     })?;
+    // The list must hold exactly the first min(count, cap) exceptions. The
+    // comparison is done in BigUint so that huge counts need no cast.
+    let expected_listed = expected_count.min(BigUint::from(MAX_LISTED_EXCEPTIONS));
+    ensure(
+        BigUint::from(cert.exceptions.len()) == expected_listed,
+        || {
+            format!(
+                "exception list has {} entries but must list exactly {expected_listed}",
+                cert.exceptions.len()
+            )
+        },
+    )?;
     let mut expected = first_positive;
     for exception in &cert.exceptions {
         ensure(
@@ -158,7 +191,27 @@ pub fn verify_certificate(cert: &DescentCertificate, samples: usize) -> Result<(
     Ok(())
 }
 
-/// Re-checks a recorded counterexample by direct iteration.
+/// Position of the first coefficient crossing of a parity string: the least
+/// `j >= 1` with `2^j > 3^(r_j)`, where `r_j` counts the odd steps among the
+/// first `j`. `None` if the coefficient never drops below 1 on this string.
+/// (`2^j = 3^(r_j)` is impossible for `j >= 1`.)
+fn first_coefficient_crossing(bits: &[bool]) -> Option<usize> {
+    let mut power_of_two = BigUint::one();
+    let mut power_of_three = BigUint::one();
+    for (i, &odd) in bits.iter().enumerate() {
+        power_of_two <<= 1usize;
+        if odd {
+            power_of_three *= 3u32;
+        }
+        if power_of_two > power_of_three {
+            return Some(i + 1);
+        }
+    }
+    None
+}
+
+/// Re-checks a recorded counterexample by direct iteration, including the
+/// full premise of the statement it is supposed to refute.
 pub fn verify_failure_case(case: &FailureCase) -> Result<(), String> {
     match case {
         FailureCase::NoDescentWithinWindow { n, window } => {
@@ -184,7 +237,21 @@ pub fn verify_failure_case(case: &FailureCase) -> Result<(), String> {
             let k = bits.len();
             let r = bits.iter().filter(|&&odd| odd).count();
             ensure(n > &BigUint::one(), || "n must be at least 2".into())?;
-            ensure((BigUint::one() << k) > pow3(r), || "2^k <= 3^r".into())?;
+            ensure(k >= 1, || "empty parity prefix".into())?;
+            // Premise: the prefix is a first coefficient crossing, i.e.
+            // 2^j < 3^(r_j) for all 1 <= j < k and 2^k > 3^r. Anything else
+            // is at most a paradoxical segment after an earlier crossing.
+            match first_coefficient_crossing(&bits) {
+                Some(j) if j == k => {}
+                Some(j) => {
+                    return Err(format!(
+                        "prefix {parity} is not a first coefficient crossing: the coefficient \
+                         already drops below 1 at step {j} < {k}, so this is at most a \
+                         paradoxical segment, not a first-crossing exception"
+                    ))
+                }
+                None => return Err(format!("2^k <= 3^r for prefix {parity} (k = {k}, r = {r})")),
+            }
             let image = iterate_checking_parity(n, &bits)?;
             ensure(&image >= n, || "n descends after all".into())
         }
