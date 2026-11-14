@@ -1,0 +1,1199 @@
+% Equal-weight substitution words and rational 3x+1 trajectories.
+% Build: see paper/README.md.  English only; standard packages only.
+\documentclass[11pt,reqno]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Zt}{\mathbb{Z}_2}
+\newcommand{\Qodd}{\mathbb{Q}_{\mathrm{odd}}}
+\newcommand{\vt}{v_2}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\lean}[1]{\path{#1}}
+
+% The author line is intentionally a placeholder; see paper/README.md.
+\newcommand{\paperauthor}{[author name to be supplied]}
+
+\begin{document}
+
+\title[Equal-weight substitution words and rational $3x+1$ trajectories]%
+{Equal-weight substitution words are not parity sequences of rational
+$3x+1$ trajectories: an elementary, formally verified proof}
+
+\author{\paperauthor}
+
+\date{Preprint draft, 14 November 2026}
+
+\subjclass[2020]{Primary 11J72; Secondary 11B85, 11J61, 11J82, 03B35}
+
+\keywords{$3x+1$ problem, Collatz map, $2$-adic integers, parity sequence,
+uniform substitution, Mahler functions, irrationality measure, formal
+verification, Lean}
+
+\begin{abstract}
+Let $T$ be the $3x+1$ map on the $2$-adic integers and let $v$ be a
+fixed point of a binary substitution of constant length $L\ge 2$ whose two
+images are distinct and contain the same number of ones.  We give a
+self-contained proof that no rational number with odd denominator has
+parity sequence $v$, or a parity sequence that eventually agrees with a
+tail of $v$.  The statement itself is not new: the seed of $v$ is an affine
+function of a value of a Mahler function at the point $2^L/3^r$, and a
+theorem of Molchanov (1983) on the $p$-adic Mahler method implies that this
+value is even transcendental; one half of the statement also follows from a
+density theorem of Monks and Yazinski (2004).  What we contribute is a
+proof that uses only integer arithmetic and one explicit linear form: a
+polynomial pair of degree at most six with vanishing order at least
+thirteen suffices uniformly in the substitution, with no assumption on the
+leading coefficient of the remainder and no comparison between $2^L$ and
+$3^r$.  The same linear forms give an explicit $2$-adic irrationality
+measure for the seed, with exponent $2L/(2-\theta)$ where
+$\theta=\max(1,(r/L)\log_23)$; this part is not formalized.  For the fixed
+point that begins with the letter $1$, the complete argument is formalized in Lean~4 without external libraries and is checked
+by the Lean kernel from three standard axioms.  We state precisely which
+parts are formalized, which are proved only on paper, and which are quoted
+from the literature.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+\subsection{The statement}
+Let $\Zt$ be the ring of $2$-adic integers and
+\[
+  T(x)=\begin{cases} x/2, & x\equiv 0 \pmod 2,\\ (3x+1)/2, & x\equiv 1 \pmod 2,\end{cases}
+  \qquad x\in\Zt .
+\]
+The \emph{parity sequence} of $x$ is
+$\pi(x)=(T^{j}(x)\bmod 2)_{j\ge 0}\in\{0,1\}^{\N}$.  Write
+$\Qodd=\Q\cap\Zt$ for the ring of rational numbers with odd denominator;
+$T$ maps $\Qodd$ to itself.  It is a classical fact, not used below, that
+$\pi\colon\Zt\to\{0,1\}^{\N}$ is a bijection \cite{BernsteinLagarias1996};
+see \cite{Lagarias1985} for background on the $3x+1$ problem.
+
+A \emph{substitution of constant length $L$} on $\{0,1\}$ is a map
+$\mu\colon\{0,1\}\to\{0,1\}^{L}$, extended to finite and infinite words by
+concatenation.  We write $\mu(a)_j$ for the letter of $\mu(a)$ at position
+$j\in\{0,\dots,L-1\}$ and $\wt(u)$ for the number of ones of a finite word
+$u$.  An infinite word $v=v_0v_1v_2\cdots$ is a \emph{fixed point} of $\mu$
+if $\mu(v)=v$, that is,
+\begin{equation}\label{eq:block}
+  v_{Ln+j}=\mu(v_n)_j\qquad(n\ge 0,\ 0\le j<L).
+\end{equation}
+For $L\ge 2$ a fixed point beginning with the letter $a$ exists if and only
+if $\mu(a)_0=a$, and it is then unique, because \eqref{eq:block} determines
+$v_n$ from $v_{\lfloor n/L\rfloor}$ and $\lfloor n/L\rfloor<n$ for $n\ge 1$.
+
+\begin{definition}\label{def:admissible}
+A substitution $\mu$ of constant length $L\ge 2$ is \emph{equal-weight} if
+\[
+  \mu(0)\ne\mu(1)\qquad\text{and}\qquad \wt(\mu(0))=\wt(\mu(1))=:r .
+\]
+\end{definition}
+
+There are two equal-weight substitutions of length two: the Thue--Morse
+substitution $0\mapsto 01$, $1\mapsto 10$, and $0\mapsto 10$, $1\mapsto 01$,
+which has no fixed point and whose square is the square of the Thue--Morse
+substitution.  The condition says nothing about the relative size of
+$2^{L}$ and $3^{r}$.
+
+\begin{theorem}\label{thm:main}
+Let $\mu$ be an equal-weight substitution of constant length $L\ge 2$ and
+let $v$ be a fixed point of $\mu$.
+\begin{enumerate}
+\item No $x\in\Qodd$ has parity sequence $\pi(x)=v$.
+\item More generally, for $x\in\Qodd$ there are no integers $s,t\ge 0$ with
+$\pi(x)_{s+j}=v_{t+j}$ for all $j\ge 0$.
+\end{enumerate}
+In particular no integer, positive or negative, has a $3x+1$ trajectory
+whose parity sequence eventually coincides with a tail of $v$.
+\end{theorem}
+
+Equivalently, in the notation of Bernstein and Lagarias
+\cite{BernsteinLagarias1996}, the $2$-adic integer $\Phi(v)$ with parity
+sequence $v$ is irrational, and so is $\Phi$ of every word that eventually
+agrees with a tail of $v$.
+
+\subsection{Status of the statement}
+We make no claim that Theorem~\ref{thm:main} is a new theorem.  The
+following is discussed in detail in Section~\ref{sec:prior}.
+\begin{itemize}
+\item The seed is an affine function, with nonzero rational coefficients, of
+the value at $z_0=2^{L}/3^{r}$ of the generating function
+$V(z)=\sum_n v_nz^n$, and $V$ satisfies a Mahler functional equation of
+order one.  A theorem of Molchanov \cite{Molchanov1983} on values of such
+functions at algebraic points of the open $p$-adic unit disc then yields
+that $\Phi(v)$ is transcendental
+(Corollary~\ref{cor:transcendental}).  We checked that the hypotheses of
+that theorem hold for our function, using two classical facts which we
+quote, but we read its proof only in outline.
+\item If $3^{r}<2^{L}$, part (1) and part (2) follow in two lines from a
+theorem of Monks and Yazinski \cite{MonksYazinski2004} on the density of
+ones in parity sequences of rational numbers with infinite orbit, once $v$
+is known not to be eventually periodic.
+\item A preprint of L\'opez and Stoll \cite{LopezStoll2021} states a
+theorem that would cover the case $3^{r}>2^{L}$.  We were not able to
+complete its proof at the point where a real limit is identified with a
+$2$-adic limit, and we do not rely on it.
+\item An earlier public project \cite{Upstream} formalized the single
+instance $1\mapsto 110$, $0\mapsto 011$ for natural-number seeds and
+described the equal-weight class as a programme requiring one Pad\'e
+certificate per word.
+\end{itemize}
+
+\subsection{What is done here}
+\begin{enumerate}
+\item \emph{An elementary proof.}  Sections
+\ref{sec:prelim}--\ref{sec:proof} prove Theorem~\ref{thm:main} from first
+principles.  The only analysis is the convergence of power series with
+integer coefficients at points of $2\Zt$; the formal version replaces even
+this by finite sums of integers.  No transcendence theory, no Siegel lemma
+with height bounds, no zero estimate and no comparison of $2^L$ with $3^r$
+is used.
+\item \emph{A uniform certificate.}  For every equal-weight substitution a
+pair of integer polynomials $(P_0,P_1)$ of degree at most six such that
+$P_0+P_1V$ vanishes to order at least thirteen closes the argument
+(Proposition~\ref{prop:ledger}).  The leading coefficient of the remainder
+need not be odd; a non-unit coefficient only delays the level at which
+the estimate starts (Lemma~\ref{lem:valuation}, Example~\ref{ex:tm}).  For
+the specific height inequality used, six is the least degree that works
+for all substitutions (Proposition~\ref{prop:sharp}).
+\item \emph{An explicit irrationality measure.}  The linear forms can be
+pulled back to the point $z_0$ and give
+$|bx-a|_2\ge\max(|a|,|b|)^{-2L/(2-\theta)-\varepsilon}$ for the seed $x$ and
+all integers $a,b$ with $b\ne 0$ and large height, where
+$\theta=\max(1,(r/L)\log_23)$ (Theorem~\ref{thm:measure},
+Corollary~\ref{cor:exponent}).  This part is proved on paper only.
+\item \emph{A formal proof.}  For the fixed point beginning with $1$ the
+whole argument, including Theorem~\ref{thm:main} for all tails, is
+formalized in Lean~4 \cite{Lean4} with no dependency beyond the core
+library.  Section~\ref{sec:formal} gives the formal statement, the
+correspondence with the text, the trust base and the commands that
+reproduce the check.
+\end{enumerate}
+The result concerns a countable family of prescribed parity sequences.  It
+does not bear on the existence of divergent trajectories in general, and
+it is not progress on the $3x+1$ conjecture itself.
+
+\subsection{Conventions}
+Throughout, $\vt$ is the $2$-adic valuation on $\Q_2$, normalised by
+$\vt(2)=1$.  A sequence $(v_n)$ is \emph{eventually periodic} if there are
+$n_0\ge 0$ and $p\ge 1$ with $v_{n+p}=v_n$ for all $n\ge n_0$; such a $p$ is
+an \emph{eventual period}.  A power series $\sum_n c_nz^n$ with $c_n\in\Z$
+converges in $\Zt$ at every $z\in 2\Zt$, and evaluation at such a point is
+a ring homomorphism on $\Z[[z]]$.  Besides this we use only the
+ultrametric inequality and the fact that $\Q\cap\Zt$ consists of the
+fractions with odd denominator.
+
+\section{Preliminaries}\label{sec:prelim}
+
+\subsection{The affine identity}
+For a finite binary word $u$ define $\varphi(u)\in\Z_{\ge 0}$ recursively by
+\[
+  \varphi(\varepsilon)=0,\qquad \varphi(u0)=\varphi(u),\qquad
+  \varphi(u1)=3\varphi(u)+2^{|u|},
+\]
+where $\varepsilon$ is the empty word and $|u|$ is the length of $u$.  If
+the ones of $u$ are at positions $d_0<d_1<\dots<d_{h-1}$, an induction on
+$|u|$ gives
+\begin{equation}\label{eq:phi-closed}
+  \varphi(u)=\sum_{i=0}^{h-1}3^{\,h-1-i}\,2^{d_i}.
+\end{equation}
+
+\begin{lemma}\label{lem:affine}
+Let $x\in\Zt$, let $n\ge 0$, and let $u$ be the word formed by the first $n$
+letters of $\pi(x)$.  Then
+\[
+  2^{n}\,T^{n}(x)=3^{\wt(u)}\,x+\varphi(u).
+\]
+\end{lemma}
+
+\begin{proof}
+Induction on $n$; the case $n=0$ is trivial.  Put $y=T^{n}(x)$.  If $y$ is
+even, then $2^{n+1}T^{n+1}(x)=2^{n}y$ and the word $u0$ has the same weight
+and the same $\varphi$.  If $y$ is odd, then
+$2^{n+1}T^{n+1}(x)=3\cdot 2^{n}y+2^{n}=3^{\wt(u)+1}x+3\varphi(u)+2^{n}$.
+\end{proof}
+
+\begin{lemma}\label{lem:offset}
+Let $u\ne u'$ be binary words of the same length and the same weight, and
+let $s$ be the first position at which they differ.  Then
+$\vt(\varphi(u)-\varphi(u'))=s$.
+\end{lemma}
+
+\begin{proof}
+Let $h$ be the common weight.  In \eqref{eq:phi-closed} the ones at
+positions below $s$ occur in both words with the same index $i$ and
+contribute equal terms.  Exactly one of the two words has a one at position
+$s$; it contributes a term $3^{h-1-i}2^{s}$, an odd multiple of $2^{s}$.
+All remaining terms of both sums are divisible by $2^{s+1}$.
+\end{proof}
+
+\subsection{Notation for a substitution}\label{ssec:notation}
+Fix an equal-weight substitution $\mu$ of length $L\ge 2$ and common weight
+$r$, and a fixed point $v$ of $\mu$.  Since $\mu(0)\ne\mu(1)$ have the same
+weight, $1\le r\le L-1$; in particular each block $\mu(a)$ contains both
+letters, so both letters occur infinitely often in $v$.  Put
+\[
+  A=2^{L},\qquad B=3^{r},\qquad z_0=\frac{A}{B},\qquad
+  m=\max(A,B),\qquad C_a=\varphi(\mu(a))\quad(a\in\{0,1\}).
+\]
+Let $s$ and $e$ be the first and the last position at which $\mu(0)$ and
+$\mu(1)$ differ, so that $0\le s\le e\le L-1$.  By Lemma~\ref{lem:offset},
+\begin{equation}\label{eq:kappa}
+  C_0-C_1=2^{s}\kappa\qquad\text{with $\kappa$ an odd integer.}
+\end{equation}
+Define the polynomials
+\[
+  p_a(z)=\sum_{j=0}^{L-1}\mu(a)_j\,z^{j},\qquad
+  \Gamma(z)=p_1(z)-p_0(z)=\sum_{j=s}^{e}\gamma_jz^{j},\qquad
+  \gamma_j=\mu(1)_j-\mu(0)_j\in\{-1,0,1\},
+\]
+with $\gamma_s\ne 0\ne\gamma_e$, and the binary forms
+\[
+  Q_0(a,b)=\sum_{j=0}^{L-1}\mu(0)_j\,a^{j}b^{L-1-j},\qquad
+  \Gamma^{*}(a,b)=\sum_{i=0}^{e-s}\gamma_{s+i}\,a^{i}b^{e-s-i},
+\]
+so that for $b\ne 0$
+\begin{equation}\label{eq:forms}
+  p_0(a/b)=\frac{Q_0(a,b)}{b^{L-1}},\qquad
+  \Gamma(a/b)=\frac{a^{s}\,\Gamma^{*}(a,b)}{b^{e}} .
+\end{equation}
+Finally $V(z)=\sum_{n\ge 0}v_nz^{n}\in\Z[[z]]$ is the generating function of
+$v$.
+
+\subsection{Two combinatorial lemmas}
+
+\begin{lemma}\label{lem:aperiodic}
+A fixed point of an equal-weight substitution is not eventually periodic.
+\end{lemma}
+
+\begin{proof}
+Suppose $v$ is eventually periodic.  The eventual periods of $v$, together
+with their negatives and $0$, form a subgroup of $\Z$: if $p>p'$ are
+eventual periods then $v_{n+(p-p')}=v_{n+(p-p')+p'}=v_{n+p}=v_n$ for all
+large $n$.  Hence the least eventual period $p_*$ divides every eventual
+period.
+
+\emph{Step 1: if $Lp'$ is an eventual period, so is $p'$.}  For large $n$
+and $0\le j<L$ we have $v_{L(n+p')+j}=v_{Ln+j}$, that is,
+$\mu(v_{n+p'})=\mu(v_n)$ by \eqref{eq:block}.  Since $\mu(0)\ne\mu(1)$ this
+gives $v_{n+p'}=v_n$.
+
+\emph{Step 2: $\gcd(p_*,L)=1$.}  Let $g=\gcd(p_*,L)$.  Then
+$L\cdot(p_*/g)=p_*\cdot(L/g)$ is an eventual period, so $p_*/g$ is an
+eventual period by Step~1, and minimality forces $g=1$.
+
+\emph{Step 3.}  For $0\le\rho\le L$ let $W_a(\rho)$ be the number of ones
+among the first $\rho$ letters of $\mu(a)$.  Fix $\rho\in\{1,\dots,L-1\}$.
+By Step~2 there is a multiple $P$ of $p_*$ with $P\equiv\rho\pmod L$; write
+$P=Lc+\rho$.  Because $P$ is an eventual period, all windows
+$v_{n'}v_{n'+1}\cdots v_{n'+P-1}$ with $n'$ large contain the same number
+$W$ of ones.  The window starting at $n'=Ln$ consists of the $c$ complete
+blocks $\mu(v_n),\dots,\mu(v_{n+c-1})$, each of weight $r$, followed by the
+first $\rho$ letters of $\mu(v_{n+c})$.  Hence $W=rc+W_{v_{n+c}}(\rho)$ for
+all large $n$.  Both letters occur among the $v_{n+c}$, so
+$W_0(\rho)=W_1(\rho)$.  This holds for $1\le\rho\le L-1$, trivially for
+$\rho=0$, and for $\rho=L$ by the equal-weight hypothesis.  Therefore
+$\mu(0)_\rho=W_0(\rho+1)-W_0(\rho)=\mu(1)_\rho$ for all $\rho<L$,
+contradicting $\mu(0)\ne\mu(1)$.
+\end{proof}
+
+The equal-weight hypothesis is needed: $0\mapsto 010$, $1\mapsto 101$ has
+the fixed point $(10)^{\infty}$, which is the parity sequence of $x=1$.
+
+\begin{lemma}\label{lem:rational}
+Let $(w_n)_{n\ge 0}$ be a sequence with values in $\{0,1\}$ and
+$W(z)=\sum_nw_nz^n$.  If $P_0+P_1W=0$ in $\Z[[z]]$ for polynomials
+$P_0,P_1\in\Z[z]$ with $P_1\ne 0$, then $(w_n)$ is eventually periodic.
+\end{lemma}
+
+\begin{proof}
+Let $d$ bound the degrees of $P_0,P_1$, write $P_1=\sum_{j\le d}c_jz^j$ and
+let $j_0$ be the least index with $c_{j_0}\ne 0$.  Comparing coefficients of
+$z^{n}$ for $n>d$ gives
+$c_{j_0}w_{n-j_0}=-\sum_{j_0<j\le d}c_jw_{n-j}$.  Thus, for
+$k>d-j_0$, the letter $w_k$ is determined by the window
+$(w_{k-1},\dots,w_{k-(d-j_0)})$, and so is the next window.  There are at
+most $2^{d-j_0}$ windows, so two of them coincide, and from the first of
+these two indices on the sequence is periodic.
+\end{proof}
+
+Only the equality $c_{j_0}w=c_{j_0}w'\Rightarrow w=w'$ is used; there is no
+division.
+
+\section{The functional equation and the seed formula}\label{sec:seed}
+
+\begin{lemma}\label{lem:mahler}
+In $\Z[[z]]$,
+\begin{equation}\label{eq:mahler}
+  (1-z^{L})\,V(z)=p_0(z)+(1-z^{L})\,\Gamma(z)\,V(z^{L}).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:block},
+$V(z)=\sum_{n}z^{Ln}p_{v_n}(z)=\sum_nz^{Ln}\bigl(p_0(z)+v_n\Gamma(z)\bigr)
+=p_0(z)/(1-z^{L})+\Gamma(z)V(z^{L})$.
+\end{proof}
+
+\begin{proposition}[Seed formula]\label{prop:seed}
+If $x\in\Zt$ has parity sequence $v$, then
+\begin{equation}\label{eq:seed}
+  x=-\frac{C_0}{B-A}-\frac{C_1-C_0}{B}\,V(z_0),
+\end{equation}
+where $V(z_0)=\sum_nv_nz_0^{n}\in\Zt$, and $C_1-C_0\ne 0$.  In particular
+$x\in\Q$ if and only if $V(z_0)\in\Q$.
+\end{proposition}
+
+\begin{proof}
+Put $x_n=T^{Ln}(x)$.  The parity sequence of $x_n$ is the tail of $v$
+starting at $Ln$, whose first $L$ letters are $\mu(v_n)$, of weight $r$.
+Lemma~\ref{lem:affine} gives
+\begin{equation}\label{eq:blockrec}
+  A\,x_{n+1}=B\,x_n+C_{v_n},\qquad\text{that is,}\qquad
+  x_n=z_0\,x_{n+1}-\frac{C_{v_n}}{B}.
+\end{equation}
+Iterating, $x=z_0^{K}x_K-B^{-1}\sum_{n<K}C_{v_n}z_0^{n}$ for every $K$.
+Since $x_K\in\Zt$ and $\vt(z_0^{K})=LK$, the first term tends to $0$ in
+$\Zt$.  With $C_{v_n}=C_0+(C_1-C_0)v_n$ and
+$\sum_nz_0^{n}=(1-z_0)^{-1}=B/(B-A)$ we obtain \eqref{eq:seed}; note that
+$B-A$ is odd.  Finally $C_1\ne C_0$ by \eqref{eq:kappa}.
+\end{proof}
+
+\begin{remark}
+Formula \eqref{eq:seed} is the specialisation to block-structured words of
+Bernstein's series \cite{Bernstein1994}, \cite[(1.6)]{BernsteinLagarias1996}
+$\Phi\bigl(\sum_i2^{d_i}\bigr)=-\sum_i2^{d_i}/3^{i+1}$.  We derived it
+directly so that the paper does not depend on the bijectivity of $\pi$.
+\end{remark}
+
+By Proposition~\ref{prop:seed}, part~(1) of Theorem~\ref{thm:main} follows
+from:
+
+\begin{theorem}\label{thm:value}
+For every fixed point $v$ of an equal-weight substitution of length $L\ge 2$
+and common weight $r$, the $2$-adic integer $V(2^{L}/3^{r})$ is irrational.
+\end{theorem}
+
+\section{Proof of Theorem \ref{thm:value}}\label{sec:proof}
+
+\subsection{Polynomial pairs}
+
+\begin{definition}
+A \emph{pair of degree $d$} is a pair $P=(P_0,P_1)$ of polynomials in
+$\Z[z]$ of degree at most $d$.  Its \emph{remainder} is the power series
+$R=P_0+P_1V=\sum_{n\ge 0}R_nz^{n}\in\Z[[z]]$, and $P$ has \emph{order $N$}
+if $R_n=0$ for $n<N$ and $R_N\ne 0$.  We write $\|P\|$ for the largest
+absolute value of a coefficient of $P_0$ or $P_1$.
+\end{definition}
+
+Here $d$ is an upper bound for the degrees; the top coefficients may vanish.
+
+\begin{lemma}\label{lem:pair}
+For every $d\ge 0$ and every sequence of integers $(v_n)$ there is a pair
+of degree $d$ with $P_1\ne 0$ and $R_n=0$ for all $n\le 2d$.  If $(v_n)$ is
+a fixed point of an equal-weight substitution, this pair has a finite
+order $N\ge 2d+1$.
+\end{lemma}
+
+\begin{proof}
+Write $P_1=\sum_{j\le d}c_jz^{j}$ with unknown $c_j$.  The conditions that
+the coefficients of $z^{d+1},\dots,z^{2d}$ in $P_1V$ vanish are $d$
+homogeneous linear equations with integer coefficients in the $d+1$
+unknowns $c_0,\dots,c_d$, so they have a nonzero integer solution.  Let
+$-P_0$ be the truncation of $P_1V$ to degree at most $d$.  Then $R_n=0$ for
+$n\le 2d$.  If $R=0$, then $v$ would be eventually periodic by
+Lemma~\ref{lem:rational}, contrary to Lemma~\ref{lem:aperiodic}.
+\end{proof}
+
+\subsection{The tower}
+For $k\ge 0$ put
+\[
+  a_k=2^{L^{k+1}},\qquad b_k=3^{rL^{k}},\qquad
+  z_k=\frac{a_k}{b_k}=z_0^{L^{k}},\qquad m_k=\max(a_k,b_k)=m^{L^{k}} .
+\]
+Then $a_{k+1}=a_k^{L}$, $b_{k+1}=b_k^{L}$, $z_{k+1}=z_k^{L}$ and
+$\vt(z_k)=L^{k+1}$.
+
+\begin{lemma}[Transport]\label{lem:transport}
+Let $a$ be an even and $b$ an odd positive integer, $z=a/b$, and suppose
+$V(z)=u/D$ with $u,D\in\Z$ and $D$ odd.  Then $V(z^{L})=u'/D'$ with
+\[
+  D'=D\cdot\Gamma^{*}(a,b)\cdot(b^{L}-a^{L}),\qquad
+  u'=\frac{b^{e}\,\delta}{a^{s}},\qquad
+  \delta=(b^{L}-a^{L})\,u-D\,b\,Q_0(a,b),
+\]
+where $D'$ is an odd integer and $u'$ is an integer.  Moreover, with
+$M=\max(a,b)$,
+\begin{equation}\label{eq:heightstep}
+  |u'|+|D'|\le 2L\,M^{L+e}\,\bigl(|u|+|D|\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Evaluate \eqref{eq:mahler} at $z$, multiply by $b^{L}D$ and use
+\eqref{eq:forms}:
+\[
+  (b^{L}-a^{L})\,u-D\,b\,Q_0(a,b)
+  =D\,(b^{L}-a^{L})\,\frac{a^{s}\,\Gamma^{*}(a,b)}{b^{e}}\,V(z^{L}).
+\]
+The integer $\Gamma^{*}(a,b)$ is odd, because its term with $i=0$ is
+$\gamma_sb^{e-s}=\pm b^{e-s}$ and all other terms are even; $b^{L}-a^{L}$ is
+odd.  Hence $D'$ is odd, in particular nonzero, and
+$V(z^{L})=b^{e}\delta/(a^{s}D')$.  The rational number
+$u'=D'\,V(z^{L})=b^{e}\delta/a^{s}$ lies in $\Zt$, since $V(z^{L})\in\Zt$,
+and its denominator is a power of two; therefore $u'\in\Z$.
+
+For the bound, $|\Gamma^{*}(a,b)|\le(e-s+1)M^{e-s}\le LM^{e}$,
+$|b^{L}-a^{L}|\le M^{L}$ and $|bQ_0(a,b)|\le LM^{L}$.  Hence
+$|D'|\le LM^{L+e}|D|$ and
+$|u'|\le b^{e}|\delta|\le M^{L+e}(|u|+L|D|)$, and
+$|u|+2L|D|\le 2L(|u|+|D|)$.
+\end{proof}
+
+\begin{corollary}\label{cor:tower}
+Suppose $V(z_0)\in\Q$.  Then there are integers $u_k$ and odd integers $D_k$
+with $V(z_k)=u_k/D_k$ for all $k\ge 0$ and
+\begin{equation}\label{eq:height}
+  H_k:=|u_k|+|D_k|\le(2L)^{k}\,m^{(L+e)(L^{k}-1)/(L-1)}\,H_0 .
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Since $V(z_0)\in\Q\cap\Zt$, it has the form $u_0/D_0$ with $D_0$ odd.
+Apply Lemma~\ref{lem:transport} with $(a,b)=(a_k,b_k)$ recursively; the
+exponents add up to $(L+e)(1+L+\dots+L^{k-1})$.
+\end{proof}
+
+When $V(z_0)$ comes from a rational seed $x=p/q$ with $q$ odd, formula
+\eqref{eq:seed} and \eqref{eq:kappa} give the explicit starting values
+\begin{equation}\label{eq:start}
+  D_0=(B-A)\,\kappa\,q,\qquad u_0=\frac{B\,\bigl((B-A)p+C_0q\bigr)}{2^{s}} .
+\end{equation}
+
+\subsection{The linear form}
+Let $P$ be a pair of degree $d$ and order $N$.  For a polynomial
+$F=\sum_{j\le d}f_jz^{j}$ write $F^{*}(a,b)=\sum_{j\le d}f_ja^{j}b^{d-j}$, so
+that $F^{*}(a,b)=b^{d}F(a/b)$.  Assume $V(z_0)\in\Q$ and define, with the
+notation of Corollary~\ref{cor:tower}, the integers
+\[
+  E_k=D_k\,P_0^{*}(a_k,b_k)+u_k\,P_1^{*}(a_k,b_k)=D_k\,b_k^{d}\,R(z_k).
+\]
+
+\begin{lemma}[Valuation]\label{lem:valuation}
+If $L^{k+1}>\vt(R_N)$, then $\vt(E_k)=N L^{k+1}+\vt(R_N)$.  In particular
+$E_k\ne 0$ and $|E_k|\ge 2^{NL^{k+1}}$.
+\end{lemma}
+
+\begin{proof}
+$R(z_k)=\sum_{n\ge N}R_nz_k^{n}$ with $\vt(z_k)=L^{k+1}$.  The term $n=N$ has
+valuation $NL^{k+1}+\vt(R_N)$ and every later term has valuation at least
+$(N+1)L^{k+1}$, which is larger.  The factors $D_k$ and $b_k^{d}$ are odd.
+\end{proof}
+
+No assumption is made on $R_N$ beyond $R_N\ne 0$.  If $R_N$ is odd the
+lemma applies to every $k$; in general it applies from the first level $k_0$
+with $L^{k_0+1}>\vt(R_N)$ on, and the proof below uses only those levels.
+
+\begin{lemma}[Size]\label{lem:size}
+$|E_k|\le(d+1)\,\|P\|\,m_k^{d}\,H_k$.
+\end{lemma}
+
+\begin{proof}
+Each of $|P_0^{*}(a_k,b_k)|$, $|P_1^{*}(a_k,b_k)|$ is at most
+$(d+1)\|P\|m_k^{d}$.
+\end{proof}
+
+\begin{proposition}[Certificate criterion]\label{prop:criterion}
+Suppose there is a pair of degree $d$ and order $N$ with
+\begin{equation}\label{eq:gap}
+  m^{\,d(L-1)+L+e}<2^{\,L(L-1)N}.
+\end{equation}
+Then $V(z_0)$ is irrational.
+\end{proposition}
+
+\begin{proof}
+Suppose $V(z_0)\in\Q$.  For all $k\ge k_0$, Lemmas \ref{lem:valuation} and
+\ref{lem:size} and \eqref{eq:height} give
+\[
+  2^{NL^{k+1}}\le|E_k|\le
+  (d+1)\,\|P\|\,H_0\,(2L)^{k}\,m^{\,dL^{k}+(L+e)(L^{k}-1)/(L-1)} .
+\]
+Raise both sides to the power $L-1$ and drop the factor
+$m^{-(L+e)}\le 1$.  With $G=2^{L(L-1)N}$, $M_*=m^{d(L-1)+L+e}$ and
+$c=((d+1)\|P\|H_0)^{L-1}$ this reads
+\[
+  G^{L^{k}}\le c\,(2L)^{(L-1)k}\,M_*^{L^{k}},\qquad\text{that is,}\qquad
+  L^{k}\log\frac{G}{M_*}\le\log c+k\,(L-1)\log(2L).
+\]
+By \eqref{eq:gap} the left-hand side grows exponentially in $k$, while the
+right-hand side is linear in $k$.  This is a contradiction for large $k$.
+\end{proof}
+
+\subsection{The uniform ledger}
+
+\begin{proposition}\label{prop:ledger}
+For all integers $L\ge 2$, $0\le r\le L-1$ and $0\le e\le L-1$,
+\[
+  \max(2^{L},3^{r})^{\,6(L-1)+L+e}<2^{\,13L(L-1)} .
+\]
+\end{proposition}
+
+\begin{proof}
+The exponent $c=6(L-1)+L+e$ satisfies $c\le 8L-7$.  If $2^{L}\ge 3^{r}$, the
+left-hand side is $2^{Lc}$ and $Lc\le L(8L-7)<13L(L-1)$, because
+$8L-7<13L-13$ for $L\ge 2$.  Otherwise it is
+$3^{rc}\le 3^{(L-1)(8L-7)}\le(3^{8})^{L(L-1)}<(2^{13})^{L(L-1)}$, because
+$3^{8}=6561<8192=2^{13}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{thm:value}]
+By Lemma~\ref{lem:pair} with $d=6$ there is a pair of degree six and some
+order $N\ge 13$.  By Proposition~\ref{prop:ledger} and
+$2^{13L(L-1)}\le 2^{L(L-1)N}$, inequality \eqref{eq:gap} holds with $d=6$.
+Proposition~\ref{prop:criterion} applies.
+\end{proof}
+
+\subsection{Tails}
+
+\begin{proof}[Proof of Theorem \ref{thm:main}]
+Part (1) follows from Theorem~\ref{thm:value} and
+Proposition~\ref{prop:seed}.  For part (2) suppose $x\in\Qodd$ and
+$\pi(x)_{s+j}=v_{t+j}$ for all $j$.  Then $y=T^{s}(x)\in\Qodd$ has parity
+sequence $(v_{t+j})_j$.  If $t\ge 1$, put $y'=2y$ when $v_{t-1}=0$ and
+$y'=(2y-1)/3$ when $v_{t-1}=1$.  Then $y'\in\Qodd$, the parity of $y'$ is
+$v_{t-1}$, and $T(y')=y$; so $y'$ has parity sequence $(v_{t-1+j})_j$.
+After $t$ steps we obtain an element of $\Qodd$ with parity sequence $v$,
+contradicting part~(1).
+\end{proof}
+
+\begin{remark}\label{rem:powers}
+If $\mu$ is equal-weight, so is every power $\mu^{n}$ (of length $L^{n}$
+and weight $rL^{n-1}$).  Hence Theorem~\ref{thm:main} also applies to words
+fixed by a power of $\mu$, for instance to both words of the $2$-cycle of
+$\mu$ when $\mu(0)$ begins with $1$ and $\mu(1)$ begins with $0$.
+\end{remark}
+
+\section{Quantitative complements}\label{sec:quant}
+
+\subsection{Why degree six}
+The exponent $d(L-1)+L+e$ in \eqref{eq:gap} comes from the crude step
+\eqref{eq:heightstep}, which ignores the division by $a^{s}$ and bounds
+$e-s$ by $e$.  For that specific inequality, and with the guaranteed
+order $N\ge 2d+1$, the worst case $r=e=L-1$, $L\to\infty$ requires
+$(d+2)\log_23<2d+1$, that is $d>5.22$.  The following statement makes this
+precise without any asymptotics.  It is a statement about the criterion of
+Proposition~\ref{prop:criterion}, not about the irrationality problem: the
+words that defeat low degrees below are still covered by degree six, and a
+sharper height estimate would change the threshold.
+
+\begin{proposition}\label{prop:sharp}
+For an integer $d\ge 0$ the following are equivalent:
+\begin{enumerate}
+\item for every equal-weight substitution $\mu$ of length $L\ge 2$ with
+$\mu(1)_0=1$, the fixed point beginning with $1$ admits a pair $P$ of some
+degree $d'\le d$ with $P_1\ne 0$ and some order $N\ge d'$ such that
+\eqref{eq:gap} holds with $d'$ in place of $d$;
+\item $d\ge 6$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(2)$\Rightarrow$(1) was shown in the proof of Theorem~\ref{thm:value}.  For
+the converse let $L=1000$ and let $\mu(1)$ be the word that begins with
+$110100010011$, has a zero at position $999$ and ones at all positions
+$12,\dots,998$; let $\mu(0)$ be obtained from $\mu(1)$ by changing the
+letter at position $0$ to $0$ and the letter at position $999$ to $1$.
+Then $r=993$, $s=0$, $e=999$ and $m=3^{993}$.  The fixed point begins with
+$110100010011$.  For each $d'\le 5$ the square matrix
+$(v_{n-j})_{d'<n\le 2d'+1,\ 0\le j\le d'}$ (with $v_i=0$ for $i<0$) is
+nonsingular: its determinant is $1,-1,1,-1,-1,-1$ for $d'=0,\dots,5$.
+Hence a pair of degree $d'\le 5$ with $P_1\ne 0$ cannot have $R_n=0$ for
+all $n\le 2d'+1$, so its order is at most $2d'+1$.  On the other hand, for
+$d'\le 5$,
+\[
+  12\cdot(2d'+1)\cdot 1000\cdot 999\le 19\cdot 993\cdot(999d'+1999),
+\]
+(the two sides are $131\,868\,000$ and $131\,955\,798$ for $d'=5$, and the
+left side decreases faster as $d'$ decreases), and $2^{19}<3^{12}$.
+Therefore $2^{L(L-1)N}\le 2^{(2d'+1)\cdot 1000\cdot 999}\le
+3^{993(999d'+1999)}=m^{d'(L-1)+L+e}$, and \eqref{eq:gap} fails.
+\end{proof}
+
+\subsection{A uniform starting level}
+The level $k_0$ in the proof of Proposition~\ref{prop:criterion} depends on
+$\vt(R_N)$.  It can be bounded uniformly.
+
+\begin{proposition}\label{prop:start}
+For every equal-weight substitution of length $L\ge 2$ with $\mu(1)_0=1$
+and its fixed point beginning with $1$, there is a pair of degree six and
+order $N\ge 13$ whose coefficients of $P_1$ are bounded in absolute value
+by $720\cdot 2^{57}$ and for which $\vt(R_N)<70$.  Consequently
+Lemma~\ref{lem:valuation} applies to this pair for all $k\ge 6$, whatever
+$L$ is.
+\end{proposition}
+
+This is the form proved in the formal development, by a fraction-free
+elimination with explicit bounds; the constants are far from optimal.
+
+\begin{remark}[not formalized]
+Cramer's rule gives better constants.  Let $M$ be the $6\times 7$ matrix of
+the linear system in the proof of Lemma~\ref{lem:pair}; its entries are in
+$\{0,1\}$.  If $M$ has rank $\rho$, choose $\rho$ independent rows and
+$\rho+1$ columns containing $\rho$ independent columns of those rows; the
+signed maximal minors of this $\rho\times(\rho+1)$ submatrix, extended by
+zero, form a nonzero integer vector in the kernel of $M$, with entries
+bounded by $\rho!\le 720$.  For this choice
+$|R_N|=|\sum_{j\le 6}c_jv_{N-j}|\le 7\cdot 720<2^{13}$, so $\vt(R_N)\le 12$
+and Lemma~\ref{lem:valuation} applies for all $k\ge 3$.
+\end{remark}
+
+\begin{example}[Thue--Morse]\label{ex:tm}
+For $0\mapsto 01$, $1\mapsto 10$ and the fixed point
+$v=1001\,0110\,0110\,1001\cdots$ we have $L=2$, $r=1$, $s=0$, $e=1$,
+$m=4$.  A pair of degree six is
+\begin{align*}
+  P_1&=-1+6z-3z^{2}+5z^{3}-3z^{4}-2z^{5}-z^{6},\\
+  P_0&=1-6z+3z^{2}-4z^{3}-3z^{4}+6z^{5}-9z^{6},
+\end{align*}
+with order $N=13$ and $R_{13}=8$.  Inequality \eqref{eq:gap} reads
+$4^{9}<2^{26}$.  The leading coefficient has valuation $3$, so
+Lemma~\ref{lem:valuation} applies from level $k=1$ on (since $2^{2}>3$) and
+gives $\vt(E_k)=13\cdot 2^{k+1}+3$.  An argument that assumed an odd
+leading coefficient would not apply to this pair.  This is the pair used
+in the formal development, where the order, the value $R_{13}=8$, and the
+valuations $29$ and $55$ of $E_0$ and $E_1$ for the seed of a $64$-letter
+prefix are checked by computation in the kernel.
+\end{example}
+
+\subsection{An explicit irrationality measure}\label{ssec:measure}
+The linear forms of Section~\ref{sec:proof} can be pulled back to $z_0$
+directly, without assuming that $V(z_0)$ is rational.  This gives a
+quantitative form of Theorem~\ref{thm:value}.  The results of this
+subsection are proved here only; they are not formalized.
+
+Write $\xi=V(z_0)$ and $\lambda=\log_2m$.  For $k\ge 0$ let
+\[
+  G_k=\prod_{i<k}\Gamma(z_i),\qquad
+  S_k=\sum_{i<k}G_i\,\frac{p_0(z_i)}{1-z_{i+1}},\qquad
+  \Lambda_k=\prod_{i<k}b_i^{e}\,(b_i^{L}-a_i^{L}).
+\]
+Iterating \eqref{eq:mahler} at $z_0,\dots,z_{k-1}$ gives
+\begin{equation}\label{eq:pullback}
+  \xi=S_k+G_k\,V(z_k).
+\end{equation}
+
+\begin{theorem}\label{thm:measure}
+Let $P$ be a pair of degree $d$ and order $N$ that satisfies
+\eqref{eq:gap}, and put $\nu=\vt(R_N)$,
+\[
+  w_k=NL^{k+1}+\nu+\frac{sL(L^{k}-1)}{L-1},\qquad
+  \mathcal B_k=3(d+1)\,\|P\|\,L^{k}\,m^{\,dL^{k}+(L+e)(L^{k}-1)/(L-1)} .
+\]
+\begin{enumerate}
+\item For every $k\ge 0$ with $L^{k+1}>\nu$ there are integers
+$\mathcal P_k,\mathcal Q_k$ with
+$\max(|\mathcal P_k|,|\mathcal Q_k|)\le\mathcal B_k$ and
+$\vt(\mathcal Q_k\xi-\mathcal P_k)=w_k$.
+\item Let $a,b$ be integers with $b\ne 0$ and $H=\max(|a|,|b|)$.  If $k$ is
+as in \textup{(1)} and $2^{w_k}>2H\mathcal B_k$, then
+$|b\xi-a|_2\ge|b|_2\,2^{-w_k}$.
+\item For every $\varepsilon>0$ there is $H_0$ such that
+$|b\xi-a|_2\ge|b|_2\,H^{-\mu-\varepsilon}$ for all integers $a,b$ with
+$b\ne 0$ and $H=\max(|a|,|b|)\ge H_0$, where
+\[
+  \mu=\mu(d,N)=\frac{L\,\bigl(L(L-1)N+sL\bigr)}
+  {L(L-1)N+sL-\bigl(d(L-1)+L+e\bigr)\lambda} .
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By \eqref{eq:forms},
+$\Gamma(z_i)=a_i^{s}\Gamma^{*}(a_i,b_i)/b_i^{e}$ and
+$p_0(z_i)/(1-z_{i+1})=b_iQ_0(a_i,b_i)/(b_i^{L}-a_i^{L})$.  Hence
+$\Lambda_kG_k=\prod_{i<k}a_i^{s}\Gamma^{*}(a_i,b_i)(b_i^{L}-a_i^{L})$ is an
+integer, and $\Lambda_kS_k$ is the sum over $i<k$ of the integers
+\[
+  \prod_{j<i}a_j^{s}\Gamma^{*}(a_j,b_j)(b_j^{L}-a_j^{L})\;\cdot\;
+  b_i^{e+1}Q_0(a_i,b_i)\;\cdot\;\prod_{i<j<k}b_j^{e}(b_j^{L}-a_j^{L}).
+\]
+Put $\Theta_k=\prod_{i<k}m_i^{L+e}=m^{(L+e)(L^{k}-1)/(L-1)}$.  Each factor
+with index $j<i$ is at most $Lm_j^{L+e}$ in absolute value, the middle
+factor is at most $Lm_i^{L+e}$, and each factor with $j>i$ is at most
+$m_j^{L+e}$.  Therefore $|\Lambda_k|\le\Theta_k$,
+$|\Lambda_kG_k|\le L^{k}\Theta_k$ and
+$|\Lambda_kS_k|\le\sum_{i<k}L^{i+1}\Theta_k\le 2L^{k}\Theta_k$.  Define
+\[
+  \mathcal Q_k=\Lambda_k\,P_1^{*}(a_k,b_k),\qquad
+  \mathcal P_k=P_1^{*}(a_k,b_k)\,(\Lambda_kS_k)-(\Lambda_kG_k)\,P_0^{*}(a_k,b_k).
+\]
+The bound for $\max(|\mathcal P_k|,|\mathcal Q_k|)$ follows from
+$|P_i^{*}(a_k,b_k)|\le(d+1)\|P\|m_k^{d}$.  By \eqref{eq:pullback},
+\[
+  \mathcal Q_k\xi-\mathcal P_k
+  =b_k^{d}\Lambda_k\bigl(P_1(z_k)(\xi-S_k)+G_kP_0(z_k)\bigr)
+  =b_k^{d}\,\Lambda_k\,G_k\,R(z_k).
+\]
+Here $b_k^{d}\Lambda_k$ is odd, $\vt(G_k)=\sum_{i<k}sL^{i+1}$ because
+$\vt(\Gamma(z_i))=sL^{i+1}$, and $\vt(R(z_k))=NL^{k+1}+\nu$ as in the proof
+of Lemma~\ref{lem:valuation}.
+
+(2) Suppose $\vt(b\xi-a)>\vt(b)+w_k$.  In
+\[
+  a\mathcal Q_k-b\mathcal P_k=\mathcal Q_k\,(a-b\xi)+b\,(\mathcal Q_k\xi-\mathcal P_k)
+\]
+the first term has valuation larger than $\vt(b)+w_k$ and the second has
+valuation exactly $\vt(b)+w_k$.  So the integer $a\mathcal Q_k-b\mathcal P_k$
+is nonzero and divisible by $2^{w_k}$, whereas its absolute value is at most
+$2H\mathcal B_k<2^{w_k}$.
+
+(3) Put $c_2=(L(L-1)N+sL)/(L-1)$ and
+$\delta=c_2-\lambda\,(d+(L+e)/(L-1))$, so that $\mu=c_2L/\delta$; we have
+$\delta>0$ by \eqref{eq:gap}.  There is a constant $c_3$, independent of
+$k$, with
+\[
+  w_k\le c_2L^{k}+\nu,\qquad
+  w_k-\log_2\mathcal B_k=\delta L^{k}-k\log_2L-c_3 .
+\]
+Given $H$, let $k$ be the least integer with $L^{k+1}>\nu$ and
+$\delta L^{k}-k\log_2L-c_3>\log_2(2H)$; then \textup{(2)} applies.  As
+$H\to\infty$ also $k\to\infty$, the inequality fails for $k-1$, and
+$k\log_2L=o(L^{k})$; hence $L^{k-1}\le(1+o(1))\,\delta^{-1}\log_2H$ and
+$w_k\le c_2L\cdot L^{k-1}+\nu\le(\mu+o(1))\log_2H$.
+\end{proof}
+
+\begin{corollary}\label{cor:exponent}
+Let $x$ be the $2$-adic integer with parity sequence $v$ and
+$\theta=\max\bigl(1,(r/L)\log_23\bigr)$, so that $1\le\theta<\log_23$.  For
+every $\varepsilon>0$ there is $H_0$ such that
+\[
+  |bx-a|_2\ge\max(|a|,|b|)^{-\frac{2L}{2-\theta}-\varepsilon}
+\]
+for all integers $a,b$ with $b\ne 0$ and $\max(|a|,|b|)\ge H_0$.  The
+exponent $2L/(2-\theta)$ equals $2L$ when $3^{r}<2^{L}$ and is always
+smaller than $4.82\,L$.
+\end{corollary}
+
+\begin{proof}
+For each $d$ take a pair of degree $d$ and order $N_d\ge 2d+1$
+(Lemma~\ref{lem:pair}).  Since $\lambda=L\theta<2L$, inequality
+\eqref{eq:gap} holds for all large $d$.  The function $\mu(d,N)$ is
+decreasing in $N$, so $\mu(d,N_d)\le\mu(d,2d+1)$, and
+$\mu(d,2d+1)\to 2L^{2}/(2L-\lambda)=2L/(2-\theta)$ as $d\to\infty$.  This
+proves the statement for $\xi$ in place of $x$, with the factor $|b|_2$ of
+Theorem~\ref{thm:measure}(3).  By \eqref{eq:seed} and \eqref{eq:kappa},
+$x=\alpha_1/\alpha_2+(2^{s}\kappa/B)\,\xi$ with integers $\alpha_1,\alpha_2$
+and $\alpha_2$, $\kappa$, $B$ odd.  Hence
+$|bx-a|_2=|b'\xi-a'|_2$ with $b'=2^{s}\kappa\alpha_2b$ and
+$a'=B(\alpha_2a-\alpha_1b)$.  The map $(a,b)\mapsto(a',b')$ is linear and
+invertible over $\Q$, so $\max(|a'|,|b'|)$ and $\max(|a|,|b|)$ agree up to
+constant factors, and $|b'|_2=2^{-s}$ for odd $b$.  Taking $d$ large and
+absorbing the constants into $\varepsilon$ proves the claim for odd $b$.
+
+Let now $\kappa_*=2L/(2-\theta)+\varepsilon$, so $\kappa_*>1$, let
+$b=2^{t}b_1$ with $b_1$ odd and $t\ge 1$, and $H=\max(|a|,|b|)$.  If
+$a\ne 0$ and $\vt(a)<t$, then $|bx-a|_2=|a|_2\ge|a|^{-1}\ge H^{-1}$.  If
+$a=0$, then $|bx-a|_2=|b|_2|x|_2\ge|x|_2H^{-1}$ with $x\ne 0$.  Otherwise
+$a=2^{t}a_1$, and with $H_1=\max(|a_1|,|b_1|)\le 2^{-t}H$ we get
+$|bx-a|_2=2^{-t}|b_1x-a_1|_2$.  If $H_1$ is large, the odd case gives
+$|bx-a|_2\ge 2^{-t}H_1^{-\kappa_*}\ge 2^{t(\kappa_*-1)}H^{-\kappa_*}\ge
+H^{-\kappa_*}$.  If $H_1$ is bounded, $|b_1x-a_1|_2$ is bounded below by a
+positive constant, since $x$ is irrational, and $2^{-t}\ge H^{-1}$.  In all
+cases $|bx-a|_2\ge c\,H^{-\kappa_*}$ for large $H$, with a constant $c>0$,
+and $\varepsilon$ absorbs it.
+\end{proof}
+
+With the degree-six pair of Example~\ref{ex:tm}, Theorem~\ref{thm:measure}
+gives the measure $\mu(6,13)=6.5$ for the Thue--Morse seed; the limit in
+Corollary~\ref{cor:exponent} is $4$.  We do not know the true exponents and
+have no reason to believe these bounds are sharp.  Theorem~\ref{thm:molchanov}
+below also yields an irrationality measure (the case $d=1$ of its
+transcendence measure); we did not determine the exponent it gives.
+Irrationality measures for $p$-adic values of Mahler functions are
+described as classical in \cite{Upstream}, with a reference to
+\cite{LoxtonvdPoorten1982}, which we did not obtain; an exponent of the
+same kind may well be contained there.  Bugeaud and Yao
+\cite{BugeaudYao2017} obtain explicit bounds for the irrationality exponent
+at points $p^{w}$.  We did not find the bound of
+Corollary~\ref{cor:exponent} in the sources we read, and we do not claim
+it as new.
+
+\section{Relation to earlier work}\label{sec:prior}
+
+We describe what we verified in each source.  ``Read'' means that the
+statement, and where indicated the proof, was read in the primary source.
+The assessment is limited to the sources listed; in particular no search of
+MathSciNet or zbMATH was possible, and ``we did not find'' means only that.
+
+\subsection{Density: Monks and Yazinski}
+Let $\kappa_n(x)$ be the number of ones among the first $n$ letters of
+$\pi(x)$.  Monks and Yazinski \cite[Theorem~2.7(b)]{MonksYazinski2004}
+prove: if $x\in\Qodd$ has an infinite orbit under $T$, then
+$\liminf_n\kappa_n(x)/n\ge\log 2/\log 3$.  We read the statement and the
+proof (their Lemmas 3.2, 3.4 and 4.1--4.3); the argument is elementary and
+covers negative rationals.
+
+\begin{proposition}\label{prop:sub}
+If $3^{r}<2^{L}$, Theorem~\ref{thm:main} follows from
+\cite[Theorem~2.7(b)]{MonksYazinski2004} and Lemma~\ref{lem:aperiodic}.
+\end{proposition}
+
+\begin{proof}
+Every block of $v$ has $r$ ones, so the number of ones in any $n$
+consecutive letters of $v$ differs from $rn/L$ by at most $2L$, and every
+tail of $v$ has density $r/L<\log 2/\log 3$.  A rational $x$ whose parity
+sequence eventually agrees with a tail of $v$ has an infinite orbit,
+because $v$ is not eventually periodic; this contradicts the theorem.
+\end{proof}
+
+The subcritical case also has a short direct proof, which is the one
+formalized.  Let $x=p/q$ with $q>0$ odd realise $v$ and write
+$T^{Ln}(x)=y_n/q$.  By \eqref{eq:blockrec}, $Ay_{n+1}=By_n+C_{v_n}q$ with
+$0\le C_{v_n}\le C:=\max(C_0,C_1)$.  If $B<A$ and
+$|y_n|\le K:=\max(|y_0|,Cq)$, then
+$|y_{n+1}|\le((A-1)K+K)/A=K$.  So the integers $y_n$ are bounded, two of
+them coincide, the orbit of $x$ is eventually periodic, and so is $v$,
+contrary to Lemma~\ref{lem:aperiodic}.
+
+Neither argument says anything when $3^{r}>2^{L}$.
+
+\subsection{L\'opez and Stoll}
+The preprint \cite{LopezStoll2021} (arXiv version~1, the only version;
+we found no published version) states as Theorem~1 that
+$\liminf_n\kappa_n(x)/n=\log 2/\log 3$ for every $x\in\Qodd$ with infinite
+orbit.  The inequality ``$\ge$'' is quoted from \cite{MonksYazinski2004}.
+The inequality ``$\le$'' would exclude all words of density above
+$\log 2/\log 3$, hence would give Theorem~\ref{thm:main} for
+$3^{r}>2^{L}$.  We read the proof in the TeX source.  It shows that the
+real series $-\sum_i2^{d_i}/3^{i+1}$ converges to a real number that is not
+in $\Qodd$ and then concludes that the $2$-adic sum of the same series is
+not in $\Qodd$ either.  The partial sums are rational numbers which
+converge in $\mathbb R$ and in $\Q_2$, but we found no argument for why a rational $2$-adic limit
+would have to coincide with the real limit.  The exact relation between
+the two is Lemma~\ref{lem:affine}: for $x\in\Qodd$ with parity sequence $v$,
+$T^{n}(x)=(3^{h}/2^{n})\,(x+\varphi(u)/3^{h})$, so $x$ differs from the real
+limit precisely when $|T^{n}(x)|$ grows like $3^{h}/2^{n}$, which is the
+case of an orbit escaping to infinity and is the case to be excluded.  We
+therefore treat that inequality as unproved and do not use it.  We do not
+claim that the statement is false.  The earlier paper \cite{LopezStoll2009}
+studies $\Phi$ on Sturmian words and says that its examples suggest
+aperiodicity; we found no rational-exclusion theorem there.
+
+\subsection{The $p$-adic Mahler method}\label{ssec:mahler}
+Mahler's method \cite{Mahler1929,Nishioka1996} proves transcendence of
+values of functions satisfying equations such as \eqref{eq:mahler} at
+algebraic points.  Its complex form (see \cite{AdamczewskiFaverjon2017} for
+the linear case) requires a point of the open
+complex unit disc and does not address a $2$-adic value; moreover
+$|2^{L}/3^{r}|>1$ in the archimedean sense when $3^r<2^L$.  The $p$-adic
+form is what applies.  The earliest statement we located and read is the
+following.
+
+\begin{theorem}[Molchanov {\cite{Molchanov1983}}, case of one variable]%
+\label{thm:molchanov}
+Let $p$ be a prime, $K$ a number field, $L\ge 2$ an integer, and let
+$f(z)\in K[[z]]$ converge in a neighbourhood $U$ of $0$ in the completion
+$\mathbb C_p$ of an algebraic closure of $\Q_p$.  Suppose $f$ is
+transcendental over $\mathbb C_p(z)$ and
+\[
+  f(z^{L})=\frac{a_{11}(z)f(z)+a_{12}(z)}{a_{21}(z)f(z)+a_{22}(z)},\qquad
+  a_{ij}\in K[z].
+\]
+Let $\alpha\in U$ be algebraic with $0<|\alpha|_p<1$ and suppose that the
+denominator $a_{21}f+a_{22}$ does not vanish at $\alpha^{L^{k}}$ for any
+$k\ge 0$.  Then $f(\alpha)$ is transcendental; more precisely, for every
+$d\ge 1$ the quantity $|P(f(\alpha))|_p$ is bounded below by an explicit
+negative power of the height $H$ of $P$, for all $P\in\Z[x]$ of degree $d$
+and sufficiently large $H$.
+\end{theorem}
+
+The original is stated for several variables and a matrix of exponents; we
+read the statement from the page images of the Russian original and
+specialised it.  Its proof follows Galochkin's archimedean method
+\cite{Galochkin1980}; we read it in outline and did not verify it line by
+line.  Related later statements are cited in \cite{BugeaudYao2017}, namely
+\cite{WangXu2006} (see also \cite{Wang2006}); we were not able to obtain
+these two papers.  Bugeaud and Yao \cite[Theorem~3.1]{BugeaudYao2017} prove
+transcendence and irrationality-exponent bounds for $p$-adic values of such
+functions at points $b=p^{w}$; the point $2^{L}/3^{r}$ is not of this form.
+
+\begin{corollary}[of Theorem~\ref{thm:molchanov}; not formalized]%
+\label{cor:transcendental}
+Granting Theorem~\ref{thm:molchanov} and the two classical facts quoted in
+the proof, the $2$-adic integer $x$ with parity sequence $v$ is
+transcendental for every fixed point $v$ of an equal-weight substitution.
+\end{corollary}
+
+\begin{proof}
+Take $p=2$, $K=\Q$, $f=V$, $\alpha=z_0=2^{L}/3^{r}$.  By \eqref{eq:mahler},
+\[
+  V(z^{L})=\frac{(1-z^{L})\,V(z)-p_0(z)}{(1-z^{L})\,\Gamma(z)},
+\]
+so $a_{21}=0$ and $a_{22}=(1-z^{L})\Gamma(z)$.  We have
+$0<|z_0|_2=2^{-L}<1$; $1-z_k^{L}$ is a $2$-adic unit; and
+$\vt(\Gamma(z_k))=sL^{k+1}$ because $\gamma_s=\pm1$, so the denominator does
+not vanish at $z_k=z_0^{L^{k}}$.  The series $V$ is not a rational function
+by Lemmas \ref{lem:rational} and \ref{lem:aperiodic}.  A power series with
+integer coefficients and radius of convergence one that is not rational is
+transcendental over $\Q(z)$ by a theorem of Fatou \cite{Fatou1906}; and a
+power series with rational coefficients that is algebraic over
+$\mathbb C_p(z)$ is algebraic over $\Q(z)$, since an algebraic relation of
+bounded degree is a system of linear equations with rational coefficients
+for the coefficients of the relation, and such a system with a nonzero
+solution in $\mathbb C_p$ has one in $\Q$.  (This is the chain used in the
+first lines of the proof of \cite[Theorem~3.1]{BugeaudYao2017}.)  Hence
+$V(z_0)$ is transcendental, and so is $x$ by \eqref{eq:seed}.
+\end{proof}
+
+Thus Theorem~\ref{thm:main} is a consequence of known theory, in a
+stronger qualitative form.  Section~\ref{sec:proof} is an elementary proof of the
+weaker irrationality statement; it uses a single linear form in $1$ and
+$V$ where the transcendence proof needs auxiliary polynomials of
+arbitrarily large degree in $V$.
+
+\subsection{Other related work}
+The project \cite{Upstream} contains a Lean proof and a written proof for
+the word generated by $1\mapsto 110$, $0\mapsto 011$ and natural-number
+seeds.  Its text says that irrationality and irrationality measures of $p$-adic
+values of Mahler functions are classical, citing
+\cite{LoxtonvdPoorten1982} among others, and makes no priority claim for
+irrationality.  It observes that a single linear form suffices when the
+leading remainder coefficient is odd or of known $2$-adic size, describes
+the extension to every equal-weight word as a programme requiring a
+certificate for each word and a parametric formal theorem, and notes that
+subcritical words are excluded by density.  The present paper carries out
+that programme: it shows that one certificate degree works for every
+word, gives the finite start for an arbitrary nonzero leading coefficient
+explicitly, treats rational seeds and all tails, and formalizes the
+result for the whole class.
+
+A recent preprint of Dejesus \cite{Dejesus2026}, of which we could read
+only the abstract, announces transcendence of $\Phi$ on Sturmian words of
+slope below an explicit bound, by approximation with periodic words and a
+$p$-adic form of Ridout's theorem, with a Lean formalization that assumes
+that theorem.  Sturmian words are not fixed points of constant-length
+substitutions with equal block weights, and the method is different; we did
+not determine whether it can be adapted to the present class.
+
+Lemma~\ref{lem:rational} is a special case of the classical fact that a
+rational power series with finitely many distinct coefficients has an
+eventually periodic coefficient sequence, and Lemma~\ref{lem:aperiodic} is
+presumably covered by the known classification of eventually periodic
+fixed points of binary substitutions (see \cite{AlloucheShallit2003} for
+background on constant-length substitutions); we did not locate a statement
+in exactly the form needed and give the short direct proofs instead.
+
+\section{Formal verification}\label{sec:formal}
+
+\subsection{Scope}
+The repository \cite{Repo} contains a Lean~4 development (toolchain
+\texttt{leanprover/lean4:v4.18.0}; no Mathlib and no other dependency).
+It formalizes Theorem~\ref{thm:main} \emph{for the fixed point beginning
+with $1$ of a substitution with $\mu(1)_0=1$}, together with Propositions
+\ref{prop:ledger}, \ref{prop:sharp} and \ref{prop:start}, the subcritical
+contraction argument of Section~\ref{sec:prior}, and Lemmas
+\ref{lem:affine}--\ref{lem:pair} in the forms needed.
+
+The formal proof does not mention $\Zt$.  A rational seed is a pair of
+integers $(p,q)$ with $q>0$ odd, the map is
+$p\mapsto p/2$ or $(3p+q)/2$ on numerators, and the tower is defined by the
+explicit integers \eqref{eq:start} and the recursion of
+Lemma~\ref{lem:transport}; the integrality of $u_{k+1}$ and the
+divisibility of $E_k$ by $2^{NL^{k+1}+\vt(R_N)}$ are proved from finite
+convolution identities and congruences between integers, in place of the
+convergent series used above.  The exponents and constants agree with
+those of Section~\ref{sec:proof}.  The formal version of
+Proposition~\ref{prop:criterion} carries the additional hypothesis
+$d\le N$, which is harmless here since $N\ge 2d+1$.
+
+\subsection{The formal statement}
+With Unicode symbols transliterated, the definitions are
+\begin{verbatim}
+def numStep (q p : Int) : Int :=
+  if p % 2 = 0 then p / 2 else (3 * p + q) / 2
+def numIter (q p : Int) : Nat -> Int
+  | 0 => p
+  | j + 1 => numStep q (numIter q p j)
+def seedParity (q p : Int) (j : Nat) : Int := (numIter q p j) % 2
+def RealizesWord (p q : Int) (v : Nat -> Int) : Prop :=
+  q > 0 /\ q % 2 = 1 /\ forall j : Nat, seedParity q p j = v j
+\end{verbatim}
+and the main theorem is
+\begin{verbatim}
+theorem no_rational_seed_realizes_all_equal_weight
+    {L : Nat} (hL : 2 <= L) (M : Morphism.Images L)
+    (h1 : Morphism.image M true 0 = true)
+    (hw : Morphism.weight (Morphism.image M false) L
+        = Morphism.weight (Morphism.image M true) L)
+    (hd : M.zero <> M.one) (p q : Int) :
+    Not (RealizesWord p q (Morphism.parityWord M))
+\end{verbatim}
+Here \texttt{M.zero}, \texttt{M.one} are the two images as functions
+$\{0,\dots,L-1\}\to\{\mathrm{false},\mathrm{true}\}$ and
+\texttt{parityWord M} is the unique sequence beginning with $1$ that
+satisfies \eqref{eq:block} (existence, the block rule and uniqueness are
+theorems \lean{Morphism.word_block} and \lean{Morphism.word_unique}).  Both
+divisions in \texttt{numStep} are exact, and fractions need not be reduced.
+Every element of $\Qodd$ is $p/q$ with $q>0$ odd, so the predicate ranges
+over all of $\Qodd$.
+
+\subsection{Correspondence}
+Table~\ref{tab:lean} lists the formal counterparts.  All names are in the
+namespace \texttt{CollatzLab}.
+
+\begin{table}[ht]
+\caption{Statements of the paper and their Lean counterparts.}\label{tab:lean}
+\small
+\begin{tabular}{@{}p{0.34\textwidth}p{0.62\textwidth}@{}}
+\toprule
+Statement & Lean declaration \\
+\midrule
+Lemma \ref{lem:affine} & \lean{Morphism.affine_prefix} \\
+Lemma \ref{lem:offset}, \eqref{eq:kappa} & \lean{Morphism.offsets_odd_multiple}, \lean{Morphism.kappa_spec} \\
+Lemma \ref{lem:aperiodic} (start $1$) & \lean{Morphism.not_eventually_periodic} \\
+Lemma \ref{lem:rational} & \lean{RationalSeries.rational_binary_eventually_periodic} \\
+Lemma \ref{lem:pair} & \lean{FiniteLinear.integer_null_vector}, \lean{PolynomialPair.polynomial_pair_exists}, \lean{RationalSeries.nonzero_residual} \\
+Lemma \ref{lem:transport}, \eqref{eq:start} & \lean{Morphism.initial_exact}, \lean{Morphism.tower_exact}, \lean{Morphism.denominator_odd}, \lean{Morphism.height_step} \\
+Lemma \ref{lem:valuation} & \lean{PolynomialPair.valuation}, \lean{nonunit_leading_valuation} \\
+Lemma \ref{lem:size} & \lean{PolynomialPair.form_power_bound} \\
+Proposition \ref{prop:criterion} & \lean{no_rational_seed_with_polynomial_pair}, \lean{no_eventual_doubly_exponential_bound} \\
+Proposition \ref{prop:ledger} & \lean{degree_six_numerical_gap}, \lean{Morphism.degree_six_ledger} \\
+Theorem \ref{thm:main}(1) (start $1$) & \lean{no_rational_seed_realizes_all_equal_weight} \\
+Theorem \ref{thm:main}(2) (start $1$) & \lean{no_rational_seed_realizes_shifted_all_equal_weight}, \lean{no_eventually_shifted_all_equal_weight_itinerary} \\
+Proposition \ref{prop:sharp} & \lean{MinimalCertificate.universal_certificate_degree_iff} \\
+Proposition \ref{prop:start} & \lean{Morphism.universal_bounded_degree_six_certificate}, \lean{Morphism.universal_degree_six_valuation} \\
+Subcritical contraction (Section \ref{sec:prior}) & \lean{no_rational_seed_realizes_subcritical_equal_weight} \\
+Thue--Morse instance, Example \ref{ex:tm} & \lean{no_rational_seed_realizes_thueMorse}, \lean{PolynomialPair.thueMorseSix_first}, \lean{PolynomialPair.thueMorseSix_finite_valuation} \\
+Unequal-weight control $010/101$ & \lean{Morphism.unequalAlternating_realized} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Proof status}
+Table~\ref{tab:status} records, for each result, how it is established:
+by a proof written in this paper, by a Lean kernel check, by a theorem of
+another author, or by a finite computation.  No result of the paper is
+conjectural.
+
+\begin{table}[ht]
+\caption{Proof status of the results.  ``Written'': complete proof in this
+paper.  ``Lean'': kernel-checked (fixed point beginning with $1$, integer
+form).  ``Cited'': rests on a published theorem.  ``Computed'': finite
+exact computation, not part of any proof.}\label{tab:status}
+\small
+\begin{tabular}{@{}p{0.40\textwidth}p{0.56\textwidth}@{}}
+\toprule
+Result & Status \\
+\midrule
+Theorem \ref{thm:main}, start letter $1$ & Written; Lean \\
+Theorem \ref{thm:main}, start letter $0$; Remark \ref{rem:powers} & Written \\
+Lemmas \ref{lem:affine}--\ref{lem:rational}, \ref{lem:mahler}, \ref{lem:pair}--\ref{lem:size}; Corollary \ref{cor:tower}; Propositions \ref{prop:criterion}, \ref{prop:ledger} & Written; Lean (as integer identities and congruences) \\
+Proposition \ref{prop:seed}, Theorem \ref{thm:value} ($2$-adic form) & Written; Lean only in the seed form of Theorem \ref{thm:main} \\
+Proposition \ref{prop:sharp} & Written; Lean; determinants also Computed \\
+Proposition \ref{prop:start} & Statement here; proof in Lean only \\
+Remark after Proposition \ref{prop:start} & Written (sketch) \\
+Example \ref{ex:tm} & Lean; Computed \\
+Theorem \ref{thm:measure}, Corollary \ref{cor:exponent} & Written; part (1) of Theorem \ref{thm:measure} also Computed for $L\le 4$ \\
+Proposition \ref{prop:sub} & Written; Cited \cite{MonksYazinski2004} \\
+Subcritical contraction argument (Section \ref{sec:prior}) & Written; Lean \\
+Theorem \ref{thm:molchanov} & Cited \cite{Molchanov1983} (statement read, proof read in outline) \\
+Corollary \ref{cor:transcendental} & Written deduction; Cited \cite{Molchanov1983,Fatou1906} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Not formalized}
+The following are proved or quoted in this paper only:
+\begin{itemize}
+\item Theorem~\ref{thm:main} for a fixed point beginning with $0$, and
+Remark~\ref{rem:powers};
+\item the formulation with $\Zt$: Proposition~\ref{prop:seed} as an identity
+in $\Zt$ and Theorem~\ref{thm:value} as a statement about $V(z_0)$ (the
+formal theorem is the seed form, which is what Theorem~\ref{thm:main}
+states for rational $x$);
+\item the remark after Proposition~\ref{prop:start}, and the irrationality
+measure of Section~\ref{ssec:measure} (Theorem~\ref{thm:measure} and
+Corollary~\ref{cor:exponent});
+\item everything in Section~\ref{sec:prior} that depends on the literature:
+Proposition~\ref{prop:sub}, Theorem~\ref{thm:molchanov} and
+Corollary~\ref{cor:transcendental}.
+\end{itemize}
+
+\subsection{Trust base and reproduction}
+The audit file of the repository prints the axioms of $306$ declarations,
+including all theorems of Table~\ref{tab:lean}; the only axioms that occur
+are \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}.
+The sources contain no \texttt{sorry}, \texttt{admit}, additional
+\texttt{axiom}, \texttt{native\_decide}, \texttt{unsafe},
+\texttt{implemented\_by} or \texttt{extern}; this is enforced by continuous
+integration.  All uses of \texttt{decide} are evaluated by the kernel.
+What is trusted is the Lean~4.18.0 kernel, the three axioms, and the
+reading of the definitions displayed above.
+\begin{verbatim}
+lake clean && lake build
+lake env lean research/lean-audit/FamilyAudit.lean \
+  | python3 research/lean-audit/check_axioms.py --expected-count 306
+python3 research/phase9/verify_independent.py
+\end{verbatim}
+The last command is an independent exact-arithmetic check, sharing no code
+with the formal development, of the identities of Sections
+\ref{sec:seed}--\ref{sec:quant} on all $144$ equal-weight substitutions
+with $\mu(1)_0=1$ and $2\le L\le 5$, of Example~\ref{ex:tm}, of the
+determinants and inequalities in the proof of
+Proposition~\ref{prop:sharp}, and of the identities and bounds of
+Theorem~\ref{thm:measure}(1).  It is a finite test and is not part of any
+proof.
+
+\section{Limitations and questions}\label{sec:limits}
+
+\begin{enumerate}
+\item The statement of Theorem~\ref{thm:main} follows from published theory
+(Section~\ref{ssec:mahler}).  The contribution is the elementary proof, the
+uniform certificate and the formalization.
+\item The formal theorem covers the fixed point beginning with $1$.  The
+extension to the other fixed point requires no new idea, since
+Sections~\ref{sec:prelim}--\ref{sec:proof} use only \eqref{eq:block}, but it
+has not been formalized.
+\item Our reading of \cite{Molchanov1983} is limited as described;
+\cite{WangXu2006,Wang2006} and the full text of \cite{Dejesus2026} were not
+available to us.
+\item The method uses equal block weights in an essential way: they make
+the point $z_0$ the same for every block and give the order-one equation
+\eqref{eq:mahler} in one variable.  Substitutions with unequal weights lead
+to products of different multipliers and are not covered; the example
+$010/101$ shows that some of them have rational seeds.
+\item The irrationality measure of Section~\ref{ssec:measure} is proved on
+paper only and is supported by a finite numerical test of its identities
+and bounds.  We do not know the true $2$-adic irrationality exponent of
+$\Phi(v)$; it would be of interest to know whether it equals $2$.
+\end{enumerate}
+
+\subsection*{Acknowledgements and disclosure}
+The Lean development, the audits and this text were produced with
+substantial assistance from AI coding agents working under human direction.
+Every formal statement cited is checked by the Lean kernel; the written
+proofs and the assessment of the literature have not been reviewed by an
+independent human referee.
+
+\bibliographystyle{amsplain}
+\bibliography{references}
+
+\end{document}

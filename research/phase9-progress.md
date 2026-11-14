@@ -9,31 +9,119 @@ reported "Already up to date".
 
 ## Resume here
 
-**State:** Gate 0 in progress. Nothing in the Lean or Rust code has been
-changed in Phase 9 so far.
+**One-line resume prompt:** `Resume issue #15 on main: read research/phase9-progress.md; the only open items are compiling paper/main.tex with a TeX engine, the author line, and owner review; do not close the issue without the owner.`
 
-**Next actions, in order:**
+**State (2026-11-14, after commit `604893b`):** all Gate 0–D deliverables
+are written, pushed and green in CI. The issue is **not closed**: its
+closing condition requires a manuscript "ready for external human
+review", and the PDF has never been compiled, the author line is a
+placeholder, and no human has read the proofs. Closing is left to the
+owner. No submission or publicity has taken place.
 
-1. Finish the Gate 0 source reading listed under "Outstanding checks" and
-   write `research/phase9-prior-art.md` (claim-to-source matrix).
-2. Gate A: read the Lean chain from `Word.lean` (`RealizesWord`) to
-   `UniversalEqualWeight.lean` and write `research/phase9-referee-report.md`.
-3. Gate B/D: write the independent proof and the manuscript in `paper/`.
+**Final validation at `604893be381cc8a24f4f9fe4ea6e130468d84d5d`**
+(clean clone, 2026-11-14T12:22Z):
 
-**Highest-risk open issue:** whether a published *p*-adic Mahler-method
-theorem (transcendence or irrationality of values of order-one Mahler
-functions at rational points of a *p*-adic disc) already contains the
-headline statement. See "Gate 0 working notes" below.
+| Check | Result |
+|---|---|
+| `lake clean && lake build` | success, 55 jobs, 42 s |
+| axiom audit, `--expected-count 306` | 306 declarations; only `propext`, `Classical.choice`, `Quot.sound`; parser self-test passes |
+| proof-escape scan | no match |
+| `cargo fmt --check` / `clippy -D warnings` | clean / no warnings |
+| `cargo test --locked --all-targets` | 94 passed, 0 failed |
+| `verify_uncovered.py --check`, `phase8/verify_polynomial.py` | pass |
+| `phase9/verify_independent.py` (T1–T9) | pass |
+| `paper/check_tex.py`, Lean name check (32 names) | pass |
+| TeX build | **not run**: no TeX engine; downloading one was refused by the session permission policy |
+
+**Gate 0 verdict** (`phase9-prior-art.md` §0): the headline irrationality
+statement is **not new** — it follows from S. M. Molchanov's 1983 *p*-adic
+Mahler theorem, which even gives transcendence. López–Stoll Theorem 1
+has a gap (real limit identified with 2-adic limit). The subcritical
+half is a short corollary of Monks–Yazinski 2.7(b).
+
+**Gate A verdict** (`phase9-referee-report.md` §1): no correctness
+defect; findings F1 (framing), F2 (formal statement covers only the
+fixed point starting with `1`), F3 (degree six is interface-specific),
+F4 (conjugacy-map phrasing needs a cited bijection), F5 (stale memos).
+
+**Framing used in the paper:** elementary, integer-arithmetic,
+machine-checked proof of a known consequence of the *p*-adic Mahler
+method, with an explicit uniform certificate. No "new theorem" claim.
+
+**Added after the first manuscript commit:** `paper/main.tex` §5.3
+(Theorem 5.5, Corollary 5.6) proves an explicit 2-adic irrationality
+measure for the seed, exponent `2L/(2-theta)` with
+`theta = max(1, (r/L) log2 3)` (Thue–Morse: 6.5 from the degree-six
+pair, limit 4). Paper only; `verify_independent.py` T9 tests the
+integrality, the size bound and the exact valuation of the pulled-back
+forms on all 34 admissible substitutions with `L <= 4`. Recorded as
+matrix row 11 in `phase9-prior-art.md` as **unresolved**: the upstream
+text calls irrationality measures for *p*-adic Mahler values classical
+(Loxton–van der Poorten 1982, not obtained), so the paper does not claim
+it as new.
+
+**What is still open (in order of value):**
+
+1. **The PDF has never been built.** No TeX engine is installed, and an
+   attempt to download a standalone engine into the scratch directory
+   was refused by the session's permission policy. `paper/check_tex.py`
+   is a static substitute only. First action for anyone with TeX:
+   `cd paper && latexmk -pdf main.tex`, fix what it reports.
+2. The author line in `paper/main.tex` is a placeholder (`\paperauthor`).
+3. Finding F2: the Lean theorem covers the fixed point beginning with
+   `1`; the paper proves the other fixed point on paper only.
+   **Decision (2026-11-14): not formalized in Phase 9.** No reduction to
+   the existing theorem exists (complementing letters does not commute
+   with `T`), so it needs the start letter threaded through the whole
+   `Morphism*` chain (`word_zero`/`word_first_block` are used in
+   `MorphismPrefix`, `MorphismTower`, `MorphismOffset`, `MorphismApprox`,
+   `MorphismTransport`). The concurrent Codex branch
+   `codex/unequal-weight-contraction` (open PR #17, on integration hold)
+   builds on the same `Morphism.Images` interface and also edits
+   `.github/workflows/ci.yml`, `CollatzLab.lean` and
+   `research/lean-audit/FamilyAudit.lean`; a refactor on `main` would
+   break that branch. Revisit only after PR #17 is resolved.
+4. Sources not obtained: Wang 2006, Wang–Xu 2006, Loxton–van der
+   Poorten 1982, full text of Dejesus 2026. Molchanov's proof was read
+   in outline only.
+5. Issue #15 must stay open until the owner has reviewed the manuscript;
+   no submission or publicity.
+
+**Highest-risk open issue:** the manuscript's written proofs have had no
+independent human reader, and the "known" verdict rests on the published
+statement of Molchanov's theorem.
+
+**Working-copy note.** At 10:50:45 UTC a concurrent Codex session
+switched the shared checkout `/home/user/DEV/collatz-lab` to its own
+branch `codex/unequal-weight-contraction`. One Phase 9 commit landed on
+that branch by accident; it was re-applied to `main` (`2ee7681`) and
+removed from that branch with a compare-and-swap ref update, leaving
+the other session's branch and files as they were. Since then Phase 9
+commits are made from a separate plain clone of `origin` on `main`
+(no branch, worktree or PR). When resuming, check
+`git rev-parse --abbrev-ref HEAD` before committing.
 
 ## Gate checklist
 
 | Gate | Status |
 |---|---|
-| 0 — López–Stoll / prior-art red flag | in progress; preliminary reading complete, verdict not yet recorded as final |
-| A — adversarial mathematical and Lean review | not started |
-| B — independent proof reconstruction | not started |
-| C — literature review and novelty verdict | not started (overlaps Gate 0) |
-| D — manuscript | not started; blocked on 0, A, C |
+| 0 — López–Stoll / prior-art red flag | **resolved**: `phase9-prior-art.md` §0 |
+| A — adversarial mathematical and Lean review | **complete**: `phase9-referee-report.md` |
+| B — independent proof reconstruction | **written**: `paper/main.tex` §§2–4 (2-adic presentation; exponents agree with the Lean integer proof); numerically cross-checked by `research/phase9/verify_independent.py` |
+| C — literature review and novelty verdict | **written**: `phase9-prior-art.md` §§5a–7; open items in its §7 |
+| D — manuscript | **written, not compiled**: `paper/`; static checks pass |
+
+## CI record
+
+| Commit | Content | Run |
+|---|---|---|
+| `d2a71fa` | journal started | <https://github.com/hipotures/collatz-lab/actions/runs/43587089247> success |
+| `2ee7681` | Gate 0 | <https://github.com/hipotures/collatz-lab/actions/runs/43587705634> success |
+| `da4f5b0` | Gate A | <https://github.com/hipotures/collatz-lab/actions/runs/43589026117> success |
+| `6a6b4a0` | manuscript, bibliography, static checks | <https://github.com/hipotures/collatz-lab/actions/runs/43593203252> success |
+| `a7b017f` | irrationality measure | <https://github.com/hipotures/collatz-lab/actions/runs/43593983443> success |
+| `923b247` | keywords, proof-status table, formal Thue–Morse pair | <https://github.com/hipotures/collatz-lab/actions/runs/43594278399> success |
+| `604893b` | second referee pass corrections | <https://github.com/hipotures/collatz-lab/actions/runs/43594509375> success |
 
 ## Environment (checked 2026-11-14)
 
@@ -43,7 +131,11 @@ headline statement. See "Gate 0 working notes" below.
 - No TeX distribution found on `PATH` (`tex`, `pdflatex`, `xelatex`,
   `lualatex`, `tectonic`, `latexmk` all absent). A manuscript can be
   written but not compiled here unless a TeX engine is installed.
-- Network access to arXiv and author pages works.
+- Network access to arXiv and author pages works. Crossref API works
+  (used to verify every bibliography entry). SSRN and Springer refuse
+  automated access; zbMATH Open API returned a proxy error.
+- Downloading a standalone TeX engine (Tectonic) into the scratch
+  directory was refused by the session's permission policy; not retried.
 
 ## Source inventory
 
@@ -54,7 +146,15 @@ source during Phase 9, not taken from a summary.
 |---|---|---|
 | J. López, P. Stoll, *The 3x+1 Periodicity Conjeture in R*, arXiv:2101.12747v1 (29 Jan 2021; arXiv lists only v1; 51 pp.) | arXiv TeX source and PDF | Read: Introduction I–II, Sections "Basic facts", "Auxiliary results", "Proof of Theorem 1", bibliography |
 | K. G. Monks, J. Yazinski, *The autoconjugacy of the 3x+1 function*, Discrete Math. 275 (2004) 219–236 | author PDF `AutoConjV13.pdf` (14 pp.) | Read: Theorem 2.7, Lemmas 3.2, 3.4, 4.1–4.3 and the proof of Theorem 2.7 |
-| J. López, P. Stoll, *The 3x+1 conjugacy map over a Sturmian word*, Integers 9 (2009) A13, 141–162 | journal PDF | Abstract and introduction read (text extraction is poor); it computes a 2-adic continued fraction and says its examples "suggest" aperiodicity; no rational-exclusion theorem located yet |
+| J. López, P. Stoll, *The 3x+1 conjugacy map over a Sturmian word*, Integers 9 (2009) A13, 141–162 | journal PDF | Abstract and introduction read (text extraction is poor); it computes a 2-adic continued fraction and says its examples "suggest" aperiodicity; no rational-exclusion theorem located |
+| S. M. Molchanov, Vestnik Moskov. Univ. Ser. I Mat. Mekh. 1983, no. 2, 31–37 (Russian) | Math-Net.Ru scan (`vmumm3467`) | Read: theorem statement from page images; proof in outline |
+| Y. Bugeaud, J.-Y. Yao, Ann. Mat. Pura Appl. 196 (2017) 929–946 | author PDF `p-adic18.pdf` | Read: introduction, Theorem 3.1 and the first part of its proof, bibliography |
+| D. J. Bernstein, J. C. Lagarias, *The 3x+1 conjugacy map*, Canad. J. Math. 48 (1996) 1154–1169 | Lagarias's PDF (dated 1996-02-15) | Read: introduction, formulas (1.5)–(1.6), statement that `Phi` preserves `Q ∩ Z_2` |
+| `msharpe248/collatz` | commit `ec8174b5` (2026-09-06), still default-branch head | Read: `paper/rung1.tex` introduction, §"Relation to Mahler's method", bibliography |
+| T. Q. Wang (2006); T.-Q. Wang, G.-S. Xu (2006) | — | **Not obtained** (login/captcha); known only through Bugeaud–Yao's citation |
+| E. Dejesus, *Transcendence of the 3x+1 conjugacy map on Sturmian words*, SSRN preprint, DOI 10.2139/ssrn.7584439 (2026) | Crossref record only | Abstract read; full text **not obtained** |
+| O. Rozier, arXiv:1805.00133; J. Yazinski, arXiv:1102.5547 | arXiv abstract pages | Abstracts read; not relevant to the rational-exclusion statement |
+| Bibliographic metadata of all 20 entries of `paper/references.bib` | Crossref / arXiv / Math-Net.Ru records | Checked 2026-11-14; entries not read are marked in the `note` field |
 
 ## Gate 0 working notes (preliminary; to be finalised in `phase9-prior-art.md`)
 
@@ -106,20 +206,40 @@ number of ones among the first `l` symbols.
 
 ## Outstanding checks
 
-- [ ] Publication status of arXiv:2101.12747 (journal version, later
-      revision, citing or correcting papers).
-- [ ] *p*-adic Mahler method: locate and read primary statements
-      (candidates to verify, none yet confirmed: work of Loxton–van der
-      Poorten, Nishioka, Becker, Bundschuh–Väänänen, T.-Q. Wang,
-      Bugeaud–Yao, Adamczewski–Faverjon).
-- [ ] Current state of the upstream project `msharpe248/collatz`
-      (its `paper/rung1.tex` reportedly describes the equal-weight class
-      as a programme).
-- [ ] Bernstein–Lagarias 1996 and Lagarias 1985/1990 primary statements.
-- [ ] Baseline re-verification on this checkout (Lean build, axiom
-      audit, Rust, Python checkers).
+- [x] Publication status of arXiv:2101.12747: arXiv API lists v1 only,
+      no journal reference (2026-11-14).
+- [x] *p*-adic Mahler method: Molchanov 1983 located and read.
+- [x] Upstream project state: unchanged since `ec8174b5`.
+- [x] Bernstein–Lagarias 1996 formula checked.
+- [x] Numerical check of the seed identity used in the prior-art
+      derivation: 574 admissible morphisms with `2 <= L <= 6`, modulus
+      `2^200`, first 40 parities (scratch script, not committed).
+- [ ] Wang 2006, Wang–Xu 2006, Loxton–van der Poorten 1982 statements.
+- [x] Baseline re-verification on a fresh clone: Lean build, 306-entry
+      axiom audit, proof-escape scan, `cargo fmt/clippy/test` (94 tests),
+      both Python checkers — all pass (referee report §2, §7).
 
 ## Checkpoint log
 
 - 2026-11-14: journal created at `d6df8a2`; Gate 0 reading of
   López–Stoll and Monks–Yazinski done; preliminary notes above.
+- 2026-11-14: Gate 0 resolved; `phase9-prior-art.md` written.
+- 2026-11-14: Gate A complete; `phase9-referee-report.md` and
+  `research/phase9/verify_independent.py` added.
+- 2026-11-14: Gates B and D written: `paper/` (manuscript, verified
+  bibliography, README, static checker); `verify_independent.py`
+  extended with T7 (lower-bound example) and T8 (explicit Thue–Morse
+  pair); CI extended; second Gate C pass recorded one adjacent preprint
+  (Dejesus 2026, abstract only).
+- 2026-11-14: irrationality-measure subsection added to the manuscript
+  (paper only), verifier test T9, prior-art matrix row 11.
+- 2026-11-14: second referee pass over the manuscript. Corrected: the
+  claim that Thue–Morse is the only length-two equal-weight substitution
+  (there are two; the other has no fixed point); the comparison with the
+  upstream text, which already anticipates non-unit leading coefficients
+  and calls irrationality measures for *p*-adic Mahler values classical
+  (now cited, Loxton–van der Poorten 1982, not obtained; matrix rows 5
+  and 11 revised, row 11 now "unresolved"); the Thue–Morse example now
+  uses the formal pair `thueMorseSix` (`R_13 = 8`). Added keywords, MSC
+  codes, draft label and a proof-status table (Table 2). Corollary 5.6
+  extended to all `b != 0` with a two-sided height comparison.
