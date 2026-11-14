@@ -235,9 +235,14 @@ restriction to integers or powers of `p`.
   first one (p. 464) for exactly the deduction "transcendental function
   with an order-one Mahler equation and non-vanishing coefficients
   implies transcendental *p*-adic value".
-- J. H. Loxton and A. J. van der Poorten, J. Reine Angew. Math. 330
-  (1982), 159–172, and the Bundschuh–Väänänen papers named (without
-  precise references) by the upstream project. Not obtained.
+- J. H. Loxton and A. J. van der Poorten, *Arithmetic properties of the
+  solutions of a class of functional equations*, J. Reine Angew. Math.
+  330 (1982), 159–172, DOI 10.1515/crll.1982.330.159 (metadata checked
+  in Crossref), and the Bundschuh–Väänänen papers named (without precise
+  references) by the upstream project. Not obtained. The upstream text
+  (paragraph "Where this sits in the literature") cites them for the
+  classical status of irrationality **and irrationality measures** of
+  *p*-adic Mahler values; this bears on matrix row 11.
 
 **Bugeaud–Yao (source checked).** Y. Bugeaud and J.-Y. Yao, *Hankel
 determinants, Padé approximations, and irrationality exponents for
@@ -380,13 +385,13 @@ that text is listed in §6.
 | 2 | Frequency-based short proof | Monks–Yazinski | Only `3^r<2^L` | **Known direct corollary** for that half; no valid frequency proof for the other half is known to me |
 | 3 | Special cases (`mu_L` family, Thue–Morse `10/01`, `110/011`) | Upstream `rung1.tex` (one word); Molchanov | Covered | **Known by a related theorem**; the Thue–Morse-type 2-adic values at `p^w` are in Bugeaud–Yao, our point differs |
 | 4 | Degree-six polynomial pair exists for every sequence and closes the height ledger uniformly in `L, r` | Standard Padé/Siegel-lemma linear algebra; upstream certificate-per-word programme | The uniform closing degree is not stated in the sources read | **Possibly new quantitative refinement** of a known method (unresolved: not searched exhaustively) |
-| 5 | Proof needs only a linear form `P_0 + P_1 F` and integer arithmetic; non-unit leading coefficient handled by an explicit finite start | Upstream `rung1.tex` observes the degree-one phenomenon for odd leading coefficient | Non-unit case and uniformity are additions | **Possibly new proof** (elementary variant of a known method) |
+| 5 | Proof needs only a linear form `P_0 + P_1 F` and integer arithmetic; non-unit leading coefficient handled by an explicit finite start | Upstream `rung1.tex`, paragraph "The whole rung": a per-word Padé certificate "with odd leading coefficient (or leading coefficient of known 2-adic size)" | The linear-form method and the non-unit idea are anticipated upstream; additions are the uniform existence of the certificate for every word, the explicit finite start, rational seeds and the parametric formal theorem | **Possibly new proof** in its uniform form (elementary variant of a known method) |
 | 6 | Lean 4 kernel-checked formalisation with semantic audit | Upstream `Rung1.lean` (one word, natural seeds) | Earlier formalisation of one instance exists | **Formalization contribution** |
 | 7 | Degree six is least for the implemented certificate interface | none found | Interface-specific | **Possibly new**, of limited scope; says nothing about other methods |
 | 8 | Uniform starting level 6 and coefficient bound `720*2^57` | none found | Interface-specific | **Possibly new quantitative refinement**, of limited scope |
 | 9 | Rational series with bounded integer coefficients are eventually periodic (and converse) | Classical (Fatou; standard texts) | Same statement | **Known**; formalisation only |
 | 10 | Fixed point is not eventually periodic under H1–H3 | Classification of periodic binary D0L words (not obtained) | Expected to cover it | **Known by a related theorem (plausible)**; direct proof is elementary |
-| 11 | Explicit 2-adic irrationality measure for the seed, exponent `2L/(2-theta)`, `theta = max(1,(r/L) log2 3)` (manuscript Thm 5.5, Cor 5.6; added in Phase 9, paper only) | Molchanov 1983 gives a transcendence measure, hence some irrationality measure, with an exponent I did not extract; Bugeaud–Yao give explicit exponents only at points `p^w` | Different point; exponent explicit here | **Possibly new quantitative refinement** (unresolved: not searched exhaustively; not formalized) |
+| 11 | Explicit 2-adic irrationality measure for the seed, exponent `2L/(2-theta)`, `theta = max(1,(r/L) log2 3)` (manuscript Thm 5.5, Cor 5.6; paper only) | Molchanov 1983 (transcendence measure, exponent not extracted); Loxton–van der Poorten 1982, cited upstream as a classical source for irrationality measures of *p*-adic Mahler values (not obtained); Bugeaud–Yao (points `p^w` only) | An exponent of the same kind may be in Loxton–van der Poorten | **Unresolved** (possibly a new explicit quantitative refinement; not formalized) |
 
 ## 7. Open items
 

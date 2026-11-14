@@ -49,8 +49,18 @@ matrix row 11 in `phase9-prior-art.md` ("possibly new", unresolved).
    `cd paper && latexmk -pdf main.tex`, fix what it reports.
 2. The author line in `paper/main.tex` is a placeholder (`\paperauthor`).
 3. Finding F2: the Lean theorem covers the fixed point beginning with
-   `1`; the paper proves the other fixed point on paper only. A Lean
-   generalisation is optional work.
+   `1`; the paper proves the other fixed point on paper only.
+   **Decision (2026-11-14): not formalized in Phase 9.** No reduction to
+   the existing theorem exists (complementing letters does not commute
+   with `T`), so it needs the start letter threaded through the whole
+   `Morphism*` chain (`word_zero`/`word_first_block` are used in
+   `MorphismPrefix`, `MorphismTower`, `MorphismOffset`, `MorphismApprox`,
+   `MorphismTransport`). The concurrent Codex branch
+   `codex/unequal-weight-contraction` (open PR #17, on integration hold)
+   builds on the same `Morphism.Images` interface and also edits
+   `.github/workflows/ci.yml`, `CollatzLab.lean` and
+   `research/lean-audit/FamilyAudit.lean`; a refactor on `main` would
+   break that branch. Revisit only after PR #17 is resolved.
 4. Sources not obtained: Wang 2006, Wang–Xu 2006, Loxton–van der
    Poorten 1982, full text of Dejesus 2026. Molchanov's proof was read
    in outline only.
@@ -89,6 +99,7 @@ commits are made from a separate plain clone of `origin` on `main`
 | `2ee7681` | Gate 0 | <https://github.com/hipotures/collatz-lab/actions/runs/43587705634> success |
 | `da4f5b0` | Gate A | <https://github.com/hipotures/collatz-lab/actions/runs/43589026117> success |
 | `6a6b4a0` | manuscript, bibliography, static checks | <https://github.com/hipotures/collatz-lab/actions/runs/43593203252> success |
+| `a7b017f` | irrationality measure | <https://github.com/hipotures/collatz-lab/actions/runs/43593983443> success |
 
 ## Environment (checked 2026-11-14)
 
@@ -200,3 +211,13 @@ number of ones among the first `l` symbols.
   (Dejesus 2026, abstract only).
 - 2026-11-14: irrationality-measure subsection added to the manuscript
   (paper only), verifier test T9, prior-art matrix row 11.
+- 2026-11-14: second referee pass over the manuscript. Corrected: the
+  claim that Thue–Morse is the only length-two equal-weight substitution
+  (there are two; the other has no fixed point); the comparison with the
+  upstream text, which already anticipates non-unit leading coefficients
+  and calls irrationality measures for *p*-adic Mahler values classical
+  (now cited, Loxton–van der Poorten 1982, not obtained; matrix rows 5
+  and 11 revised, row 11 now "unresolved"); the Thue–Morse example now
+  uses the formal pair `thueMorseSix` (`R_13 = 8`). Added keywords, MSC
+  codes, draft label and a proof-status table (Table 2). Corollary 5.6
+  extended to all `b != 0` with a two-sided height comparison.
