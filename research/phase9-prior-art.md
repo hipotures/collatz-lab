@@ -386,6 +386,7 @@ that text is listed in §6.
 | 8 | Uniform starting level 6 and coefficient bound `720*2^57` | none found | Interface-specific | **Possibly new quantitative refinement**, of limited scope |
 | 9 | Rational series with bounded integer coefficients are eventually periodic (and converse) | Classical (Fatou; standard texts) | Same statement | **Known**; formalisation only |
 | 10 | Fixed point is not eventually periodic under H1–H3 | Classification of periodic binary D0L words (not obtained) | Expected to cover it | **Known by a related theorem (plausible)**; direct proof is elementary |
+| 11 | Explicit 2-adic irrationality measure for the seed, exponent `2L/(2-theta)`, `theta = max(1,(r/L) log2 3)` (manuscript Thm 5.5, Cor 5.6; added in Phase 9, paper only) | Molchanov 1983 gives a transcendence measure, hence some irrationality measure, with an exponent I did not extract; Bugeaud–Yao give explicit exponents only at points `p^w` | Different point; exponent explicit here | **Possibly new quantitative refinement** (unresolved: not searched exhaustively; not formalized) |
 
 ## 7. Open items
 

@@ -31,6 +31,15 @@ F4 (conjugacy-map phrasing needs a cited bijection), F5 (stale memos).
 machine-checked proof of a known consequence of the *p*-adic Mahler
 method, with an explicit uniform certificate. No "new theorem" claim.
 
+**Added after the first manuscript commit:** `paper/main.tex` §5.3
+(Theorem 5.5, Corollary 5.6) proves an explicit 2-adic irrationality
+measure for the seed, exponent `2L/(2-theta)` with
+`theta = max(1, (r/L) log2 3)` (Thue–Morse: 6.5 from the degree-six
+pair, limit 4). Paper only; `verify_independent.py` T9 tests the
+integrality, the size bound and the exact valuation of the pulled-back
+forms on all 34 admissible substitutions with `L <= 4`. Recorded as
+matrix row 11 in `phase9-prior-art.md` ("possibly new", unresolved).
+
 **What is still open (in order of value):**
 
 1. **The PDF has never been built.** No TeX engine is installed, and an
@@ -79,6 +88,7 @@ commits are made from a separate plain clone of `origin` on `main`
 | `d2a71fa` | journal started | <https://github.com/hipotures/collatz-lab/actions/runs/43587089247> success |
 | `2ee7681` | Gate 0 | <https://github.com/hipotures/collatz-lab/actions/runs/43587705634> success |
 | `da4f5b0` | Gate A | <https://github.com/hipotures/collatz-lab/actions/runs/43589026117> success |
+| `6a6b4a0` | manuscript, bibliography, static checks | <https://github.com/hipotures/collatz-lab/actions/runs/43593203252> success |
 
 ## Environment (checked 2026-11-14)
 
@@ -188,3 +198,5 @@ number of ones among the first `l` symbols.
   extended with T7 (lower-bound example) and T8 (explicit Thue–Morse
   pair); CI extended; second Gate C pass recorded one adjacent preprint
   (Dejesus 2026, abstract only).
+- 2026-11-14: irrationality-measure subsection added to the manuscript
+  (paper only), verifier test T9, prior-art matrix row 11.

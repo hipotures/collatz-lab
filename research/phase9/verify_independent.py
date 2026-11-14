@@ -25,6 +25,10 @@ admissible substitutions of small length:
       degrees with the forced order 2d+1, while it holds for degree six.
   T8  The explicit Thue-Morse pair printed in the manuscript has order 13
       and leading remainder coefficient -8.
+  T9  The pulled-back linear forms of the irrationality-measure theorem:
+      the integers Q_k, P_k are integral, bounded by the stated B_k, and
+      v2(Q_k xi - P_k) equals w_k, for all admissible substitutions with
+      2 <= L <= 4.
 
 All checks are finite.  They support, and do not replace, the proofs.
 """
@@ -289,6 +293,51 @@ def check_thue_morse_pair():
     assert 4 ** (6 * 1 + 2 + 1) < 2 ** (2 * 1 * 13)
 
 
+def check_pulled_back_forms(m0, m1, d, levels):
+    """Theorem on the irrationality measure, part (1)."""
+    L, r = len(m0), sum(m1)
+    word = fixed_point({0: m0, 1: m1}, 4000)
+    p0, p1 = degree_pair(word, d)
+    N = next(n for n in range(3000) if residual(p0, p1, word, n) != 0)
+    lead = residual(p0, p1, word, N)
+    nu = (lead & -lead).bit_length() - 1
+    diff = [j for j in range(L) if m0[j] != m1[j]]
+    s, e = diff[0], diff[-1]
+    m = max(2 ** L, 3 ** r)
+    assert m ** (d * (L - 1) + L + e) < 2 ** (L * (L - 1) * N)
+    norm = max(abs(c) for c in p0 + p1)
+    xi = series_value(fixed_point({0: m0, 1: m1}, M_BITS + L), 1 << L, 3 ** r)
+    a, b = 1 << L, 3 ** r
+    lam, lam_g, lam_s = 1, 1, 0          # Lambda_k, Lambda_k G_k, Lambda_k S_k
+    g, s_sum = Fraction(1), Fraction(0)  # G_k, S_k as exact rationals
+    tested = 0
+    for k in range(levels + 1):
+        assert Fraction(lam_g) == lam * g and Fraction(lam_s) == lam * s_sum
+        w = N * L ** (k + 1) + nu + s * L * (L ** k - 1) // (L - 1)
+        p0_star = sum(c * a ** j * b ** (d - j) for j, c in enumerate(p0))
+        p1_star = sum(c * a ** j * b ** (d - j) for j, c in enumerate(p1))
+        q_k = lam * p1_star
+        p_k = p1_star * lam_s - lam_g * p0_star
+        bound = (3 * (d + 1) * norm * L ** k * m ** (d * L ** k)
+                 * m ** ((L + e) * (L ** k - 1) // (L - 1)))
+        assert max(abs(q_k), abs(p_k)) <= bound
+        if L ** (k + 1) > nu and w + 8 < M_BITS:
+            assert v2(q_k * xi - p_k) == w, (m0, m1, k)
+            tested += 1
+        q0 = sum(m0[j] * a ** j * b ** (L - 1 - j) for j in range(L))
+        g_star = sum((m1[s + i] - m0[s + i]) * a ** i * b ** (e - s - i)
+                     for i in range(e - s + 1))
+        den = b ** L - a ** L
+        s_sum += g * Fraction(b * q0, den)
+        g *= Fraction(a ** s * g_star, b ** e)
+        lam_s = lam_s * b ** e * den + lam_g * b ** (e + 1) * q0
+        lam_g = lam_g * a ** s * g_star * den
+        lam = lam * b ** e * den
+        a, b = a ** L, b ** L
+    assert tested >= 1
+    return N
+
+
 def main():
     count = 0
     stats = {}
@@ -330,6 +379,15 @@ def main():
           "; inequality fails for degrees 0..5 and holds for degree 6")
     check_thue_morse_pair()
     print("T8: explicit Thue-Morse pair has order 13 and leading coefficient -8")
+    forms = 0
+    for L in range(2, 5):
+        for m0, m1 in admissible(L):
+            check_pulled_back_forms(m0, m1, 6, 2 if L <= 3 else 1)
+            forms += 1
+    assert check_pulled_back_forms([0, 1], [1, 0], 6, 1) == 13
+    # mu(6, 13) for Thue-Morse: L (L(L-1)N + sL) / (L(L-1)N + sL - (d(L-1)+L+e) log2 m)
+    assert Fraction(2 * 26, 26 - 9 * 2) == Fraction(13, 2)
+    print(f"T9: pulled-back linear forms verified for {forms} substitutions with 2 <= L <= 4")
     print("all independent checks passed")
     return 0
 

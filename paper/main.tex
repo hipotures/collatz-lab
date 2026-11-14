@@ -55,7 +55,9 @@ proof that uses only integer arithmetic and one explicit linear form: a
 polynomial pair of degree at most six with vanishing order at least
 thirteen suffices uniformly in the substitution, with no assumption on the
 leading coefficient of the remainder and no comparison between $2^L$ and
-$3^r$.  For the fixed point that begins with the letter $1$, the complete
+$3^r$.  The same linear forms give an explicit $2$-adic irrationality
+measure for the seed, with exponent $2L/(2-\theta)$ where
+$\theta=\max(1,(r/L)\log_23)$; this part is not formalized.  For the fixed point that begins with the letter $1$, the complete
 argument is formalized in Lean~4 without external libraries and is checked
 by the Lean kernel from three standard axioms.  We state precisely which
 parts are formalized, which are proved only on paper, and which are quoted
@@ -130,8 +132,9 @@ $V(z)=\sum_n v_nz^n$, and $V$ satisfies a Mahler functional equation of
 order one.  A theorem of Molchanov \cite{Molchanov1983} on values of such
 functions at algebraic points of the open $p$-adic unit disc then yields
 that $\Phi(v)$ is transcendental
-(Corollary~\ref{cor:transcendental}).  We verified the hypotheses of that
-theorem for our function, but we read its proof only in outline.
+(Corollary~\ref{cor:transcendental}).  We checked that the hypotheses of
+that theorem hold for our function, using two classical facts which we
+quote, but we read its proof only in outline.
 \item If $3^{r}<2^{L}$, part (1) and part (2) follow in two lines from a
 theorem of Monks and Yazinski \cite{MonksYazinski2004} on the density of
 ones in parity sequences of rational numbers with infinite orbit, once $v$
@@ -163,6 +166,12 @@ need not be odd; a non-unit coefficient only delays the level at which
 the estimate starts (Lemma~\ref{lem:valuation}, Example~\ref{ex:tm}).  For
 the specific height inequality used, six is the least degree that works
 for all substitutions (Proposition~\ref{prop:sharp}).
+\item \emph{An explicit irrationality measure.}  The linear forms can be
+pulled back to the point $z_0$ and give
+$|bx-a|_2\ge\max(|a|,|b|)^{-2L/(2-\theta)-\varepsilon}$ for the seed $x$ and
+all integers $a,b$ with $b\ne 0$ and large height, where
+$\theta=\max(1,(r/L)\log_23)$ (Theorem~\ref{thm:measure},
+Corollary~\ref{cor:exponent}).  This part is proved on paper only.
 \item \emph{A formal proof.}  For the fixed point beginning with $1$ the
 whole argument, including Theorem~\ref{thm:main} for all tails, is
 formalized in Lean~4 \cite{Lean4} with no dependency beyond the core
@@ -180,8 +189,9 @@ $\vt(2)=1$.  A sequence $(v_n)$ is \emph{eventually periodic} if there are
 $n_0\ge 0$ and $p\ge 1$ with $v_{n+p}=v_n$ for all $n\ge n_0$; such a $p$ is
 an \emph{eventual period}.  A power series $\sum_n c_nz^n$ with $c_n\in\Z$
 converges in $\Zt$ at every $z\in 2\Zt$, and evaluation at such a point is
-a ring homomorphism on $\Z[[z]]$; this is the only fact about $\Zt$ that we
-use besides the ultrametric inequality.
+a ring homomorphism on $\Z[[z]]$.  Besides this we use only the
+ultrametric inequality and the fact that $\Q\cap\Zt$ consists of the
+fractions with odd denominator.
 
 \section{Preliminaries}\label{sec:prelim}
 
@@ -662,6 +672,154 @@ gives $\vt(E_k)=13\cdot 2^{k+1}+3$.  An argument that assumed an odd
 leading coefficient would not apply to this pair.
 \end{example}
 
+\subsection{An explicit irrationality measure}\label{ssec:measure}
+The linear forms of Section~\ref{sec:proof} can be pulled back to $z_0$
+directly, without assuming that $V(z_0)$ is rational.  This gives a
+quantitative form of Theorem~\ref{thm:value}.  The results of this
+subsection are proved here only; they are not formalized.
+
+Write $\xi=V(z_0)$ and $\lambda=\log_2m$.  For $k\ge 0$ let
+\[
+  G_k=\prod_{i<k}\Gamma(z_i),\qquad
+  S_k=\sum_{i<k}G_i\,\frac{p_0(z_i)}{1-z_{i+1}},\qquad
+  \Lambda_k=\prod_{i<k}b_i^{e}\,(b_i^{L}-a_i^{L}).
+\]
+Iterating \eqref{eq:mahler} at $z_0,\dots,z_{k-1}$ gives
+\begin{equation}\label{eq:pullback}
+  \xi=S_k+G_k\,V(z_k).
+\end{equation}
+
+\begin{theorem}\label{thm:measure}
+Let $P$ be a pair of degree $d$ and order $N$ that satisfies
+\eqref{eq:gap}, and put $\nu=\vt(R_N)$,
+\[
+  w_k=NL^{k+1}+\nu+\frac{sL(L^{k}-1)}{L-1},\qquad
+  \mathcal B_k=3(d+1)\,\|P\|\,L^{k}\,m^{\,dL^{k}+(L+e)(L^{k}-1)/(L-1)} .
+\]
+\begin{enumerate}
+\item For every $k\ge 0$ with $L^{k+1}>\nu$ there are integers
+$\mathcal P_k,\mathcal Q_k$ with
+$\max(|\mathcal P_k|,|\mathcal Q_k|)\le\mathcal B_k$ and
+$\vt(\mathcal Q_k\xi-\mathcal P_k)=w_k$.
+\item Let $a,b$ be integers with $b\ne 0$ and $H=\max(|a|,|b|)$.  If $k$ is
+as in \textup{(1)} and $2^{w_k}>2H\mathcal B_k$, then
+$|b\xi-a|_2\ge|b|_2\,2^{-w_k}$.
+\item For every $\varepsilon>0$ there is $H_0$ such that
+$|b\xi-a|_2\ge|b|_2\,H^{-\mu-\varepsilon}$ for all integers $a,b$ with
+$b\ne 0$ and $H=\max(|a|,|b|)\ge H_0$, where
+\[
+  \mu=\mu(d,N)=\frac{L\,\bigl(L(L-1)N+sL\bigr)}
+  {L(L-1)N+sL-\bigl(d(L-1)+L+e\bigr)\lambda} .
+\]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(1) By \eqref{eq:forms},
+$\Gamma(z_i)=a_i^{s}\Gamma^{*}(a_i,b_i)/b_i^{e}$ and
+$p_0(z_i)/(1-z_{i+1})=b_iQ_0(a_i,b_i)/(b_i^{L}-a_i^{L})$.  Hence
+$\Lambda_kG_k=\prod_{i<k}a_i^{s}\Gamma^{*}(a_i,b_i)(b_i^{L}-a_i^{L})$ is an
+integer, and $\Lambda_kS_k$ is the sum over $i<k$ of the integers
+\[
+  \prod_{j<i}a_j^{s}\Gamma^{*}(a_j,b_j)(b_j^{L}-a_j^{L})\;\cdot\;
+  b_i^{e+1}Q_0(a_i,b_i)\;\cdot\;\prod_{i<j<k}b_j^{e}(b_j^{L}-a_j^{L}).
+\]
+Put $\Theta_k=\prod_{i<k}m_i^{L+e}=m^{(L+e)(L^{k}-1)/(L-1)}$.  Each factor
+with index $j<i$ is at most $Lm_j^{L+e}$ in absolute value, the middle
+factor is at most $Lm_i^{L+e}$, and each factor with $j>i$ is at most
+$m_j^{L+e}$.  Therefore $|\Lambda_k|\le\Theta_k$,
+$|\Lambda_kG_k|\le L^{k}\Theta_k$ and
+$|\Lambda_kS_k|\le\sum_{i<k}L^{i+1}\Theta_k\le 2L^{k}\Theta_k$.  Define
+\[
+  \mathcal Q_k=\Lambda_k\,P_1^{*}(a_k,b_k),\qquad
+  \mathcal P_k=P_1^{*}(a_k,b_k)\,(\Lambda_kS_k)-(\Lambda_kG_k)\,P_0^{*}(a_k,b_k).
+\]
+The bound for $\max(|\mathcal P_k|,|\mathcal Q_k|)$ follows from
+$|P_i^{*}(a_k,b_k)|\le(d+1)\|P\|m_k^{d}$.  By \eqref{eq:pullback},
+\[
+  \mathcal Q_k\xi-\mathcal P_k
+  =b_k^{d}\Lambda_k\bigl(P_1(z_k)(\xi-S_k)+G_kP_0(z_k)\bigr)
+  =b_k^{d}\,\Lambda_k\,G_k\,R(z_k).
+\]
+Here $b_k^{d}\Lambda_k$ is odd, $\vt(G_k)=\sum_{i<k}sL^{i+1}$ because
+$\vt(\Gamma(z_i))=sL^{i+1}$, and $\vt(R(z_k))=NL^{k+1}+\nu$ as in the proof
+of Lemma~\ref{lem:valuation}.
+
+(2) Suppose $\vt(b\xi-a)>\vt(b)+w_k$.  In
+\[
+  a\mathcal Q_k-b\mathcal P_k=\mathcal Q_k\,(a-b\xi)+b\,(\mathcal Q_k\xi-\mathcal P_k)
+\]
+the first term has valuation larger than $\vt(b)+w_k$ and the second has
+valuation exactly $\vt(b)+w_k$.  So the integer $a\mathcal Q_k-b\mathcal P_k$
+is nonzero and divisible by $2^{w_k}$, whereas its absolute value is at most
+$2H\mathcal B_k<2^{w_k}$.
+
+(3) Put $c_2=(L(L-1)N+sL)/(L-1)$ and
+$\delta=c_2-\lambda\,(d+(L+e)/(L-1))$, so that $\mu=c_2L/\delta$; we have
+$\delta>0$ by \eqref{eq:gap}.  There is a constant $c_3$, independent of
+$k$, with
+\[
+  w_k\le c_2L^{k}+\nu,\qquad
+  w_k-\log_2\mathcal B_k=\delta L^{k}-k\log_2L-c_3 .
+\]
+Given $H$, let $k$ be the least integer with $L^{k+1}>\nu$ and
+$\delta L^{k}-k\log_2L-c_3>\log_2(2H)$; then \textup{(2)} applies.  As
+$H\to\infty$ also $k\to\infty$, the inequality fails for $k-1$, and
+$k\log_2L=o(L^{k})$; hence $L^{k-1}\le(1+o(1))\,\delta^{-1}\log_2H$ and
+$w_k\le c_2L\cdot L^{k-1}+\nu\le(\mu+o(1))\log_2H$.
+\end{proof}
+
+\begin{corollary}\label{cor:exponent}
+Let $x$ be the $2$-adic integer with parity sequence $v$ and
+$\theta=\max\bigl(1,(r/L)\log_23\bigr)$, so that $1\le\theta<\log_23$.  For
+every $\varepsilon>0$ there is $H_0$ such that
+\[
+  |bx-a|_2\ge\max(|a|,|b|)^{-\frac{2L}{2-\theta}-\varepsilon}
+\]
+for all integers $a,b$ with $b\ne 0$ and $\max(|a|,|b|)\ge H_0$.  The
+exponent $2L/(2-\theta)$ equals $2L$ when $3^{r}<2^{L}$ and is always
+smaller than $4.82\,L$.
+\end{corollary}
+
+\begin{proof}
+For each $d$ take a pair of degree $d$ and order $N_d\ge 2d+1$
+(Lemma~\ref{lem:pair}).  Since $\lambda=L\theta<2L$, inequality
+\eqref{eq:gap} holds for all large $d$.  The function $\mu(d,N)$ is
+decreasing in $N$, so $\mu(d,N_d)\le\mu(d,2d+1)$, and
+$\mu(d,2d+1)\to 2L^{2}/(2L-\lambda)=2L/(2-\theta)$ as $d\to\infty$.  This
+proves the statement for $\xi$ in place of $x$, with the factor $|b|_2$ of
+Theorem~\ref{thm:measure}(3).  By \eqref{eq:seed} and \eqref{eq:kappa},
+$x=\alpha_1/\alpha_2+(2^{s}\kappa/B)\,\xi$ with integers $\alpha_1,\alpha_2$
+and $\alpha_2$, $\kappa$, $B$ odd.  Hence
+$|bx-a|_2=|b'\xi-a'|_2$ with $b'=2^{s}\kappa\alpha_2b$ and
+$a'=B(\alpha_2a-\alpha_1b)$.  The map $(a,b)\mapsto(a',b')$ is linear and
+invertible over $\Q$, so $\max(|a'|,|b'|)$ and $\max(|a|,|b|)$ agree up to
+constant factors, and $|b'|_2=2^{-s}$ for odd $b$.  Taking $d$ large and
+absorbing the constants into $\varepsilon$ proves the claim for odd $b$.
+
+Let now $\kappa_*=2L/(2-\theta)+\varepsilon$, so $\kappa_*>1$, let
+$b=2^{t}b_1$ with $b_1$ odd and $t\ge 1$, and $H=\max(|a|,|b|)$.  If
+$a\ne 0$ and $\vt(a)<t$, then $|bx-a|_2=|a|_2\ge|a|^{-1}\ge H^{-1}$.  If
+$a=0$, then $|bx-a|_2=|b|_2|x|_2\ge|x|_2H^{-1}$ with $x\ne 0$.  Otherwise
+$a=2^{t}a_1$, and with $H_1=\max(|a_1|,|b_1|)\le 2^{-t}H$ we get
+$|bx-a|_2=2^{-t}|b_1x-a_1|_2$.  If $H_1$ is large, the odd case gives
+$|bx-a|_2\ge 2^{-t}H_1^{-\kappa_*}\ge 2^{t(\kappa_*-1)}H^{-\kappa_*}\ge
+H^{-\kappa_*}$.  If $H_1$ is bounded, $|b_1x-a_1|_2$ is bounded below by a
+positive constant, since $x$ is irrational, and $2^{-t}\ge H^{-1}$.  In all
+cases $|bx-a|_2\ge c\,H^{-\kappa_*}$ for large $H$, with a constant $c>0$,
+and $\varepsilon$ absorbs it.
+\end{proof}
+
+With the degree-six pair of Example~\ref{ex:tm}, Theorem~\ref{thm:measure}
+gives the measure $\mu(6,13)=6.5$ for the Thue--Morse seed; the limit in
+Corollary~\ref{cor:exponent} is $4$.  We do not know the true exponents and
+have no reason to believe these bounds are sharp.  Theorem~\ref{thm:molchanov}
+below also yields an irrationality measure (the case $d=1$ of its
+transcendence measure); we did not determine the exponent it gives.  And
+Bugeaud and Yao \cite{BugeaudYao2017} obtain explicit bounds for the
+irrationality exponent at points $p^{w}$; we did not find the bound of Corollary~\ref{cor:exponent} in the
+sources we read.
+
 \section{Relation to earlier work}\label{sec:prior}
 
 We describe what we verified in each source.  ``Read'' means that the
@@ -711,8 +869,8 @@ $\log 2/\log 3$, hence would give Theorem~\ref{thm:main} for
 $3^{r}>2^{L}$.  We read the proof in the TeX source.  It shows that the
 real series $-\sum_i2^{d_i}/3^{i+1}$ converges to a real number that is not
 in $\Qodd$ and then concludes that the $2$-adic sum of the same series is
-not in $\Qodd$ either.  The partial sums are rational numbers which converge in $\mathbb R$
-and in $\Q_2$, but we found no argument for why a rational $2$-adic limit
+not in $\Qodd$ either.  The partial sums are rational numbers which
+converge in $\mathbb R$ and in $\Q_2$, but we found no argument for why a rational $2$-adic limit
 would have to coincide with the real limit.  The exact relation between
 the two is Lemma~\ref{lem:affine}: for $x\in\Qodd$ with parity sequence $v$,
 $T^{n}(x)=(3^{h}/2^{n})\,(x+\varphi(u)/3^{h})$, so $x$ differs from the real
@@ -790,7 +948,7 @@ $V(z_0)$ is transcendental, and so is $x$ by \eqref{eq:seed}.
 \end{proof}
 
 Thus Theorem~\ref{thm:main} is a consequence of known theory, in a
-stronger form.  Section~\ref{sec:proof} is an elementary proof of the
+stronger qualitative form.  Section~\ref{sec:proof} is an elementary proof of the
 weaker irrationality statement; it uses a single linear form in $1$ and
 $V$ where the transcendence proof needs auxiliary polynomials of
 arbitrarily large degree in $V$.
@@ -917,7 +1075,9 @@ Remark~\ref{rem:powers};
 in $\Zt$ and Theorem~\ref{thm:value} as a statement about $V(z_0)$ (the
 formal theorem is the seed form, which is what Theorem~\ref{thm:main}
 states for rational $x$);
-\item the remark after Proposition~\ref{prop:start};
+\item the remark after Proposition~\ref{prop:start}, and the irrationality
+measure of Section~\ref{ssec:measure} (Theorem~\ref{thm:measure} and
+Corollary~\ref{cor:exponent});
 \item everything in Section~\ref{sec:prior} that depends on the literature:
 Proposition~\ref{prop:sub}, Theorem~\ref{thm:molchanov} and
 Corollary~\ref{cor:transcendental}.
@@ -942,9 +1102,10 @@ python3 research/phase9/verify_independent.py
 The last command is an independent exact-arithmetic check, sharing no code
 with the formal development, of the identities of Sections
 \ref{sec:seed}--\ref{sec:quant} on all $144$ equal-weight substitutions
-with $\mu(1)_0=1$ and $2\le L\le 5$, of Example~\ref{ex:tm}, and of the
+with $\mu(1)_0=1$ and $2\le L\le 5$, of Example~\ref{ex:tm}, of the
 determinants and inequalities in the proof of
-Proposition~\ref{prop:sharp}.  It is a finite test and is not part of any
+Proposition~\ref{prop:sharp}, and of the identities and bounds of
+Theorem~\ref{thm:measure}(1).  It is a finite test and is not part of any
 proof.
 
 \section{Limitations and questions}\label{sec:limits}
@@ -965,10 +1126,10 @@ the point $z_0$ the same for every block and give the order-one equation
 \eqref{eq:mahler} in one variable.  Substitutions with unequal weights lead
 to products of different multipliers and are not covered; the example
 $010/101$ shows that some of them have rational seeds.
-\item The proof gives no irrationality measure.  It would be of interest to
-know whether the linear forms $E_k$ yield an explicit bound for the
-$2$-adic irrationality exponent of $\Phi(v)$ comparable to those of
-\cite{BugeaudYao2017}.
+\item The irrationality measure of Section~\ref{ssec:measure} is proved on
+paper only and is supported by a finite numerical test of its identities
+and bounds.  We do not know the true $2$-adic irrationality exponent of
+$\Phi(v)$; it would be of interest to know whether it equals $2$.
 \end{enumerate}
 
 \subsection*{Acknowledgements and disclosure}

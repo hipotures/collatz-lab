@@ -17,7 +17,9 @@ posted or announced anywhere.**
 - The contributions claimed are: an elementary proof using integer
   arithmetic and one linear form; a uniform certificate (degree six, order
   at least thirteen, no parity assumption on the leading remainder
-  coefficient); and a Lean 4 formalization of the case in which the fixed
+  coefficient); an explicit 2-adic irrationality measure with exponent
+  `2L/(2-theta)`, `theta = max(1, (r/L) log2 3)` (paper only, not
+  formalized); and a Lean 4 formalization of the case in which the fixed
   point begins with `1`.
 - Section 7.4 of the paper lists what is **not** formalized. Section 8
   lists limitations.
@@ -86,7 +88,8 @@ python3 research/phase9/verify_independent.py
 | Theorem 1.2 for a fixed point beginning with `0`; Remark 4.9 | proved in the paper only |
 | Proposition 3.2, Theorem 3.4 (2-adic formulation) | proved in the paper only; the formal theorem is the seed form |
 | Propositions 5.1, 5.2 | formalized; proof of 5.1 given in the paper, 5.2 stated with the formal constants |
-| Remark after Proposition 5.2 (Cramer bound) | paper only |
+| Remark 5.3 (Cramer bound) | paper only |
+| Theorem 5.5, Corollary 5.6 (explicit irrationality measure, exponent `2L/(2-theta)`) | paper only; identities and bounds of Theorem 5.5(1) tested numerically (`verify_independent.py`, T9) |
 | Proposition 6.1 | paper; depends on the cited theorem of Monks–Yazinski (statement and proof read) |
 | Theorem 6.2 (Molchanov) | quoted; statement read in the original, proof read in outline only |
 | Corollary 6.3 (transcendence) | deduction from Theorem 6.2 and two classical facts; not formalized |
