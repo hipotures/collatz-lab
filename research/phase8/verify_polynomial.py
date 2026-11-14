@@ -6,6 +6,7 @@ These checks are regression evidence. Universal claims come from Lean proofs.
 from random import Random
 from functools import reduce
 from math import gcd
+from itertools import product
 
 
 def homogeneous(coefficients, a, b, length):
@@ -139,6 +140,28 @@ def main():
     assert [([-1, 1, -1][n] if n <= 2 else 0) + convolution([1, -1, 0], high_word, n)
             for n in range(202)] == [0] * 201 + [-1]
     print("Six exact nonsingular prefix systems; hard length-1000 degree-six pair; degree-two/order-201 pair")
+
+    encoded_windows = 0
+    for base in range(1, 8):
+        for length in range(5):
+            seen = set()
+            for digits in product(range(base), repeat=length):
+                code = 0
+                for digit in digits:
+                    symbol = digit - 3
+                    code = base * code + (symbol - (-3))
+                assert 0 <= code < base**length and code not in seen
+                seen.add(code)
+                encoded_windows += 1
+            assert len(seen) == base**length
+    for p0, p1, sequence in (
+        ([-3, 2, 0], [1, 0, -1], [3 if n % 2 == 0 else -2 for n in range(32)]),
+        ([7, 0], [1, -1], [-7] * 32),
+        ([0, -1, 0], [1, -2, 1], list(range(32))),
+    ):
+        assert all((p0[n] if n < len(p0) else 0) + convolution(p1, sequence, n) == 0
+                   for n in range(32))
+    print(f"{encoded_windows} signed-alphabet encodings; singleton, signed periodic and unbounded rational identities")
 
     semantic_fixtures = [
         ([0, 1], [1, 0], 13, -15),

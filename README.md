@@ -283,7 +283,7 @@ integer elimination for every degree `d`, giving order at least `2*d+1` for
 The [proof mapping](research/lean-polynomial-certificates.md) gives exact
 signatures, finite identities, valuation and height bookkeeping, dependencies
 and semantic limits. The [Phase 8 journal](research/phase8-progress.md) records
-validated milestones and resumption instructions. The 258-declaration audit
+validated milestones and resumption instructions. The 276-declaration audit
 permits only standard foundations; no additional packages are used. New
 regressions include the coefficient-8 Thue–Morse pair and the supercritical
 length-six example `101011/011011` that fails (C).

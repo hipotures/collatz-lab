@@ -217,3 +217,34 @@ theorem excludes its rational seeds independently. The Python regression
 checks the six matrix determinants as `[1,-1,1,-1,-1,-1]`, the actual weights
 and disagreements, the small exponent comparisons, and this explicit pair.
 These finite checks support the kernel proof but do not replace it.
+
+## E3: exact rational-series characterization for bounded integer sequences
+
+**Lean-kernel-verified:** for every bounded integer sequence, a nonzero
+integer denominator polynomial gives a coefficientwise rational identity
+if and only if the sequence is eventually periodic.
+
+`BoundedRationalSeries.lean` extends the forward bridge from binary symbols
+to any fixed signed integer interval. Translate each symbol by the lower
+endpoint and encode a length-`d` window in the alphabet's base. A positional
+pair lemma proves injectivity, including the singleton base-one case.
+The shared deterministic-window theorem then supplies eventual repetition.
+The polynomial recurrence argument is unchanged and never assumed binary
+symbols. Existing binary public theorem signatures are retained.
+
+Conversely, given an eventual period `p>=1` starting at `start`, use
+`P1=1-z^p` and choose the numerator to cancel the first `start+p+1`
+coefficients. Every later residual is `v_n-v_(n-p)=0`. The raw common degree
+is kept, and `P1(0)=1` proves a nonzero denominator.
+
+Independent kernel examples cover the alphabet `{-2,3}`, the singleton
+`{-7}`, and the unbounded sequence `v_n=n`. The latter has the exact rational
+identity `(1-z)^2*F-z=0`, but is proved nonperiodic and unbounded. Thus the
+boundedness hypothesis in the forward bridge cannot simply be removed.
+Python independently checks 5,635 signed-alphabet window encodings and the
+three coefficient identities at their stated finite sizes.
+
+This is a standalone statement about generating functions, not the assertion
+that a rational Collatz seed has a rational generating function of its parity
+symbols. No extra Collatz alphabet or automatic-word class is covered by
+this extension alone.

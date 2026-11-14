@@ -34,15 +34,16 @@ theorem window_injective (v : Nat → Int) (hv : ∀ n, v n = 0 ∨ v n = 1) (a 
     · subst j; omega
     · exact window_injective v hv a b d hprev j (by omega)
 
-/-- Equal finite states determine equal next symbols, including the empty-window case. -/
-theorem deterministic_binary_periodic (v : Nat → Int) (hv : ∀ n, v n = 0 ∨ v n = 1)
-    (start d : Nat)
+/-- Any uniformly bounded encoding of finite windows suffices for deterministic repetition. -/
+theorem deterministic_window_periodic (v : Nat → Int) (start d K : Nat) (state : Nat → Nat)
+    (hbound : ∀ n, state n ≤ K)
+    (hdecode : ∀ a b, state a = state b → ∀ j, j < d → v (a + j) = v (b + j))
     (hdet : ∀ a b, start ≤ a → start ≤ b →
       (∀ j, j < d → v (a + j) = v (b + j)) → v (a + d) = v (b + d)) :
     EventuallyPeriodic v := by
-  rcases bounded_nat_collision (2 ^ d) (fun n => window v (start + n) d)
-    (by intro n; change window v (start + n) d ≤ 2 ^ d; have := window_bound v hv (start + n) d; omega) with ⟨i, j, hij, he⟩
-  have hfirst := window_injective v hv (start + i) (start + j) d he
+  rcases bounded_nat_collision K (fun n => state (start + n))
+    (by intro n; exact hbound (start + n)) with ⟨i, j, hij, he⟩
+  have hfirst := hdecode (start + i) (start + j) he
   have hall : ∀ k, v (start + i + k) = v (start + j + k) := by
     intro k
     induction k using Nat.strongRecOn with
@@ -62,6 +63,16 @@ theorem deterministic_binary_periodic (v : Nat → Int) (hv : ∀ n, v n = 0 ∨
   rw [show start + i + (n - (start + i)) = n by omega,
     show start + j + (n - (start + i)) = n + (j - i) by omega] at hh
   exact hh.symm
+
+/-- Equal finite states determine equal next symbols, including the empty-window case. -/
+theorem deterministic_binary_periodic (v : Nat → Int) (hv : ∀ n, v n = 0 ∨ v n = 1)
+    (start d : Nat)
+    (hdet : ∀ a b, start ≤ a → start ≤ b →
+      (∀ j, j < d → v (a + j) = v (b + j)) → v (a + d) = v (b + d)) :
+    EventuallyPeriodic v := by
+  apply deterministic_window_periodic v start d (2 ^ d) (fun n => window v n d)
+    (by intro n; change window v n d ≤ 2 ^ d; have := window_bound v hv n d; omega)
+    (by intro a b he; exact window_injective v hv a b d he) hdet
 
 /-- Cancel all matching summands except a designated pivot. -/
 theorem total_eq_pivot (f g : Nat → Int) : ∀ n s, s < n →

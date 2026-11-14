@@ -271,3 +271,23 @@ import CollatzLab
 #print axioms CollatzLab.MinimalCertificate.hard_six_gap
 #print axioms CollatzLab.MinimalCertificate.hard_no_rational_seed
 #print axioms CollatzLab.MinimalCertificate.universal_certificate_degree_iff
+
+/-! Bounded integer rational-series characterization and boundedness counterexample. -/
+#print axioms CollatzLab.RationalSeries.deterministic_window_periodic
+#print axioms CollatzLab.RationalSeries.digit_range
+#print axioms CollatzLab.RationalSeries.radix_pair_injective
+#print axioms CollatzLab.RationalSeries.boundedWindow_bound
+#print axioms CollatzLab.RationalSeries.boundedWindow_injective
+#print axioms CollatzLab.RationalSeries.rational_interval_eventually_periodic
+#print axioms CollatzLab.RationalSeries.rational_bounded_integer_eventually_periodic
+#print axioms CollatzLab.RationalSeries.bounded_nonzero_residual
+#print axioms CollatzLab.RationalSeries.convolution_period_denominator
+#print axioms CollatzLab.RationalSeries.eventually_periodic_rational_pair
+#print axioms CollatzLab.RationalSeries.bounded_rational_iff_periodic
+#print axioms CollatzLab.RationalSeries.signedWave_identity
+#print axioms CollatzLab.RationalSeries.signedWave_periodic
+#print axioms CollatzLab.RationalSeries.singleton_identity
+#print axioms CollatzLab.RationalSeries.singleton_base_one
+#print axioms CollatzLab.RationalSeries.counting_identity
+#print axioms CollatzLab.RationalSeries.counting_not_eventually_periodic
+#print axioms CollatzLab.RationalSeries.counting_not_bounded

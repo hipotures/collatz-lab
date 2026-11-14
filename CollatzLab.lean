@@ -23,6 +23,7 @@ import CollatzLab.RationalSeriesChecks
 import CollatzLab.UniversalChecks
 import CollatzLab.DegreeTradeoff
 import CollatzLab.MinimalCertificate
+import CollatzLab.BoundedSeriesChecks
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -61,7 +62,8 @@ Root module exporting the Lean 4 formalization of the paper
 * `CollatzLab.PolynomialExistence`: general division-free integer null vectors
   and degree `d` / order at least `2*d+1` pair existence for all integer sequences.
 * `CollatzLab.RationalSeries`: every coefficientwise rational binary series is
-  eventually periodic, by deterministic finite-memory repetition.
+  eventually periodic, by deterministic finite-memory repetition. The standalone
+  bridge also covers every bounded integer alphabet, in both directions.
 * `CollatzLab.UniversalEqualWeight`: rational exclusion for every uniform binary
   morphism satisfying H1--H3, with all finite shifts and eventual matches.
 * `CollatzLab.DegreeTradeoff`: optimality of degree six for the uniform

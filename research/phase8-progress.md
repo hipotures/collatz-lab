@@ -26,12 +26,15 @@ A–D are complete. No main theorem proof obligation remains.
 **Pushed E checkpoint:** `7cd9a95285718e01cc5f59e6086ad13495bf2fcb`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43581609610 — success.
 
-**Current additional result E2:** `MinimalCertificate.lean` is kernel-verified. Degree
-six is the least uniform degree for the implemented certificate criterion,
-**allowing arbitrary residual order**, by a length-1000 example excluding
-all degree-at-most-five pairs. An explicit degree-six pair closes that case.
-Full validation passes before committing this stronger result (258 audited
-declarations, 94 Rust tests, both independent checkers).
+**Pushed E2 checkpoint:** `4f54b3acbca6010b608a6a35bc92f59cdf9c52f6`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43582367746 — success.
+
+**Current additional result E3:** bounded integer rational series are eventually
+periodic, with a proved converse. Signed/singleton examples and an unbounded
+rational counterexample compile. Existing binary theorem signatures are
+preserved; their finite-state repetition core is now shared. Full checks are
+complete with an expanded 276-declaration audit, 94 Rust tests and all
+independent checkers.
 
 | Milestone | Verified status |
 |---|---|
@@ -43,14 +46,14 @@ declarations, 94 Rust tests, both independent checkers).
 
 ## Exact next obligations
 
-1. Record E2's pushed SHA and CI. A–D are complete and should
-   not be re-proved or replaced by finite enumeration.
-2. Optional further work: generalize the standalone finite-memory theorem
-   to bounded integer alphabets. This extends only the algebraic bridge;
-   a larger-alphabet Collatz theorem still needs a valid scalar/vector tower.
-3. Investigate improved height recurrences, different approximant shapes,
-   or independent review. The E2 minimal degree is relative to the exact
-   implemented gap, not to every possible mathematical exclusion method.
+1. Record E3's pushed SHA and CI. A–D and E2's sharpness result
+   are complete; do not repeat their proofs or finite catalogues.
+2. Further adversarial audit can inspect existing even-leading Padé rows for
+   concrete premature-level valuation failures. Do not extend the old degree
+   search or assume the finite-start condition is necessary for each pair.
+3. Improved height recurrences or other alphabets require new justified
+   scalar/vector transport; the new bounded-series bridge alone is not a
+   larger-alphabet Collatz exclusion.
 
 ## Constraints and failed shortcuts to retain
 
@@ -68,14 +71,14 @@ declarations, 94 Rust tests, both independent checkers).
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 258
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 276
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 101 new exported declarations (258 total).
+The exact audit now includes all 119 new exported declarations (276 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -189,3 +192,21 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
   low-degree example. Full validation passes for this checkpoint.
 - Build, 258-declaration exact audit, 94 Rust tests, formatting, Clippy, both
   Python checkers, empty proof-escape scan and diff check all pass.
+
+## E3 checkpoint details
+
+- `RationalSeries.deterministic_window_periodic` shares the finite-window
+  repetition argument; the old binary export keeps its exact signature.
+- `BoundedRationalSeries.lean`: arbitrary signed finite integer intervals,
+  injective base encoding (including base 1), bounded rational-series
+  periodicity and nonzero residuals.
+- `eventually_periodic_rational_pair` constructs the converse for every
+  integer sequence, with denominator `1-z^p`. `bounded_rational_iff_periodic`
+  gives the full equivalence for bounded integer coefficient sequences.
+- `BoundedSeriesChecks.lean`: signed wave, singleton at -7, and coefficient
+  identity for the unbounded sequence n, which is proved nonperiodic and
+  unbounded. Boundedness cannot be dropped from the forward implication.
+- These are standalone series facts; the Collatz theorem's semantic domain
+  is unchanged. Full checkpoint validation passes.
+- Build, 276-declaration exact audit, 94 Rust tests, formatting, Clippy,
+  both Python checkers, empty proof-escape scan and diff check all pass.

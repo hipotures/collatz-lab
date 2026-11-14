@@ -300,3 +300,20 @@ length-101 example remains a useful illustration that individual words can
 have smaller certificates. The findings report gives the hard example's
 explicit degree-six pair and its exact proof mapping. The expanded audit is
 258 declarations (all 101 new Phase 8 theorem exports included).
+
+## E3: bounded integer coefficients and the converse
+
+`RationalSeries.rational_bounded_integer_eventually_periodic` takes any
+sequence with `∃lo hi:Int, ∀n, lo<=v_n<=hi`, a nonzero denominator and the
+coefficientwise identity. The conclusion is `EventuallyPeriodic v`.
+`bounded_nonzero_residual` exports its contrapositive.
+`eventually_periodic_rational_pair` proves the reverse implication for every
+integer sequence by constructing denominator `1-z^p`; together they give
+`bounded_rational_iff_periodic`.
+
+The finite repetition proof is shared through `deterministic_window_periodic`;
+all old binary theorem signatures remain unchanged. The generic window uses
+an arbitrary signed interval, and `radix_pair_injective` includes base one.
+The unbounded sequence n is a checked counterexample to deleting boundedness.
+The Collatz theorem's domain remains the binary equal-weight uniform class.
+The complete audit now has 276 declarations, including all 119 new exports.
