@@ -9,30 +9,42 @@ reported "Already up to date".
 
 ## Resume here
 
-**State:** Gate 0 in progress. Nothing in the Lean or Rust code has been
+**State:** Gate 0 resolved and written up in
+`research/phase9-prior-art.md`. Nothing in the Lean or Rust code has been
 changed in Phase 9 so far.
+
+**Gate 0 verdict (details and evidence labels in the prior-art file):**
+
+- The headline irrationality statement is **not new**: it follows from
+  S. M. Molchanov's 1983 *p*-adic Mahler theorem (statement read in the
+  original), which even gives transcendence of the 2-adic seed.
+- López–Stoll Theorem 1 would cover the supercritical half but its proof
+  has a gap (real limit identified with 2-adic limit); do not rely on it.
+- The subcritical half is a short corollary of Monks–Yazinski 2.7(b).
+- Framing for the paper: elementary, division-free, machine-checked
+  proof of a known consequence of the *p*-adic Mahler method, with an
+  explicit uniform certificate. No "new theorem" claim for irrationality.
 
 **Next actions, in order:**
 
-1. Finish the Gate 0 source reading listed under "Outstanding checks" and
-   write `research/phase9-prior-art.md` (claim-to-source matrix).
-2. Gate A: read the Lean chain from `Word.lean` (`RealizesWord`) to
+1. Gate A: read the Lean chain from `Word.lean` (`RealizesWord`) to
    `UniversalEqualWeight.lean` and write `research/phase9-referee-report.md`.
-3. Gate B/D: write the independent proof and the manuscript in `paper/`.
+2. Gate B/D: write the independent proof and the manuscript in `paper/`.
+3. Gate C leftovers: the "Open items" list at the end of the prior-art
+   file (Wang 2006, Wang–Xu 2006, Loxton–van der Poorten 1982 not read).
 
-**Highest-risk open issue:** whether a published *p*-adic Mahler-method
-theorem (transcendence or irrationality of values of order-one Mahler
-functions at rational points of a *p*-adic disc) already contains the
-headline statement. See "Gate 0 working notes" below.
+**Highest-risk open issue:** Molchanov's proof was read only in outline;
+the "known" verdict rests on its published statement plus classical
+facts (Fatou-type rational/transcendental dichotomy) not re-derived here.
 
 ## Gate checklist
 
 | Gate | Status |
 |---|---|
-| 0 — López–Stoll / prior-art red flag | in progress; preliminary reading complete, verdict not yet recorded as final |
+| 0 — López–Stoll / prior-art red flag | **resolved**: see `phase9-prior-art.md` §0 |
 | A — adversarial mathematical and Lean review | not started |
 | B — independent proof reconstruction | not started |
-| C — literature review and novelty verdict | not started (overlaps Gate 0) |
+| C — literature review and novelty verdict | matrix written (`phase9-prior-art.md` §6); open items listed in its §7 |
 | D — manuscript | not started; blocked on 0, A, C |
 
 ## Environment (checked 2026-11-14)
@@ -54,7 +66,12 @@ source during Phase 9, not taken from a summary.
 |---|---|---|
 | J. López, P. Stoll, *The 3x+1 Periodicity Conjeture in R*, arXiv:2101.12747v1 (29 Jan 2021; arXiv lists only v1; 51 pp.) | arXiv TeX source and PDF | Read: Introduction I–II, Sections "Basic facts", "Auxiliary results", "Proof of Theorem 1", bibliography |
 | K. G. Monks, J. Yazinski, *The autoconjugacy of the 3x+1 function*, Discrete Math. 275 (2004) 219–236 | author PDF `AutoConjV13.pdf` (14 pp.) | Read: Theorem 2.7, Lemmas 3.2, 3.4, 4.1–4.3 and the proof of Theorem 2.7 |
-| J. López, P. Stoll, *The 3x+1 conjugacy map over a Sturmian word*, Integers 9 (2009) A13, 141–162 | journal PDF | Abstract and introduction read (text extraction is poor); it computes a 2-adic continued fraction and says its examples "suggest" aperiodicity; no rational-exclusion theorem located yet |
+| J. López, P. Stoll, *The 3x+1 conjugacy map over a Sturmian word*, Integers 9 (2009) A13, 141–162 | journal PDF | Abstract and introduction read (text extraction is poor); it computes a 2-adic continued fraction and says its examples "suggest" aperiodicity; no rational-exclusion theorem located |
+| S. M. Molchanov, Vestnik Moskov. Univ. Ser. I Mat. Mekh. 1983, no. 2, 31–37 (Russian) | Math-Net.Ru scan (`vmumm3467`) | Read: theorem statement from page images; proof in outline |
+| Y. Bugeaud, J.-Y. Yao, Ann. Mat. Pura Appl. 196 (2017) 929–946 | author PDF `p-adic18.pdf` | Read: introduction, Theorem 3.1 and the first part of its proof, bibliography |
+| D. J. Bernstein, J. C. Lagarias, *The 3x+1 conjugacy map*, Canad. J. Math. 48 (1996) 1154–1169 | Lagarias's PDF (dated 1996-02-15) | Read: introduction, formulas (1.5)–(1.6), statement that `Phi` preserves `Q ∩ Z_2` |
+| `msharpe248/collatz` | commit `ec8174b5` (2026-09-06), still default-branch head | Read: `paper/rung1.tex` introduction, §"Relation to Mahler's method", bibliography |
+| T. Q. Wang (2006); T.-Q. Wang, G.-S. Xu (2006) | — | **Not obtained** (login/captcha); known only through Bugeaud–Yao's citation |
 
 ## Gate 0 working notes (preliminary; to be finalised in `phase9-prior-art.md`)
 
@@ -106,20 +123,20 @@ number of ones among the first `l` symbols.
 
 ## Outstanding checks
 
-- [ ] Publication status of arXiv:2101.12747 (journal version, later
-      revision, citing or correcting papers).
-- [ ] *p*-adic Mahler method: locate and read primary statements
-      (candidates to verify, none yet confirmed: work of Loxton–van der
-      Poorten, Nishioka, Becker, Bundschuh–Väänänen, T.-Q. Wang,
-      Bugeaud–Yao, Adamczewski–Faverjon).
-- [ ] Current state of the upstream project `msharpe248/collatz`
-      (its `paper/rung1.tex` reportedly describes the equal-weight class
-      as a programme).
-- [ ] Bernstein–Lagarias 1996 and Lagarias 1985/1990 primary statements.
-- [ ] Baseline re-verification on this checkout (Lean build, axiom
-      audit, Rust, Python checkers).
+- [x] Publication status of arXiv:2101.12747: arXiv API lists v1 only,
+      no journal reference (2026-11-14).
+- [x] *p*-adic Mahler method: Molchanov 1983 located and read.
+- [x] Upstream project state: unchanged since `ec8174b5`.
+- [x] Bernstein–Lagarias 1996 formula checked.
+- [x] Numerical check of the seed identity used in the prior-art
+      derivation: 574 admissible morphisms with `2 <= L <= 6`, modulus
+      `2^200`, first 40 parities (scratch script, not committed).
+- [ ] Wang 2006, Wang–Xu 2006, Loxton–van der Poorten 1982 statements.
+- [ ] Baseline re-verification on a clean build (Lean build from
+      `lake clean`, axiom audit, Rust, Python checkers).
 
 ## Checkpoint log
 
 - 2026-11-14: journal created at `d6df8a2`; Gate 0 reading of
   López–Stoll and Monks–Yazinski done; preliminary notes above.
+- 2026-11-14: Gate 0 resolved; `phase9-prior-art.md` written.
