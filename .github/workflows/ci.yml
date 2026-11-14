@@ -61,7 +61,22 @@ jobs:
           EOF
           )
           echo "$output"
+          # Check both absence of sorryAx and the explicit list of permitted core axioms.
+          # A deny-list alone could miss newly introduced nonstandard axioms.
           if echo "$output" | grep -q "sorryAx"; then
             echo "Error: sorryAx detected in theorem axioms!"
+            exit 1
+          fi
+          axiom_lines=$(printf '%s\n' "$output" | grep "depends on axioms:" || true)
+          expected_count=16
+          actual_count=$(printf '%s\n' "$axiom_lines" | grep -c "depends on axioms:" || true)
+          if [ "$actual_count" -ne "$expected_count" ]; then
+            echo "Error: expected $expected_count audited theorems, found $actual_count"
+            exit 1
+          fi
+          unexpected=$(printf '%s\n' "$axiom_lines" | grep -Ev "^'CollatzLab\.[A-Za-z0-9_']+' depends on axioms: \[(propext|Classical.choice|Quot.sound)(, (propext|Classical.choice|Quot.sound))*\]$" || true)
+          if [ -n "$unexpected" ]; then
+            echo "Error: unapproved axiom dependency:"
+            printf '%s\n' "$unexpected"
             exit 1
           fi
