@@ -216,16 +216,40 @@ contradiction. The shifted-tail and eventual-itinerary exclusions are
 `no_rational_seed_realizes_shifted_family` and
 `no_eventually_shifted_family_itinerary`. `familyWord_four` proves equality
 with the original `w`; a concrete `L=5` positive prefix witness checks the
-parity semantics. CI audits 44 declarations using only standard Lean
+parity semantics. Phase 6 audited 44 declarations using only standard Lean
 foundation axioms.
 
 See [`research/lean-family-formalization.md`](research/lean-family-formalization.md)
 for full signatures, dependencies, semantic checks, validation, and scope.
 The independent [Phase 7 semantic audit](research/lean-family-semantic-audit.md)
-adds literal substitution and signed rational checks, bringing the CI audit to
-52 declarations. The arbitrary-morphism criterion and the family's general symbolic survival
+adds literal substitution and signed rational checks. The arbitrary-morphism
+criterion and the family's general symbolic survival
 and aperiodicity arguments remain written proofs. This result does not
 prove Collatz, CST, or the general Periodicity Conjecture.
+
+## Phase 7: generic foundations and the Thue–Morse target (issue #13)
+
+The generic equal-weight theorem is **incomplete**; checked components and
+exact remaining obligations are in
+[`research/lean-equal-weight-formalization.md`](research/lean-equal-weight-formalization.md).
+These include arbitrary finite binary images, the correct fixed point, finite
+Mahler and seed identities, signed offset valuation and first disagreement.
+
+The smallest target outside criterion (C), `1 -> 10, 0 -> 01`, is now excluded
+by a separate kernel-checked contraction argument:
+
+```lean
+theorem CollatzLab.no_rational_seed_realizes_thueMorse (p q : Int) :
+  ¬ CollatzLab.RealizesWord p q
+    (CollatzLab.Morphism.parityWord CollatzLab.Morphism.thueMorse)
+```
+
+All shifts and eventual shifted matches are also excluded. A generic
+subcritical-block theorem makes aperiodicity an explicit hypothesis, proved
+for this instance. The current CI audit covers 83 declarations. The
+[research report](research/mahler-uncovered-morphisms.md) distinguishes these
+proofs from 48 finite exact Padé certificates and the secondary target's
+written proof. See the [campaign journal](research/phase7-progress.md) to resume.
 
 ## Epistemic statuses
 

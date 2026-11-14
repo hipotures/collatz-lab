@@ -7,6 +7,7 @@ import CollatzLab.Family
 import CollatzLab.FamilyChecks
 import CollatzLab.FamilySemanticChecks
 import CollatzLab.MorphismOffset
+import CollatzLab.ThueMorse
 
 /-!
 # CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word

@@ -20,6 +20,8 @@ jobs:
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings
       # Unit, property and small end-to-end tests only; no open-ended searches.
       - run: cargo test --locked --all-targets
+      - name: Reproduce bounded Phase 7 certificates
+        run: python3 research/mahler-uncovered/verify_uncovered.py --check
 
   lean:
     runs-on: ubuntu-latest
@@ -47,7 +49,7 @@ jobs:
           echo "$output"
           # Audit every output line, including declarations requiring no foundation axioms.
           # Reject missing declarations, unexpected diagnostics, and any unapproved dependency.
-          expected_count=70
+          expected_count=83
           actual_count=$(printf '%s\n' "$output" | grep -cE "^'CollatzLab\.[A-Za-z0-9_.']+' (depends on axioms:|does not depend on any axioms)" || true)
           if [ "$actual_count" -ne "$expected_count" ]; then
             echo "Error: expected $expected_count audited theorems, found $actual_count"

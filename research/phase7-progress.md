@@ -11,8 +11,11 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 - B: PARTIAL — arbitrary finite images, correct fixed point, affine blocks,
   finite Mahler/base identities, exact signed offset valuation and first
   disagreement kernel-check. The generic irrationality theorem is NOT VERIFIED.
-- C: NOT STARTED — prioritize `10/01`, then `101/011`; exact degree 1–24 search.
-- D: NOT STARTED — choose after the primary obstruction is understood.
+- C: PRIMARY TARGET PROVED in Lean — `10/01`, all shifts and eventual shifted
+  matches. Both targets have degree 1–24 exact certificates; secondary
+  `101/011` has a complete written proof, kernel work remains.
+- D: GENERIC SUBCRITICAL THEOREM PROVED in Lean with explicit aperiodicity
+  hypothesis; extends the contraction proof beyond the single primary instance.
 
 ## Verified starting facts
 
@@ -26,11 +29,13 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 ## Next three proof obligations
 
-1. Encode arbitrary binary morphisms, prove the correct fixed point and literal
-   block recurrence without imposing extra mathematical hypotheses.
-2. Derive the generic affine offsets and signed, exactly cancelled congruence
-   tower; isolate any unproved obligations explicitly before proceeding to C.
-3. Formalize the generic first-difference/height contradiction under (C).
+1. Formalize generic congruence transport for a signed denominator tower; use
+   `D'=D*GammaStar_h*(b^L-a^L)` and convert to positive denominators afterwards.
+   This removes repeated sign case splits without strengthening (C).
+2. Finish normalized base divisibility and factorization of the finite Gamma
+   polynomial, then the generic first-difference/height contradiction under (C).
+3. Kernel-check the secondary degree-2 certificate using the division-free
+   `s=0,e=1,L=3` tower described in the uncovered-morphism report.
 
 ## Checkpoint A (2026-11-14 UTC)
 
@@ -61,11 +66,33 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
   bounded fixed-denominator rational dynamics may exclude their aperiodic word.
   This is a proof direction, not yet a claimed theorem.
 
+## Checkpoint C1 / D1 (2026-11-14 UTC)
+
+- B1 pushed as `f0096192a39587f009ccae133b628babe44486b8`.
+  CI success: https://github.com/hipotures/collatz-lab/actions/runs/43552993269.
+- `Subcritical.lean`: bounded natural collision, deterministic repetition,
+  contracting integer recurrences, and generic subcritical rational exclusion.
+- `ThueMorse.lean`: independent even/odd recurrences, full aperiodicity proof,
+  `no_rational_seed_realizes_thueMorse`, arbitrary shifted and eventual tail
+  exclusions. All numerators and positive odd denominators are covered.
+- `verify_uncovered.py --check`: 48 Padé rows, 8 residue checkpoints, 32,800
+  signed rational candidate checks. Three independent Rust tests verify all
+  pairs and the selected form valuations. No degree extension beyond 24.
+- The secondary pair is **not novel**: upstream's existing finite catalogue
+  at `ec8174b` already records `[1],[-1,0,1]`, order 5, coefficient -1.
+  The report gives a full infinite algebraic proof and its exact kernel gap.
+- Validation: `lake build`; 83-declaration axiom audit; formatting; Clippy;
+  **93 Rust tests pass**; no forbidden library tokens. Only standard Lean
+  foundations. Python artifacts reproduce exactly; CI runs that check too.
+- Do not repeat unsuccessful degree-0 truncations or treat (C)'s failure as a
+  rational example. Do not infer generic aperiodicity from H1–H3 without proof.
+
 ## Resume here
 
 Read this file and `git log -5 --oneline`, fetch/pull `origin/main`, then inspect
 the milestone documents and existing Lean modules. Starting commit is recorded
-above; A is complete. Continue B, then C, D. Run the complete issue-required
+above; A and the primary C target are complete. B remains incomplete. Follow
+the next three obligations above. Run the complete issue-required
 checks before each formal checkpoint:
 
 ```text

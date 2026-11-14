@@ -71,3 +71,16 @@ import CollatzLab
 #print axioms CollatzLab.Morphism.thueMorse_admissible
 #print axioms CollatzLab.Morphism.thueMorse_fails_criterion
 #print axioms CollatzLab.Morphism.secondary_fails_criterion
+#print axioms CollatzLab.bounded_nat_collision
+#print axioms CollatzLab.repeated_numIter_periodic
+#print axioms CollatzLab.bounded_blocks_periodic
+#print axioms CollatzLab.contracting_recurrence_bounded
+#print axioms CollatzLab.Morphism.no_rational_seed_subcritical
+#print axioms CollatzLab.Morphism.thueMorse_even
+#print axioms CollatzLab.Morphism.thueMorse_odd
+#print axioms CollatzLab.Morphism.thueMorse_not_eventually_periodic
+#print axioms CollatzLab.Morphism.thueMorse_prefix
+#print axioms CollatzLab.Morphism.thueMorse_positive_prefix
+#print axioms CollatzLab.no_rational_seed_realizes_thueMorse
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_thueMorse
+#print axioms CollatzLab.no_eventually_shifted_thueMorse_itinerary
