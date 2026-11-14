@@ -19,6 +19,7 @@
 //! * [`certificate`] - conditional descent certificates and first-descent covers.
 //! * [`counting`] - independent exact counts of first crossings and survivors.
 //! * [`envelope`] - bounded exact comparison of Terras's mini-max envelope.
+//! * [`mahler`] - 2-adic Mahler reduction and Padé analysis for `mu(1)=1110, mu(0)=1101`.
 //! * [`nogo`] - the Mersenne adversarial baseline against fixed descent windows.
 //! * [`verifier`] - an independent checker that only trusts direct iteration.
 //! * [`hypothesis`] - bounded hypothesis workflow and the JSONL research ledger.
@@ -31,6 +32,7 @@ pub mod collatz;
 pub mod counting;
 pub mod envelope;
 pub mod hypothesis;
+pub mod mahler;
 pub mod nogo;
 pub mod prefix;
 pub mod report;

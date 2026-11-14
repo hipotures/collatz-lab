@@ -23,6 +23,7 @@ kind of statement it is.
 | `certificate` | exact conditional descent certificates and the first-descent cover of the integers to a given depth |
 | `counting` | two independent exact recurrences for the number of first coefficient crossings and of surviving classes |
 | `envelope` | exhaustive comparison of Terras's mini-max envelope with exact class ratios for `1 <= r <= 12` |
+| `mahler` | 2-adic Mahler reduction, five-way modular checkpoints, periodic control `(1110)^infinity`, and exact Padé table (`1 <= m <= 16`) for `mu(1)=1110, mu(0)=1101` |
 | `nogo` | the Mersenne family `2^L - 1`, which rules out every fixed universal descent window |
 | `verifier` | an independent checker that trusts only direct iteration and elementary integer identities |
 | `hypothesis` | a bounded generate-and-falsify workflow writing a JSONL research ledger |
@@ -53,6 +54,7 @@ collatz-lab certificates  [--depth K] [--parity BITS] [--out FILE.jsonl]
 collatz-lab experiment    [--seed S] [--depth K] [--limit N] [--window W] ... [--out-dir DIR]
 collatz-lab counts        [--max-depth K] [--walker-depth K]
 collatz-lab envelope      [--out-dir DIR]
+collatz-lab mahler        [--out-dir DIR]
 ```
 
 - `verify` runs the deterministic self-checks (range oracle, fast path against
@@ -70,6 +72,12 @@ collatz-lab envelope      [--out-dir DIR]
 - `envelope` measures the slack from separately maximizing the offset and
   minimizing the class representative. Its bounds are fixed at `1 <= r <= 12`
   and `k <= 20`; it has no `--allow-large` override.
+- `mahler` verifies the fixed point `w = lim mu^j(1)` of `mu(1)=1110, mu(0)=1101`,
+  checks all-prefix survival up to `k=1024`, runs five-way 2-adic residue
+  checks at `K in {16, 32, 64, 128, 256, 512, 1024}` against the Mahler
+  reduction `x(w) = -23/11 + (4/27)*F_2(16/27)`, evaluates the periodic
+  control `(1110)^infinity` (`x = -19/11`), and computes the bounded exact
+  Padé table for `1 <= m <= 16`.
 
 Defaults run promptly on a laptop. Bounds beyond the defaults (for example
 `--depth` above 24) are refused unless `--allow-large` is passed; long
@@ -118,6 +126,41 @@ outputs. Timing goes to stderr, so artifacts reproduce byte for byte. The new
 evidence format is separate from the reference experiment's unchanged JSONL
 ledger. `tests/envelope.rs` independently scans a full residue period to recheck
 all extrema, ties and exact fractions, and checks CLI artifact reproduction.
+
+## Phase 3: aperiodic survivor itineraries and 2-adic Mahler reduction (issue #6)
+
+Reproduce the [Phase 3 summary](research/mahler/summary.md) and
+[machine-readable evidence](research/mahler/evidence.json) with:
+
+```text
+cargo run --locked --release -- mahler --out-dir research/mahler
+```
+
+See [`research/infinite-itineraries.md`](research/infinite-itineraries.md) for
+the full mathematical derivations and literature audit:
+
+- **Algebraic proofs (`proven-by-algebra`)**: all prefixes of `w = lim mu^j(1)`
+  (`mu(1)=1110, mu(0)=1101`) satisfy `3^(r_k) > 2^k` for all `k >= 1`; `w` is not
+  eventually periodic; and its unique 2-adic seed satisfies
+  `x(w) = -23/11 + (4/27)*F_2(16/27)` in `Z_2` where
+  `F(z) = (1 + z + z^3)/(1 - z^4) + (z^2 - z^3) F(z^4)`.
+- **Five-way checkpoints and periodic control (`verified-for-finite-domain`)**:
+  at `K in {16, 32, 64, 128, 256, 512, 1024}`, the residue `x_K mod 2^K` is
+  checked across affine inversion, Hensel cylinder lifting, parity-position
+  inverse sums, the Mahler reduction, and direct iteration of `T`. The periodic
+  control `(1110)^infinity` (`x = -19/11`) illustrates how every finite prefix
+  has positive integer realizations `n_K >= 2` with `T^K(n_K) > n_K` even when
+  no positive integer realizes the infinite word.
+- **Denominator obstruction and `a_k^2`-cancelled Padé ledger**: because
+  `B(z) = z^2(1 - z)` vanishes to order 2 at `z = 0`, the uncancelled
+  polynomial denominator recurrence makes `D_1` even (`v_2(D_1) = 8`, `refuted`
+  for uncancelled `Odd D_k`). Cancelling `a_k^2` via the level-`k` congruence
+  restores an odd denominator `D_{k+1} = D_k(b_k - a_k)(b_k^4 - a_k^4)`. In the
+  bounded Padé table (`1 <= m <= 16`), `m = 1` fails (`2^44 < 3^30`), while
+  `m = 4` (`p_0 = 1 + z + z^2`, `p_1 = -1 + z^4`) jumps to vanishing order
+  `N = 14` with odd leading coefficient `c = 1`, inducing a singular block on
+  `4 <= m <= 9` and closing both the `a_k^2`-cancelled and coarse integer
+  height ledgers (`2^56 > 16 * 27^7`).
 
 ## Epistemic statuses
 

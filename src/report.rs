@@ -7,6 +7,259 @@ use std::fmt::Write as _;
 
 use crate::envelope::{EnvelopeExperiment, Witness};
 use crate::hypothesis::{ExperimentOutcome, FailureCase, Status};
+use crate::mahler::MahlerExperiment;
+
+fn abbreviate_decimal(text: &str, max_len: usize) -> String {
+    if text.len() <= max_len {
+        text.to_string()
+    } else {
+        let head = &text[..12];
+        let tail = &text[text.len() - 12..];
+        format!("{head}...{tail} ({} digits)", text.len())
+    }
+}
+
+fn format_poly(coeffs: &[String]) -> String {
+    let mut terms = Vec::new();
+    for (deg, c) in coeffs.iter().enumerate() {
+        if c == "0" {
+            continue;
+        }
+        let term = match deg {
+            0 => c.clone(),
+            1 => {
+                if c == "1" {
+                    "z".to_string()
+                } else if c == "-1" {
+                    "-z".to_string()
+                } else {
+                    format!("{c}*z")
+                }
+            }
+            _ => {
+                if c == "1" {
+                    format!("z^{deg}")
+                } else if c == "-1" {
+                    format!("-z^{deg}")
+                } else {
+                    format!("{c}*z^{deg}")
+                }
+            }
+        };
+        terms.push(term);
+    }
+    if terms.is_empty() {
+        "0".to_string()
+    } else {
+        terms.join(" + ").replace("+ -", "- ")
+    }
+}
+
+/// Deterministic Phase 3 report for the aperiodic survivor itinerary and Mahler reduction.
+pub fn render_mahler(outcome: &MahlerExperiment) -> String {
+    let mut out = String::from(
+        "# Phase 3: aperiodic survivor itinerary and exact 2-adic Mahler reduction\n\n\
+         Generated deterministic evidence for the fixed point `w = lim_{j -> infinity} mu^j(1)` \
+         of the uniform morphism `mu(1) = 1110`, `mu(0) = 1101` under the accelerated Collatz map \
+         `T(n) = n/2` (even), `(3n+1)/2` (odd). All arithmetic uses exact arbitrary-precision \
+         integers (`BigUint` and `BigInt`); no floating point is used anywhere.\n\n\
+         Nothing below claims originality over Bernstein-Lagarias (1996), Lagarias (1990), \
+         Terras (1976), or `msharpe248/collatz`, and nothing claims a proof of CST or the \
+         Collatz conjecture. See [the mathematical memo](../infinite-itineraries.md) for \
+         complete proofs, derivations, and literature citations.\n\n\
+         Reproduce this summary and `evidence.json` from the repository root with:\n\n\
+         ```text\ncargo run --locked --release -- mahler --out-dir research/mahler\n```\n\n\
+         ## Epistemic status summary\n\n\
+         | claim | status |\n\
+         |---|---|\n",
+    );
+    let statuses = [
+        (
+            "All-prefix coefficient survival `3^(r_k) > 2^k` for all `k >= 1`",
+            outcome.prefix_survival_status,
+        ),
+        (
+            "Aperiodicity of `w` (`w` is not eventually periodic)",
+            outcome.aperiodicity_status,
+        ),
+        (
+            "Mahler functional equation and 2-adic identity `x(w) = -23/11 + (4/27)*F_2(16/27)`",
+            outcome.mahler_reduction_status,
+        ),
+        (
+            "Five-way modular checkpoint agreement up to `2^1024` and periodic control `-19/11`",
+            outcome.finite_checkpoints_status,
+        ),
+        (
+            "Uncancelled polynomial Mahler denominator keeps `D_k` odd for `B(z) = z^2 - z^3`",
+            outcome.uncancelled_tower_status,
+        ),
+        (
+            "Bounded exact Padé table (`1 <= m <= 16`) and `a_k^2`-cancelled height ledger",
+            outcome.cancelled_pade_exploration_status,
+        ),
+        (
+            "All shifts `sigma^t(w)` (`t >= 0`) and general divergent positive orbits",
+            outcome.shift_and_general_divergent_status,
+        ),
+    ];
+    for (claim, status) in statuses {
+        let _ = writeln!(out, "| {claim} | `{}` |", status.label());
+    }
+
+    out.push_str(
+        "\n## Five-way 2-adic checkpoint verification (`w = lim mu^j(1)`)\n\n\
+         At each `K`, the unique compatible residue `x_K in [0, 2^K)` is computed five ways: \
+         (1) prefix affine map + modular inverse, (2) cylinder Hensel lifting, (3) parity-position \
+         inverse sum `-sum_{i=0}^{r_K-1} 2^(d_i) / 3^(i+1) (mod 2^K)`, (4) the Mahler reduction \
+         `-23/11 + (4/27)*F_2(16/27) (mod 2^K)`, and (5) direct iteration of `T` for `K` steps on \
+         `x_K`. Full decimal values are recorded in `evidence.json`.\n\n\
+         | K | r_K | prefixes survive | F_2(16/27) mod 2^K | residue x_K mod 2^K | 5-way + Mahler eq + cocycle |\n\
+         |---|---|---|---|---|---|\n",
+    );
+    for row in &outcome.checkpoints {
+        let f2_str = abbreviate_decimal(&row.f2_mod_2k.to_string(), 28);
+        let res_str = abbreviate_decimal(&row.residue_affine_inverse.to_string(), 28);
+        let all_ok = row.all_prefixes_survive
+            && row.f2_functional_equation_matches
+            && row.block_cocycle_matches
+            && row.direct_iteration_matches
+            && row.residue_affine_inverse == row.residue_cylinder_lift
+            && row.residue_affine_inverse == row.residue_parity_positions
+            && row.residue_affine_inverse == row.residue_mahler_reduction;
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} | `{}` | `{}` | {} |",
+            row.k_bits,
+            row.odd_steps,
+            if row.all_prefixes_survive {
+                "yes"
+            } else {
+                "no"
+            },
+            f2_str,
+            res_str,
+            if all_ok { "exact match" } else { "MISMATCH" },
+        );
+    }
+
+    out.push_str(
+        "\n## Periodic control `(1110)^infinity` (`x = -19/11`)\n\n\
+         Every finite prefix of `(1110)^infinity` is realized by positive integers `n_K >= 2` \
+         with `T^K(n_K) > n_K`, even though the unique 2-adic limit is the negative rational \
+         `-19/11`. Every `n_K` therefore diverges from `(1110)^infinity` at a finite step `k >= K`.\n\n\
+         | K | r_K | least positive seed n_K >= 2 | 11*n_K + 19 == 0 (mod 2^K) | T^K(n_K) > n_K | first divergence step |\n\
+         |---|---|---|---|---|---|\n",
+    );
+    for row in &outcome.periodic_control {
+        let seed_str = abbreviate_decimal(&row.positive_seed.to_string(), 28);
+        let _ = writeln!(
+            out,
+            "| {} | {} | `{}` | {} | {} | {} |",
+            row.k_bits,
+            row.odd_steps,
+            seed_str,
+            if row.matches_minus_19_over_11 {
+                "yes"
+            } else {
+                "no"
+            },
+            if row.iterated_value_exceeds_seed {
+                "yes"
+            } else {
+                "no"
+            },
+            row.first_divergence_step,
+        );
+    }
+
+    let t = &outcome.tower_summary;
+    let _ = write!(
+        out,
+        "\n## Mahler tower structure and the `B(z) = z^2 - z^3` denominator obstruction\n\n\
+         - Power-series identity `(1 - z^4)(F(z) - (z^2 - z^3)F(z^4)) = 1 + z + z^3` verified to degree: `{}`\n\
+         - Homogenised prefix recurrence `preS(a, b, 4L)` verified for block counts: `0..={}`\n\
+         - Vanishing order of `B(z) = z^2(1 - z)` at `z = 0`: `{}`\n\
+         - 2-adic valuation `v_2(D_1)` of the **uncancelled** polynomial tower denominator: `{}` (`D_1` is even, refuting `Odd D_k` without `a_k^2` cancellation)\n\
+         - Exact integer divisibility `a_0^2 | Delta_0` in the **`a_k^2`-cancelled** tower: `{}` (verified across `0..={}` blocks)\n\
+         - Naive series truncation Liouville exponent `< 1` (`16^L < 27^L`): `{}`\n\
+         - Degree-1 Padé (`m = 1`, `N = 3`) in `a_k^2`-cancelled ledger: `2^44 = {}` vs `3^30 = {}` (closes: `{}`)\n\
+         - Degree-4 Padé (`m = 4`, `N = 14`) coarse step gain vs cost: `2^56 = {}` vs `16 * 27^7 = {}` (closes: `{}`)\n\n",
+        t.functional_equation_verified_degree,
+        t.homogenised_prefix_verified_blocks,
+        t.b_poly_zero_order_at_origin,
+        t.uncancelled_d1_two_adic_valuation,
+        if t.cancelled_delta0_divisible_by_a0_sq {
+            "yes"
+        } else {
+            "no"
+        },
+        t.level1_transport_verified_blocks,
+        if t.truncation_exponent_lt_one {
+            "yes"
+        } else {
+            "no"
+        },
+        t.degree1_gain_power_of_two,
+        t.degree1_cost_power_of_three,
+        if t.degree1_closes_ledger { "yes" } else { "no" },
+        t.degree4_coarse_gain_2_pow_56,
+        t.degree4_coarse_cost_16_mul_27_pow_7,
+        if t.degree4_closes_cancelled_ledger {
+            "yes"
+        } else {
+            "no"
+        },
+    );
+
+    out.push_str(
+        "## Bounded exact Padé auxiliary-form table (`1 <= m <= 16`)\n\n\
+         For each degree bound `m`, the nullspace of the `(2m + 1) x (2m + 2)` integer Hankel/Toeplitz \
+         system for `p_0(z) + p_1(z)*F(z) = O(z^(2m+1))` is solved by exact fraction-free `BigInt` \
+         row reduction, normalized to primitive integer coefficients, and stripped of any common \
+         `z^s` shift (`reduced deg`).\n\n\
+         | m | null dim | shift s | red deg | singular block | reduced p_0(z) | reduced p_1(z) | L_1 | L_inf | red order N | lead coeff c | v_2(c) | closes cancelled ledger | closes coarse ledger |\n\
+         |---|---|---|---|---|---|---|---|---|---|---|---|---|---|\n",
+    );
+    for row in &outcome.pade_candidates {
+        let p0_poly = abbreviate_decimal(&format_poly(&row.reduced_p0_coeffs), 32);
+        let p1_poly = abbreviate_decimal(&format_poly(&row.reduced_p1_coeffs), 32);
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} | {} | {} | `{}` | `{}` | {} | {} | {} | `{}` | {} | `2^{} vs 3^{}` ({}) | {} |",
+            row.degree_bound,
+            row.nullspace_dim_at_2m_plus_1,
+            row.common_z_shift,
+            row.reduced_max_degree,
+            if row.in_singular_block { "yes" } else { "no" },
+            p0_poly,
+            p1_poly,
+            row.l1_height,
+            row.linf_height,
+            row.reduced_vanishing_order,
+            row.leading_coeff,
+            row.leading_coeff_v2,
+            row.cancelled_tower_gain_exp2,
+            row.cancelled_tower_cost_exp3,
+            if row.closes_cancelled_tower_asymptotic {
+                "yes"
+            } else {
+                "no"
+            },
+            if row.closes_coarse_integer_ledger {
+                "yes"
+            } else {
+                "no"
+            },
+        );
+    }
+
+    out.push_str("\n## Unresolved proof obligations\n\n");
+    for item in &outcome.unresolved_obligations {
+        let _ = writeln!(out, "- {item}");
+    }
+    out
+}
 
 /// Deterministic Phase 2 report. The reproduction command always names the
 /// canonical artifact directory, even if the CLI writes a scratch copy.

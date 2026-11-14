@@ -14,9 +14,10 @@ use collatz_lab::collatz;
 use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
 use collatz_lab::envelope::run_envelope;
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
+use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
-use collatz_lab::report::{render_envelope, render_summary};
+use collatz_lab::report::{render_envelope, render_mahler, render_summary};
 use collatz_lab::verifier;
 
 type CliResult<T> = Result<T, Box<dyn Error>>;
@@ -56,12 +57,21 @@ enum Command {
     Counts(CountArgs),
     /// Measure Terras's mini-max envelope for exactly 1 <= r <= 12 (k <= 20).
     Envelope(EnvelopeArgs),
+    /// Investigate the aperiodic survivor itinerary mu(1)=1110, mu(0)=1101 via 2-adic Mahler reduction.
+    Mahler(MahlerArgs),
 }
 
 #[derive(Args)]
 struct EnvelopeArgs {
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/envelope")]
+    out_dir: PathBuf,
+}
+
+#[derive(Args)]
+struct MahlerArgs {
+    /// Output directory for evidence.json and summary.md.
+    #[arg(long, default_value = "research/mahler")]
     out_dir: PathBuf,
 }
 
@@ -693,6 +703,53 @@ fn cmd_envelope(args: &EnvelopeArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_mahler(args: &MahlerArgs) -> CliResult<()> {
+    let start = std::time::Instant::now();
+    let outcome = run_mahler()?;
+    let mut evidence = serde_json::to_vec_pretty(&outcome)?;
+    evidence.push(b'\n');
+    let summary = render_mahler(&outcome);
+    fs::create_dir_all(&args.out_dir)?;
+    let evidence_path = args.out_dir.join("evidence.json");
+    let summary_path = args.out_dir.join("summary.md");
+    fs::write(&evidence_path, evidence)?;
+    fs::write(&summary_path, summary)?;
+    println!(
+        "prefix survival 3^(r_k) > 2^k: {}",
+        outcome.prefix_survival_status.label()
+    );
+    println!(
+        "aperiodicity of w:             {}",
+        outcome.aperiodicity_status.label()
+    );
+    println!(
+        "Mahler 2-adic reduction:       {}",
+        outcome.mahler_reduction_status.label()
+    );
+    println!(
+        "checkpoints up to 2^{}:      {}",
+        outcome.max_bits,
+        outcome.finite_checkpoints_status.label()
+    );
+    println!(
+        "uncancelled Odd D_k tower:     {}",
+        outcome.uncancelled_tower_status.label()
+    );
+    println!(
+        "Padé table 1 <= m <= {}:       {}",
+        outcome.max_pade_degree,
+        outcome.cancelled_pade_exploration_status.label()
+    );
+    println!("wrote {}", evidence_path.display());
+    println!("wrote {}", summary_path.display());
+    println!("bounded 2-adic/Mahler investigation only; no claim of CST or Collatz proof");
+    eprintln!(
+        "[mahler] completed K<=1024 and Padé m=1..=16 in {} ms",
+        start.elapsed().as_millis()
+    );
+    Ok(())
+}
+
 fn main() -> ExitCode {
     let cli = Cli::parse();
     let result = match &cli.command {
@@ -702,6 +759,7 @@ fn main() -> ExitCode {
         Command::Experiment(args) => cmd_experiment(args),
         Command::Counts(args) => cmd_counts(args),
         Command::Envelope(args) => cmd_envelope(args),
+        Command::Mahler(args) => cmd_mahler(args),
     };
     match result {
         Ok(()) => ExitCode::SUCCESS,
