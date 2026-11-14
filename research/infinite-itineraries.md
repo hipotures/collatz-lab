@@ -31,16 +31,16 @@ Every claim in this study carries one of the five repository epistemic labels:
 | Claim | Status | Scope / Notes |
 |---|---|---|
 | All prefixes of $w$ satisfy $3^{r_k} > 2^k$ for all $k \ge 1$ | `proven-by-algebra` | Proven in Theorem 3.1; cross-checked for $1 \le k \le 1024$. |
-| $w$ is not eventually periodic | `proven-by-algebra` | Proven in Theorem 3.2 from the base-4 symbol recurrence. |
+| $w$ is not eventually periodic (so the 2-adic orbit of $x(w)$ is non-cyclic) | `proven-by-algebra` | Proven in Theorem 3.2 from the base-4 symbol recurrence. Note: aperiodicity alone rules out rational cycles (Lagarias 1990), whereas ruling out $x(w) \in \mathbb{Z}_2 \cap \mathbb{Q}$ in general from aperiodicity alone is the open Periodicity Conjecture (Section 2.1). |
 | Mahler functional equation and 2-adic seed formula $x(w) = -\frac{23}{11} + \frac{4}{27}F_2\left(\frac{16}{27}\right)$ in $\mathbb{Z}_2$ | `proven-by-algebra` | Proven in Theorems 4.1 and 4.3 via both the block-offset cocycle and the parity-position inverse series. |
 | Five-way modular residue agreement at $K \in \{16, 32, 64, 128, 256, 512, 1024\}$ and periodic control $(1110)^\infty \mapsto -19/11$ | `verified-for-finite-domain` | Checked in `src/mahler.rs` and `tests/mahler.rs`. |
 | Uncancelled polynomial Mahler tower keeps denominators $D_k$ odd for $B(z) = z^2 - z^3$ | `refuted` | Refuted in Proposition 6.1: $B(z) = z^2(1-z)$ vanishes to order $2$ at $z=0$, forcing $a_k^2 \mid D_{k+1}$ and $v_2(D_1) = 8$. |
-| Bounded exact Padé table ($1 \le m \le 16$) and $a_k^2$-cancelled integer tower height ledger | `verified-for-finite-domain` | Degree $m=1$ fails ($2^{44} < 3^{30}$); degree $m=4$ ($N=14, c=1$) closes both the $a_k^2$-cancelled and coarse integer height ledgers. |
-| Exclusion of all shifted itineraries $\sigma^t(w)$ ($t \ge 1$), general aperiodic survivor words, CST, and the Collatz conjecture | `conjectured` | Open proof obligations detailed in Section 8. |
+| Repaired $a_k^2$-cancelled backward Mahler tower ($D_0 = 11q, u_0 = \frac{27(11p + 23q)}{4}$) and degree-4 Padé linear form $E_k = D_k P_0 + u_k P_1$ ($v_2(E_k) = 56 \cdot 4^k$ vs $|E_k| < 3(|u_0| + D_0) 3^{19 \cdot 4^k}$) | `proven-by-algebra` / `verified-for-finite-domain` | Proven in Theorems 6.2 and 7.1; bounded Padé table ($1 \le m \le 16$) and checkpoint-seed tower levels $k \in \{0, 1, 2\}$ verified in `src/mahler.rs` and `tests/mahler.rs`. |
+| General Periodicity Conjecture, exclusion of all shifted itineraries $\sigma^t(w)$ ($t \ge 1$), general aperiodic survivor words, CST, and the Collatz conjecture | `conjectured` | Open proof obligations detailed in Sections 2.1–2.2 and 8. |
 
 ### Three Foundational Distinctions
 
-1. **A 2-adic seed $x(w) \in \mathbb{Z}_2$ is not a demonstrated divergent positive integer.** By Bernstein and Lagarias (1996), the parity-vector map $\Phi: \mathbb{Z}_2 \to \{0,1\}^{\mathbb{N}}$ is a homeomorphism. Every infinite parity word $v \in \{0,1\}^{\mathbb{N}}$ therefore possesses a **unique** 2-adic seed $x(v) = \Phi^{-1}(v) \in \mathbb{Z}_2$. Showing that $w$ exists and satisfies $3^{r_k} > 2^k$ for all $k \ge 1$ constructs a single 2-adic integer $x(w) \in \mathbb{Z}_2$; the nontrivial question is whether $x(w) \in \mathbb{N}_{>0}$ (it is expected that $x(w) \notin \mathbb{Q}$).
+1. **A 2-adic seed $x(w) \in \mathbb{Z}_2$ is not a demonstrated divergent positive integer, and aperiodicity of $w$ alone does not prove $x(w) \notin \mathbb{Q}$.** By Bernstein and Lagarias (1996), the parity-vector map $\Phi: \mathbb{Z}_2 \to \{0,1\}^{\mathbb{N}}$ is a homeomorphism. Every infinite parity word $v \in \{0,1\}^{\mathbb{N}}$ therefore possesses a **unique** 2-adic seed $x(v) = \Phi^{-1}(v) \in \mathbb{Z}_2$. Showing that $w$ exists and satisfies $3^{r_k} > 2^k$ for all $k \ge 1$ constructs a single 2-adic integer $x(w) \in \mathbb{Z}_2$. Moreover, Lagarias (1990, Theorem 2.1 and Corollary 2.1b) proves only one direction of the periodicity correspondence—namely, that an eventually periodic parity sequence $v$ yields a preperiodic rational seed $x(v) \in \mathbb{Z}_2 \cap \mathbb{Q}$; the converse ("every $x \in \mathbb{Z}_2 \cap \mathbb{Q}$ has an eventually periodic parity sequence") is the open **Periodicity Conjecture** (Section 2.1). Thus proving $x(w) \notin \mathbb{Z}_2 \cap \mathbb{Q}$ (and in particular $x(w) \notin \mathbb{N}_{>0}$) requires the explicit 2-adic Mahler/Padé contradiction in Sections 6–7, not aperiodicity of $w$ alone.
 2. **Realizing every finite prefix in $\mathbb{N}_{>0}$ does not imply realizing the infinite word in $\mathbb{N}_{>0}$.** For every $K \ge 1$, the finite prefix $w_{<K}$ defines a single residue class $x_K \pmod{2^K}$ containing infinitely many positive integers $n \equiv x_K \pmod{2^K}$, all of which satisfy $T^K(n) > n$. Yet the periodic control word $u = (1110)^\infty$ has the exact same property at every finite $K$ while its unique 2-adic seed is the negative rational $x(u) = -19/11 \notin \mathbb{N}_{>0}$ (Section 5).
 3. **Coefficient noncrossing ($\tau(w) = +\infty$) is a symbolic regime, not a complete characterization of hypothetical divergence without CST.** In Terras's terminology (1976), a parity prefix $v_{<k}$ crosses the coefficient threshold when $3^{r_k} < 2^k$; the first such $k$ is the *coefficient stopping time* $\omega(n)$, whereas the actual *stopping time* $\tau(n)$ is the first $k$ with $T^k(n) < n$. Because $c(v_{<k}) > 0$, $\tau(n) \ge \omega(n)$ always holds, and $\tau(n) = \omega(n)$ holds for all $n$ above an explicit threshold on each certified cylinder. However, proving that *every* hypothetical divergent positive integer orbit must avoid coefficient crossings (or eventually enter a survivor word after shifting) requires resolving the Coefficient Stopping Time (CST) conjecture or controlling post-crossing exception sets.
 
@@ -50,17 +50,44 @@ Every claim in this study carries one of the five repository epistemic labels:
 
 Nothing in the 2-adic setup, the morphism construction, or the Mahler/Padé method is claimed as original to this repository. Our work is an exact computational and algebraic audit of existing constructions, together with a structural comparison showing where the `Rung1.lean` denominator invariant requires modification for $\mu(1)=1110, \mu(0)=1101$.
 
-### 2.1 Bernstein–Lagarias (1996) and Lagarias (1990)
+### 2.1 Bernstein–Lagarias (1996), Lagarias (1990), and the Open Periodicity Conjecture (Rozier 2019)
 - **D. J. Bernstein and J. C. Lagarias**, *The $3x+1$ conjugacy map*, Canadian Journal of Mathematics **48** (1996), no. 6, 1154–1169.
-- **J. C. Lagarias**, *The set of rational cycles for the $3x+1$ problem*, Acta Arithmetica **56** (1990), 33–53 (`aa5614.pdf`, especially Section 2 and Corollary 2.1b).
+- **J. C. Lagarias**, *The $3x+1$ problem and its generalizations*, American Mathematical Monthly **92** (1985), 3–23 (Periodicity Conjecture stated on p. 13).
+- **J. C. Lagarias**, *The set of rational cycles for the $3x+1$ problem*, Acta Arithmetica **56** (1990), 33–53 (`aa5614.pdf`, Theorem 2.1 and Corollary 2.1b).
+- **O. Rozier**, *Parity sequences of the $3x+1$ map on the 2-adic integers and Euclidean embedding*, INTEGERS **19** (2019), #A8, 1–25 (`https://www.ipgp.fr/~rozier/pub/Parity.pdf`, Section 2 and Conjecture 1).
 
 Lagarias (1990) and Bernstein–Lagarias (1996) prove that the map $\Phi: \mathbb{Z}_2 \to \{0,1\}^{\mathbb{N}}$ sending $x \in \mathbb{Z}_2$ to its sequence of 2-adic parities $w(k) = (T^k(x) \bmod 2) \in \{0,1\}$ is an isometric homeomorphism (with the 2-adic metric on $\mathbb{Z}_2$ and the cylinder metric $d(v, w) = 2^{-\min\{k : v(k) \ne w(k)\}}$ on $\{0,1\}^{\mathbb{N}}$). If $d_0 < d_1 < d_2 < \cdots$ denote the indices where $w(d_i) = 1$, then the inverse map is given by the convergent 2-adic series
 $$\Phi^{-1}(w) = -\sum_{i=0}^{\infty} \frac{2^{d_i}}{3^{i+1}} \in \mathbb{Z}_2$$
-(with the finite sum when $w$ has only finitely many $1$s). By Lagarias (1990, Corollary 2.1b), $x \in \mathbb{Z}_2 \cap \mathbb{Q}$ if and only if its parity sequence $w = \Phi(x)$ is eventually periodic, and purely periodic parity sequences correspond bijectively to rational cycles of $T$ in $\mathbb{Z}_2 \cap \mathbb{Q}$ with denominator coprime to $6$. Consequently:
-- Because $w = \lim_{j\to\infty} \mu^j(1)$ is **not eventually periodic** (Theorem 3.2), its 2-adic seed $x(w)$ **cannot be a rational cycle**; in fact $x(w) \notin \mathbb{Q}$.
-- If $x(w)$ were a positive integer, its orbit $\{T^k(x(w))\}_{k \ge 0}$ could never repeat a value (which would force eventual periodicity of $w$) and could never satisfy $T^k(x(w)) < x(w)$ (since $3^{r_k} > 2^k$ and $c(w_{<k}) > 0$ imply $T^k(n) > n$ for every $n > 0$ realizing $w_{<k}$). Thus $x(w) \in \mathbb{N}_{>0}$ would have to be a **divergent trajectory** tending to $+\infty$.
+(with the finite sum when $w$ has only finitely many $1$s).
 
-### 2.2 The `msharpe248/collatz` Rung 1 Program
+It is essential to distinguish the **proven** direction of the periodicity correspondence from the **open** converse:
+- **What Lagarias (1990, Theorem 2.1 and Corollary 2.1b) proves (`proven-by-algebra`)**: Purely periodic parity sequences correspond bijectively to rational cycles of $T$ in $\mathbb{Z}_2 \cap \mathbb{Q}$ (fractions with odd denominator coprime to $3$), and **every eventually periodic parity sequence $v \in \{0,1\}^{\mathbb{N}}$ has a preperiodic rational 2-adic seed $\Phi^{-1}(v) \in \mathbb{Z}_2 \cap \mathbb{Q}$**. Contrapositively, any $x \in \mathbb{Z}_2$ whose $T$-orbit is not eventually periodic (in particular, any hypothetical divergent trajectory in $\mathbb{Z}$ or $\mathbb{Z}_2 \cap \mathbb{Q}$) must have an **aperiodic** parity sequence.
+- **What remains open — The Periodicity Conjecture (`conjectured`; Lagarias 1985, p. 13; Rozier 2019, Conjecture 1)**: The converse statement—that *every* rational 2-adic integer $x \in \mathbb{Z}_2 \cap \mathbb{Q}$ has an eventually periodic parity sequence $\Phi(x)$ (or contrapositively, that an aperiodic parity sequence $v$ automatically forces $\Phi^{-1}(v) \notin \mathbb{Q}$)—is the **Periodicity Conjecture**, which is **equivalent to the non-existence of divergent rational trajectories** of $T$ in $\mathbb{Z}_2 \cap \mathbb{Q}$ and remains a famous open problem.
+- **Consequence for $w = \lim_{j\to\infty} \mu^j(1)$**: Because $w$ is not eventually periodic (Theorem 3.2), the 2-adic orbit $\{T^k(x(w))\}_{k \ge 0}$ is **non-cyclic** (never repeats a value). However, Theorem 3.2 alone does **not** prove $x(w) \notin \mathbb{Q}$ or $x(w) \notin \mathbb{Z}$; if $x(w)$ were in $\mathbb{Z}_2 \cap \mathbb{Q}$, it would be a divergent rational trajectory (and if $x(w) \in \mathbb{N}_{>0}$, a divergent positive integer trajectory since $3^{r_k} > 2^k$ and $c(w_{<k}) > 0$ force $T^k(x(w)) > x(w)$ for all $k \ge 1$). Excluding $x(w) \in \mathbb{Z}_2 \cap \mathbb{Q}$ unconditionally therefore requires the explicit 2-adic Mahler/Padé proof in Sections 6–7 below.
+
+### 2.2 Primary-Source Audit of López & Stoll (2021, `arXiv:2101.12747v1`)
+- **J. López and P. Stoll**, *The $3x+1$ Periodicity Conjeture in $\mathbb{R}$*, arXiv preprint `arXiv:2101.12747v1` (January 2021, 51 pp.; unrefereed preprint, never published in a peer-reviewed journal).
+
+Because López and Stoll (2021, Theorem 1) claim to prove the Periodicity Conjecture for every parity sequence $v \in \{0,1\}^{\mathbb{N}}$ whose odd-step count $h = r_\ell(v)$ satisfies $\liminf_{\ell \to \infty} (h/\ell) > \ln(2)/\ln(3) \approx 0.63093$—a regime that includes our word $w$ since $\lim_{\ell\to\infty} r_\ell(w)/\ell = 3/4 = 0.75 > \ln(2)/\ln(3)$—we audited the full text of `arXiv:2101.12747v1` to determine whether it already excludes $x(w) \in \mathbb{Z}_2 \cap \mathbb{Q}$. **It does not**: the proof of Theorem 1 contains a foundational metric-conflation flaw between $\mathbb{R}$ and $\mathbb{Z}_2$.
+
+Specifically:
+1. **What López & Stoll actually establish in $\mathbb{R}$ (Lemmas 1, 19, and 20)**: For the length-$\ell$ prefix $u^{(\ell)} = v_{<\ell}$ (with $h = r_\ell(v)$ ones at positions $0 \le d_0 < \cdots < d_{h-1} < \ell$), define the rational partial sum
+   $$s_\ell := \Phi_{\mathbb{R}}(u^{(\ell)}) = -\frac{c(u^{(\ell)})}{3^h} = -\sum_{i=0}^{h-1} \frac{2^{d_i}}{3^{i+1}} \in \mathbb{Z}_2 \cap \mathbb{Q}.$$
+   By their Lemma 1 (p. 13, Eq. `\label{out}`), the true 2-adic seed $\zeta_2 := \Phi^{-1}(v) \in \mathbb{Z}_2$ satisfies the exact identity
+   $$\zeta_2 - s_\ell = \frac{2^\ell}{3^h}\, T^\ell(\zeta_2).$$
+   When $\liminf_{\ell\to\infty}(h/\ell) > \ln(2)/\ln(3)$, we have $2^\ell / 3^h \to 0$ in the **Archimedean metric** on $\mathbb{R}$. Consequently, the positive-term series $\sum_{i=0}^\infty 2^{d_i}/3^{i+1}$ converges in $\mathbb{R}$, so $s_\ell$ converges in $\mathbb{R}$ to a negative real number $\Phi_{\mathbb{R}}(v) := \lim_{\ell\to\infty}^{\mathbb{R}} s_\ell \in (-\infty, -1)$ (Lemma 19, p. 18), and the real *pseudo-trajectory* $\bigl(\Phi_{\mathbb{R}}(S^k(v))\bigr)_{k \ge 0}$ has an infinite bounded subsequence in $[\Phi_{\mathbb{R}}(0c_\alpha), -1] \subset \mathbb{R}$ and hence a real accumulation point (Lemma 20, p. 19).
+2. **Where the proof of Theorem 1 fails (Section 2, p. 5, Eqs. (6)–(7), and Proof of Theorem 1, p. 20)**: López and Stoll denote the 2-adic seed $\zeta_2 = (s_\ell \bmod 2^\ell)_{\ell=1}^\infty \in \mathbb{Z}_2$ by the symbol $\lim_{\leftarrow} \Phi_{\mathbb{R}}(v)$ and assert (Section 2, p. 5):
+   > *"If $\Phi_{\mathbb{R}}(v)$ is an irrational number, then the inverse limit $\lim_{\leftarrow} \Phi_{\mathbb{R}}(v)$ is a 2-adic integer which is aperiodic, because the irrational $\Phi_{\mathbb{R}}(v)$ does not admit an eventually periodic 2-adic expansion."*
+   In the proof of Theorem 1 (p. 20), they show that if $v$ is aperiodic with $\liminf(h/\ell) > \ln(2)/\ln(3)$, the real pseudo-trajectory $\bigl(\Phi_{\mathbb{R}}(S^k(v))\bigr)_{k \ge 0}$ has a real accumulation point and therefore cannot lie in a discrete subgroup $\frac{1}{q}\mathbb{Z} \subset \mathbb{R}$, which proves $\Phi_{\mathbb{R}}(v) \notin \mathbb{Q}$ (as a real number)—and from this they conclude via Section 2 that the 2-adic seed $\zeta_2 = \Phi^{-1}(v) \in \mathbb{Z}_2$ cannot be rational.
+3. **Why this inference is invalid**: The rational sequence $(s_\ell)_{\ell \ge 1} \subset \mathbb{Z}_2 \cap \mathbb{Q}$ is being completed in two **inequivalent** valuations ($\mathbb{R}$ and $\mathbb{Q}_2$):
+   $$\Phi_{\mathbb{R}}(v) = \lim_{\ell \to \infty}^{\mathbb{R}} s_\ell \in \mathbb{R} \qquad \text{versus} \qquad \zeta_2 = \Phi^{-1}(v) = \lim_{\ell \to \infty}^{\mathbb{Q}_2} s_\ell \in \mathbb{Z}_2.$$
+   The 2-adic limit $\zeta_2$ is a function of the sequence $(s_\ell)$, **not** of its real limit $\Phi_{\mathbb{R}}(v)$. Indeed, by Lemma 1, $\zeta_2 - s_\ell = (2^\ell/3^h) T^\ell(\zeta_2)$. In $\mathbb{Q}_2$, $|(2^\ell/3^h) T^\ell(\zeta_2)|_2 \le 2^{-\ell} \to 0$ always, so $s_\ell \to \zeta_2$ in $\mathbb{Z}_2$. In $\mathbb{R}$, however, if a rational seed $\zeta_2 \in \mathbb{Z}_2 \cap \mathbb{Q}$ (such as a hypothetical divergent positive integer $\zeta_2 \ge 1$) had an aperiodic parity sequence $v$ with $\liminf(h/\ell) > \ln(2)/\ln(3)$, then $\zeta_2 > 0 > -1 > \Phi_{\mathbb{R}}(v)$, so $\zeta_2 \ne \Phi_{\mathbb{R}}(v)$! Rearranging Lemma 1 in $\mathbb{R}$ simply gives the asymptotic growth of the divergent orbit:
+   $$T^\ell(\zeta_2) = \frac{3^h}{2^\ell}\bigl(\zeta_2 - s_\ell\bigr) \sim \frac{3^h}{2^\ell}\bigl(\zeta_2 - \Phi_{\mathbb{R}}(v)\bigr) \longrightarrow +\infty \quad \text{in } \mathbb{R},$$
+   so the true rational orbit $\{T^\ell(\zeta_2)\}_{\ell \ge 0}$ diverges to $+\infty$ with **no** real accumulation point, while the real limit $\Phi_{\mathbb{R}}(v)$ is merely the negative real parameter where the formal backward affine maps contract in $\mathbb{R}$ (for our $w$, $\Phi_{\mathbb{R}}(w) = -\frac{23}{11} + \frac{4}{27} F_\infty(16/27) \approx -1.74425 \in \mathbb{R}$, Section 4.1). Irrationality of $\Phi_{\mathbb{R}}(v)$ in $\mathbb{R}$ says nothing about whether $\zeta_2 = \Phi^{-1}(v) \in \mathbb{Z}_2$ lies in $\mathbb{Q}$.
+
+Consequently, López & Stoll (2021) does **not** prove the Periodicity Conjecture in the regime $\liminf(h/\ell) > \ln(2)/\ln(3)$ and does **not** exclude $x(w) \in \mathbb{Z}_2 \cap \mathbb{Q}$.
+
+### 2.3 The `msharpe248/collatz` Rung 1 Program
 - **Repository**: `https://github.com/msharpe248/collatz` (`README.md`, `analysis/RUNG1_ATTACK.md`, `lean/Collatz/Rung1.lean`, `lean/Collatz/RationalMechanical.lean`, `lean/Collatz/ParityDefects.lean`, `analysis/pade_rung1.py`).
 
 Sharpe formulates a 2-adic Mahler transcendence/integrality attack ("Rung 1") on fixed points of uniform Collatz survivor morphisms:
@@ -72,12 +99,12 @@ Sharpe formulates a 2-adic Mahler transcendence/integrality attack ("Rung 1") on
    - **Degree-2 Padé closes the height ledger for $\sigma$**: the $[2/2]$ Padé approximant $p_0(z) = 3 + 2z - 2z^2$, $p_1(z) = -3 + z + z^2$ achieves vanishing order $N = 5$ with odd leading coefficient $c = 2$? No—for $\sigma$, $c = 1$ (odd), giving $2^{50} > 3^{26}$. In `lean/Collatz/Rung1.lean`, the finite-level backward tower transport and final contradiction $2^{4 \cdot 3^k} \mid D_k \cdot 9^{3^k}$ are mechanized in Lean 4 modulo two localized `sorry` declarations (`pade_divisibility_step` and `pade_archimedean_bound`).
 4. In Section 6 below, we show a **critical structural difference** between $\sigma$ ($B_\sigma(z) = 1 - z^2$) and $\mu$ ($B_\mu(z) = z^2 - z^3 = z^2(1-z)$): because both $\mu(1)=1110$ and $\mu(0)=1101$ begin with $11$, $B_\mu(z)$ vanishes to order $2$ at $z = 0$. Consequently, the uncancelled polynomial denominator recurrence of `Rung1.lean` acquires a factor of $a_k^2$, making $D_k$ **even** for all $k \ge 1$ ($v_2(D_1) = 8$) and falsifying the uncancelled `Odd D_k` invariant. Restoring `Odd D_k` requires cancelling $a_k^2$ at each step of the backward Mahler tower via the level-$k$ 2-adic congruence at $L = 1$.
 
-### 2.3 Terras (1976) and the Role of CST
+### 2.4 Terras (1976) and the Role of CST
 - **R. Terras**, *A stopping time problem on the positive integers*, Acta Arithmetica **30** (1976), 241–265; see also the repository's primary-source audit in [`research/literature-cst.md`](literature-cst.md).
 
 Terras introduced the parity prefix cylinders, the affine representation $T^k(n) = (3^{r_k} n + c(w_{<k}))/2^k$, the stopping time $\tau(n) = \min\{k \ge 1 : T^k(n) < n\}$, and the coefficient stopping time $\omega(n) = \min\{k \ge 1 : 3^{r_k} < 2^k\}$. Words $w \in \{0,1\}^{\mathbb{N}}$ satisfying $3^{r_k} > 2^k$ for all $k \ge 1$ are precisely the infinite branches of the survivor tree $\mathcal{S}$ where $\omega = +\infty$ (and therefore $\tau = +\infty$ for every positive integer $n$ realizing the branch). Without assuming the Coefficient Stopping Time conjecture ($\tau(n) = \omega(n)$ for all $n \ge 2$), a hypothetical nonconvergent positive integer $n$ could in principle cross a coefficient threshold ($3^{r_k} < 2^k$) while remaining below the finite exception threshold $c(w_{<k})/(2^k - 3^{r_k})$ so that $T^k(n) \ge n$.
 
-### 2.4 Cautionary Baseline: Withdrawn 2026 Zenodo Preprint Series (`18789015`)
+### 2.5 Cautionary Baseline: Withdrawn 2026 Zenodo Preprint Series (`18789015`)
 - **M. Cerdà Bennassar**, *Structural Reduction of the Collatz Conjecture to the Dynamics of an Induced Function*, Zenodo record `https://zenodo.org/records/18789015` (February 2026; restricted/withdrawn by the author).
 
 This February 2026 Zenodo preprint series attempted to reduce the Collatz conjecture to the dynamics of an induced return map on odd integers. The author subsequently withdrew/restricted the record with an explicit retraction note explaining two fatal flaws:
@@ -86,7 +113,7 @@ This February 2026 Zenodo preprint series attempted to reduce the Collatz conjec
 
 We cite this withdrawn series as a concrete reminder of why symbolic and induced-map reductions must keep three steps strictly separate: (i) proving algebraic properties of a symbolic itinerary, (ii) proving integrality/non-integrality of a specific 2-adic seed, and (iii) claiming anything about general orbits of positive integers.
 
-### 2.5 Terence Tao (2022) on Logarithmic Density
+### 2.6 Terence Tao (2022) on Logarithmic Density
 - **T. Tao**, *Almost all orbits of the Collatz map attain almost bounded values*, Forum of Mathematics, Pi **10** (2022), e12, 1–56 (`https://arxiv.org/abs/1909.03562`).
 
 Tao proved that for any function $f: \mathbb{N} \to \mathbb{R}$ with $\lim_{N\to\infty} f(N) = +\infty$, the set of positive integers $n$ satisfying $\min_{k \ge 0} T^k(n) \le f(n)$ has logarithmic density $1$. As already established by Terras (1976), the set of survivors modulo $2^K$ satisfying $3^{r_k} > 2^k$ for all $1 \le k \le K$ has asymptotic density $\to 0$ as $K \to \infty$, so the set of all infinite survivor itineraries has 2-adic Haar measure $0$. Neither Terras's asymptotic density $0$ nor Tao's logarithmic density $1$ rules out a *single* exceptional positive integer $n \in \mathbb{N}_{>0}$, because a single integer (or a sparse divergent orbit) has density $0$. Deterministic exclusion of a specific infinite itinerary $w$ therefore requires a 2-adic Diophantine/Mahler argument rather than a measure-theoretic one.
@@ -290,62 +317,126 @@ $$v_2(D_1^{\text{unc}}) = v_2(D_0^{\text{unc}}) + 8, \qquad v_2(D_k^{\text{unc}}
 
 ---
 
-### 6.2 Restoring an Odd Denominator via Exact $a_k^2$ Cancellation (`proven-by-algebra`)
-Why does $a_k^2$ appear in the homogenised backward step, and why can it be cancelled over $\mathbb{Z}$?
+### 6.2 Repaired $(u_0, D_0)$ Seed Normalization and Exact $a_k^2$ Cancellation (`proven-by-algebra`)
 
-### Theorem 6.2 (The $a_k^2$-Cancelled Backward Mahler Tower, `proven-by-algebra`)
-*Suppose $x \in \mathbb{Z}$ realizes $w$, so $11 x + 23 = \frac{44}{27} F_2(16/27)$ in $\mathbb{Z}_2$, or equivalently at level $k = 0$ (after dividing by $4$, since $11 x + 23 \equiv 0 \pmod{4}$ follows from $w_{<2} = 11$):*
-$$b_0^{L-1} u_0 \equiv D_0 \operatorname{preS}(a_0, b_0, L) \pmod{a_0^L} \qquad \forall L \ge 1,$$
-*where $(a_0, b_0) = (16, 27)$, $D_0 = 11$ (odd), and $u_0 = (11 x + 23)/4 \in \mathbb{Z}$. Define recursively for $k \ge 0$:*
+#### Why the Unnormalized Definition $u_0^{\text{old}} = (11x + 23)/4$ Fails at $L = 1$
+By Theorem 4.3, the 2-adic seed $x(w)$ satisfies
+$$x(w) = -\frac{23}{11} + \frac{4}{27} F_2\left(\frac{16}{27}\right) \iff \frac{11 x(w) + 23}{4} = \frac{11}{27} F_2\left(\frac{16}{27}\right) \iff \frac{27(11 x(w) + 23)}{4} = 11 F_2\left(\frac{16}{27}\right).$$
+Notice the factor of $27 = b_0$ in the denominator of $\frac{11}{27} F_2\left(\frac{16}{27}\right)$! If one defines $u_0^{\text{old}} = (11x + 23)/4$ with $D_0 = 11$, then $u_0^{\text{old}} / D_0 = \frac{1}{27} F_2(16/27) \ne F_2(16/27)$, so at $L = 1$ ($\operatorname{preS}(16, 27, 1) = w(0) = 1$, modulus $a_0^1 = 16$):
+$$b_0^{1-1} u_0^{\text{old}} = u_0^{\text{old}} \equiv 11 \cdot 27^{-1} \equiv 11 \cdot 3 \equiv 1 \not\equiv 11 = D_0 \operatorname{preS}(16, 27, 1) \pmod{16},$$
+and the level-$0$ numerator $\Delta_0^{\text{old}} = (27^4 - 16^4) u_0^{\text{old}} - 11 \cdot 27(27^3 + 16 \cdot 27^2 + 16^3)$ satisfies $\Delta_0^{\text{old}} \equiv 134 \not\equiv 0 \pmod{256}$, failing divisibility by $a_0^2 = 256$.
+
+Multiplying $u_0^{\text{old}}$ by $b_0 = 27$ restores the exact invariant $u_0 / D_0 = F_2(16/27)$ in $\mathbb{Z}_2$ and repairs both the base congruence for all $L \ge 1$ and the inductive backward tower transport.
+
+### Theorem 6.2 (Repaired $a_k^2$-Cancelled Backward Mahler Tower, `proven-by-algebra`)
+*Suppose $x = p/q \in \mathbb{Z}_2 \cap \mathbb{Q}$ (with $p, q \in \mathbb{Z}$, $q \ge 1$ odd, $\gcd(p, q) = 1$; in particular $q = 1, p = x$ when $x \in \mathbb{Z}$) realizes the parity word $w$. Set*
+$$a_0 = 16, \qquad b_0 = 27, \qquad D_0 = 11 q, \qquad u_0 = \frac{27(11 p + 23 q)}{4} = \frac{297 p + 621 q}{4},$$
+*and define recursively for $k \ge 0$:*
 $$a_{k+1} = a_k^4, \qquad b_{k+1} = b_k^4, \qquad D_{k+1} = D_k (b_k - a_k)(b_k^4 - a_k^4),$$
 $$\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k (b_k^3 + a_k b_k^2 + a_k^3), \qquad u_{k+1} = b_k^3 \cdot \frac{\Delta_k}{a_k^2}.$$
-*Then for every $k \ge 0$:*
-1. *$D_k$ is an **odd** positive integer.*
-2. *$a_k^2$ divides $\Delta_k$ in $\mathbb{Z}$, so $u_{k+1} \in \mathbb{Z}$.*
-3. *For every $L \ge 1$, the homogenised prefix congruence holds at level $k$:*
-   $$b_k^{4L-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, 4L) \pmod{a_k^{4L}} \implies b_{k+1}^{L-1} u_{k+1} \equiv D_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L) \pmod{a_{k+1}^L}.$$
+*Then:*
+1. **(Integrality and base congruence at $k = 0$)** *$11 p + 23 q \equiv 0 \pmod{4}$, so $u_0 \in \mathbb{Z}$; $D_0 = 11 q$ is an odd positive integer; and for every integer $L \ge 1$,*
+   $$b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L) = a_0^L \cdot \frac{q\bigl(11 T^{4L}(x) + 23\bigr)}{4} \equiv 0 \pmod{a_0^L}.$$
+2. **(Odd denominator invariant)** *For every $k \ge 0$, $D_k$ is an **odd** positive integer.*
+3. **(Exact $a_k^2$ divisibility and congruence transport)** *For every $k \ge 0$, $a_k^2$ divides $\Delta_k$ in $\mathbb{Z}$ (so $u_{k+1} \in \mathbb{Z}$), and for every integer $L \ge 1$,*
+   $$b_k^{L-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, L) \pmod{a_k^L}.$$
 
 **Proof.**
-1. Since $D_0 = 11$ is odd and $b_k - a_k, b_k^4 - a_k^4$ are odd for all $k \ge 0$, $D_k$ is odd by induction.
-2. Taking $L = 1$ in the 4-block congruence $b_k^3 u_k \equiv D_k \operatorname{preS}(a_k, b_k, 4) \pmod{a_k^4}$ and noting that $w(0) = w(1) = 1$, we have
-   $$\operatorname{preS}(a_k, b_k, 4) = b_k^3 + a_k b_k^2 + a_k^2 b_k,$$
-   so
-   $$b_k^3 u_k \equiv D_k (b_k^3 + a_k b_k^2) \pmod{a_k^2}.$$
-   Meanwhile, in $\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k(b_k^3 + a_k b_k^2 + a_k^3)$, reducing modulo $a_k^2$ eliminates $-a_k^4 u_k$ and $-D_k a_k^3 b_k$, leaving
-   $$\Delta_k \equiv b_k^4 u_k - D_k b_k^4 - D_k a_k b_k^3 = b_k\bigl(b_k^3 u_k - D_k(b_k^3 + a_k b_k^2)\bigr) \equiv 0 \pmod{a_k^2}$$
-   because $\gcd(a_k, b_k) = 1$. Thus $a_k^2 \mid \Delta_k$ in $\mathbb{Z}$ and $u_{k+1} \in \mathbb{Z}$.
-3. By Theorem 4.1 homogenised over $4L$ terms,
-   $$(b_k^4 - a_k^4) \operatorname{preS}(a_k, b_k, 4L) = (b_k^3 + a_k b_k^2 + a_k^3)(b_k^{4L} - a_k^{4L}) + a_k^2(b_k - a_k) \operatorname{preS}(a_k^4, b_k^4, L).$$
-   Multiplying $b_k^{4L-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, 4L) \pmod{a_k^{4L}}$ by $b_k (b_k^4 - a_k^4)(b_k - a_k)$ and substituting the identity above yields
-   $$a_k^2 b_{k+1}^{L-1} u_{k+1} \equiv a_k^2 D_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L) \pmod{a_k^{4L}}.$$
-   For $L \ge 1$, reducing modulo $a_k^{4L}$ after dividing by $a_k^2$ gives the congruence modulo $a_k^{4L - 2}$; and applying the same identity at $L + 1$ (since $4(L+1) - 2 = 4L + 2 > 4L$) upgrades the modulus to $a_k^{4L} = a_{k+1}^L$. $\blacksquare$
+1. **Base case ($k = 0$):** For any integer $m \ge 0$, let $y_m = T^{4m}(x) \in \mathbb{Z}_2 \cap \mathbb{Q}$ (with denominator dividing $q$). Because $w(4m) = w(4m+1) = 1$ by Lemma 3.1, the first two 2-adic bits of $y_m$ are $1, 1$, meaning $y_m \equiv 3 \pmod{4}$ in $\mathbb{Z}_2$. Since $q$ is odd, $q_m := q(11 y_m + 23)/4 \in \mathbb{Z}_2 \cap \mathbb{Q}$ has odd denominator dividing $q$ and is 2-adically integral, hence $q_m \in \mathbb{Z}$. Taking $m = 0$ gives $11 p + 23 q = 4 q_0 \equiv 0 \pmod{4}$ and $u_0 = 27 q_0 \in \mathbb{Z}$.
+   Now let $L \ge 1$. After $4L$ steps, $16^L y_L = 27^L x + c(w_{<4L})$. Multiplying by $11 q$ and substituting Lemma 4.2(2), $11 c(w_{<4L}) = 23(27^L - 16^L) - 44 \operatorname{preS}(16, 27, L)$, yields the exact integer identity
+   $$\begin{aligned}
+   4 \cdot 16^L q_L &= 11 q \cdot 16^L y_L + 23 q \cdot 16^L \\
+   &= 11 q \cdot 27^L x + 11 q\, c(w_{<4L}) + 23 q \cdot 16^L \\
+   &= 27^L(11 p + 23 q) - 44 q \operatorname{preS}(16, 27, L) \\
+   &= 4\bigl(b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L)\bigr).
+   \end{aligned}$$
+   Dividing by $4$ gives $b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L) = a_0^L q_L \equiv 0 \pmod{a_0^L}$ for all $L \ge 1$. (In particular, at $L = 1$, $u_0 \equiv 11 q \equiv D_0 \operatorname{preS}(16, 27, 1) \pmod{16}$.)
+2. **Oddness of $D_k$:** Since $D_0 = 11 q > 0$ is odd and, for every $k \ge 0$, $b_k = 27^{4^k}$ is odd, $a_k = 16^{4^k}$ is even, and $b_k > a_k > 0$, both factors $b_k - a_k$ and $b_k^4 - a_k^4$ are positive odd integers. By induction on $k$, $D_k$ is a positive odd integer for all $k \ge 0$.
+3. **Inductive step ($k \implies k+1$):** Assume $u_k \in \mathbb{Z}$ and $b_k^{M-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, M) \pmod{a_k^M}$ holds for all $M \ge 1$.
+   - *Exact divisibility $a_k^2 \mid \Delta_k$*: Taking $M = 2$ and noting that $w(0) = w(1) = 1$ gives $\operatorname{preS}(a_k, b_k, 2) = b_k + a_k$, so
+     $$b_k u_k \equiv D_k (b_k + a_k) \pmod{a_k^2}.$$
+     Multiplying by $b_k^3$ yields $b_k^4 u_k \equiv D_k b_k (b_k^3 + a_k b_k^2) \pmod{a_k^2}$. Since $a_k^4 u_k \equiv 0 \pmod{a_k^2}$ and $D_k b_k a_k^3 \equiv 0 \pmod{a_k^2}$, we obtain
+     $$\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k(b_k^3 + a_k b_k^2 + a_k^3) \equiv b_k^4 u_k - D_k b_k(b_k^3 + a_k b_k^2) \equiv 0 \pmod{a_k^2}.$$
+     Therefore $a_k^2 \mid \Delta_k$ in $\mathbb{Z}$ and $u_{k+1} = b_k^3 (\Delta_k / a_k^2) \in \mathbb{Z}$.
+   - *Transport of the congruence to level $k+1$ for all $L \ge 1$*: Homogenising Theorem 4.1 over $4L$ terms (where $a_{k+1} = a_k^4$, $b_{k+1} = b_k^4$, and $\operatorname{geomS}(a_{k+1}, b_{k+1}, L) = (b_k^{4L} - a_k^{4L})/(b_k^4 - a_k^4)$) gives the exact polynomial identity
+     $$(b_k^4 - a_k^4) \operatorname{preS}(a_k, b_k, 4L) = (b_k^3 + a_k b_k^2 + a_k^3)(b_k^{4L} - a_k^{4L}) + a_k^2(b_k - a_k)(b_k^4 - a_k^4) \operatorname{preS}(a_{k+1}, b_{k+1}, L).$$
+     Multiplying the level-$k$ congruence at $M = 4L$, namely $b_k^{4L-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, 4L) \pmod{a_k^{4L}}$, by $b_k(b_k^4 - a_k^4)$ and substituting the identity above (dropping $-D_k b_k(b_k^3 + a_k b_k^2 + a_k^3) a_k^{4L} \equiv 0 \pmod{a_k^{4L}}$) gives
+     $$b_k^{4L} \Delta_k \equiv a_k^2 b_k D_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L) \pmod{a_k^{4L}}.$$
+     Since $b_k^{4L} \Delta_k = b_k \cdot b_{k+1}^{L-1} \cdot b_k^3 \Delta_k = a_k^2 b_k b_{k+1}^{L-1} u_{k+1}$, this is
+     $$a_k^2 b_k \bigl(b_{k+1}^{L-1} u_{k+1} - D_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L)\bigr) \equiv 0 \pmod{a_k^{4L}}.$$
+     Applying this relation with $L + 1$ in place of $L$ (modulus $a_k^{4L+4}$), dividing by $a_k^2 b_k$ (since $\gcd(a_k, b_k) = 1$), and reducing modulo $a_{k+1}^L = a_k^{4L} \mid a_k^{4L+2}$ yields
+     $$b_{k+1}^L u_{k+1} \equiv D_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L+1) \pmod{a_{k+1}^L}.$$
+     Finally, since $\operatorname{preS}(a_{k+1}, b_{k+1}, L+1) = b_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L) + w(L) a_{k+1}^L \equiv b_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L) \pmod{a_{k+1}^L}$ and $\gcd(b_{k+1}, a_{k+1}) = 1$, cancelling $b_{k+1}$ gives
+     $$b_{k+1}^{L-1} u_{k+1} \equiv D_{k+1} \operatorname{preS}(a_{k+1}, b_{k+1}, L) \pmod{a_{k+1}^L}$$
+     for every $L \ge 1$. $\blacksquare$
 
-In `src/mahler.rs` (`verify_mahler_tower_summary`), both the homogenised prefix recurrence (for $0 \le L \le 64$) and the exact integer divisibility $a_0^2 \mid \Delta_0$ and level-1 congruence transport (for $0 \le L \le 15$) are verified in exact `BigInt` arithmetic.
+In `src/mahler.rs` (`evaluate_checkpoint` and `verify_mahler_tower_summary`) and `tests/mahler.rs` (`regression_test_unnormalized_u0_fails_mod16_and_repaired_tower_succeeds_on_checkpoint_seeds`), both the failure of $u_0^{\text{old}} = (11 x_K + 23)/4$ at $L = 1 \pmod{16}$ and the success of the repaired normalization $D_0 = 11, u_0 = 27(11 x_K + 23)/4$ are verified directly on the actual checkpoint seeds $x_K$ across $K \in \{16, 32, 64, 128, 256, 512, 1024\}$ (reaching level $k = 2$, $1 \le L \le 15$ on $x_{1024}$).
 
 ---
 
-## 7. Bounded Exact Padé Auxiliary-Form Exploration ($1 \le m \le 16$) (`verified-for-finite-domain`)
+## 7. Exact Degree-4 Padé Contradiction and Bounded Padé Table ($1 \le m \le 16$)
 
 ### 7.1 Why Naive Truncation Fails (`proven-by-algebra`)
 Without Padé acceleration, truncating $F_2(a_k/b_k)$ after $L$ terms gives a 2-adic remainder of valuation $v_2(a_k^L) = 4 L \cdot 4^k$ against a denominator of $b_k^L = 27^{L \cdot 4^k}$. The ratio of 2-adic gain to archimedean denominator growth is governed by the Liouville exponent
 $$\frac{\log(16)}{\log(27)} = \frac{4 \log 2}{3 \log 3} \approx 0.84124 < 1 \qquad (16^L < 27^L \;\;\forall L \ge 1).$$
 Thus naive truncation loses ground at every scale $L$.
 
-### 7.2 Exact Height Ledger in the $a_k^2$-Cancelled Tower
-Suppose $(p_0(z), p_1(z)) \in \mathbb{Z}[z]^2$ has reduced maximum degree $M = \max(\deg p_0, \deg p_1)$ and satisfies
-$$p_0(z) + p_1(z) F(z) = c z^N + O(z^{N+1}) \qquad (c \ne 0).$$
-Homogenising at level $k$ with $P_i(a_k, b_k) = b_k^M p_i(a_k/b_k)$ and multiplying by $D_k b_k^N$, the linear form
-$$E_k = D_k b_k^N P_0(a_k, b_k) + u_k P_1(a_k, b_k) b_k^N \in \mathbb{Z}$$
-satisfies:
-- **2-adic lower bound**: Whenever $v_2(c) < v_2(a_k) = 4 \cdot 4^k$ (in particular, for every $k \ge 0$ when $c$ is odd so $v_2(c) = 0$), the $z^N$ term strictly dominates the remainder in $\mathbb{Q}_2$ and $D_k$ is odd, so $E_k \ne 0$ and
-  $$v_2(E_k) = 4 N \cdot 4^k + v_2(c) \implies |E_k| \ge 2^{4 N \cdot 4^k + v_2(c)}.$$
-- **Archimedean upper bound (cancelled vs coarse)**:
-  - In the **$a_k^2$-cancelled tower** (Theorem 6.2), each step multiplies $D_k$ by $(b_k - a_k)(b_k^4 - a_k^4) < b_k^5$ and multiplies the height bound by at most $4 b_k^7 / a_k^2$, so up to lower-order factors in $4^k$,
-    $$D_k \le C_0 \cdot 27^{\frac{5}{3} \cdot 4^k}, \qquad |u_k| \le C_1 \cdot \left(\frac{27^{7/3}}{16^{2/3}}\right)^{4^k}, \qquad |E_k| \le C_2 \cdot \left(\frac{27^{M + 7/3}}{16^{2/3}}\right)^{4^k}.$$
-    Cubing both sides to keep the comparison in pure integer arithmetic, the asymptotic height ledger closes if and only if
-    $$2^{4(3N + 2)} > 3^{3(3M + 7)}.$$
-  - Under the **coarsest single-step integer bound** (replacing $b_k^7/a_k^2$ by $b_k^8$ so no fractional exponents or $a_k^{-2/3}$ savings are used, and requiring $c$ to be odd so $v_2(c) = 0$), the per-step multiplier is bounded by $16 \cdot 27^{M + 3}$ against $16^N = 2^{4N}$, which closes when
-    $$2^{4N} > 16 \cdot 27^{M + 3} \quad \text{and} \quad c \equiv 1 \pmod{2}.$$
+### 7.2 Corrected Linear Form $E_k$, Exact 2-Adic Valuation, and Uniform Archimedean Height Bound (`proven-by-algebra`)
+For any polynomial pair $(p_0(z), p_1(z)) \in \mathbb{Z}[z]^2$ of reduced maximum degree $M = \max(\deg p_0, \deg p_1)$ satisfying
+$$p_0(z) + p_1(z) F(z) = c z^N + O(z^{N+1}) \qquad (c \ne 0),$$
+let $P_i(a_k, b_k) = b_k^M p_i(a_k/b_k) \in \mathbb{Z}$ be the degree-$M$ homogenisations at level $k$. Because $u_k / D_k = F_2(a_k/b_k)$ in $\mathbb{Z}_2$, the homogenised integer linear form is defined **without** any extraneous $b_k^N$ factor as
+$$E_k := D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k) \in \mathbb{Z}, \qquad \text{so that} \qquad \frac{E_k}{D_k b_k^M} = p_0\left(\frac{a_k}{b_k}\right) + p_1\left(\frac{a_k}{b_k}\right) F_2\left(\frac{a_k}{b_k}\right) \;\;\text{in } \mathbb{Z}_2.$$
+
+For the degree-4 Padé pair $(p_0(z), p_1(z)) = (1 + z + z^2, -1 + z^4)$ ($M = 4, N = 14, c = 1$), we now prove the complete Diophantine contradiction with explicit constants.
+
+### Theorem 7.1 (Exact Valuation and Explicit Height Contradiction for $x(w)$, `proven-by-algebra`)
+*Let $(a_k, b_k, u_k, D_k)_{k \ge 0}$ be the repaired backward Mahler tower of Theorem 6.2 associated to a hypothetical rational seed $x = p/q \in \mathbb{Z}_2 \cap \mathbb{Q}$ of $w$, and define*
+$$P_0(a_k, b_k) = b_k^4 + a_k b_k^3 + a_k^2 b_k^2, \qquad P_1(a_k, b_k) = -b_k^4 + a_k^4,$$
+$$E_k := D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k) \in \mathbb{Z}.$$
+*Then for every integer $k \ge 0$:*
+1. **(Nonvanishing and exact 2-adic valuation)** *$a_k^{14}$ divides $E_k$ in $\mathbb{Z}$ with an **odd** quotient $E_k / a_k^{14} \equiv 1 \pmod{2}$. Consequently,*
+   $$E_k \ne 0, \qquad v_2(E_k) = v_2(a_k^{14}) = 56 \cdot 4^k, \qquad \text{and} \qquad |E_k| \ge a_k^{14} = 2^{56 \cdot 4^k}.$$
+2. **(Uniform archimedean height bound with explicit constants)** *Let $H_k := |u_k| + D_k$. Then for all $k \ge 0$,*
+   $$H_{k+1} \le b_k^7 H_k, \qquad H_k \le H_0 \cdot 27^{\frac{7}{3}(4^k - 1)} < (|u_0| + D_0) \cdot 3^{7 \cdot 4^k},$$
+   *and*
+   $$|E_k| \le 3 b_k^4 H_k < 3(|u_0| + D_0) \cdot 27^{\frac{19}{3}\cdot 4^k} = 3(|u_0| + D_0) \cdot 3^{19 \cdot 4^k}.$$
+3. **(Irrationality / non-integrality of $x(w)$)** *Combining (1) and (2) forces*
+   $$2^{25 \cdot 4^k} < \left(\frac{2^{56}}{3^{19}}\right)^{4^k} < 3(|u_0| + D_0) \qquad \forall k \ge 0,$$
+   *which is impossible for $4^k \ge \frac{1}{25}\log_2\bigl(3(|u_0| + D_0)\bigr)$. Therefore $x(w) \notin \mathbb{Z}_2 \cap \mathbb{Q}$, and in particular $x(w) \notin \mathbb{Z}$.*
+
+**Proof.**
+1. Because the first $15$ bits of $w$ are $w_{<15} = 1110\,1110\,1110\,110$, we have $\sum_{j=0}^{14} w(j) z^j = (1 + z + z^2)(1 + z^4 + z^8) + z^{12} + z^{13}$, which gives the exact polynomial identity in $\mathbb{Z}[z]$:
+   $$(1 + z + z^2) + (-1 + z^4)\sum_{j=0}^{14} w(j) z^j = z^{14} + z^{16} + z^{17}.$$
+   Homogenising at degree $M + N = 4 + 14 = 18$ with $z = a_k/b_k$ yields the exact integer identity
+   $$b_k^{14} P_0(a_k, b_k) + P_1(a_k, b_k) \operatorname{preS}(a_k, b_k, 15) = a_k^{14}\bigl(b_k^4 + a_k^2 b_k^2 + a_k^3 b_k\bigr).$$
+   By Theorem 6.2(3) at $L = 15$, $b_k^{14} u_k \equiv D_k \operatorname{preS}(a_k, b_k, 15) \pmod{a_k^{15}}$. Multiplying $E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k)$ by $b_k^{14}$ therefore gives
+   $$\begin{aligned}
+   b_k^{14} E_k &= D_k b_k^{14} P_0(a_k, b_k) + (b_k^{14} u_k) P_1(a_k, b_k) \\
+   &\equiv D_k \bigl(b_k^{14} P_0(a_k, b_k) + P_1(a_k, b_k)\operatorname{preS}(a_k, b_k, 15)\bigr) \\
+   &= D_k a_k^{14}\bigl(b_k^4 + a_k^2 b_k^2 + a_k^3 b_k\bigr) \\
+   &\equiv D_k b_k^4 a_k^{14} \pmod{a_k^{15}}.
+   \end{aligned}$$
+   Since $\gcd(a_k, b_k) = 1$, it follows that $a_k^{14} \mid E_k$ in $\mathbb{Z}$ and
+   $$b_k^{14} \cdot \frac{E_k}{a_k^{14}} \equiv D_k b_k^4 \pmod{a_k}.$$
+   Because $D_k$ and $b_k$ are odd (Theorem 6.2(2)) and $a_k = 16^{4^k}$ is a power of $2$, $E_k / a_k^{14}$ is an **odd** integer (hence nonzero!). Thus $E_k \ne 0$, $v_2(E_k) = v_2(a_k^{14}) = 56 \cdot 4^k$, and $|E_k| \ge a_k^{14} = 2^{56 \cdot 4^k}$.
+2. Since $0 < a_k < b_k$ for all $k \ge 0$, we have $0 < b_k^4 - a_k^4 < b_k^4$ and $b_k(b_k^3 + a_k b_k^2 + a_k^3) < b_k(b_k^3 + b_k^3) = 2 b_k^4$. By the triangle inequality on $\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k(b_k^3 + a_k b_k^2 + a_k^3)$,
+   $$|\Delta_k| \le b_k^4 |u_k| + 2 b_k^4 D_k = b_k^4(|u_k| + 2 D_k),$$
+   so
+   $$|u_{k+1}| = b_k^3 \frac{|\Delta_k|}{a_k^2} \le \frac{b_k^7}{a_k^2}(|u_k| + 2 D_k), \qquad D_{k+1} = D_k(b_k - a_k)(b_k^4 - a_k^4) < b_k^5 D_k.$$
+   Because $a_k \ge 16$ and $b_k \ge 27$ for all $k \ge 0$, we have $1/a_k^2 \le 1/256 < 1$ and $\frac{2}{a_k^2} + \frac{1}{b_k^2} \le \frac{2}{256} + \frac{1}{729} = \frac{1714}{186624} < 1$, whence
+   $$H_{k+1} = |u_{k+1}| + D_{k+1} \le b_k^7 \left(\frac{1}{a_k^2}|u_k| + \Bigl(\frac{2}{a_k^2} + \frac{1}{b_k^2}\Bigr) D_k\right) \le b_k^7(|u_k| + D_k) = b_k^7 H_k.$$
+   By induction on $k \ge 0$, using $\prod_{j=0}^{k-1} b_j^7 = 27^{7 \sum_{j=0}^{k-1} 4^j} = 27^{\frac{7}{3}(4^k - 1)}$,
+   $$H_k \le H_0 \cdot 27^{\frac{7}{3}(4^k - 1)} < H_0 \cdot 27^{\frac{7}{3}\cdot 4^k} = (|u_0| + D_0) \cdot 3^{7 \cdot 4^k}.$$
+   Finally, $|P_0(a_k, b_k)| = b_k^4 + a_k b_k^3 + a_k^2 b_k^2 < 3 b_k^4$ and $|P_1(a_k, b_k)| = b_k^4 - a_k^4 < b_k^4 < 3 b_k^4$, so
+   $$|E_k| \le |P_0(a_k, b_k)| D_k + |P_1(a_k, b_k)| |u_k| \le 3 b_k^4(D_k + |u_k|) = 3 \cdot 3^{12 \cdot 4^k} H_k < 3(|u_0| + D_0) \cdot 3^{19 \cdot 4^k}.$$
+3. Since $2^{56} = 72{,}057{,}594{,}037{,}927{,}936$ and $3^{19} = 1{,}162{,}261{,}467$, we have $2^{56} / 3^{19} > 61{,}997{,}748 > 2^{25} = 33{,}554{,}432$. Combining (1) and (2) gives $2^{25 \cdot 4^k} < (2^{56}/3^{19})^{4^k} < 3(|u_0| + D_0)$ for every $k \ge 0$, a contradiction for all sufficiently large $k$. $\blacksquare$
+
+#### General Padé Height-Ledger Comparison Across $1 \le m \le 16$
+More generally, for a reduced Padé pair of degree $M$ and order $N$ with $E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k)$:
+- Incorporating the $a_k^{-2}$ factor in $|u_{k+1}| \le \frac{b_k^7}{a_k^2}(|u_k| + 2 D_k)$ (so $H_k$ grows asymptotically with exponent $\left(27^{7/3}/16^{2/3}\right)^{4^k}$ and $|E_k|$ with $\left(27^{M + 7/3}/16^{2/3}\right)^{4^k}$ against $16^{N \cdot 4^k}$), cubing both bases gives the asymptotic $a_k^2$-cancelled comparison
+  $$2^{4(3N + 2)} > 3^{3(3M + 7)}.$$
+- Without using the $a_k^{-2}$ archimedean division saving (using only $H_{k+1} \le b_k^7 H_k$, or even the coarser $16 \cdot 27^{M+3}$ per-step bound, together with $c$ odd so $v_2(c) = 0$), the single-step integer ledger closes whenever
+  $$2^{4N} > 27^{M + 7/3} = 3^{3M + 7} \qquad (\text{and even under } 2^{4N} > 16 \cdot 27^{M+3}).$$
 
 ### 7.3 Summary of the Exact Padé Table ($1 \le m \le 16$)
 In `src/mahler.rs`, for each degree bound $1 \le m \le 16$, the $(2m+1) \times (2m+2)$ integer system for $p_0(z) + p_1(z) F(z) = O(z^{2m+1})$ is solved by exact fraction-free `BigInt` row reduction. Every candidate is verified by independent integer series convolution up to degree $1024$ and by the homogenised evaluation at $(a_0, b_0) = (16, 27)$:
@@ -371,14 +462,14 @@ In `src/mahler.rs`, for each degree bound $1 \le m \le 16$, the $(2m+1) \times (
 
 ### Key Structural Observations from the Padé Table
 
-1. **Degree $m = 1$ fails (`verified-for-finite-domain`)**: Just as in `Rung1.lean` for $\sigma$, the $[1/1]$ approximant $(1, -1+z)$ has order $N = 3$, which is too smalleven for the $a_k^2$-cancelled height ledger ($2^{44} = 17{,}592{,}186{,}044{,}416 < 3^{30} = 205{,}891{,}132{,}094{,}649$).
+1. **Degree $m = 1$ fails (`verified-for-finite-domain`)**: Just as in `Rung1.lean` for $\sigma$, the $[1/1]$ approximant $(1, -1+z)$ has order $N = 3$, which is too small even for the $a_k^2$-cancelled height ledger ($2^{44} = 17{,}592{,}186{,}044{,}416 < 3^{30} = 205{,}891{,}132{,}094{,}649$).
 2. **Degree $m = 4$ exhibits a massive lacunary jump to $N = 14$ with $c = 1$ (`proven-by-algebra` / `verified-for-finite-domain`)**: Because $w(0) = 1 \implies \mu(w(0)) = 1110$, the first three bits of $w$ are $1, 1, 1$, so the first three 4-blocks of $w$ are $\mu(1)\mu(1)\mu(1) = 1110\,1110\,1110$, followed by $\mu(0) = 1101$ whose first two bits are still $11$. Therefore $w$ agrees with the period-4 word $(1110)^\infty$ for the first **14** symbols ($n = 0, \dots, 13$), first differing at $n = 14$ ($w(14) = 0$ vs $1$). Consequently,
    $$(1 + z + z^2) + (-1 + z^4) F(z) = z^{14} - z^{15} + z^{26} - z^{27} + \cdots = z^{14} + O(z^{15}),$$
    giving an exact degree-4 Padé approximant with:
    - ultra-low height ($L_1 = 5$, $L_\infty = 1$),
    - vanishing order $N = 14$ (instead of the generic $2m + 1 = 9$),
    - odd leading coefficient $c = 1$ ($v_2(c) = 0$), and
-   - an overwhelming margin in both the $a_k^2$-cancelled ledger ($2^{176} \gg 3^{57}$) and the coarsest integer bound ($2^{56} = 72{,}057{,}594{,}037{,}927{,}936 > 16 \cdot 27^7 = 167{,}365{,}651{,}248$, a ratio $> 430{,}540$ per Mahler step).
+   - an overwhelming margin in Theorem 7.1 ($2^{56} > 2^{25} \cdot 3^{19}$) as well as both the $a_k^2$-cancelled ledger ($2^{176} \gg 3^{57}$) and the coarsest integer bound ($2^{56} = 72{,}057{,}594{,}037{,}927{,}936 > 16 \cdot 27^7 = 167{,}365{,}651{,}248$, a ratio $> 430{,}540$ per Mahler step).
 3. **Singular Padé block across $4 \le m \le 9$**: Because $(p_{0,4}, p_{1,4}) = (1+z+z^2, -1+z^4)$ already vanishes to order $N = 14$, multiplying it by any polynomial $q(z)$ of degree $\le m - 4$ still has degree $\le m$ and order $\ge 14 \ge 2m + 1$ for all $4 \le m \le 6$, and for $7 \le m \le 9$ the shifted family $z^s (p_{0,4}, p_{1,4})$ ($s = 2m + 1 - 14$) spans the nullspace at order $2m + 1$. New primitive approximants resume at $m = 10$ ($N = 21, c = -11$).
 4. **Why $m = 15$ illustrates the $v_2(c) < v_2(a_0)$ requirement**: At $m = 15$ ($N = 31$), the primitive leading coefficient is $c = -960 = -2^6 \cdot 15$, which has $v_2(c) = 6 \ge v_2(16) = 4$. At $k = 0$ ($z_0 = 16/27$), the $z^{31}$ term has 2-adic valuation $4 \cdot 31 + 6 = 130$, whereas the $z^{32}$ term has valuation $4 \cdot 32 + 0 = 128 < 130$, so the $z^{32}$ term overtakes $c z^{31}$ at $k = 0$! This provides a concrete arithmetic witness for why `Odd c` (or $v_2(c) < 4$) is needed in the level-$0$ valuation lemma.
 5. **Degree $m = 16$ exhibits the next self-similar jump ($N = 58, c = 1$)**: Applying $\mu$ once to the 14-symbol prefix agreement gives $4 \times 14 + 2 = 58$ symbols of agreement with $(w_{<16})^\infty$, so $p_1(z) = -1 + z^{16}$ achieves $N = 58$ with $c = 1$ and $L_\infty = 1$.
@@ -388,13 +479,13 @@ In `src/mahler.rs`, for each degree bound $1 \le m \le 16$, the $(2m+1) \times (
 ## 8. Unresolved Proof Obligations and Recommendation (`conjectured`)
 
 ### 8.1 Unresolved Proof Obligations
-Even with the algebraic proofs in Sections 3–4, the $a_k^2$-cancelled backward tower in Section 6, and the degree-4 ($N = 14, c = 1$) Padé auxiliary form in Section 7, four distinct mathematical and formal obligations remain open:
+Even with the algebraic proofs in Sections 3–4, the repaired $a_k^2$-cancelled backward tower in Theorem 6.2, and the exact degree-4 Padé contradiction in Theorem 7.1, four distinct mathematical and formal obligations remain open:
 
-1. **Kernel-checked formalization of the $a_k^2$-cancelled tower and Padé contradiction for $x(w)$**: While Theorem 6.2 and the degree-4 Padé form $(1+z+z^2, -1+z^4)$ supply all ingredients of a finitary contradiction against $x(w) \in \mathbb{Z}$, a machine-checked proof (e.g., in Lean 4 without `sorry`) of the inductive divisibility step and archimedean bound for $\mu$ has not yet been written.
-2. **Arbitrary shifted itineraries $\sigma^t(w)$ ($t \ge 1$)**: A hypothetical positive integer orbit could enter the tail $\sigma^t(w)$ ($w^{(t)}(n) = w(t + n)$) after $t$ initial steps without $x(w)$ itself being an integer. Because $\sigma^t(w)$ is no longer the unshifted fixed point of $\mu$, its generating series $F^{(t)}(z) = z^{-t}\bigl(F(z) - \sum_{j < t} w(j) z^j\bigr)$ does not satisfy the scalar Mahler equation of Theorem 4.1 alone; it requires a coupled 4-state inhomogeneous Mahler system (or backward transport of $x(w) \notin \mathbb{Q}$ through $T^t$).
-3. **General non-automatic and Sturmian survivor itineraries**: The set of infinite survivor words $\mathcal{S}_\infty = \{v \in \{0,1\}^{\mathbb{N}} : 3^{r_k(v)} > 2^k \;\forall k \ge 1\}$ has the cardinality of the continuum ($2^{\aleph_0}$). Only countably many $v \in \mathcal{S}_\infty$ are $k$-automatic or satisfy a Mahler functional equation. Excluding $x(w) \in \mathbb{N}_{>0}$ for one morphism fixed point $w$ says nothing about non-Mahler survivor itineraries.
+1. **Kernel-checked formalization of Theorem 6.2 and Theorem 7.1 for $x(w)$**: While Theorems 6.2 and 7.1 provide a complete pen-and-paper proof (with explicit constants $v_2(E_k) = 56 \cdot 4^k$ vs $|E_k| < 3(|u_0| + D_0)\cdot 3^{19 \cdot 4^k}$) that $x(w) \notin \mathbb{Z}_2 \cap \mathbb{Q}$, a machine-checked proof in Lean 4 without `sorry` has not yet been written.
+2. **The general Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1)**: Proving that *every* aperiodic parity word $v \in \{0,1\}^{\mathbb{N}}$ has an irrational 2-adic seed $\Phi^{-1}(v) \notin \mathbb{Q}$ remains open (as audited in Section 2.2, López & Stoll 2021 conflates the real limit $\Phi_{\mathbb{R}}(v) \in \mathbb{R}$ with the 2-adic limit $\Phi^{-1}(v) \in \mathbb{Z}_2$).
+3. **Arbitrary shifted itineraries $\sigma^t(w)$ ($t \ge 1$) and general non-automatic survivor itineraries**: A hypothetical positive integer orbit could enter the tail $\sigma^t(w)$ ($w^{(t)}(n) = w(t + n)$) after $t$ initial steps, or follow one of the $2^{\aleph_0}$ non-automatic survivor branches of $\mathcal{S}_\infty = \{v \in \{0,1\}^{\mathbb{N}} : 3^{r_k(v)} > 2^k \;\forall k \ge 1\}$ that satisfy no Mahler functional equation.
 4. **The Coefficient Stopping Time conjecture (CST) and post-crossing exceptions**: Even if all survivor itineraries $v \in \mathcal{S}_\infty$ were shown to have $x(v) \notin \mathbb{N}_{>0}$, connecting $\mathcal{S}_\infty$ to general hypothetical divergent orbits still requires either proving CST ($\tau(n) = \omega(n)$ for all $n \ge 2$) or ruling out infinite sequences of post-crossing threshold exceptions.
 
 ### 8.2 Recommendation
-- **For the single word $w = \lim_{j\to\infty} \mu^j(1)$**: **Yes, bounded formalization is warranted and tractable.** Because the degree-4 Padé pair $(p_0, p_1) = (1 + z + z^2, -1 + z^4)$ has $L_\infty = 1$, odd leading coefficient $c = 1$, and vanishing order $N = 14$ (nearly $3\times$ the degree-2 order $N = 5$ used in `Rung1.lean`), the $a_k^2$-cancelled tower of Theorem 6.2 closes even under the coarsest integer height bound ($2^{56} > 16 \cdot 27^7$). Formalizing Theorem 6.2 and the degree-4 contradiction in Lean 4 is a clean, self-contained finite-certificate task.
-- **For the broader Collatz problem or general divergent orbits**: **Do not extrapolate Mahler exclusion to general divergence.** Mahler's method exploits the base-4 self-similarity $F(z) \leftrightarrow F(z^4)$ specific to automatic words. It does not generalize to arbitrary aperiodic branches of $\mathcal{S}_\infty$, nor does it bypass CST. Future work in this repository should therefore keep 2-adic automatic-word exclusions strictly quarantined from general stopping-time or CST claims.
+- **For the single word $w = \lim_{j\to\infty} \mu^j(1)$**: **Yes, bounded formalization is now unblocked and tractable.** With the $(u_0, D_0)$ seed normalization repaired ($D_0 = 11q, u_0 = 27(11p + 23q)/4$) and the linear form $E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k)$ proved to satisfy $v_2(E_k) = 56 \cdot 4^k$ and $|E_k| < 3(|u_0| + D_0)\cdot 3^{19 \cdot 4^k}$, formalizing Theorems 6.2 and 7.1 in Lean 4 is a clean, self-contained finite-certificate task.
+- **For the broader Collatz problem or general divergent orbits**: **Do not extrapolate Mahler exclusion to general divergence.** Mahler's method exploits the base-4 self-similarity $F(z) \leftrightarrow F(z^4)$ specific to automatic words. It does not prove the general Periodicity Conjecture, does not generalize to arbitrary aperiodic branches of $\mathcal{S}_\infty$, and does not bypass CST. Future work in this repository should therefore keep 2-adic automatic-word exclusions strictly quarantined from general stopping-time or CST claims.

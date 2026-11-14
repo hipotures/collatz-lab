@@ -10,9 +10,9 @@ use std::process::Command;
 
 use collatz_lab::hypothesis::Status;
 use collatz_lab::mahler::{
-    mu_bit_by_recurrence, mu_word_by_substitution, run_mahler, verify_candidate_integrity,
-    verify_mahler_experiment, verify_word_and_all_prefix_survival, CHECKPOINT_BITS,
-    DEFAULT_MAX_BITS, MAX_PADE_DEGREE,
+    degree4_linear_form, mu_bit_by_recurrence, mu_word_by_substitution, repaired_tower_step,
+    run_mahler, verify_candidate_integrity, verify_mahler_experiment,
+    verify_word_and_all_prefix_survival, CHECKPOINT_BITS, DEFAULT_MAX_BITS, MAX_PADE_DEGREE,
 };
 use num_bigint::{BigInt, BigUint};
 use num_traits::{One, Pow, Zero};
@@ -232,7 +232,8 @@ fn independent_pade_identities_and_cancelled_vs_uncancelled_mahler_tower() {
     assert_eq!(row16.leading_coeff, "1");
     assert!(row16.closes_coarse_integer_ledger);
 
-    // 4. Verify the B(z) = z^2(1 - z) denominator obstruction and a_0^2 cancellation:
+    // 4. Verify the B(z) = z^2(1 - z) denominator obstruction and a_0^2 cancellation
+    //    directly on the actual checkpoint seed x_1024 (with D_0 = 11, u_0 = 27*(11*x_1024 + 23)/4).
     let a0 = BigInt::from(16u32);
     let b0 = BigInt::from(27u32);
     let d0 = BigInt::from(11u32);
@@ -243,22 +244,147 @@ fn independent_pade_identities_and_cancelled_vs_uncancelled_mahler_tower() {
     assert_eq!(outcome.tower_summary.uncancelled_d1_two_adic_valuation, 8);
     assert_eq!(outcome.uncancelled_tower_status, Status::Refuted);
 
-    // Verify a_0^2 divides Delta_0 in Z for the cancelled tower.
-    let mut pre_s_60 = BigInt::zero();
-    for (i, &bit) in w[..60].iter().enumerate() {
-        if bit {
-            pre_s_60 += Pow::pow(&a0, i) * Pow::pow(&b0, 59 - i);
-        }
-    }
-    let mod_a0_60 = Pow::pow(&a0, 60usize);
-    let inv_b0_59 = BigUint::from(27u32)
-        .pow(59u32)
-        .modinv(&BigUint::from(16u32).pow(60u32))
-        .unwrap();
-    let u0 = (&d0 * &pre_s_60 * BigInt::from(inv_b0_59)) % &mod_a0_60;
+    let x_1024 = BigInt::from(
+        outcome
+            .checkpoints
+            .last()
+            .unwrap()
+            .residue_affine_inverse
+            .clone(),
+    );
+    let u0 = &b0 * ((BigInt::from(11u32) * &x_1024 + BigInt::from(23u32)) / BigInt::from(4u32));
     let coeff_geom = Pow::pow(&b0, 3usize) + &a0 * Pow::pow(&b0, 2usize) + Pow::pow(&a0, 3usize);
     let delta0 = (Pow::pow(&b0, 4usize) - Pow::pow(&a0, 4usize)) * &u0 - &d0 * &b0 * coeff_geom;
     assert_eq!(&delta0 % Pow::pow(&a0, 2usize), BigInt::zero());
+    let _ = w;
+}
+
+/// Independently computes the homogenised prefix sum `preS(a, b, L) = sum_{q=0}^{L-1} w[q] a^q b^(L-1-q)`.
+fn independent_pre_s(w: &[bool], a: &BigInt, b: &BigInt, len: usize) -> BigInt {
+    let mut sum = BigInt::zero();
+    for (q, &bit) in w.iter().take(len).enumerate() {
+        if bit {
+            sum += Pow::pow(a, q) * Pow::pow(b, len - 1 - q);
+        }
+    }
+    sum
+}
+
+#[test]
+fn regression_test_unnormalized_u0_fails_mod16_and_repaired_tower_succeeds_on_checkpoint_seeds() {
+    let outcome = run_mahler().unwrap();
+    let w = independent_mu_word(DEFAULT_MAX_BITS + 64);
+    let a0 = BigInt::from(16u32);
+    let b0 = BigInt::from(27u32);
+    let d0 = BigInt::from(11u32);
+    let a0_sq = Pow::pow(&a0, 2usize);
+    let coeff_geom = Pow::pow(&b0, 3usize) + &a0 * Pow::pow(&b0, 2usize) + Pow::pow(&a0, 3usize);
+
+    for (row, &k_bits) in outcome.checkpoints.iter().zip(CHECKPOINT_BITS.iter()) {
+        let x_k_uint = independent_hensel_residue(&w[..k_bits]);
+        assert_eq!(x_k_uint, row.residue_affine_inverse);
+        let x_k = BigInt::from(x_k_uint.clone());
+
+        // 11 * x_K + 23 is divisible by 4 because w(0) = w(1) = 1 => x_K == 3 (mod 4).
+        let eleven_x_plus_23 = BigInt::from(11u32) * &x_k + BigInt::from(23u32);
+        assert_eq!(&eleven_x_plus_23 % 4, BigInt::zero());
+
+        // A. Unnormalized (buggy) definition: u_0^old = (11*x_K + 23)/4 with D_0 = 11.
+        //    Since (11*x + 23)/4 = (11/27)*F_2(16/27), at L = 1 (preS(16, 27, 1) = 1),
+        //    u_0^old == 11 * 27^(-1) == 11 * 3 == 1 != 11 == D_0 * preS(16, 27, 1) (mod 16).
+        let u0_unnormalized = &eleven_x_plus_23 / 4;
+        assert_eq!(
+            &u0_unnormalized % &a0,
+            BigInt::one(),
+            "at K={k_bits}, unnormalized u0_old must equal 1 (mod 16), failing D0 * preS = 11 (mod 16)"
+        );
+        assert_ne!(
+            &u0_unnormalized % &a0,
+            (&d0 * independent_pre_s(&w, &a0, &b0, 1)) % &a0,
+            "at K={k_bits}, unnormalized u0_old must fail the L=1 base congruence modulo 16"
+        );
+        let delta0_unnormalized = (Pow::pow(&b0, 4usize) - Pow::pow(&a0, 4usize))
+            * &u0_unnormalized
+            - &d0 * &b0 * &coeff_geom;
+        let rem_delta0_unnorm = ((&delta0_unnormalized % &a0_sq) + &a0_sq) % &a0_sq;
+        assert_eq!(
+            rem_delta0_unnorm,
+            BigInt::from(134u32),
+            "at K={k_bits}, unnormalized Delta_0 must fail divisibility by a_0^2 = 256"
+        );
+
+        // B. Repaired definition: u_0 = 27*(11*x_K + 23)/4 = (297*x_K + 621)/4 with D_0 = 11.
+        let u0_repaired = &b0 * &u0_unnormalized;
+        assert_eq!(
+            &u0_repaired % &a0,
+            BigInt::from(11u32),
+            "at K={k_bits}, repaired u0 must equal 11 == D0 * preS(16, 27, 1) (mod 16)"
+        );
+
+        // Verify the exact algebraic identity:
+        // b_0^(L-1) * u_0 - D_0 * preS(a_0, b_0, L) == a_0^L * (11 * T^(4L)(x_K) + 23) / 4
+        // for every 1 <= L <= K/4 - 1.
+        let max_l0 = k_bits / 4 - 1;
+        for l in 1..=max_l0 {
+            let lhs =
+                Pow::pow(&b0, l - 1) * &u0_repaired - &d0 * independent_pre_s(&w, &a0, &b0, l);
+            let (_, y_l_uint) = independent_direct_orbit(&x_k_uint, 4 * l);
+            let y_l = BigInt::from(y_l_uint);
+            let q_l = (BigInt::from(11u32) * y_l + BigInt::from(23u32)) / 4;
+            let a0_pow_l = Pow::pow(&a0, l);
+            assert_eq!(
+                lhs,
+                &a0_pow_l * &q_l,
+                "at K={k_bits}, L={l}: exact identity b_0^(L-1)*u_0 - D_0*preS == a_0^L * q_L failed"
+            );
+            assert_eq!(&lhs % &a0_pow_l, BigInt::zero());
+        }
+
+        // C. Transport to level 1 on every checkpoint seed x_K (K in 16..=1024):
+        let (a1, b1, u1, d1) = repaired_tower_step(&a0, &b0, &u0_repaired, &d0)
+            .expect("repaired step 0->1 must succeed");
+        assert_eq!(d1, BigInt::from(56_374_505u64));
+        assert_eq!(&d1 % 2, BigInt::one());
+        let max_l1 = max_l0 / 4;
+        for l in 1..=max_l1 {
+            let diff = Pow::pow(&b1, l - 1) * &u1 - &d1 * independent_pre_s(&w, &a1, &b1, l);
+            assert_eq!(
+                diff % Pow::pow(&a1, l),
+                BigInt::zero(),
+                "at K={k_bits}, level-1 congruence failed at L={l}"
+            );
+        }
+
+        // D. Verify the corrected degree-4 linear form E_k = D_k*P_0(a_k, b_k) + u_k*P_1(a_k, b_k)
+        //    and its exact 2-adic valuation v_2(E_k) = 56 * 4^k whenever the checkpoint precision
+        //    reaches L >= 15 at level k.
+        if max_l0 >= 15 {
+            let e0 = degree4_linear_form(&a0, &b0, &u0_repaired, &d0);
+            assert!(!e0.is_zero());
+            assert_eq!(e0.magnitude().trailing_zeros(), Some(56));
+        }
+        if max_l1 >= 15 {
+            let e1 = degree4_linear_form(&a1, &b1, &u1, &d1);
+            assert!(!e1.is_zero());
+            assert_eq!(e1.magnitude().trailing_zeros(), Some(224));
+        }
+        if k_bits == 1024 {
+            let (a2, b2, u2, d2) =
+                repaired_tower_step(&a1, &b1, &u1, &d1).expect("repaired step 1->2 must succeed");
+            assert_eq!(&d2 % 2, BigInt::one());
+            for l in 1..=15 {
+                let diff = Pow::pow(&b2, l - 1) * &u2 - &d2 * independent_pre_s(&w, &a2, &b2, l);
+                assert_eq!(
+                    diff % Pow::pow(&a2, l),
+                    BigInt::zero(),
+                    "at K=1024, level-2 congruence failed at L={l}"
+                );
+            }
+            let e2 = degree4_linear_form(&a2, &b2, &u2, &d2);
+            assert!(!e2.is_zero());
+            assert_eq!(e2.magnitude().trailing_zeros(), Some(896));
+        }
+    }
 }
 
 #[test]

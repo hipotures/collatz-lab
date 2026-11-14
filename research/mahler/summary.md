@@ -24,17 +24,17 @@ cargo run --locked --release -- mahler --out-dir research/mahler
 
 ## Five-way 2-adic checkpoint verification (`w = lim mu^j(1)`)
 
-At each `K`, the unique compatible residue `x_K in [0, 2^K)` is computed five ways: (1) prefix affine map + modular inverse, (2) cylinder Hensel lifting, (3) parity-position inverse sum `-sum_{i=0}^{r_K-1} 2^(d_i) / 3^(i+1) (mod 2^K)`, (4) the Mahler reduction `-23/11 + (4/27)*F_2(16/27) (mod 2^K)`, and (5) direct iteration of `T` for `K` steps on `x_K`. Full decimal values are recorded in `evidence.json`.
+At each `K`, the unique compatible residue `x_K in [0, 2^K)` is computed five ways: (1) prefix affine map + modular inverse, (2) cylinder Hensel lifting, (3) parity-position inverse sum `-sum_{i=0}^{r_K-1} 2^(d_i) / 3^(i+1) (mod 2^K)`, (4) the Mahler reduction `-23/11 + (4/27)*F_2(16/27) (mod 2^K)`, and (5) direct iteration of `T` for `K` steps on `x_K`. In addition, the repaired seed normalization `D_0 = 11, u_0 = 27*(11*x_K + 23)/4` is checked on each actual checkpoint seed `x_K` across `1 <= L <= K/4 - 1` blocks at level 0 and `1 <= L <= (K/4 - 1)/4` blocks at level 1 (while recording that the unnormalized `(11*x_K + 23)/4` gives `1 != 11 (mod 16)` at `L = 1`). Full decimal values are recorded in `evidence.json`.
 
-| K | r_K | prefixes survive | F_2(16/27) mod 2^K | residue x_K mod 2^K | 5-way + Mahler eq + cocycle |
-|---|---|---|---|---|---|
-| 16 | 12 | yes | `2609` | `25319` | exact match |
-| 32 | 24 | yes | `2103183921` | `2437374695` | exact match |
-| 64 | 48 | yes | `2121339037416163889` | `9941361107984147175` | exact match |
-| 128 | 96 | yes | `847981005358...037442144817 (38 digits)` | `186713926584...903286944487 (39 digits)` | exact match |
-| 256 | 192 | yes | `824830789101...452407638577 (77 digits)` | `176779283547...490537882343 (77 digits)` | exact match |
-| 512 | 384 | yes | `337108179551...335331895857 (154 digits)` | `614243633079...578721764071 (154 digits)` | exact match |
-| 1024 | 768 | yes | `124595597578...656957970993 (309 digits)` | `158884468088...015912964839 (309 digits)` | exact match |
+| K | r_K | prefixes survive | F_2(16/27) mod 2^K | residue x_K mod 2^K | unnorm / repaired u_0 mod 16 | repaired L_0 / L_1 blocks | 5-way + Mahler eq + cocycle |
+|---|---|---|---|---|---|---|---|
+| 16 | 12 | yes | `2609` | `25319` | `1 != 11` / `11 == 11` | `1..=3` / `1..=0` | exact match |
+| 32 | 24 | yes | `2103183921` | `2437374695` | `1 != 11` / `11 == 11` | `1..=7` / `1..=1` | exact match |
+| 64 | 48 | yes | `2121339037416163889` | `9941361107984147175` | `1 != 11` / `11 == 11` | `1..=15` / `1..=3` | exact match |
+| 128 | 96 | yes | `847981005358...037442144817 (38 digits)` | `186713926584...903286944487 (39 digits)` | `1 != 11` / `11 == 11` | `1..=31` / `1..=7` | exact match |
+| 256 | 192 | yes | `824830789101...452407638577 (77 digits)` | `176779283547...490537882343 (77 digits)` | `1 != 11` / `11 == 11` | `1..=63` / `1..=15` | exact match |
+| 512 | 384 | yes | `337108179551...335331895857 (154 digits)` | `614243633079...578721764071 (154 digits)` | `1 != 11` / `11 == 11` | `1..=127` / `1..=31` | exact match |
+| 1024 | 768 | yes | `124595597578...656957970993 (309 digits)` | `158884468088...015912964839 (309 digits)` | `1 != 11` / `11 == 11` | `1..=255` / `1..=63` | exact match |
 
 ## Periodic control `(1110)^infinity` (`x = -19/11`)
 
@@ -50,13 +50,17 @@ Every finite prefix of `(1110)^infinity` is realized by positive integers `n_K >
 | 512 | 384 | `243778325998...572546560743 (154 digits)` | yes | yes | 513 |
 | 1024 | 768 | `980559891743...158667711207 (308 digits)` | yes | yes | 1025 |
 
-## Mahler tower structure and the `B(z) = z^2 - z^3` denominator obstruction
+## Mahler tower structure, repaired `(u_0, D_0)` seed normalization, and `B(z) = z^2 - z^3`
 
 - Power-series identity `(1 - z^4)(F(z) - (z^2 - z^3)F(z^4)) = 1 + z + z^3` verified to degree: `1024`
-- Homogenised prefix recurrence `preS(a, b, 4L)` verified for block counts: `0..=64`
+- Homogenised prefix recurrence `preS(a, b, 4L)` verified for block counts: `1..=64`
 - Vanishing order of `B(z) = z^2(1 - z)` at `z = 0`: `2`
+- Base-case regression on unnormalized `u_0^old = (11*x_K + 23)/4` (`D_0 = 11`): `u_0^old mod 16 = 1 != 11 = D_0*preS(16, 27, 1) mod 16` and `Delta_0^old mod 256 = 134 != 0` (fails at `L = 1`)
+- Repaired seed normalization `D_0 = 11`, `u_0 = 27*(11*x_K + 23)/4` on actual checkpoint seed `x_1024`: `u_0 mod 16 = 11 == 11`, verified across `1..=255` blocks at level 0, `1..=63` blocks at level 1 (`D_1 = 56374505`, odd: `yes`), and `1..=15` blocks at level 2 (`D_2 = 209459418257...043875033625 (37 digits)`, odd: `yes`)
 - 2-adic valuation `v_2(D_1)` of the **uncancelled** polynomial tower denominator: `8` (`D_1` is even, refuting `Odd D_k` without `a_k^2` cancellation)
-- Exact integer divisibility `a_0^2 | Delta_0` in the **`a_k^2`-cancelled** tower: `yes` (verified across `0..=15` blocks)
+- Exact integer divisibility `a_0^2 | Delta_0` and `a_1^2 | Delta_1` in the **`a_k^2`-cancelled** seed tower: `yes` / `yes`
+- Corrected degree-4 linear form `E_k = D_k*P_0(a_k, b_k) + u_k*P_1(a_k, b_k)` on `x_1024` seed tower: `v_2(E_0) = 56`, `v_2(E_1) = 224`, `v_2(E_2) = 896` (`= 56 * 4^k`)
+- Explicit uniform archimedean height step `H_{k+1} <= b_k^7 * H_k` and `|E_k| < 3*(|u_0| + D_0)*3^(19*4^k)` verified on `k = 0, 1, 2`: `yes` (`2^56 = 72057594037927936` vs `3^19 = 1162261467`)
 - Naive series truncation Liouville exponent `< 1` (`16^L < 27^L`): `yes`
 - Degree-1 Padé (`m = 1`, `N = 3`) in `a_k^2`-cancelled ledger: `2^44 = 17592186044416` vs `3^30 = 205891132094649` (closes: `no`)
 - Degree-4 Padé (`m = 4`, `N = 14`) coarse step gain vs cost: `2^56 = 72057594037927936` vs `16 * 27^7 = 167365651248` (closes: `yes`)
@@ -86,7 +90,7 @@ For each degree bound `m`, the nullspace of the `(2m + 1) x (2m + 2)` integer Ha
 
 ## Unresolved proof obligations
 
-- Kernel-checked formalization (e.g., in Lean 4) of the a_k^2-cancelled backward Mahler tower transport for B(z) = z^2(1 - z) and the degree-4 Padé contradiction.
-- Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system rather than the unshifted scalar equation.
-- Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity.
-- Resolution of the Coefficient Stopping Time conjecture (whether any minimal nonconvergent positive integer orbit can cross a coefficient threshold) and the Collatz conjecture itself.
+- Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (D_0 = 11q, u_0 = 27*(11p + 23q)/4) and the degree-4 Padé contradiction (v_2(E_k) = 56*4^k vs |E_k| <= 3*(|u_0| + D_0)*3^(19*4^k)).
+- The open Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1) asserting that every rational 2-adic integer has an eventually periodic parity sequence (Lagarias 1990, Corollary 2.1b proves only the periodic-to-rational direction; the 2021 arXiv preprint of López and Stoll conflates the real limit Phi_R(v) with the 2-adic limit Phi_{Z_2}(v)).
+- Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system (or backward rational transport through T^s) rather than the unshifted scalar equation alone.
+- Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity, and resolution of the Coefficient Stopping Time conjecture (CST).

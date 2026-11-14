@@ -113,9 +113,12 @@ pub fn render_mahler(outcome: &MahlerExperiment) -> String {
          (1) prefix affine map + modular inverse, (2) cylinder Hensel lifting, (3) parity-position \
          inverse sum `-sum_{i=0}^{r_K-1} 2^(d_i) / 3^(i+1) (mod 2^K)`, (4) the Mahler reduction \
          `-23/11 + (4/27)*F_2(16/27) (mod 2^K)`, and (5) direct iteration of `T` for `K` steps on \
-         `x_K`. Full decimal values are recorded in `evidence.json`.\n\n\
-         | K | r_K | prefixes survive | F_2(16/27) mod 2^K | residue x_K mod 2^K | 5-way + Mahler eq + cocycle |\n\
-         |---|---|---|---|---|---|\n",
+         `x_K`. In addition, the repaired seed normalization `D_0 = 11, u_0 = 27*(11*x_K + 23)/4` \
+         is checked on each actual checkpoint seed `x_K` across `1 <= L <= K/4 - 1` blocks at level 0 \
+         and `1 <= L <= (K/4 - 1)/4` blocks at level 1 (while recording that the unnormalized \
+         `(11*x_K + 23)/4` gives `1 != 11 (mod 16)` at `L = 1`). Full decimal values are recorded in `evidence.json`.\n\n\
+         | K | r_K | prefixes survive | F_2(16/27) mod 2^K | residue x_K mod 2^K | unnorm / repaired u_0 mod 16 | repaired L_0 / L_1 blocks | 5-way + Mahler eq + cocycle |\n\
+         |---|---|---|---|---|---|---|---|\n",
     );
     for row in &outcome.checkpoints {
         let f2_str = abbreviate_decimal(&row.f2_mod_2k.to_string(), 28);
@@ -124,12 +127,13 @@ pub fn render_mahler(outcome: &MahlerExperiment) -> String {
             && row.f2_functional_equation_matches
             && row.block_cocycle_matches
             && row.direct_iteration_matches
+            && row.repaired_delta0_divisible_by_a0_sq
             && row.residue_affine_inverse == row.residue_cylinder_lift
             && row.residue_affine_inverse == row.residue_parity_positions
             && row.residue_affine_inverse == row.residue_mahler_reduction;
         let _ = writeln!(
             out,
-            "| {} | {} | {} | `{}` | `{}` | {} |",
+            "| {} | {} | {} | `{}` | `{}` | `{} != 11` / `{} == 11` | `1..={}` / `1..={}` | {} |",
             row.k_bits,
             row.odd_steps,
             if row.all_prefixes_survive {
@@ -139,6 +143,10 @@ pub fn render_mahler(outcome: &MahlerExperiment) -> String {
             },
             f2_str,
             res_str,
+            row.unnormalized_u0_mod16,
+            row.repaired_u0_mod16,
+            row.repaired_level0_verified_blocks,
+            row.repaired_level1_verified_blocks,
             if all_ok { "exact match" } else { "MISMATCH" },
         );
     }
@@ -176,25 +184,55 @@ pub fn render_mahler(outcome: &MahlerExperiment) -> String {
     let t = &outcome.tower_summary;
     let _ = write!(
         out,
-        "\n## Mahler tower structure and the `B(z) = z^2 - z^3` denominator obstruction\n\n\
+        "\n## Mahler tower structure, repaired `(u_0, D_0)` seed normalization, and `B(z) = z^2 - z^3`\n\n\
          - Power-series identity `(1 - z^4)(F(z) - (z^2 - z^3)F(z^4)) = 1 + z + z^3` verified to degree: `{}`\n\
-         - Homogenised prefix recurrence `preS(a, b, 4L)` verified for block counts: `0..={}`\n\
+         - Homogenised prefix recurrence `preS(a, b, 4L)` verified for block counts: `1..={}`\n\
          - Vanishing order of `B(z) = z^2(1 - z)` at `z = 0`: `{}`\n\
+         - Base-case regression on unnormalized `u_0^old = (11*x_K + 23)/4` (`D_0 = {}`): `u_0^old mod 16 = {} != 11 = D_0*preS(16, 27, 1) mod 16` and `Delta_0^old mod 256 = {} != 0` (fails at `L = 1`)\n\
+         - Repaired seed normalization `D_0 = {}`, `u_0 = 27*(11*x_K + 23)/4` on actual checkpoint seed `x_1024`: `u_0 mod 16 = {} == 11`, verified across `1..={}` blocks at level 0, `1..={}` blocks at level 1 (`D_1 = {}`, odd: `{}`), and `1..={}` blocks at level 2 (`D_2 = {}`, odd: `{}`)\n\
          - 2-adic valuation `v_2(D_1)` of the **uncancelled** polynomial tower denominator: `{}` (`D_1` is even, refuting `Odd D_k` without `a_k^2` cancellation)\n\
-         - Exact integer divisibility `a_0^2 | Delta_0` in the **`a_k^2`-cancelled** tower: `{}` (verified across `0..={}` blocks)\n\
+         - Exact integer divisibility `a_0^2 | Delta_0` and `a_1^2 | Delta_1` in the **`a_k^2`-cancelled** seed tower: `{}` / `{}`\n\
+         - Corrected degree-4 linear form `E_k = D_k*P_0(a_k, b_k) + u_k*P_1(a_k, b_k)` on `x_1024` seed tower: `v_2(E_0) = {}`, `v_2(E_1) = {}`, `v_2(E_2) = {}` (`= 56 * 4^k`)\n\
+         - Explicit uniform archimedean height step `H_{{k+1}} <= b_k^7 * H_k` and `|E_k| < 3*(|u_0| + D_0)*3^(19*4^k)` verified on `k = 0, 1, 2`: `{}` (`2^56 = {}` vs `3^19 = {}`)\n\
          - Naive series truncation Liouville exponent `< 1` (`16^L < 27^L`): `{}`\n\
          - Degree-1 Padé (`m = 1`, `N = 3`) in `a_k^2`-cancelled ledger: `2^44 = {}` vs `3^30 = {}` (closes: `{}`)\n\
          - Degree-4 Padé (`m = 4`, `N = 14`) coarse step gain vs cost: `2^56 = {}` vs `16 * 27^7 = {}` (closes: `{}`)\n\n",
         t.functional_equation_verified_degree,
         t.homogenised_prefix_verified_blocks,
         t.b_poly_zero_order_at_origin,
+        t.seed_d0,
+        t.unnormalized_u0_mod16_at_checkpoints,
+        t.unnormalized_delta0_mod_a0_sq,
+        t.seed_d0,
+        t.repaired_u0_mod16_at_checkpoints,
+        t.level0_seed_verified_blocks,
+        t.level1_transport_verified_blocks,
+        t.cancelled_d1,
+        if t.cancelled_d1_is_odd { "yes" } else { "no" },
+        t.level2_transport_verified_blocks,
+        abbreviate_decimal(&t.cancelled_d2.to_string(), 28),
+        if t.cancelled_d2_is_odd { "yes" } else { "no" },
         t.uncancelled_d1_two_adic_valuation,
         if t.cancelled_delta0_divisible_by_a0_sq {
             "yes"
         } else {
             "no"
         },
-        t.level1_transport_verified_blocks,
+        if t.cancelled_delta1_divisible_by_a1_sq {
+            "yes"
+        } else {
+            "no"
+        },
+        t.degree4_e0_two_adic_valuation,
+        t.degree4_e1_two_adic_valuation,
+        t.degree4_e2_two_adic_valuation,
+        if t.explicit_height_step_verified {
+            "yes"
+        } else {
+            "no"
+        },
+        t.degree4_valuation_base_2_pow_56,
+        t.degree4_explicit_height_base_3_pow_19,
         if t.truncation_exponent_lt_one {
             "yes"
         } else {

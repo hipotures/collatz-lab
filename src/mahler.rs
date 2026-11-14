@@ -52,6 +52,11 @@ pub struct CheckpointRow {
     pub residue_mahler_reduction: BigUint,
     pub block_cocycle_matches: bool,
     pub direct_iteration_matches: bool,
+    pub unnormalized_u0_mod16: u32,
+    pub repaired_u0_mod16: u32,
+    pub repaired_level0_verified_blocks: usize,
+    pub repaired_delta0_divisible_by_a0_sq: bool,
+    pub repaired_level1_verified_blocks: usize,
 }
 
 /// One checkpoint `K` for the periodic control word `(1110)^infinity` (`x = -19/11`).
@@ -103,15 +108,36 @@ pub struct MahlerTowerSummary {
     pub functional_equation_verified_degree: usize,
     pub homogenised_prefix_verified_blocks: usize,
     pub b_poly_zero_order_at_origin: usize,
+    pub seed_d0: u32,
+    pub unnormalized_u0_mod16_at_checkpoints: u32,
+    pub unnormalized_delta0_mod_a0_sq: u32,
+    pub repaired_u0_mod16_at_checkpoints: u32,
     pub uncancelled_d1_two_adic_valuation: usize,
+    #[serde(with = "serde_dec")]
+    pub cancelled_d1: BigUint,
+    pub cancelled_d1_is_odd: bool,
+    #[serde(with = "serde_dec")]
+    pub cancelled_d2: BigUint,
+    pub cancelled_d2_is_odd: bool,
     pub cancelled_delta0_divisible_by_a0_sq: bool,
+    pub cancelled_delta1_divisible_by_a1_sq: bool,
+    pub level0_seed_verified_blocks: usize,
     pub level1_transport_verified_blocks: usize,
+    pub level2_transport_verified_blocks: usize,
+    pub degree4_e0_two_adic_valuation: usize,
+    pub degree4_e1_two_adic_valuation: usize,
+    pub degree4_e2_two_adic_valuation: usize,
+    pub explicit_height_step_verified: bool,
     pub truncation_exponent_lt_one: bool,
     #[serde(with = "serde_dec")]
     pub degree1_gain_power_of_two: BigUint,
     #[serde(with = "serde_dec")]
     pub degree1_cost_power_of_three: BigUint,
     pub degree1_closes_ledger: bool,
+    #[serde(with = "serde_dec")]
+    pub degree4_valuation_base_2_pow_56: BigUint,
+    #[serde(with = "serde_dec")]
+    pub degree4_explicit_height_base_3_pow_19: BigUint,
     #[serde(with = "serde_dec")]
     pub degree4_coarse_gain_2_pow_56: BigUint,
     #[serde(with = "serde_dec")]
@@ -379,6 +405,42 @@ pub fn homogenised_geom_sum(a: &BigInt, b: &BigInt, len: usize) -> BigInt {
     acc
 }
 
+/// Performs one step `(a_k, b_k, u_k, D_k) -> (a_{k+1}, b_{k+1}, u_{k+1}, D_{k+1})`
+/// of the `a_k^2`-cancelled backward Mahler tower, verifying that `a_k^2 | Delta_k`
+/// and that `D_{k+1}` is a positive odd integer.
+pub fn repaired_tower_step(
+    a_k: &BigInt,
+    b_k: &BigInt,
+    u_k: &BigInt,
+    d_k: &BigInt,
+) -> Result<(BigInt, BigInt, BigInt, BigInt), String> {
+    let a_next = Pow::pow(a_k, 4usize);
+    let b_next = Pow::pow(b_k, 4usize);
+    let d_next = d_k * (b_k - a_k) * (&b_next - &a_next);
+    if d_next <= BigInt::zero() || two_adic_valuation_bigint(&d_next) != 0 {
+        return Err("repaired tower step produced non-positive or even D_{k+1}".into());
+    }
+    let coeff_geom = Pow::pow(b_k, 3usize) + a_k * Pow::pow(b_k, 2usize) + Pow::pow(a_k, 3usize);
+    let delta_k = (&b_next - &a_next) * u_k - d_k * b_k * coeff_geom;
+    let a_k_sq = Pow::pow(a_k, 2usize);
+    if !(&delta_k % &a_k_sq).is_zero() {
+        return Err("Delta_k is not divisible by a_k^2".into());
+    }
+    let u_next = Pow::pow(b_k, 3usize) * (&delta_k / &a_k_sq);
+    Ok((a_next, b_next, u_next, d_next))
+}
+
+/// Evaluates the corrected degree-4 Padé linear form
+/// `E_k = D_k * P_0(a_k, b_k) + u_k * P_1(a_k, b_k)`
+/// where `P_0(a, b) = b^4 + a*b^3 + a^2*b^2` and `P_1(a, b) = -b^4 + a^4`.
+pub fn degree4_linear_form(a_k: &BigInt, b_k: &BigInt, u_k: &BigInt, d_k: &BigInt) -> BigInt {
+    let p0 = Pow::pow(b_k, 4usize)
+        + a_k * Pow::pow(b_k, 3usize)
+        + Pow::pow(a_k, 2usize) * Pow::pow(b_k, 2usize);
+    let p1 = -Pow::pow(b_k, 4usize) + Pow::pow(a_k, 4usize);
+    d_k * p0 + u_k * p1
+}
+
 fn evaluate_checkpoint(bits: &[bool], k_bits: usize) -> Result<CheckpointRow, String> {
     if !k_bits.is_multiple_of(4) || bits.len() < k_bits {
         return Err(format!("invalid checkpoint length {k_bits}"));
@@ -402,10 +464,12 @@ fn evaluate_checkpoint(bits: &[bool], k_bits: usize) -> Result<CheckpointRow, St
     // Check the exact block-cocycle identity:
     // 11 * c(w_<4L) = 23 * (27^L - 16^L) - 44 * preS(16, 27, L).
     let blocks = k_bits / 4;
-    let pre_s = homogenised_prefix_sum(bits, &BigInt::from(16u32), &BigInt::from(27u32), blocks);
+    let a0 = BigInt::from(16u32);
+    let b0 = BigInt::from(27u32);
+    let pre_s = homogenised_prefix_sum(bits, &a0, &b0, blocks);
     let lhs_cocycle = BigInt::from(11u32) * BigInt::from(affine.offset().clone());
-    let pow27 = Pow::pow(&BigInt::from(27u32), blocks);
-    let pow16 = Pow::pow(&BigInt::from(16u32), blocks);
+    let pow27 = Pow::pow(&b0, blocks);
+    let pow16 = Pow::pow(&a0, blocks);
     let rhs_cocycle = BigInt::from(23u32) * (pow27 - pow16) - BigInt::from(44u32) * pre_s;
     let block_cocycle_matches =
         lhs_cocycle == rhs_cocycle && closed_form_offset(prefix_slice) == *affine.offset();
@@ -415,6 +479,52 @@ fn evaluate_checkpoint(bits: &[bool], k_bits: usize) -> Result<CheckpointRow, St
     let image = collatz::t_iter(&residue_affine_inverse, k_bits);
     let direct_iteration_matches =
         emitted == prefix_slice && (&image << k_bits) == affine.numerator(&residue_affine_inverse);
+
+    // Verify both the unnormalized base-case defect and the repaired seed normalization
+    // directly on the actual checkpoint seed x_K = residue_affine_inverse.
+    let x_k_int = BigInt::from(residue_affine_inverse.clone());
+    let eleven_x_plus_23 = BigInt::from(11u32) * &x_k_int + BigInt::from(23u32);
+    if !(&eleven_x_plus_23 % BigInt::from(4u32)).is_zero() {
+        return Err(format!(
+            "checkpoint K={k_bits}: 11*x_K + 23 is not divisible by 4"
+        ));
+    }
+    let u0_unnormalized = &eleven_x_plus_23 / BigInt::from(4u32);
+    let u0_repaired = &b0 * &u0_unnormalized;
+    let d0 = BigInt::from(11u32);
+
+    let unnormalized_u0_mod16 =
+        u32::try_from((&u0_unnormalized % &a0).magnitude()).expect("residue mod 16 fits in u32");
+    let repaired_u0_mod16 =
+        u32::try_from((&u0_repaired % &a0).magnitude()).expect("residue mod 16 fits in u32");
+    // Unnormalized u0_old = (11*x_K + 23)/4 has u0_old == 1 != 11 == D0 * preS(16, 27, 1) (mod 16).
+    if unnormalized_u0_mod16 != 1 || repaired_u0_mod16 != 11 {
+        return Err(format!(
+            "checkpoint K={k_bits}: unexpected mod-16 seed normalization (unnormalized={unnormalized_u0_mod16}, repaired={repaired_u0_mod16})"
+        ));
+    }
+
+    let repaired_level0_verified_blocks = blocks - 1;
+    for l in 1..=repaired_level0_verified_blocks {
+        let diff =
+            Pow::pow(&b0, l - 1) * &u0_repaired - &d0 * homogenised_prefix_sum(bits, &a0, &b0, l);
+        if !(diff % Pow::pow(&a0, l)).is_zero() {
+            return Err(format!(
+                "checkpoint K={k_bits}: repaired level-0 congruence failed at L={l}"
+            ));
+        }
+    }
+
+    let (a1, b1, u1, d1) = repaired_tower_step(&a0, &b0, &u0_repaired, &d0)?;
+    let repaired_level1_verified_blocks = repaired_level0_verified_blocks / 4;
+    for l in 1..=repaired_level1_verified_blocks {
+        let diff = Pow::pow(&b1, l - 1) * &u1 - &d1 * homogenised_prefix_sum(bits, &a1, &b1, l);
+        if !(diff % Pow::pow(&a1, l)).is_zero() {
+            return Err(format!(
+                "checkpoint K={k_bits}: repaired level-1 congruence failed at L={l}"
+            ));
+        }
+    }
 
     if residue_affine_inverse != residue_cylinder_lift
         || residue_affine_inverse != residue_parity_positions
@@ -440,6 +550,11 @@ fn evaluate_checkpoint(bits: &[bool], k_bits: usize) -> Result<CheckpointRow, St
         residue_mahler_reduction,
         block_cocycle_matches,
         direct_iteration_matches,
+        unnormalized_u0_mod16,
+        repaired_u0_mod16,
+        repaired_level0_verified_blocks,
+        repaired_delta0_divisible_by_a0_sq: true,
+        repaired_level1_verified_blocks,
     })
 }
 
@@ -775,7 +890,10 @@ fn analyze_pade_degree(bits: &[bool], m: usize) -> Result<PadeCandidateRow, Stri
     })
 }
 
-fn verify_mahler_tower_summary(bits: &[bool]) -> Result<MahlerTowerSummary, String> {
+fn verify_mahler_tower_summary(
+    bits: &[bool],
+    checkpoints: &[CheckpointRow],
+) -> Result<MahlerTowerSummary, String> {
     let a0 = BigInt::from(16u32);
     let b0 = BigInt::from(27u32);
     let a1 = Pow::pow(&a0, 4usize);
@@ -796,83 +914,158 @@ fn verify_mahler_tower_summary(bits: &[bool]) -> Result<MahlerTowerSummary, Stri
         }
     }
 
-    // 2. Verify the backward tower transport from level 0 to level 1 on a 2-adic witness u0/D0.
-    let l_max = 64usize;
-    let mod0 = Pow::pow(&BigUint::from(16u32), l_max);
-    let inv_b0 = BigUint::from(27u32)
-        .modinv(&mod0)
-        .expect("27 is invertible modulo 16^L");
-    let pre_s_max = homogenised_prefix_sum(bits, &a0, &b0, l_max)
-        .to_biguint()
-        .expect("preS is non-negative");
-    let u0_uint = (pre_s_max * mod0_pow(&inv_b0, l_max - 1, &mod0)) % &mod0;
-    let u0 = BigInt::from(u0_uint);
-    let d0 = BigInt::one();
+    // 2. Verify the backward tower transport directly on the actual checkpoint seed x_1024
+    //    (and cross-check consistency across all checkpoints K in {16..1024}).
+    for row in checkpoints {
+        if row.unnormalized_u0_mod16 != 1 || row.repaired_u0_mod16 != 11 {
+            return Err(format!(
+                "checkpoint K={} has unexpected seed mod-16 normalization",
+                row.k_bits
+            ));
+        }
+    }
+    let top_checkpoint = checkpoints
+        .last()
+        .ok_or_else(|| String::from("missing checkpoints for Mahler tower verification"))?;
+    if top_checkpoint.k_bits != DEFAULT_MAX_BITS {
+        return Err("top checkpoint does not match DEFAULT_MAX_BITS".into());
+    }
+
+    let d0 = BigInt::from(11u32);
+    let x_top = BigInt::from(top_checkpoint.residue_affine_inverse.clone());
+    let u0_unnormalized = (BigInt::from(11u32) * &x_top + BigInt::from(23u32)) / BigInt::from(4u32);
+    let u0 = &b0 * &u0_unnormalized;
+
+    // Verify that the unnormalized definition u0_old = (11*x + 23)/4 fails BOTH:
+    // (a) the L = 1 base congruence modulo a0 = 16 (u0_old mod 16 = 1 != 11), and
+    // (b) exact divisibility of Delta_0 by a0^2 = 256 (Delta_0^old mod 256 = 134 != 0).
+    let a0_sq = Pow::pow(&a0, 2usize);
+    let delta0_unnormalized = (&b1 - &a1) * &u0_unnormalized - &d0 * &b0 * &coeff_geom;
+    let unnormalized_delta0_rem = ((&delta0_unnormalized % &a0_sq) + &a0_sq) % &a0_sq;
+    let unnormalized_delta0_mod_a0_sq =
+        u32::try_from(unnormalized_delta0_rem.magnitude()).expect("remainder mod 256 fits in u32");
+    if unnormalized_delta0_mod_a0_sq == 0 {
+        return Err("unnormalized Delta_0 unexpectedly divisible by a_0^2".into());
+    }
 
     // Uncancelled D1 = D0 * a0^2 * (b0 - a0) * (b0^4 - a0^4) has 2-adic valuation 2 * 4 = 8 > 0.
-    let uncancelled_d1 =
-        &d0 * Pow::pow(&a0, 2usize) * (&b0 - &a0) * (Pow::pow(&b0, 4usize) - Pow::pow(&a0, 4usize));
+    let uncancelled_d1 = &d0 * &a0_sq * (&b0 - &a0) * (&b1 - &a1);
     let uncancelled_d1_two_adic_valuation = two_adic_valuation_bigint(&uncancelled_d1);
+    if uncancelled_d1_two_adic_valuation != 8 {
+        return Err(format!(
+            "unexpected 2-adic valuation for uncancelled D1: {uncancelled_d1_two_adic_valuation}"
+        ));
+    }
 
-    // Cancelled Delta0 must be divisible by a0^2 = 256, keeping D1 odd.
-    let delta0 = (Pow::pow(&b0, 4usize) - Pow::pow(&a0, 4usize)) * &u0 - &d0 * &b0 * &coeff_geom;
-    let a0_sq = Pow::pow(&a0, 2usize);
-    let cancelled_delta0_divisible_by_a0_sq = (&delta0 % &a0_sq).is_zero();
-    if !cancelled_delta0_divisible_by_a0_sq {
-        return Err("Delta0 is not divisible by a0^2".into());
+    // Verify repaired level 0 (1 <= L <= 255), level 1 (1 <= L <= 63), and level 2 (1 <= L <= 15)
+    // on the actual integer seed x_1024 with D_0 = 11 and u_0 = 27*(11*x_1024 + 23)/4.
+    let level0_seed_verified_blocks = top_checkpoint.k_bits / 4 - 1;
+    for l in 1..=level0_seed_verified_blocks {
+        let diff = Pow::pow(&b0, l - 1) * &u0 - &d0 * homogenised_prefix_sum(bits, &a0, &b0, l);
+        if !(diff % Pow::pow(&a0, l)).is_zero() {
+            return Err(format!("repaired level-0 congruence failed at L={l}"));
+        }
     }
-    let u1 = Pow::pow(&b0, 3usize) * (&delta0 / &a0_sq);
-    let d1 = &d0 * (&b0 - &a0) * (Pow::pow(&b0, 4usize) - Pow::pow(&a0, 4usize));
-    if two_adic_valuation_bigint(&d1) != 0 {
-        return Err("cancelled D1 is not odd".into());
-    }
-    let level1_blocks = 15usize;
+
+    let (_, _, u1, d1) = repaired_tower_step(&a0, &b0, &u0, &d0)?;
+    let level1_blocks = level0_seed_verified_blocks / 4;
     for l in 1..=level1_blocks {
-        let diff = &u1 * Pow::pow(&b1, l - 1) - &d1 * homogenised_prefix_sum(bits, &a1, &b1, l);
-        let mod1 = Pow::pow(&a1, l);
-        if !(diff % mod1).is_zero() {
+        let diff = Pow::pow(&b1, l - 1) * &u1 - &d1 * homogenised_prefix_sum(bits, &a1, &b1, l);
+        if !(diff % Pow::pow(&a1, l)).is_zero() {
             return Err(format!("level-1 transport divisibility failed at L={l}"));
         }
+    }
+
+    let (a2, b2, u2, d2) = repaired_tower_step(&a1, &b1, &u1, &d1)?;
+    let level2_blocks = level1_blocks / 4;
+    for l in 1..=level2_blocks {
+        let diff = Pow::pow(&b2, l - 1) * &u2 - &d2 * homogenised_prefix_sum(bits, &a2, &b2, l);
+        if !(diff % Pow::pow(&a2, l)).is_zero() {
+            return Err(format!("level-2 transport divisibility failed at L={l}"));
+        }
+    }
+
+    // 3. Verify the corrected degree-4 linear form E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k),
+    //    its exact 2-adic valuation v_2(E_k) = 56 * 4^k, and the explicit height step inequalities
+    //    H_{k+1} <= b_k^7 H_k and |E_k| < 3 * H_0 * 3^(19 * 4^k) for k = 0, 1, 2.
+    let e0 = degree4_linear_form(&a0, &b0, &u0, &d0);
+    let e1 = degree4_linear_form(&a1, &b1, &u1, &d1);
+    let e2 = degree4_linear_form(&a2, &b2, &u2, &d2);
+    let degree4_e0_two_adic_valuation = two_adic_valuation_bigint(&e0);
+    let degree4_e1_two_adic_valuation = two_adic_valuation_bigint(&e1);
+    let degree4_e2_two_adic_valuation = two_adic_valuation_bigint(&e2);
+    if degree4_e0_two_adic_valuation != 56
+        || degree4_e1_two_adic_valuation != 224
+        || degree4_e2_two_adic_valuation != 896
+    {
+        return Err(format!(
+            "unexpected 2-adic valuations for E_k: ({degree4_e0_two_adic_valuation}, {degree4_e1_two_adic_valuation}, {degree4_e2_two_adic_valuation})"
+        ));
+    }
+
+    let h0 = u0.magnitude() + d0.magnitude();
+    let h1 = u1.magnitude() + d1.magnitude();
+    let h2 = u2.magnitude() + d2.magnitude();
+    let b0_uint = BigUint::from(27u32);
+    let b1_uint = Pow::pow(&b0_uint, 4usize);
+    let b2_uint = Pow::pow(&b1_uint, 4usize);
+    let explicit_height_step_verified = h1 <= Pow::pow(&b0_uint, 7usize) * &h0
+        && h2 <= Pow::pow(&b1_uint, 7usize) * &h1
+        && e0.magnitude() <= &(BigUint::from(3u32) * Pow::pow(&b0_uint, 4usize) * &h0)
+        && e1.magnitude() <= &(BigUint::from(3u32) * Pow::pow(&b1_uint, 4usize) * &h1)
+        && e2.magnitude() <= &(BigUint::from(3u32) * Pow::pow(&b2_uint, 4usize) * &h2)
+        && e0.magnitude() < &(BigUint::from(3u32) * &h0 * Pow::pow(&BigUint::from(3u32), 19usize))
+        && e1.magnitude() < &(BigUint::from(3u32) * &h0 * Pow::pow(&BigUint::from(3u32), 76usize))
+        && e2.magnitude() < &(BigUint::from(3u32) * &h0 * Pow::pow(&BigUint::from(3u32), 304usize));
+    if !explicit_height_step_verified {
+        return Err("explicit archimedean height bound check failed on seed tower".into());
     }
 
     let degree1_gain_power_of_two = BigUint::one() << 44usize;
     let degree1_cost_power_of_three = Pow::pow(&BigUint::from(3u32), 30usize);
     let degree1_closes_ledger = degree1_gain_power_of_two > degree1_cost_power_of_three;
 
-    let degree4_coarse_gain_2_pow_56 = BigUint::one() << 56usize;
+    let degree4_valuation_base_2_pow_56 = BigUint::one() << 56usize;
+    let degree4_explicit_height_base_3_pow_19 = Pow::pow(&BigUint::from(3u32), 19usize);
+    let degree4_coarse_gain_2_pow_56 = degree4_valuation_base_2_pow_56.clone();
     let degree4_coarse_cost_16_mul_27_pow_7 =
         BigUint::from(16u32) * Pow::pow(&BigUint::from(27u32), 7usize);
-    let degree4_closes_cancelled_ledger =
-        degree4_coarse_gain_2_pow_56 > degree4_coarse_cost_16_mul_27_pow_7;
+    let degree4_closes_cancelled_ledger = degree4_valuation_base_2_pow_56
+        > degree4_explicit_height_base_3_pow_19
+        && degree4_coarse_gain_2_pow_56 > degree4_coarse_cost_16_mul_27_pow_7;
 
     Ok(MahlerTowerSummary {
         functional_equation_verified_degree: DEFAULT_MAX_BITS,
         homogenised_prefix_verified_blocks: blocks,
         b_poly_zero_order_at_origin: 2,
+        seed_d0: 11,
+        unnormalized_u0_mod16_at_checkpoints: 1,
+        unnormalized_delta0_mod_a0_sq,
+        repaired_u0_mod16_at_checkpoints: 11,
         uncancelled_d1_two_adic_valuation,
-        cancelled_delta0_divisible_by_a0_sq,
+        cancelled_d1: d1.to_biguint().expect("D1 is positive"),
+        cancelled_d1_is_odd: true,
+        cancelled_d2: d2.to_biguint().expect("D2 is positive"),
+        cancelled_d2_is_odd: true,
+        cancelled_delta0_divisible_by_a0_sq: true,
+        cancelled_delta1_divisible_by_a1_sq: true,
+        level0_seed_verified_blocks,
         level1_transport_verified_blocks: level1_blocks,
+        level2_transport_verified_blocks: level2_blocks,
+        degree4_e0_two_adic_valuation,
+        degree4_e1_two_adic_valuation,
+        degree4_e2_two_adic_valuation,
+        explicit_height_step_verified,
         truncation_exponent_lt_one: BigUint::from(16u32) < BigUint::from(27u32),
         degree1_gain_power_of_two,
         degree1_cost_power_of_three,
         degree1_closes_ledger,
+        degree4_valuation_base_2_pow_56,
+        degree4_explicit_height_base_3_pow_19,
         degree4_coarse_gain_2_pow_56,
         degree4_coarse_cost_16_mul_27_pow_7,
         degree4_closes_cancelled_ledger,
     })
-}
-
-fn mod0_pow(base: &BigUint, mut exp: usize, modulus: &BigUint) -> BigUint {
-    let mut result = BigUint::one();
-    let mut cur = base % modulus;
-    while exp > 0 {
-        if exp & 1 == 1 {
-            result = (result * &cur) % modulus;
-        }
-        cur = (&cur * &cur) % modulus;
-        exp >>= 1;
-    }
-    result
 }
 
 /// Independent check that rejects a perturbed parity word, a wrong affine offset,
@@ -957,6 +1150,10 @@ pub fn verify_mahler_experiment(bits: &[bool], outcome: &MahlerExperiment) -> Re
             return Err(format!("K={}: checkpoint row mismatch", row.k_bits));
         }
     }
+    let expected_tower = verify_mahler_tower_summary(bits, &outcome.checkpoints)?;
+    if outcome.tower_summary != expected_tower {
+        return Err("Mahler tower summary mismatch".into());
+    }
     Ok(())
 }
 
@@ -981,7 +1178,7 @@ pub fn run_mahler() -> Result<MahlerExperiment, String> {
         pade_candidates.push(analyze_pade_degree(&bits, m)?);
     }
 
-    let tower_summary = verify_mahler_tower_summary(&bits)?;
+    let tower_summary = verify_mahler_tower_summary(&bits, &checkpoints)?;
 
     Ok(MahlerExperiment {
         schema: "collatz-lab-mahler-v1".into(),
@@ -1000,10 +1197,10 @@ pub fn run_mahler() -> Result<MahlerExperiment, String> {
         pade_candidates,
         tower_summary,
         unresolved_obligations: vec![
-            "Kernel-checked formalization (e.g., in Lean 4) of the a_k^2-cancelled backward Mahler tower transport for B(z) = z^2(1 - z) and the degree-4 Padé contradiction.".into(),
-            "Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system rather than the unshifted scalar equation.".into(),
-            "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity.".into(),
-            "Resolution of the Coefficient Stopping Time conjecture (whether any minimal nonconvergent positive integer orbit can cross a coefficient threshold) and the Collatz conjecture itself.".into(),
+            "Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (D_0 = 11q, u_0 = 27*(11p + 23q)/4) and the degree-4 Padé contradiction (v_2(E_k) = 56*4^k vs |E_k| <= 3*(|u_0| + D_0)*3^(19*4^k)).".into(),
+            "The open Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1) asserting that every rational 2-adic integer has an eventually periodic parity sequence (Lagarias 1990, Corollary 2.1b proves only the periodic-to-rational direction; the 2021 arXiv preprint of López and Stoll conflates the real limit Phi_R(v) with the 2-adic limit Phi_{Z_2}(v)).".into(),
+            "Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system (or backward rational transport through T^s) rather than the unshifted scalar equation alone.".into(),
+            "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity, and resolution of the Coefficient Stopping Time conjecture (CST).".into(),
         ],
     })
 }

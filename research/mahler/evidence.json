@@ -22,7 +22,12 @@
       "residue_parity_positions": "25319",
       "residue_mahler_reduction": "25319",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 3,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 0
     },
     {
       "k_bits": 32,
@@ -35,7 +40,12 @@
       "residue_parity_positions": "2437374695",
       "residue_mahler_reduction": "2437374695",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 7,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 1
     },
     {
       "k_bits": 64,
@@ -48,7 +58,12 @@
       "residue_parity_positions": "9941361107984147175",
       "residue_mahler_reduction": "9941361107984147175",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 15,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 3
     },
     {
       "k_bits": 128,
@@ -61,7 +76,12 @@
       "residue_parity_positions": "186713926584377480755610551903286944487",
       "residue_mahler_reduction": "186713926584377480755610551903286944487",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 31,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 7
     },
     {
       "k_bits": 256,
@@ -74,7 +94,12 @@
       "residue_parity_positions": "17677928354781576598136772842428592404783632842485884244156818309490537882343",
       "residue_mahler_reduction": "17677928354781576598136772842428592404783632842485884244156818309490537882343",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 63,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 15
     },
     {
       "k_bits": 512,
@@ -87,7 +112,12 @@
       "residue_parity_positions": "6142436330792640019238632284395788474878883124208429924060026688184395986847374464627311131796826563589211562176203395155945974865518312238353578721764071",
       "residue_mahler_reduction": "6142436330792640019238632284395788474878883124208429924060026688184395986847374464627311131796826563589211562176203395155945974865518312238353578721764071",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 127,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 31
     },
     {
       "k_bits": 1024,
@@ -100,7 +130,12 @@
       "residue_parity_positions": "158884468088401229023725696604978616109551463248200455102439554186617468529795472215705671849740929711722164122725483462490668570013851859163430609400499883478273665099149856964352703867600949213383103273635974546078871930256615644736696516930875916998694476831738526878862695253130874225023543709015912964839",
       "residue_mahler_reduction": "158884468088401229023725696604978616109551463248200455102439554186617468529795472215705671849740929711722164122725483462490668570013851859163430609400499883478273665099149856964352703867600949213383103273635974546078871930256615644736696516930875916998694476831738526878862695253130874225023543709015912964839",
       "block_cocycle_matches": true,
-      "direct_iteration_matches": true
+      "direct_iteration_matches": true,
+      "unnormalized_u0_mod16": 1,
+      "repaired_u0_mod16": 11,
+      "repaired_level0_verified_blocks": 255,
+      "repaired_delta0_divisible_by_a0_sq": true,
+      "repaired_level1_verified_blocks": 63
     }
   ],
   "periodic_control": [
@@ -1228,21 +1263,38 @@
     "functional_equation_verified_degree": 1024,
     "homogenised_prefix_verified_blocks": 64,
     "b_poly_zero_order_at_origin": 2,
+    "seed_d0": 11,
+    "unnormalized_u0_mod16_at_checkpoints": 1,
+    "unnormalized_delta0_mod_a0_sq": 134,
+    "repaired_u0_mod16_at_checkpoints": 11,
     "uncancelled_d1_two_adic_valuation": 8,
+    "cancelled_d1": "56374505",
+    "cancelled_d1_is_odd": true,
+    "cancelled_d2": "2094594182576849678565451043875033625",
+    "cancelled_d2_is_odd": true,
     "cancelled_delta0_divisible_by_a0_sq": true,
-    "level1_transport_verified_blocks": 15,
+    "cancelled_delta1_divisible_by_a1_sq": true,
+    "level0_seed_verified_blocks": 255,
+    "level1_transport_verified_blocks": 63,
+    "level2_transport_verified_blocks": 15,
+    "degree4_e0_two_adic_valuation": 56,
+    "degree4_e1_two_adic_valuation": 224,
+    "degree4_e2_two_adic_valuation": 896,
+    "explicit_height_step_verified": true,
     "truncation_exponent_lt_one": true,
     "degree1_gain_power_of_two": "17592186044416",
     "degree1_cost_power_of_three": "205891132094649",
     "degree1_closes_ledger": false,
+    "degree4_valuation_base_2_pow_56": "72057594037927936",
+    "degree4_explicit_height_base_3_pow_19": "1162261467",
     "degree4_coarse_gain_2_pow_56": "72057594037927936",
     "degree4_coarse_cost_16_mul_27_pow_7": "167365651248",
     "degree4_closes_cancelled_ledger": true
   },
   "unresolved_obligations": [
-    "Kernel-checked formalization (e.g., in Lean 4) of the a_k^2-cancelled backward Mahler tower transport for B(z) = z^2(1 - z) and the degree-4 Padé contradiction.",
-    "Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system rather than the unshifted scalar equation.",
-    "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity.",
-    "Resolution of the Coefficient Stopping Time conjecture (whether any minimal nonconvergent positive integer orbit can cross a coefficient threshold) and the Collatz conjecture itself."
+    "Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (D_0 = 11q, u_0 = 27*(11p + 23q)/4) and the degree-4 Padé contradiction (v_2(E_k) = 56*4^k vs |E_k| <= 3*(|u_0| + D_0)*3^(19*4^k)).",
+    "The open Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1) asserting that every rational 2-adic integer has an eventually periodic parity sequence (Lagarias 1990, Corollary 2.1b proves only the periodic-to-rational direction; the 2021 arXiv preprint of López and Stoll conflates the real limit Phi_R(v) with the 2-adic limit Phi_{Z_2}(v)).",
+    "Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system (or backward rational transport through T^s) rather than the unshifted scalar equation alone.",
+    "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity, and resolution of the Coefficient Stopping Time conjecture (CST)."
   ]
 }

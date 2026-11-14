@@ -127,7 +127,7 @@ evidence format is separate from the reference experiment's unchanged JSONL
 ledger. `tests/envelope.rs` independently scans a full residue period to recheck
 all extrema, ties and exact fractions, and checks CLI artifact reproduction.
 
-## Phase 3: aperiodic survivor itineraries and 2-adic Mahler reduction (issue #6)
+## Phase 3: aperiodic survivor itineraries and 2-adic Mahler reduction (issues #6, #7)
 
 Reproduce the [Phase 3 summary](research/mahler/summary.md) and
 [machine-readable evidence](research/mahler/evidence.json) with:
@@ -141,7 +141,10 @@ the full mathematical derivations and literature audit:
 
 - **Algebraic proofs (`proven-by-algebra`)**: all prefixes of `w = lim mu^j(1)`
   (`mu(1)=1110, mu(0)=1101`) satisfy `3^(r_k) > 2^k` for all `k >= 1`; `w` is not
-  eventually periodic; and its unique 2-adic seed satisfies
+  eventually periodic (ruling out rational cycles by Lagarias 1990, Corollary
+  2.1b, whereas ruling out general rational seeds from aperiodicity alone is the
+  open Periodicity Conjecture; see also the primary-source audit of López &
+  Stoll 2021); and its unique 2-adic seed satisfies
   `x(w) = -23/11 + (4/27)*F_2(16/27)` in `Z_2` where
   `F(z) = (1 + z + z^3)/(1 - z^4) + (z^2 - z^3) F(z^4)`.
 - **Five-way checkpoints and periodic control (`verified-for-finite-domain`)**:
@@ -151,16 +154,20 @@ the full mathematical derivations and literature audit:
   control `(1110)^infinity` (`x = -19/11`) illustrates how every finite prefix
   has positive integer realizations `n_K >= 2` with `T^K(n_K) > n_K` even when
   no positive integer realizes the infinite word.
-- **Denominator obstruction and `a_k^2`-cancelled Padé ledger**: because
-  `B(z) = z^2(1 - z)` vanishes to order 2 at `z = 0`, the uncancelled
-  polynomial denominator recurrence makes `D_1` even (`v_2(D_1) = 8`, `refuted`
-  for uncancelled `Odd D_k`). Cancelling `a_k^2` via the level-`k` congruence
-  restores an odd denominator `D_{k+1} = D_k(b_k - a_k)(b_k^4 - a_k^4)`. In the
-  bounded Padé table (`1 <= m <= 16`), `m = 1` fails (`2^44 < 3^30`), while
-  `m = 4` (`p_0 = 1 + z + z^2`, `p_1 = -1 + z^4`) jumps to vanishing order
-  `N = 14` with odd leading coefficient `c = 1`, inducing a singular block on
-  `4 <= m <= 9` and closing both the `a_k^2`-cancelled and coarse integer
-  height ledgers (`2^56 > 16 * 27^7`).
+- **Repaired seed normalization, denominator obstruction, and degree-4 Padé
+  contradiction**: because `(11*x(w) + 23)/4 = (11/27)*F_2(16/27)`, the
+  unnormalized `u_0^old = (11*x + 23)/4` fails at `L = 1 (mod 16)`
+  (`1 != 11 mod 16`); the repaired normalization `D_0 = 11*q`,
+  `u_0 = 27*(11*p + 23*q)/4` restores `b_0^(L-1)*u_0 = D_0*preS(a_0, b_0, L)
+  (mod a_0^L)` for all `L >= 1`. Moreover, because `B(z) = z^2(1 - z)` vanishes
+  to order 2 at `z = 0`, the uncancelled polynomial denominator recurrence makes
+  `D_1` even (`v_2(D_1) = 8`, `refuted` for uncancelled `Odd D_k`), whereas
+  cancelling `a_k^2` via the `L = 2` congruence restores an odd denominator
+  `D_{k+1} = D_k(b_k - a_k)(b_k^4 - a_k^4)`. For the degree-4 Padé pair
+  `p_0 = 1 + z + z^2`, `p_1 = -1 + z^4` (`N = 14`, `c = 1`), the integer linear
+  form `E_k = D_k*P_0(a_k, b_k) + u_k*P_1(a_k, b_k)` satisfies `E_k != 0`,
+  `v_2(E_k) = 56 * 4^k`, and `|E_k| < 3*(|u_0| + D_0)*3^(19 * 4^k)` (`2^56 >
+  2^25 * 3^19`).
 
 ## Epistemic statuses
 
