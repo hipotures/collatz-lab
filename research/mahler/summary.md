@@ -16,11 +16,11 @@ cargo run --locked --release -- mahler --out-dir research/mahler
 |---|---|
 | All-prefix coefficient survival `3^(r_k) > 2^k` for all `k >= 1` | `proven-by-algebra` |
 | Aperiodicity of `w` (`w` is not eventually periodic) | `proven-by-algebra` |
-| Mahler functional equation and 2-adic identity `x(w) = -23/11 + (4/27)*F_2(16/27)` | `proven-by-algebra` |
+| Mahler functional equation, `x(w) = -23/11 + (4/27)*F_2(16/27)`, repaired tower + degree-4 Padé irrationality of `x(w)`, and inverse-branch exclusion of all shifts `sigma^t(w)` (`t >= 0`) | `proven-by-algebra` |
 | Five-way modular checkpoint agreement up to `2^1024` and periodic control `-19/11` | `verified-for-finite-domain` |
 | Uncancelled polynomial Mahler denominator keeps `D_k` odd for `B(z) = z^2 - z^3` | `refuted` |
 | Bounded exact Padé table (`1 <= m <= 16`) and `a_k^2`-cancelled height ledger | `verified-for-finite-domain` |
-| All shifts `sigma^t(w)` (`t >= 0`) and general divergent positive orbits | `conjectured` |
+| General Periodicity Conjecture, non-automatic survivor itineraries, CST, and general divergent positive orbits | `conjectured` |
 
 ## Five-way 2-adic checkpoint verification (`w = lim mu^j(1)`)
 
@@ -90,7 +90,7 @@ For each degree bound `m`, the nullspace of the `(2m + 1) x (2m + 2)` integer Ha
 
 ## Unresolved proof obligations
 
-- Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (D_0 = 11q, u_0 = 27*(11p + 23q)/4) and the degree-4 Padé contradiction (v_2(E_k) = 56*4^k vs |E_k| <= 3*(|u_0| + D_0)*3^(19*4^k)).
+- Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (Theorem 6.2), the degree-4 Padé contradiction (Theorem 7.1), and the inverse-branch exclusion of all shifted tails sigma^t(w) (Corollary 7.3).
 - The open Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1) asserting that every rational 2-adic integer has an eventually periodic parity sequence (Lagarias 1990, Corollary 2.1b proves only the periodic-to-rational direction; the 2021 arXiv preprint of López and Stoll conflates the real limit Phi_R(v) with the 2-adic limit Phi_{Z_2}(v)).
-- Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system (or backward rational transport through T^s) rather than the unshifted scalar equation alone.
-- Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity, and resolution of the Coefficient Stopping Time conjecture (CST).
+- Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries in S_infinity \ {sigma^t(w) : t >= 0}, which satisfy no Mahler functional equation.
+- Resolution of the Coefficient Stopping Time conjecture (whether any minimal nonconvergent positive integer orbit can cross a coefficient threshold) and the Collatz conjecture itself.

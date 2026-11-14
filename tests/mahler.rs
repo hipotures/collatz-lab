@@ -10,8 +10,8 @@ use std::process::Command;
 
 use collatz_lab::hypothesis::Status;
 use collatz_lab::mahler::{
-    degree4_linear_form, mu_bit_by_recurrence, mu_word_by_substitution, repaired_tower_step,
-    run_mahler, verify_candidate_integrity, verify_mahler_experiment,
+    degree4_linear_form, inverse_parity_preimage, mu_bit_by_recurrence, mu_word_by_substitution,
+    repaired_tower_step, run_mahler, verify_candidate_integrity, verify_mahler_experiment,
     verify_word_and_all_prefix_survival, CHECKPOINT_BITS, DEFAULT_MAX_BITS, MAX_PADE_DEGREE,
 };
 use num_bigint::{BigInt, BigUint};
@@ -383,6 +383,69 @@ fn regression_test_unnormalized_u0_fails_mod16_and_repaired_tower_succeeds_on_ch
             let e2 = degree4_linear_form(&a2, &b2, &u2, &d2);
             assert!(!e2.is_zero());
             assert_eq!(e2.magnitude().trailing_zeros(), Some(896));
+
+            // E. Verify the quantitative inequality in Theorem 7.1(2) at levels k = 0, 1, 2:
+            //    27^3 * (a_k * b_k^2 + a_k^3) <= 15_760 * b_k^3 < 19_683 * b_k^3
+            //    and b_k * (b_k^3 + a_k * b_k^2 + a_k^3) < 2 * b_k^4.
+            for (k_idx, (ak, bk)) in [(&a0, &b0), (&a1, &b1), (&a2, &b2)].into_iter().enumerate() {
+                let ak_bk2_plus_ak3 = ak * Pow::pow(bk, 2usize) + Pow::pow(ak, 3usize);
+                let bk3 = Pow::pow(bk, 3usize);
+                assert!(
+                    BigInt::from(19_683u32) * &ak_bk2_plus_ak3 <= BigInt::from(15_760u32) * &bk3,
+                    "Theorem 7.1(2) 15,760/19,683 bound failed at level k={k_idx}"
+                );
+                assert!(
+                    ak_bk2_plus_ak3 < bk3,
+                    "Theorem 7.1(2) strict bound a_k b_k^2 + a_k^3 < b_k^3 failed at k={k_idx}"
+                );
+                assert!(
+                    bk * (&bk3 + &ak_bk2_plus_ak3) < BigInt::from(2u32) * Pow::pow(bk, 4usize),
+                    "Theorem 7.1(2) bound b_k(b_k^3 + a_k b_k^2 + a_k^3) < 2 b_k^4 failed at k={k_idx}"
+                );
+            }
+        }
+
+        // F. Verify the inverse parity-branch preimage Lemma 7.2 / Corollary 7.3 and the
+        //    denominator-preserving forward iteration in Theorem 6.2(1) across shifts
+        //    0 <= t <= min(32, k_bits):
+        //    pulling back y_t = T^t(x_K) along w[0..t] produces p_pre / q_pre = x_K
+        //    with odd denominator q_pre = 3^(r_t), and iterating T^j(p_pre / q_pre) = p_j / q_pre
+        //    preserves integer numerators p_j in Z with exact parity w[j] and
+        //    (11 * p_{4m} + 23 * q_pre) % 4 == 0.
+        let max_t = k_bits.min(32);
+        for t in 0..=max_t {
+            let (_, y_t_uint) = independent_direct_orbit(&x_k_uint, t);
+            let y_t = BigInt::from(y_t_uint);
+            let (p_pre, q_pre) = inverse_parity_preimage(&y_t, &BigInt::one(), &w[..t]);
+            assert_eq!(&q_pre % 2, BigInt::one(), "q_pre must be odd at t={t}");
+            assert_eq!(
+                p_pre,
+                &x_k * &q_pre,
+                "at K={k_bits}, t={t}: inverse parity preimage must equal x_K = p_pre / q_pre"
+            );
+
+            // Check forward denominator-preserving recurrence p_{j+1} / q_pre = T(p_j / q_pre)
+            // for 0 <= j < t.
+            let mut p_j = p_pre;
+            for (j, &bit) in w.iter().take(t).enumerate() {
+                if j % 4 == 0 && j + 1 < k_bits {
+                    // Since w(4m) = w(4m+1) = 1, p_{4m} == 3 * q_pre (mod 4) and 4 | (11*p_{4m} + 23*q_pre).
+                    assert_eq!((&p_j - BigInt::from(3u32) * &q_pre) % 4, BigInt::zero());
+                    assert_eq!(
+                        (BigInt::from(11u32) * &p_j + BigInt::from(23u32) * &q_pre) % 4,
+                        BigInt::zero()
+                    );
+                }
+                if bit {
+                    let num = BigInt::from(3u32) * &p_j + &q_pre;
+                    assert_eq!(&num % 2, BigInt::zero());
+                    p_j = num / 2;
+                } else {
+                    assert_eq!(&p_j % 2, BigInt::zero());
+                    p_j /= 2;
+                }
+            }
+            assert_eq!(p_j, &y_t * &q_pre);
         }
     }
 }

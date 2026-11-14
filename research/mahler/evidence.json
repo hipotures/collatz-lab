@@ -1292,9 +1292,9 @@
     "degree4_closes_cancelled_ledger": true
   },
   "unresolved_obligations": [
-    "Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (D_0 = 11q, u_0 = 27*(11p + 23q)/4) and the degree-4 Padé contradiction (v_2(E_k) = 56*4^k vs |E_k| <= 3*(|u_0| + D_0)*3^(19*4^k)).",
+    "Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (Theorem 6.2), the degree-4 Padé contradiction (Theorem 7.1), and the inverse-branch exclusion of all shifted tails sigma^t(w) (Corollary 7.3).",
     "The open Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1) asserting that every rational 2-adic integer has an eventually periodic parity sequence (Lagarias 1990, Corollary 2.1b proves only the periodic-to-rational direction; the 2021 arXiv preprint of López and Stoll conflates the real limit Phi_R(v) with the 2-adic limit Phi_{Z_2}(v)).",
-    "Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system (or backward rational transport through T^s) rather than the unshifted scalar equation alone.",
-    "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity, and resolution of the Coefficient Stopping Time conjecture (CST)."
+    "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries in S_infinity \\ {sigma^t(w) : t >= 0}, which satisfy no Mahler functional equation.",
+    "Resolution of the Coefficient Stopping Time conjecture (whether any minimal nonconvergent positive integer orbit can cross a coefficient threshold) and the Collatz conjecture itself."
   ]
 }

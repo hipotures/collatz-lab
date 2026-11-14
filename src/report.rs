@@ -83,7 +83,7 @@ pub fn render_mahler(outcome: &MahlerExperiment) -> String {
             outcome.aperiodicity_status,
         ),
         (
-            "Mahler functional equation and 2-adic identity `x(w) = -23/11 + (4/27)*F_2(16/27)`",
+            "Mahler functional equation, `x(w) = -23/11 + (4/27)*F_2(16/27)`, repaired tower + degree-4 Padé irrationality of `x(w)`, and inverse-branch exclusion of all shifts `sigma^t(w)` (`t >= 0`)",
             outcome.mahler_reduction_status,
         ),
         (
@@ -99,7 +99,7 @@ pub fn render_mahler(outcome: &MahlerExperiment) -> String {
             outcome.cancelled_pade_exploration_status,
         ),
         (
-            "All shifts `sigma^t(w)` (`t >= 0`) and general divergent positive orbits",
+            "General Periodicity Conjecture, non-automatic survivor itineraries, CST, and general divergent positive orbits",
             outcome.shift_and_general_divergent_status,
         ),
     ];

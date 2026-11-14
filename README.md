@@ -154,20 +154,24 @@ the full mathematical derivations and literature audit:
   control `(1110)^infinity` (`x = -19/11`) illustrates how every finite prefix
   has positive integer realizations `n_K >= 2` with `T^K(n_K) > n_K` even when
   no positive integer realizes the infinite word.
-- **Repaired seed normalization, denominator obstruction, and degree-4 Padé
-  contradiction**: because `(11*x(w) + 23)/4 = (11/27)*F_2(16/27)`, the
-  unnormalized `u_0^old = (11*x + 23)/4` fails at `L = 1 (mod 16)`
-  (`1 != 11 mod 16`); the repaired normalization `D_0 = 11*q`,
-  `u_0 = 27*(11*p + 23*q)/4` restores `b_0^(L-1)*u_0 = D_0*preS(a_0, b_0, L)
-  (mod a_0^L)` for all `L >= 1`. Moreover, because `B(z) = z^2(1 - z)` vanishes
-  to order 2 at `z = 0`, the uncancelled polynomial denominator recurrence makes
-  `D_1` even (`v_2(D_1) = 8`, `refuted` for uncancelled `Odd D_k`), whereas
-  cancelling `a_k^2` via the `L = 2` congruence restores an odd denominator
+- **Repaired seed normalization, denominator obstruction, degree-4 Padé
+  contradiction, and shifted-itinerary exclusion**: because
+  `(11*x(w) + 23)/4 = (11/27)*F_2(16/27)`, the unnormalized
+  `u_0^old = (11*x + 23)/4` fails at `L = 1 (mod 16)` (`1 != 11 mod 16`); the
+  repaired normalization `D_0 = 11*q`, `u_0 = 27*(11*p + 23*q)/4` restores
+  `b_0^(L-1)*u_0 = D_0*preS(a_0, b_0, L) (mod a_0^L)` for all `L >= 1`.
+  Moreover, because `B(z) = z^2(1 - z)` vanishes to order 2 at `z = 0`, the
+  uncancelled polynomial denominator recurrence makes `D_1` even (`v_2(D_1) = 8`,
+  `refuted` for uncancelled `Odd D_k`), whereas cancelling `a_k^2` via the
+  `L = 2` congruence restores an odd denominator
   `D_{k+1} = D_k(b_k - a_k)(b_k^4 - a_k^4)`. For the degree-4 Padé pair
   `p_0 = 1 + z + z^2`, `p_1 = -1 + z^4` (`N = 14`, `c = 1`), the integer linear
   form `E_k = D_k*P_0(a_k, b_k) + u_k*P_1(a_k, b_k)` satisfies `E_k != 0`,
   `v_2(E_k) = 56 * 4^k`, and `|E_k| < 3*(|u_0| + D_0)*3^(19 * 4^k)` (`2^56 >
-  2^25 * 3^19`).
+  2^25 * 3^19`). By the inverse parity-branch maps `T_0^(-1)(z) = 2z` and
+  `T_1^(-1)(z) = (2z - 1)/3` on `Z_2 intersect Q` (`Corollary 7.3`), this also
+  rules out rational seeds for every shifted tail `sigma^t(w)` (`t >= 0`),
+  without implying anything about general infinite survivor words.
 
 ## Epistemic statuses
 

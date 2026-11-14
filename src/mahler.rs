@@ -441,6 +441,24 @@ pub fn degree4_linear_form(a_k: &BigInt, b_k: &BigInt, u_k: &BigInt, d_k: &BigIn
     d_k * p0 + u_k * p1
 }
 
+/// Applies the inverse parity branches `T_0^(-1)(z) = 2z` and `T_1^(-1)(z) = (2z - 1)/3`
+/// in reverse order across `prefix_bits` to a rational `p / q` (`q` odd), returning
+/// the exact unreduced integer numerator and odd denominator `(p_pre, q_pre)` of
+/// `(T_{b_0}^(-1) o ... o T_{b_{t-1}}^(-1))(p / q)`.
+pub fn inverse_parity_preimage(p: &BigInt, q: &BigInt, prefix_bits: &[bool]) -> (BigInt, BigInt) {
+    let mut num = p.clone();
+    let mut den = q.clone();
+    for &odd in prefix_bits.iter().rev() {
+        if odd {
+            num = BigInt::from(2u32) * num - &den;
+            den *= BigInt::from(3u32);
+        } else {
+            num *= BigInt::from(2u32);
+        }
+    }
+    (num, den)
+}
+
 fn evaluate_checkpoint(bits: &[bool], k_bits: usize) -> Result<CheckpointRow, String> {
     if !k_bits.is_multiple_of(4) || bits.len() < k_bits {
         return Err(format!("invalid checkpoint length {k_bits}"));
@@ -1009,7 +1027,23 @@ fn verify_mahler_tower_summary(
     let b0_uint = BigUint::from(27u32);
     let b1_uint = Pow::pow(&b0_uint, 4usize);
     let b2_uint = Pow::pow(&b1_uint, 4usize);
-    let explicit_height_step_verified = h1 <= Pow::pow(&b0_uint, 7usize) * &h0
+    let a0_uint = BigUint::from(16u32);
+    let a1_uint = Pow::pow(&a0_uint, 4usize);
+    let a2_uint = Pow::pow(&a1_uint, 4usize);
+    let check_sub_2b4 = |a: &BigUint, b: &BigUint| -> bool {
+        let lhs = Pow::pow(&BigUint::from(27u32), 3usize)
+            * (a * Pow::pow(b, 2usize) + Pow::pow(a, 3usize));
+        let mid = BigUint::from(15_760u32) * Pow::pow(b, 3usize);
+        let rhs = BigUint::from(19_683u32) * Pow::pow(b, 3usize);
+        lhs <= mid
+            && mid < rhs
+            && b * (Pow::pow(b, 3usize) + a * Pow::pow(b, 2usize) + Pow::pow(a, 3usize))
+                < BigUint::from(2u32) * Pow::pow(b, 4usize)
+    };
+    let explicit_height_step_verified = check_sub_2b4(&a0_uint, &b0_uint)
+        && check_sub_2b4(&a1_uint, &b1_uint)
+        && check_sub_2b4(&a2_uint, &b2_uint)
+        && h1 <= Pow::pow(&b0_uint, 7usize) * &h0
         && h2 <= Pow::pow(&b1_uint, 7usize) * &h1
         && e0.magnitude() <= &(BigUint::from(3u32) * Pow::pow(&b0_uint, 4usize) * &h0)
         && e1.magnitude() <= &(BigUint::from(3u32) * Pow::pow(&b1_uint, 4usize) * &h1)
@@ -1019,6 +1053,23 @@ fn verify_mahler_tower_summary(
         && e2.magnitude() < &(BigUint::from(3u32) * &h0 * Pow::pow(&BigUint::from(3u32), 304usize));
     if !explicit_height_step_verified {
         return Err("explicit archimedean height bound check failed on seed tower".into());
+    }
+
+    // 4. Verify the inverse-branch preimage identity (Lemma 7.2 / Corollary 7.3)
+    //    across shifts 0 <= t <= 64 on the top checkpoint seed x_1024:
+    //    (T_{w(0)}^(-1) o ... o T_{w(t-1)}^(-1))(T^t(x_1024)) == x_1024.
+    let x_top_uint = &top_checkpoint.residue_affine_inverse;
+    for t in 0..=64usize {
+        let y_t = BigInt::from(collatz::t_iter(x_top_uint, t));
+        let (p_pre, q_pre) = inverse_parity_preimage(&y_t, &BigInt::one(), &bits[..t]);
+        if q_pre <= BigInt::zero()
+            || two_adic_valuation_bigint(&q_pre) != 0
+            || p_pre != &x_top * &q_pre
+        {
+            return Err(format!(
+                "inverse-branch preimage identity failed at shift t={t}"
+            ));
+        }
     }
 
     let degree1_gain_power_of_two = BigUint::one() << 44usize;
@@ -1197,10 +1248,10 @@ pub fn run_mahler() -> Result<MahlerExperiment, String> {
         pade_candidates,
         tower_summary,
         unresolved_obligations: vec![
-            "Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (D_0 = 11q, u_0 = 27*(11p + 23q)/4) and the degree-4 Padé contradiction (v_2(E_k) = 56*4^k vs |E_k| <= 3*(|u_0| + D_0)*3^(19*4^k)).".into(),
+            "Kernel-checked formalization (e.g., in Lean 4) of the repaired a_k^2-cancelled backward Mahler tower (Theorem 6.2), the degree-4 Padé contradiction (Theorem 7.1), and the inverse-branch exclusion of all shifted tails sigma^t(w) (Corollary 7.3).".into(),
             "The open Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1) asserting that every rational 2-adic integer has an eventually periodic parity sequence (Lagarias 1990, Corollary 2.1b proves only the periodic-to-rational direction; the 2021 arXiv preprint of López and Stoll conflates the real limit Phi_R(v) with the 2-adic limit Phi_{Z_2}(v)).".into(),
-            "Exclusion of arbitrary shifted itineraries w^(s)(t) = w[s + t] (s >= 1), which require a coupled 4-state inhomogeneous Mahler system (or backward rational transport through T^s) rather than the unshifted scalar equation alone.".into(),
-            "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries with tau(n) = +infinity, and resolution of the Coefficient Stopping Time conjecture (CST).".into(),
+            "Exclusion of general non-automatic, Sturmian, or arbitrary aperiodic survivor itineraries in S_infinity \\ {sigma^t(w) : t >= 0}, which satisfy no Mahler functional equation.".into(),
+            "Resolution of the Coefficient Stopping Time conjecture (whether any minimal nonconvergent positive integer orbit can cross a coefficient threshold) and the Collatz conjecture itself.".into(),
         ],
     })
 }

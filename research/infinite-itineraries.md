@@ -36,7 +36,8 @@ Every claim in this study carries one of the five repository epistemic labels:
 | Five-way modular residue agreement at $K \in \{16, 32, 64, 128, 256, 512, 1024\}$ and periodic control $(1110)^\infty \mapsto -19/11$ | `verified-for-finite-domain` | Checked in `src/mahler.rs` and `tests/mahler.rs`. |
 | Uncancelled polynomial Mahler tower keeps denominators $D_k$ odd for $B(z) = z^2 - z^3$ | `refuted` | Refuted in Proposition 6.1: $B(z) = z^2(1-z)$ vanishes to order $2$ at $z=0$, forcing $a_k^2 \mid D_{k+1}$ and $v_2(D_1) = 8$. |
 | Repaired $a_k^2$-cancelled backward Mahler tower ($D_0 = 11q, u_0 = \frac{27(11p + 23q)}{4}$) and degree-4 Padé linear form $E_k = D_k P_0 + u_k P_1$ ($v_2(E_k) = 56 \cdot 4^k$ vs $|E_k| < 3(|u_0| + D_0) 3^{19 \cdot 4^k}$) | `proven-by-algebra` / `verified-for-finite-domain` | Proven in Theorems 6.2 and 7.1; bounded Padé table ($1 \le m \le 16$) and checkpoint-seed tower levels $k \in \{0, 1, 2\}$ verified in `src/mahler.rs` and `tests/mahler.rs`. |
-| General Periodicity Conjecture, exclusion of all shifted itineraries $\sigma^t(w)$ ($t \ge 1$), general aperiodic survivor words, CST, and the Collatz conjecture | `conjectured` | Open proof obligations detailed in Sections 2.1–2.2 and 8. |
+| Exclusion of all shifted itineraries $\sigma^t(w)$ ($t \ge 0$) in $\mathbb{Z}_2 \cap \mathbb{Q}$ | `proven-by-algebra` | Proven in Lemma 7.2 and Corollary 7.3 via inverse parity branches $T_0^{-1}(z) = 2z$, $T_1^{-1}(z) = (2z-1)/3$ from $x(w) \notin \mathbb{Q}$ (does not require a separate coupled Mahler system). |
+| General Periodicity Conjecture, general non-automatic/Sturmian aperiodic survivor words, CST, and the Collatz conjecture | `conjectured` | Open proof obligations detailed in Sections 2.1–2.2 and 8. |
 
 ### Three Foundational Distinctions
 
@@ -342,15 +343,27 @@ $$\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k (b_k^3 + a_k b_k^2 + a_k^3), \qquad u
    $$b_k^{L-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, L) \pmod{a_k^L}.$$
 
 **Proof.**
-1. **Base case ($k = 0$):** For any integer $m \ge 0$, let $y_m = T^{4m}(x) \in \mathbb{Z}_2 \cap \mathbb{Q}$ (with denominator dividing $q$). Because $w(4m) = w(4m+1) = 1$ by Lemma 3.1, the first two 2-adic bits of $y_m$ are $1, 1$, meaning $y_m \equiv 3 \pmod{4}$ in $\mathbb{Z}_2$. Since $q$ is odd, $q_m := q(11 y_m + 23)/4 \in \mathbb{Z}_2 \cap \mathbb{Q}$ has odd denominator dividing $q$ and is 2-adically integral, hence $q_m \in \mathbb{Z}$. Taking $m = 0$ gives $11 p + 23 q = 4 q_0 \equiv 0 \pmod{4}$ and $u_0 = 27 q_0 \in \mathbb{Z}$.
-   Now let $L \ge 1$. After $4L$ steps, $16^L y_L = 27^L x + c(w_{<4L})$. Multiplying by $11 q$ and substituting Lemma 4.2(2), $11 c(w_{<4L}) = 23(27^L - 16^L) - 44 \operatorname{preS}(16, 27, L)$, yields the exact integer identity
+1. **Base case ($k = 0$):** We first prove by induction on $j \ge 0$ that every iterate $T^j(x)$ can be written with the same odd integer denominator $q$ as $T^j(x) = p_j / q$ with $p_j \in \mathbb{Z}$:
+   - For $j = 0$, $p_0 = p \in \mathbb{Z}$.
+   - Suppose $T^j(x) = p_j / q$ with $p_j \in \mathbb{Z}$. Because $q$ is odd ($q \equiv 1 \pmod{2}$), the 2-adic parity $w(j) = (T^j(x) \bmod 2)$ in $\mathbb{Z}_2$ equals $(p_j \bmod 2)$.
+     - If $w(j) = 0$ (even step), then $p_j$ is an even integer ($2 \mid p_j$ in $\mathbb{Z}$), so $T^{j+1}(x) = \frac{1}{2}(p_j/q) = p_{j+1}/q$ with $p_{j+1} = p_j/2 \in \mathbb{Z}$.
+     - If $w(j) = 1$ (odd step), then $p_j$ is an odd integer; since $q$ is also odd, $3p_j + q$ is an even integer ($2 \mid (3p_j + q)$ in $\mathbb{Z}$), so $T^{j+1}(x) = \frac{3(p_j/q) + 1}{2} = p_{j+1}/q$ with $p_{j+1} = (3p_j + q)/2 \in \mathbb{Z}$.
+   Now let $m \ge 0$ and write $y_m = T^{4m}(x) = p_{4m}/q$ with $p_{4m} \in \mathbb{Z}$. By Lemma 3.1, $w(4m) = 1$ and $w(4m+1) = 1$, so both $p_{4m}$ and $p_{4m+1} = (3p_{4m} + q)/2$ are odd integers. Thus $3p_{4m} + q \equiv 2 \pmod{4}$ in $\mathbb{Z}$, which (multiplying by $3$, as $9 \equiv 1 \pmod{4}$) gives $p_{4m} \equiv 3q \pmod{4}$ in $\mathbb{Z}$. Consequently, in $\mathbb{Z}$,
+   $$11 p_{4m} + 23 q \equiv 33 q + 23 q = 56 q \equiv 0 \pmod{4},$$
+   so
+   $$q_m := \frac{q\bigl(11 y_m + 23\bigr)}{4} = \frac{11 p_{4m} + 23 q}{4} \in \mathbb{Z}$$
+   is an exact integer for every $m \ge 0$. Taking $m = 0$ gives $11 p + 23 q = 4 q_0 \equiv 0 \pmod{4}$ and $u_0 = 27 q_0 \in \mathbb{Z}$.
+   For any $L \ge 1$, after $4L$ steps we have $16^L y_L = 27^L x + c(w_{<4L})$. Multiplying by $11 q$ and substituting Lemma 4.2(2), $11 c(w_{<4L}) = 23(27^L - 16^L) - 44 \operatorname{preS}(16, 27, L)$, yields the exact integer identity
    $$\begin{aligned}
    4 \cdot 16^L q_L &= 11 q \cdot 16^L y_L + 23 q \cdot 16^L \\
    &= 11 q \cdot 27^L x + 11 q\, c(w_{<4L}) + 23 q \cdot 16^L \\
    &= 27^L(11 p + 23 q) - 44 q \operatorname{preS}(16, 27, L) \\
    &= 4\bigl(b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L)\bigr).
    \end{aligned}$$
-   Dividing by $4$ gives $b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L) = a_0^L q_L \equiv 0 \pmod{a_0^L}$ for all $L \ge 1$. (In particular, at $L = 1$, $u_0 \equiv 11 q \equiv D_0 \operatorname{preS}(16, 27, 1) \pmod{16}$.)
+   Dividing by $4$ in $\mathbb{Z}$ gives $b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L) = a_0^L q_L \equiv 0 \pmod{a_0^L}$ for all $L \ge 1$.
+   *(Alternative direct derivation from $u_0 / D_0 = F_2(16/27)$ in $\mathbb{Z}_2$)*: Once $u_0 \in \mathbb{Z}$ and $D_0 = 11q \in \mathbb{Z}$ are established, Theorem 4.3 gives $u_0 = D_0 F_2(a_0/b_0)$ in $\mathbb{Z}_2$. Subtracting the length-$L$ truncation gives
+   $$b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L) = D_0 b_0^{L-1} \sum_{j=L}^{\infty} w(j)\left(\frac{a_0}{b_0}\right)^j = a_0^L \cdot \frac{D_0}{b_0}\sum_{r=0}^{\infty} w(L+r)\left(\frac{a_0}{b_0}\right)^r \in a_0^L \mathbb{Z}_2.$$
+   Since the left-hand side is an integer in $\mathbb{Z}$ and $a_0^L = 16^L$ is a power of $2$, $a_0^L \mathbb{Z}_2 \cap \mathbb{Z} = a_0^L \mathbb{Z}$, so $a_0^L$ divides $b_0^{L-1} u_0 - D_0 \operatorname{preS}(a_0, b_0, L)$ in $\mathbb{Z}$.
 2. **Oddness of $D_k$:** Since $D_0 = 11 q > 0$ is odd and, for every $k \ge 0$, $b_k = 27^{4^k}$ is odd, $a_k = 16^{4^k}$ is even, and $b_k > a_k > 0$, both factors $b_k - a_k$ and $b_k^4 - a_k^4$ are positive odd integers. By induction on $k$, $D_k$ is a positive odd integer for all $k \ge 0$.
 3. **Inductive step ($k \implies k+1$):** Assume $u_k \in \mathbb{Z}$ and $b_k^{M-1} u_k \equiv D_k \operatorname{preS}(a_k, b_k, M) \pmod{a_k^M}$ holds for all $M \ge 1$.
    - *Exact divisibility $a_k^2 \mid \Delta_k$*: Taking $M = 2$ and noting that $w(0) = w(1) = 1$ gives $\operatorname{preS}(a_k, b_k, 2) = b_k + a_k$, so
@@ -419,7 +432,11 @@ $$E_k := D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k) \in \mathbb{Z}.$$
    Since $\gcd(a_k, b_k) = 1$, it follows that $a_k^{14} \mid E_k$ in $\mathbb{Z}$ and
    $$b_k^{14} \cdot \frac{E_k}{a_k^{14}} \equiv D_k b_k^4 \pmod{a_k}.$$
    Because $D_k$ and $b_k$ are odd (Theorem 6.2(2)) and $a_k = 16^{4^k}$ is a power of $2$, $E_k / a_k^{14}$ is an **odd** integer (hence nonzero!). Thus $E_k \ne 0$, $v_2(E_k) = v_2(a_k^{14}) = 56 \cdot 4^k$, and $|E_k| \ge a_k^{14} = 2^{56 \cdot 4^k}$.
-2. Since $0 < a_k < b_k$ for all $k \ge 0$, we have $0 < b_k^4 - a_k^4 < b_k^4$ and $b_k(b_k^3 + a_k b_k^2 + a_k^3) < b_k(b_k^3 + b_k^3) = 2 b_k^4$. By the triangle inequality on $\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k(b_k^3 + a_k b_k^2 + a_k^3)$,
+2. For every $k \ge 0$, we have $0 < a_k < b_k$, so $0 < b_k^4 - a_k^4 < b_k^4$. Moreover, because $a_k / b_k = (16/27)^{4^k} \le 16/27$ for all $k \ge 0$ (equivalently $27 a_k \le 16 b_k$ in $\mathbb{Z}$), we have the explicit quantitative bound
+   $$a_k b_k^2 + a_k^3 = b_k^3 \left(\frac{a_k}{b_k} + \left(\frac{a_k}{b_k}\right)^3\right) \le b_k^3 \left(\frac{16}{27} + \left(\frac{16}{27}\right)^3\right) = \frac{16 \cdot 27^2 + 16^3}{27^3}\, b_k^3 = \frac{15{,}760}{19{,}683}\, b_k^3 < b_k^3,$$
+   and therefore
+   $$b_k\bigl(b_k^3 + a_k b_k^2 + a_k^3\bigr) < b_k\bigl(b_k^3 + b_k^3\bigr) = 2 b_k^4.$$
+   By the triangle inequality on $\Delta_k = (b_k^4 - a_k^4) u_k - D_k b_k(b_k^3 + a_k b_k^2 + a_k^3)$,
    $$|\Delta_k| \le b_k^4 |u_k| + 2 b_k^4 D_k = b_k^4(|u_k| + 2 D_k),$$
    so
    $$|u_{k+1}| = b_k^3 \frac{|\Delta_k|}{a_k^2} \le \frac{b_k^7}{a_k^2}(|u_k| + 2 D_k), \qquad D_{k+1} = D_k(b_k - a_k)(b_k^4 - a_k^4) < b_k^5 D_k.$$
@@ -427,9 +444,34 @@ $$E_k := D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k) \in \mathbb{Z}.$$
    $$H_{k+1} = |u_{k+1}| + D_{k+1} \le b_k^7 \left(\frac{1}{a_k^2}|u_k| + \Bigl(\frac{2}{a_k^2} + \frac{1}{b_k^2}\Bigr) D_k\right) \le b_k^7(|u_k| + D_k) = b_k^7 H_k.$$
    By induction on $k \ge 0$, using $\prod_{j=0}^{k-1} b_j^7 = 27^{7 \sum_{j=0}^{k-1} 4^j} = 27^{\frac{7}{3}(4^k - 1)}$,
    $$H_k \le H_0 \cdot 27^{\frac{7}{3}(4^k - 1)} < H_0 \cdot 27^{\frac{7}{3}\cdot 4^k} = (|u_0| + D_0) \cdot 3^{7 \cdot 4^k}.$$
-   Finally, $|P_0(a_k, b_k)| = b_k^4 + a_k b_k^3 + a_k^2 b_k^2 < 3 b_k^4$ and $|P_1(a_k, b_k)| = b_k^4 - a_k^4 < b_k^4 < 3 b_k^4$, so
+   Finally, since $0 < a_k < b_k$, $|P_0(a_k, b_k)| = b_k^4 + a_k b_k^3 + a_k^2 b_k^2 < b_k^4 + b_k^4 + b_k^4 = 3 b_k^4$ (in fact $\le \frac{1369}{729} b_k^4 < 2 b_k^4$) and $|P_1(a_k, b_k)| = b_k^4 - a_k^4 < b_k^4 < 3 b_k^4$, so
    $$|E_k| \le |P_0(a_k, b_k)| D_k + |P_1(a_k, b_k)| |u_k| \le 3 b_k^4(D_k + |u_k|) = 3 \cdot 3^{12 \cdot 4^k} H_k < 3(|u_0| + D_0) \cdot 3^{19 \cdot 4^k}.$$
 3. Since $2^{56} = 72{,}057{,}594{,}037{,}927{,}936$ and $3^{19} = 1{,}162{,}261{,}467$, we have $2^{56} / 3^{19} > 61{,}997{,}748 > 2^{25} = 33{,}554{,}432$. Combining (1) and (2) gives $2^{25 \cdot 4^k} < (2^{56}/3^{19})^{4^k} < 3(|u_0| + D_0)$ for every $k \ge 0$, a contradiction for all sufficiently large $k$. $\blacksquare$
+
+### 7.3 Exclusion of All Shifted Itineraries $\sigma^t(w)$ ($t \ge 0$) via Inverse Parity Branches (`proven-by-algebra`)
+Once $x(w) \notin \mathbb{Z}_2 \cap \mathbb{Q}$ is established by Theorem 7.1, excluding every shifted tail $\sigma^t(w)$ ($t \ge 0$, where $\sigma^t(w)(n) = w(t + n)$) does **not** require a separate coupled Mahler system: it follows immediately by transporting any hypothetical rational seed backward along the finite prefix $w_{<t}$ via the two inverse parity branches of $T$.
+
+### Lemma 7.2 (Inverse-Branch Preimage and Parity Prepending in $\mathbb{Z}_2$ and $\mathbb{Z}_2 \cap \mathbb{Q}$, `proven-by-algebra`)
+*Define the two affine inverse branches on $\mathbb{Z}_2$ by*
+$$T_0^{-1}(z) = 2z, \qquad T_1^{-1}(z) = \frac{2z - 1}{3}.$$
+*Then for every $z \in \mathbb{Z}_2$ and $b \in \{0, 1\}$:*
+1. *$x := T_b^{-1}(z)$ lies in $\mathbb{Z}_2$, has 2-adic parity $(x \bmod 2) = b$, and satisfies $T(x) = z$. Consequently, $\Phi(x) = b \cdot \Phi(z)$ (i.e., $\Phi(x)(0) = b$ and $\Phi(x)(n + 1) = \Phi(z)(n)$ for all $n \ge 0$), and by bijectivity of $\Phi: \mathbb{Z}_2 \to \{0, 1\}^{\mathbb{N}}$, $T_b^{-1}(\Phi^{-1}(v)) = \Phi^{-1}(b v)$ for every word $v \in \{0, 1\}^{\mathbb{N}}$.*
+2. *Both $T_0^{-1}$ and $T_1^{-1}$ map $\mathbb{Z}_2 \cap \mathbb{Q}$ into $\mathbb{Z}_2 \cap \mathbb{Q}$: explicitly, if $z = p/q$ with $p, q \in \mathbb{Z}$ and $q \ge 1$ odd, then $T_0^{-1}(p/q) = (2p)/q \in \mathbb{Z}_2 \cap \mathbb{Q}$ (odd denominator $q$) and $T_1^{-1}(p/q) = (2p - q)/(3q) \in \mathbb{Z}_2 \cap \mathbb{Q}$ (odd denominator $3q$).*
+
+**Proof.**
+1. If $b = 0$ and $z \in \mathbb{Z}_2$, then $x = 2z \in 2\mathbb{Z}_2 \subset \mathbb{Z}_2$ has $(x \bmod 2) = 0$ and $T(x) = x/2 = z$. If $b = 1$ and $z \in \mathbb{Z}_2$, then since $3 \in \mathbb{Z}_2^\times$ is a 2-adic unit, $x = (2z - 1)/3 \in \mathbb{Z}_2$; reducing $3x = 2z - 1$ modulo $2\mathbb{Z}_2$ gives $x \equiv -1 \equiv 1 \pmod{2}$, so $(x \bmod 2) = 1$ and $T(x) = (3x + 1)/2 = z$. In both cases $T^{n+1}(x) = T^n(z)$ for all $n \ge 0$, whence $\Phi(x) = b \cdot \Phi(z)$ and $T_b^{-1}(\Phi^{-1}(v)) = \Phi^{-1}(b v)$ since $\Phi$ is bijective (Bernstein–Lagarias 1996).
+2. If $z = p/q$ with $p, q \in \mathbb{Z}$ and $q \ge 1$ odd, then $q$ and $3q$ are positive odd integers, so $(2p)/q$ and $(2p - q)/(3q)$ belong to $\mathbb{Z}_2 \cap \mathbb{Q}$. $\blacksquare$
+
+### Corollary 7.3 (Irrationality of All Shifted Itineraries $\sigma^t(w)$ for $t \ge 0$, `proven-by-algebra`)
+*For every integer $t \ge 0$, the unique 2-adic seed $x(\sigma^t(w)) = \Phi^{-1}(\sigma^t(w)) = T^t(x(w)) \in \mathbb{Z}_2$ of the shifted itinerary $\sigma^t(w)(n) = w(t + n)$ satisfies*
+$$x\bigl(\sigma^t(w)\bigr) \notin \mathbb{Z}_2 \cap \mathbb{Q}, \qquad \text{and in particular} \qquad x\bigl(\sigma^t(w)\bigr) \notin \mathbb{Z}.$$
+*Consequently, no rational 2-adic integer $n \in \mathbb{Z}_2 \cap \mathbb{Q}$ (and no positive integer $n \in \mathbb{N}_{>0}$) can ever enter the tail $\sigma^t(w)$ after any finite number of steps $s \ge 0$.*
+
+**Proof.** Suppose for contradiction that for some $t \ge 0$, $y := \Phi^{-1}(\sigma^t(w)) \in \mathbb{Z}_2 \cap \mathbb{Q}$. Applying the inverse branches $T_{w(t-1)}^{-1}, T_{w(t-2)}^{-1}, \dots, T_{w(0)}^{-1}$ in reverse order across the prefix $w_{<t} = w(0)w(1)\cdots w(t-1)$, define
+$$x := \bigl(T_{w(0)}^{-1} \circ T_{w(1)}^{-1} \circ \cdots \circ T_{w(t-1)}^{-1}\bigr)(y).$$
+By $t$ applications of Lemma 7.2(1)–(2), $x \in \mathbb{Z}_2 \cap \mathbb{Q}$ and $\Phi(x) = w(0)w(1)\cdots w(t-1)\,\sigma^t(w) = w$. By uniqueness of $\Phi^{-1}(w)$, $x = x(w)$, so $x(w) \in \mathbb{Z}_2 \cap \mathbb{Q}$, contradicting Theorem 7.1(3). Finally, if any $n \in \mathbb{Z}_2 \cap \mathbb{Q}$ had parity sequence eventually equal to $\sigma^t(w)$ after $s \ge 0$ steps, then $T^s(n) \in \mathbb{Z}_2 \cap \mathbb{Q}$ (by the forward rationality induction in Theorem 6.2(1)) would satisfy $\Phi(T^s(n)) = \sigma^t(w)$, so $T^s(n) = x(\sigma^t(w)) \in \mathbb{Z}_2 \cap \mathbb{Q}$, which is impossible. $\blacksquare$
+
+> **Scope note:** Corollary 7.3 rules out the countable shift orbit $\{\sigma^t(w) : t \ge 0\}$ of our specific automatic word $w$. It does **not** imply anything about general infinite survivor words $v \in \mathcal{S}_\infty$.
 
 #### General Padé Height-Ledger Comparison Across $1 \le m \le 16$
 More generally, for a reduced Padé pair of degree $M$ and order $N$ with $E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k)$:
@@ -438,7 +480,7 @@ More generally, for a reduced Padé pair of degree $M$ and order $N$ with $E_k =
 - Without using the $a_k^{-2}$ archimedean division saving (using only $H_{k+1} \le b_k^7 H_k$, or even the coarser $16 \cdot 27^{M+3}$ per-step bound, together with $c$ odd so $v_2(c) = 0$), the single-step integer ledger closes whenever
   $$2^{4N} > 27^{M + 7/3} = 3^{3M + 7} \qquad (\text{and even under } 2^{4N} > 16 \cdot 27^{M+3}).$$
 
-### 7.3 Summary of the Exact Padé Table ($1 \le m \le 16$)
+### 7.4 Summary of the Exact Padé Table ($1 \le m \le 16$)
 In `src/mahler.rs`, for each degree bound $1 \le m \le 16$, the $(2m+1) \times (2m+2)$ integer system for $p_0(z) + p_1(z) F(z) = O(z^{2m+1})$ is solved by exact fraction-free `BigInt` row reduction. Every candidate is verified by independent integer series convolution up to degree $1024$ and by the homogenised evaluation at $(a_0, b_0) = (16, 27)$:
 
 | $m$ | Null dim | Shift $s$ | Red. deg $M$ | Singular block | Reduced $p_0(z)$ | Reduced $p_1(z)$ | $L_1$ | $L_\infty$ | Red. order $N$ | Lead coeff $c$ | $v_2(c)$ | Cancelled ledger ($2^{4(3N+2)}$ vs $3^{3(3M+7)}$) | Coarse ledger ($2^{4N} > 16\cdot 27^{M+3}$, $c$ odd) |
@@ -479,13 +521,13 @@ In `src/mahler.rs`, for each degree bound $1 \le m \le 16$, the $(2m+1) \times (
 ## 8. Unresolved Proof Obligations and Recommendation (`conjectured`)
 
 ### 8.1 Unresolved Proof Obligations
-Even with the algebraic proofs in Sections 3–4, the repaired $a_k^2$-cancelled backward tower in Theorem 6.2, and the exact degree-4 Padé contradiction in Theorem 7.1, four distinct mathematical and formal obligations remain open:
+With the algebraic proofs in Sections 3–4, the repaired $a_k^2$-cancelled backward tower in Theorem 6.2, the exact degree-4 Padé contradiction in Theorem 7.1, and the inverse-branch exclusion of all shifted tails $\sigma^t(w)$ ($t \ge 0$) in Lemma 7.2 and Corollary 7.3, four distinct mathematical and formal obligations remain open:
 
-1. **Kernel-checked formalization of Theorem 6.2 and Theorem 7.1 for $x(w)$**: While Theorems 6.2 and 7.1 provide a complete pen-and-paper proof (with explicit constants $v_2(E_k) = 56 \cdot 4^k$ vs $|E_k| < 3(|u_0| + D_0)\cdot 3^{19 \cdot 4^k}$) that $x(w) \notin \mathbb{Z}_2 \cap \mathbb{Q}$, a machine-checked proof in Lean 4 without `sorry` has not yet been written.
+1. **Kernel-checked formalization of Theorems 6.2, 7.1, and Corollary 7.3**: While Theorems 6.2 and 7.1 and Corollary 7.3 provide a complete pen-and-paper proof (with explicit constants $v_2(E_k) = 56 \cdot 4^k$ vs $|E_k| < 3(|u_0| + D_0)\cdot 3^{19 \cdot 4^k}$) that $x(\sigma^t(w)) \notin \mathbb{Z}_2 \cap \mathbb{Q}$ for all $t \ge 0$, a machine-checked proof in Lean 4 without `sorry` has not yet been written.
 2. **The general Periodicity Conjecture (Lagarias 1985; Rozier 2019, Conjecture 1)**: Proving that *every* aperiodic parity word $v \in \{0,1\}^{\mathbb{N}}$ has an irrational 2-adic seed $\Phi^{-1}(v) \notin \mathbb{Q}$ remains open (as audited in Section 2.2, López & Stoll 2021 conflates the real limit $\Phi_{\mathbb{R}}(v) \in \mathbb{R}$ with the 2-adic limit $\Phi^{-1}(v) \in \mathbb{Z}_2$).
-3. **Arbitrary shifted itineraries $\sigma^t(w)$ ($t \ge 1$) and general non-automatic survivor itineraries**: A hypothetical positive integer orbit could enter the tail $\sigma^t(w)$ ($w^{(t)}(n) = w(t + n)$) after $t$ initial steps, or follow one of the $2^{\aleph_0}$ non-automatic survivor branches of $\mathcal{S}_\infty = \{v \in \{0,1\}^{\mathbb{N}} : 3^{r_k(v)} > 2^k \;\forall k \ge 1\}$ that satisfy no Mahler functional equation.
+3. **General non-automatic and Sturmian survivor itineraries**: The set of infinite survivor words $\mathcal{S}_\infty = \{v \in \{0,1\}^{\mathbb{N}} : 3^{r_k(v)} > 2^k \;\forall k \ge 1\}$ has the cardinality of the continuum ($2^{\aleph_0}$), whereas the shift orbit $\{\sigma^t(w) : t \ge 0\}$ excluded by Corollary 7.3 is a single countable family. Only countably many $v \in \mathcal{S}_\infty$ are $k$-automatic or satisfy a Mahler functional equation; excluding $x(\sigma^t(w)) \in \mathbb{Q}$ says nothing about non-Mahler survivor itineraries.
 4. **The Coefficient Stopping Time conjecture (CST) and post-crossing exceptions**: Even if all survivor itineraries $v \in \mathcal{S}_\infty$ were shown to have $x(v) \notin \mathbb{N}_{>0}$, connecting $\mathcal{S}_\infty$ to general hypothetical divergent orbits still requires either proving CST ($\tau(n) = \omega(n)$ for all $n \ge 2$) or ruling out infinite sequences of post-crossing threshold exceptions.
 
 ### 8.2 Recommendation
-- **For the single word $w = \lim_{j\to\infty} \mu^j(1)$**: **Yes, bounded formalization is now unblocked and tractable.** With the $(u_0, D_0)$ seed normalization repaired ($D_0 = 11q, u_0 = 27(11p + 23q)/4$) and the linear form $E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k)$ proved to satisfy $v_2(E_k) = 56 \cdot 4^k$ and $|E_k| < 3(|u_0| + D_0)\cdot 3^{19 \cdot 4^k}$, formalizing Theorems 6.2 and 7.1 in Lean 4 is a clean, self-contained finite-certificate task.
+- **For the single word $w = \lim_{j\to\infty} \mu^j(1)$ and its shifts $\sigma^t(w)$ ($t \ge 0$)**: **Yes, bounded formalization is now unblocked and tractable.** With the $(u_0, D_0)$ seed normalization repaired ($D_0 = 11q, u_0 = 27(11p + 23q)/4$), the linear form $E_k = D_k P_0(a_k, b_k) + u_k P_1(a_k, b_k)$ proved to satisfy $v_2(E_k) = 56 \cdot 4^k$ and $|E_k| < 3(|u_0| + D_0)\cdot 3^{19 \cdot 4^k}$, and all shifts $\sigma^t(w)$ excluded by Lemma 7.2 and Corollary 7.3, formalizing Theorems 6.2, 7.1, and Corollary 7.3 in Lean 4 is a clean, self-contained finite-certificate task.
 - **For the broader Collatz problem or general divergent orbits**: **Do not extrapolate Mahler exclusion to general divergence.** Mahler's method exploits the base-4 self-similarity $F(z) \leftrightarrow F(z^4)$ specific to automatic words. It does not prove the general Periodicity Conjecture, does not generalize to arbitrary aperiodic branches of $\mathcal{S}_\infty$, and does not bypass CST. Future work in this repository should therefore keep 2-adic automatic-word exclusions strictly quarantined from general stopping-time or CST claims.
