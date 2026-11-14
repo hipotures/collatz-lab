@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 REPORT = Path(__file__).with_name("search-summary.json")
-LEAN_PROVED = {("100", "110"), ("110", "100")}
+LEAN_PROVED = {("100", "110"), ("110", "100"), ("1000", "1110"), ("10000", "11110")}
 
 
 def substitute(xs, one, zero):
@@ -33,7 +33,7 @@ def closed_language(one, zero, h):
 
     Each new row occurs by substitution of its parent occurrence; strong
     induction on the starting index gives the reverse inclusion. The matching
-    generic coverage theorem and two concrete certificates are in Lean.
+    generic coverage theorem and concrete certificates are in Lean.
     """
     length = len(one)
     initial = prefix(one, zero, h)

@@ -84,6 +84,14 @@
       "110"
     ],
     [
+      "1000",
+      "1110"
+    ],
+    [
+      "10000",
+      "11110"
+    ],
+    [
       "110",
       "100"
     ]
@@ -289,7 +297,7 @@
       "zero": "100"
     },
     {
-      "aperiodicity_lean_proved": false,
+      "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
       "first_h": 4,
       "incidence_eigenvalues": [
@@ -301,7 +309,7 @@
       "primitive_power_witness": 1,
       "r0": 3,
       "r1": 1,
-      "rational_exclusion_lean_proved": false,
+      "rational_exclusion_lean_proved": true,
       "rows": [
         {
           "R": 3,
@@ -421,7 +429,7 @@
       "zero": "1110"
     },
     {
-      "aperiodicity_lean_proved": false,
+      "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
       "first_h": null,
       "incidence_eigenvalues": [
@@ -433,7 +441,7 @@
       "primitive_power_witness": 1,
       "r0": 4,
       "r1": 1,
-      "rational_exclusion_lean_proved": false,
+      "rational_exclusion_lean_proved": true,
       "rows": [
         {
           "R": 4,

@@ -86,7 +86,38 @@ explicit user approval. Never force-push.
 - Full validation passed: `lake build`; **396 exact audited declarations**;
   parser self-tests; **94 Rust tests**, formatting, Clippy; all four Python
   checkers; empty forbidden-proof scan; `git diff --check`.
-- Checkpoint follows B above, commit message: "Certify finite languages and a second unequal rational exclusion".
+- Pushed commit: `f8723c835db8b033fc2c4c92c991b345ec53ebcc`.
+
+## Milestone C2: validated spectral criterion and longer examples
+
+- `MorphismBalance.lean` proves the exact affine source-weight formula and
+  `balance(L^k*a,L^k*h)=delta^k*balance(a,h)`, with signed second eigenvalue
+  `delta=r1-r0` and `D=L-r1+r0`. Two finite integer comparisons certify every
+  aligned power-block weight; `no_rational_seed_spectral_certificate` then
+  applies the same actual rational dynamics and independent aperiodicity.
+- `weight_window_from_aligned` proves a genuinely uniform bound on every
+  unaligned interval, with the controlled term `(floor(h/S)+2)*T`.
+- The complement-column aperiodicity argument is now generic for all `L>=3`,
+  including composite lengths, in `ColumnAperiodic.lean`.
+- `UnequalSparse.lean` applies the spectral criterion to `1000/1110` (16 steps,
+  R=10) and `10000/11110` (125 steps, R=76), with shifts and eventual tails.
+  The latter passed no h<=8 all-window search, but has a longer exact proof.
+- `SparseChecks.lean` kernel-checks literal 81-symbol prefixes and actual
+  positive integer witnesses. `verify_spectral.py --check` independently checks
+  literal counts, signed balance identities, and signed/unreduced prefixes.
+- The findings document gives the uniform frequency derivation with explicit
+  spectral and boundary errors. Finite identities and estimates are Lean
+  theorems; real-limit discussion is an elementary mathematical argument,
+  clearly distinguished from a Lean real-analysis formalization.
+- Focused primary comparisons completed: Diaconis--Freedman Theorem 1 and
+  affine recursions (2.4)--(2.5); Rozier--Terracol v5 Theorem 2.4 / Corollary 4.3;
+  Durand Theorem 1 and incidence matrices. No novelty claim or imported theorem.
+- Full validation passed: `lake build`; **424 exact audited declarations**;
+  parser self-tests; **94 Rust tests**, formatting, Clippy; all five Python
+  verifiers; empty forbidden-proof scan; `git diff --check`.
+- Original dynamics/API, Rust sources/tests, Cargo files, Phase 9 report and
+  manuscript paths have no diff from the recorded base.
+- Checkpoint follows C1, commit message: "Prove exact spectral contraction and longer unequal examples".
 
 ## Failed routes / cautions
 
@@ -105,7 +136,7 @@ explicit user approval. Never force-push.
 
 ```sh
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 396
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 424
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
@@ -113,6 +144,7 @@ python3 research/phase8/verify_polynomial.py
 python3 research/mahler-uncovered/verify_uncovered.py --check
 python3 research/phase10/verify_unequal.py --check
 python3 research/phase10/search_unequal.py --check
+python3 research/phase10/verify_spectral.py --check
 git diff --check
 ```
 
@@ -126,11 +158,13 @@ milestone to `origin/codex/unequal-weight-contraction`.
 2. Inspect the latest commit with `git log -1 --format='%H %s'` and this file.
 3. The generic criterion is complete; do not redo it. See theorem map in
    `research/unequal-weight-contraction.md`.
-4. Milestones A/B/C1 are complete and fully validated; PR #17 stays unmerged.
-5. Continue C2: derive an exact uniform frequency/spectral bound with controlled
-   boundary errors, and finish focused primary-source comparisons. Optional:
-   kernel-prove length-four `1000/1110` (h=4, R=10) and its aperiodicity;
-   its middle columns are both complements and endpoints are forced 1/0.
-   No extra global search is needed; the existing bounded search is complete.
+4. Milestones A/B/C1/C2 meet the issue's completion gate and research requirements;
+   PR #17 stays unmerged, and the issue stays open for user review.
+5. Optional further productive research: uniform exclusion for the complete
+   sparse/dense family `unequalSparse L`, L>=3. Aperiodicity is already proved.
+   Its balance is `2*W-S = (2-L)^k*(2*b-1)`. Seek an explicit k (k=L should
+   suffice) with `4*(L-2)^k <= L^k`, hence `8*W<=5*S`, and use `3^5<2^8`.
+   A second-order binomial lower bound gives the first inequality. Keep any
+   new statement separate from the four already validated concrete exclusions.
 6. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
    files, or infer completion from a context/token limit.

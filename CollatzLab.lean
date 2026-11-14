@@ -31,6 +31,7 @@ import CollatzLab.MorphismContraction
 import CollatzLab.UnequalContractionChecks
 import CollatzLab.UnequalCertificates
 import CollatzLab.SignedContraction
+import CollatzLab.SparseChecks
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words

@@ -227,15 +227,17 @@ interval is used.
 | 6 | 1586 | 1044 | 653 | 542 |
 | Total | 2092 | 1284 | 688 | 808 |
 
-Only the two explicitly named examples are claimed kernel-proved exclusions
-at this checkpoint. All other counts are deterministic finite analysis, without
-an aperiodicity conclusion. In particular the rational `101/010` control has
+At C1 only the two ternary examples were kernel-proved exclusions. C2 below
+also proves the named length-four and length-five examples. All other counts
+remain deterministic finite analysis, without an aperiodicity conclusion.
+In particular the rational `101/010` control has
 an exact contracting two-source certificate (`3^3<2^6`) and remains periodic.
 This confirms why contraction alone only proves periodicity.
 
 Selected further data: `1000/1110` first contracts at `h=4`, with `R=10`
 and `3^10=59049<65536=2^16`; `1100/1110` has the same first bound.
-Neither is yet claimed as an exclusion. `10000/11110` has no certificate in
+The first is now an exclusion by the separate spectral argument below;
+`1100/1110` is not claimed as an exclusion. `10000/11110` has no certificate in
 the prescribed `h<=8` range, despite its candidate limiting one-frequency
 one-half. This distinguishes a search cutoff from failure of every possible
 uniform-block argument. Contraction need not be monotone in h:
@@ -252,5 +254,122 @@ examples therefore also exclude raw eventual shifted-tail parity agreement
 for either sign of an odd denominator. Zero/even denominators are outside the
 existing rational 2-adic model, and no claim is made for them.
 
-Uniform frequency bounds and a focused primary-literature comparison remain
-the next research checkpoint.
+## Exact spectral criterion and controlled boundary terms
+
+Write `r0,r1` for the image weights, `delta=r1-r0`, and `D=L-r1+r0`.
+The binary incidence matrix (rows zero/one, columns zero/one) is
+
+```text
+[[L-r0, L-r1], [r0, r1]],
+```
+
+with eigenvalues `L,delta`. Put `W(a,h)=weight (fun j => w(a+j)) h` and
+`balance(a,h)=D*W(a,h)-r0*h`. `MorphismBalance.lean` kernel-proves, for every
+start, length and level:
+
+```text
+imageWeightSum(a,h) = r0*h + delta*W(a,h)
+balance(L*a,L*h) = delta*balance(a,h)
+balance(L^k*a,L^k*h) = delta^k*balance(a,h).
+```
+
+In particular, a block of length `S=L^k` selected by parent bit `b` satisfies
+`D*W_k(b)=r0*S+delta^k*(D*b-r0)`. This is an exact integer equality, with
+the negative eigenvalue included. `spectral_weight_bound` assumes `D>0` and
+checks just the two integer inequalities for `b=0,1` against `D*R`; it then
+proves `W(L^k*a,L^k)<=R` for every parent index. With the exact comparison
+`3^R<2^(L^k)`, `no_rational_seed_spectral_certificate` proves rational exclusion
+from independent aperiodicity. No Perron--Frobenius or ergodic theorem is imported.
+
+The kernel also proves the following genuinely uniform boundary estimate:
+if every aligned length-`S` block has weight at most `T`, then for **every**
+start `a` and length `h`,
+
+```text
+W(a,h) <= (floor(h/S)+2)*T.
+```
+
+Proof: enlarge the interval to the preceding block boundary and at most two
+additional full blocks, use nonnegative weight to discard the added prefix,
+and sum the aligned bounds. This explicitly controls transient boundary pieces.
+
+Here is the corresponding elementary frequency investigation (a mathematical
+argument, not a Lean theorem about real limits). If `D>0` and `|delta|<L`, put
+`rho=r0/D`. The displayed exact identity gives
+`|W_k(b)/S-rho| <= |delta/L|^k * max(r0,D-r0)/D` for both parent bits.
+If `T_k` is their maximum, the uniform boundary estimate gives
+`W(a,h)/h <= T_k/S+2*T_k/h`. First choose a computable level k making the first
+error small, then a length h making the explicit boundary error small. Apply
+the same argument to zero counts for the lower bound. Thus convergence to rho
+is uniform in a. These explicit algebraic assumptions suffice here; no unstated
+primitivity or recurrence assumption is used. A primitive finite substitution
+would also supply a classical frequency framework, but an average without the
+uniform error estimates is not used as a boundedness premise.
+
+All certificates in the Lean exclusion interface remain **finite integer
+comparisons**, not floating-point approximations to a logarithmic threshold.
+
+## Longer aperiodic examples beyond the bounded search
+
+`UnequalSparse.lean` defines `1 -> 10^(L-1)`, `0 -> 1^(L-1)0`. For every `L>=3`
+it proves distinctness, prolongability and independent non-eventual-periodicity.
+The endpoints are forced one/zero and all middle columns complement the parent.
+For a nonzero period residue below L-1, choose a parent with forced value one
+to contradict the shifted first column. Residue L-1 compares the endpoints;
+residue zero descends by division by L. This handles composite L as well.
+
+Two finite spectral applications now prove unconditional rational exclusion:
+
+| Images one / zero | Eigenvalues | Complete-image counts | Contracting chunk |
+|---|---|---|---|
+| 1000 / 1110 | 4, -2 | level 2: one 10, zero 6 | `3^10=59049<65536=2^16` |
+| 10000 / 11110 | 5, -3 | level 3: one 49, zero 76 | `3^76<2^125` |
+
+Both have locally expanding zero images. The length-five example fails the
+level-two maximum (`R=17` at length 25) and the bounded all-window search at
+h<=8, but succeeds at aligned length 125. This is a stronger certificate with
+a kernel proof, not an inference from its candidate frequency one-half.
+`unequalSparse_five_all_windows` additionally proves
+`W(a,h)<=(floor(h/125)+2)*76` for all starts and lengths.
+
+Both new examples have finite-shift and eventual shifted-tail exclusions.
+`SparseChecks.lean` independently compares their indexed words to literal
+substitutions and actual 81-bit positive integer witnesses; `verify_spectral.py`
+checks the two-entry count recurrence against literal images, signed balances
+through level five, and positive/negative/unreduced finite prefixes. Its fixed
+bounds are recorded in `spectral-certificate.json`.
+
+## Focused primary-literature comparison
+
+Consulted 2026-11-14 UTC. This supplements rather than duplicates Phase 9;
+none of these external results is an assumption of the Lean proofs.
+
+- Persi Diaconis and David Freedman, *Iterated Random Functions*, SIAM Review
+  41 (1999), 45--76; [author preprint, 3 May 1998](https://www.stat.berkeley.edu/~census/511.pdf).
+  Theorem 1 (PDF p. 3) uses random Lipschitz maps, moment conditions and negative
+  average log contraction; Section 2.2, (2.4)--(2.5), treats affine matrix
+  recursions. **Comparison:** our scalar recurrence is deterministic and
+  uniformly contracting over explicitly bounded chunks. Their random-average
+  hypotheses do not establish boundedness for a prescribed substitution word.
+- Olivier Rozier and Claude Terracol, *Paradoxical behavior in Collatz sequences*,
+  [arXiv:2502.00948v5](https://arxiv.org/html/2502.00948v5), 17 May 2026 version.
+  Theorem 2.4 gives sharper odd-count-dependent affine remainder bounds than
+  our crude all-one cap; Corollary 4.3 displays the familiar threshold
+  `odd_count/length < log(2)/log(3)`. Their finite paradoxical sequences explain
+  why coefficient contraction does not alone imply immediate integer descent.
+  **Comparison:** here uniform chunk bounds control signed rational states,
+  repetition proves eventual periodicity, and a separate word theorem supplies
+  the contradiction. We do not assert a first-descent result.
+- Fabien Durand, *Cobham's theorem for substitutions*,
+  [author preprint arXiv:1010.4009v1](https://arxiv.org/pdf/1010.4009v1),
+  Theorem 1 (pp. 1--2) and Section 2.2 (p. 4). The theorem concerns simultaneous
+  substitutivity for two multiplicatively independent Perron numbers; the
+  incidence matrix provides the familiar spectral language. **Comparison:**
+  one uniform substitution does not meet that two-base premise, and a Collatz
+  multiplier of three is not an automatic representation in a second base.
+  The present aperiodicity proofs use literal columns; the spectral estimates
+  are derived directly in integer arithmetic.
+
+The contraction and incidence-matrix ideas are established mathematics. This
+work claims checked sufficient criteria and explicit formal applications,
+without an originality, transcendence, or general periodicity-conjecture claim.

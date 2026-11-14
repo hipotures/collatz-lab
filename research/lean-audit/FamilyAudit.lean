@@ -423,3 +423,33 @@ import CollatzLab
 #print axioms CollatzLab.no_eventually_shifted_itinerary_odd_denominator
 #print axioms CollatzLab.no_eventually_shifted_unequal_100_110_signed_denominator
 #print axioms CollatzLab.no_eventually_shifted_unequal_110_100_signed_denominator
+
+/-! Exact spectral certificates, uniform boundaries and longer unequal examples. -/
+#print axioms CollatzLab.complement_columns_not_periodic_from
+#print axioms CollatzLab.complement_columns_not_eventually_periodic
+#print axioms CollatzLab.Morphism.imageWeightSum_affine
+#print axioms CollatzLab.Morphism.balance_step
+#print axioms CollatzLab.Morphism.balance_power
+#print axioms CollatzLab.Morphism.spectral_weight_bound
+#print axioms CollatzLab.Morphism.no_rational_seed_spectral_certificate
+#print axioms CollatzLab.Morphism.weight_window_from_aligned
+#print axioms CollatzLab.Morphism.unequalSparse_prolongable
+#print axioms CollatzLab.Morphism.unequalSparse_distinct
+#print axioms CollatzLab.Morphism.unequalSparse_first
+#print axioms CollatzLab.Morphism.unequalSparse_middle
+#print axioms CollatzLab.Morphism.unequalSparse_last
+#print axioms CollatzLab.Morphism.unequalSparse_not_eventually_periodic
+#print axioms CollatzLab.Morphism.unequalSparse_four_spectral
+#print axioms CollatzLab.Morphism.unequalSparse_five_spectral
+#print axioms CollatzLab.Morphism.unequalSparse_five_uniform_count
+#print axioms CollatzLab.Morphism.unequalSparse_five_all_windows
+#print axioms CollatzLab.no_rational_seed_realizes_unequal_1000_1110
+#print axioms CollatzLab.no_rational_seed_realizes_unequal_10000_11110
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_unequalSparse_four
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_unequalSparse_five
+#print axioms CollatzLab.no_eventually_shifted_unequalSparse_four_itinerary
+#print axioms CollatzLab.no_eventually_shifted_unequalSparse_five_itinerary
+#print axioms CollatzLab.SparseChecks.longer_images
+#print axioms CollatzLab.SparseChecks.longer_literal_prefixes
+#print axioms CollatzLab.SparseChecks.longer_positive_prefixes
+#print axioms CollatzLab.SparseChecks.spectral_counts
