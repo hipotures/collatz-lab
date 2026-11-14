@@ -5,7 +5,7 @@ import CollatzLab.Pade
 
 This module formalizes Section 7.2 of the paper:
 * The shifted parity words `w^{(t)}(n) = w(t + n)` (`shiftWord w t`).
-* **Lemma 7.2 (`invBranch_realizes`, `realizes_shiftWord_pred`)**:
+* **Lemma 7.2 (`invBranch_step_props`, `realizes_shiftWord_pred`)**:
   The inverse parity branches `T_0^{-1}(z) = 2z` and `T_1^{-1}(z) = (2z - 1)/3`
   map any rational 2-adic seed `(p, q)` (`q > 0` odd) realizing a word `v` to a
   rational 2-adic seed `(p', q')` (`q' > 0` odd) realizing `b · v` for `b ∈ {0, 1}`.
