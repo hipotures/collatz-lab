@@ -39,18 +39,22 @@ The exact aligned power count, reusing Phase 10 `balance_power`, is
 
 These facts alone do not imply rational-seed exclusion.
 
-## Research in progress
+## Completed repeated-prefix research
 
-The word begins with 11. Hence substitution should give square prefixes of
-length 2*3^k. A separate integer proof is being developed to test whether their
-congruence precision exceeds the height of periodic approximants. Until that
-proof and its semantic regressions are complete, no exclusion is claimed.
+The word begins with 11, which gives square prefixes of length 2*3^k
+under substitution. The exact congruence and height argument has now been
+proved and kernel checked in `RepeatedPrefix.lean`, with independent
+arithmetic and rational-semantic regressions. The following section describes
+the completed proof. Its priority status has been corrected in light of the
+independent AI-assisted referee report in
+[PR #22](https://github.com/hipotures/collatz-lab/pull/22).
 
 ## Gate C: a successful mechanism independent of contraction
 
 **Kernel theorem, `RepeatedPrefix.lean`:** if a Boolean word v is not eventually
 periodic and has arbitrarily long square prefixes UU, no rational seed realizes
-v. Both conditions are essential. There is no frequency premise.
+v. Both conditions are used in this sufficient criterion; this does not
+claim that both are necessary for irrationality. There is no frequency premise.
 
 Here is an independent integer reconstruction. Let m=|U|>0, r the one-count,
 c the affine offset, A=2^m, B=3^r, and let x_j be numerator states with fixed
@@ -74,7 +78,7 @@ This does not bound the actual orbit states, which can grow very rapidly.
 
 `word_power_congr` proves equal parent letters have identical iterated images
 at every level. A prolongable fixed word beginning with 11 therefore has square
-prefixes of length `2*L^k`. The new general theorem
+prefixes of length `2*L^k`. The formalized general theorem
 `no_rational_seed_morphism_initial_double` assumes exactly this initial double
 and independent non-eventual-periodicity; it assumes neither equal image weights
 nor a contracting chunk. It applies to the explicit 110/111 word.
@@ -86,8 +90,13 @@ normalization theorem. Negative numerators and unreduced fractions are included.
 The theorem strengthens the repository's available sufficient criteria: this
 concrete example provably satisfies no fixed-length uniform contraction premise.
 It does not prove exclusion for all supercritical words or all automatic words.
-It proves rational exclusion, not transcendence. Its originality is **unverified**;
-the periodic-approximation and integer-height principle is classical.
+It proves rational exclusion, not transcendence. The general square-prefix
+and sharp partial-return criteria are **already present in earlier preprints**,
+not new theorems: see Allikvere (2026, Theorem 2.3 and Corollary 3.2) and
+Cassidy (2026, Theorem R), as checked in the Phase 11 independent referee
+report. The contribution here is an independent elementary Lean formalization
+and concrete applications outside this repository's earlier contraction scope.
+First discovery of the concrete examples has not been established.
 
 ### Independent adversarial checks
 
@@ -102,7 +111,10 @@ the periodic-approximation and integer-height principle is classical.
 - `101/010` remains realized by 1/1. Its fixed point starts 10, so the initial
   double premise fails. The all-one word at -1/1 has unbounded square prefixes
   and density one but is periodic, so the aperiodicity premise fails.
-  Deleting either safeguard would make the theorem false.
+  Dropping non-eventual-periodicity is false, as the all-one control shows.
+  Dropping the repetition premise while retaining non-eventual-periodicity
+  would assert the open rational Periodicity Conjecture, not a known false
+  statement. The alternating control does not establish otherwise.
 
 ## Gate B: exact classification of the contraction method
 
@@ -247,14 +259,56 @@ any of those missing steps. This route excludes no additional seed at present.
 
 ## Primary-source scope and originality
 
-Consulted 2026-11-14; this is a focused comparison, not a repeat of Phase 9.
-No external theorem is an assumption of any new Lean result.
+Initial source comparison: 2026-11-14; supplemented by the independently
+reconstructed AI-assisted [Phase 11 referee report](https://github.com/hipotures/collatz-lab/pull/22)
+(issue #21), particularly its Section 6. The review is not human peer
+review. No external theorem is an assumption of any new Lean result.
+
+**Confirmed earlier overlap, with exact scopes:**
+
+- **J. Allikvere**, *Periodic shadows, drift pressure, and transcendence of
+  the 3x+1 conjugacy map*, [Zenodo 21543841](https://doi.org/10.5281/zenodo.21543841),
+  July 2026 preprint (record updated August 2026), Lemma 2.1,
+  Theorem 2.3, Corollary 3.2. These contain the sharp fixed-weight offset
+  bound, the partial-prefix return inequality, and the unbounded-square
+  rational exclusion. They overlap respectively with
+  `offset_weight_upper`, `rational_matching_prefix_weight_bound`,
+  and `no_rational_seed_unbounded_square_prefix`. The reviewer checked
+  the exact change of notation and the elementary proofs. This is a
+  preprint, not a verified peer-reviewed journal article.
+- **E. Cassidy**, *Transversality foundry: the divergence target is
+  Lagarias's Periodicity Conjecture…*, [pinned September 2026 author note](https://github.com/eliottcassidy2000/math/blob/6b805eed1613edaedd87965e2b1986390fa84f0e/05-knowledge/results/collatz_procgen_20260922_transversality_foundry.md),
+  Section 4.3, Lemma G and Theorem R. This gives a broader rational
+  2-adic repetition/height framework; it is an author note, not an
+  independently verified journal publication.
+- **A. Dubickas**, *On integer sequences generated by linear maps*,
+  Glasgow Math. J. **51** (2009), 243–252,
+  [DOI:10.1017/S0017089508004655](https://doi.org/10.1017/S0017089508004655),
+  Theorem 5 and Section 5. The published factor-complexity/collision
+  mechanism provides an alternative route. The independent reviewer
+  derived a signed-rational odd-denominator extension of that argument
+  covering both `110/111` and `1011/1111` and a larger single-hole
+  family; **that extension is not attributed as Dubickas's literal
+  published theorem**. See review Section 2.4.
+- **E. De Jesús**, *The 3x+1 Conjugacy Map Sends Every Sturmian Word to
+  an Irrational 2-adic Integer*, [Zenodo 23108370](https://doi.org/10.5281/zenodo.23108370),
+  2026 preprint, Section 9, states a related stronger signed-rational
+  lower-complexity criterion. The reviewer read the identified primary
+  text, but journal acceptance or priority among 2026 preprints has
+  not been established.
+
+These results materially restrict originality claims: the core
+repeated-prefix and square criteria are previously stated. The exact
+spectral uniform-contraction iff formulation is a formalized elementary
+specialization whose worldwide priority remains undetermined. Neither
+the new Lean verification nor the two concrete exclusions should be
+presented as a first-discovered mathematical theorem.
 
 - **Monks–Yazinski**, *The autoconjugacy of the 3x+1 function*, Discrete Math.
   275 (2004), 219–236, [author PDF](https://monks.scranton.edu/files/pubs/AutoConjV13.pdf),
   Theorem 2.7(b), printed p. 6, proof in Section 4.1: statement and proof read.
   It supplies a lower density bound for noncyclic rational orbits; it does not
-  exclude the supercritical example. The new exclusion uses repetition instead.
+  exclude the supercritical example. The exclusion here uses repetition instead.
 - **López–Stoll**, arXiv:2101.12747v1 (2021), [Section 6](https://arxiv.org/html/2101.12747v1#S6),
   Theorem 1 and equations (15)–(16): relevant statement and transfer step read.
   The final inference from the real value to the 2-adic value is unsupported
@@ -276,11 +330,14 @@ No external theorem is an assumption of any new Lean result.
   elementary argument for both numerator signs and makes no general automatic
   word or priority claim.
 
-The repeat/periodic-approximation height principle is established mathematics.
-The contribution claimed here is a checked criterion and an application outside
-the repository's previous contraction scope. Whether either theorem statement
-or application is new in the wider literature remains **unverified**. No claim
-of publication, peer review, or general Periodicity Conjecture progress follows.
+The repetition and periodic-approximation criteria were known before this
+development, as shown by the earlier preprints above; the examples also follow
+from the independently reconstructed extension of the published counting
+mechanism. What remains useful is an auditable Lean formalization, explicit
+signed rational applications, and a rigorous exact spectral boundary.
+Priority of the exact spectral formulation remains undetermined. No claim of
+journal publication, human peer review, or progress on the general Collatz
+Periodicity Conjecture follows.
 
 ## Second application: exclusion from a partial return
 
@@ -359,5 +416,8 @@ The manuscript is read for checks only; no Phase 9 or paper file is modified.
   specialization/transcendence, the proposed general spectral return criterion,
   and the length-five/six additional targets above. They are not required for
   either proved concrete exclusion. General Collatz periodicity remains open.
-- **Priority:** unverified. This is a formalization and method/application
-  contribution within the repository, with no claim of first discovery.
+- **Priority:** the central sharp return/square-prefix criteria are known
+  from earlier 2026 preprints (Allikvere, Cassidy), and the two exclusions
+  also follow by an extension of Dubickas's published complexity argument;
+  the exact spectral iff statement's broader priority remains undetermined.
+  This is an independently checked formalization, not a new-theorem claim.
