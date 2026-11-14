@@ -116,3 +116,43 @@ are permitted. No dependency or proof escape is added. The project remains
 Lean 4.18.0 with no Mathlib or other packages. CI includes both the kernel
 proofs and the independent finite checker. Validation and pushed commits
 are recorded in `phase8-progress.md`.
+
+## C: universal pair existence (Lean-kernel-verified)
+
+`FiniteLinear.integer_null_vector` proves the following general theorem,
+using a finite dot product `dot`:
+
+```lean
+∀ m : Nat, ∀ A : Nat → Nat → Int,
+  ∃ x : Nat → Int, (∃ j, j < m + 1 ∧ x j ≠ 0) ∧
+    (∀ i, i < m → FiniteLinear.dot (A i) x (m + 1) = 0)
+```
+
+Induct on `m`. If column zero is zero, its unit vector works. Otherwise let
+row `r` have nonzero coefficient `a=A(r,0)`. Delete that row and column zero,
+and form `B(i,j)=a*A(i,j+1)-A(i,0)*A(r,j+1)`. Induction gives a nonzero
+integer vector `y` in its kernel. Reconstruct
+`x_0=-sum(j) A(r,j+1)*y_j` and `x_(j+1)=a*y_j`.
+The pivot equation holds identically; the other equations are exactly `B*y=0`.
+Since `a!=0`, a nonzero coordinate of `y` gives a nonzero coordinate of `x`.
+The `skip_surjective` lemma checks row deletion for every pivot position.
+This includes deficient rank, empty matrices and negative entries, without
+division, rational arithmetic, determinants or a rank assumption.
+
+`PolynomialPair.polynomial_pair_exists d v` applies this to the `d` equations
+at indices `d+1,...,2*d`, with `d+1` denominator coefficients. Numerator
+coefficients are the negative convolution at indices `0,...,d`.
+Its signature is uniform over **all integer sequences**, stronger than the
+binary case required by the issue:
+
+```lean
+∃ P : PolynomialPair, P.degree = d ∧
+  (∃ j, j ≤ P.degree ∧ P.p1 j ≠ 0) ∧
+  (∀ n, n < 2 * d + 1 → P.residual v n = 0)
+```
+
+`degree_six_pair_exists` specializes to `d=6`, order at least 13.
+The raw degree is retained; no common power of `z` is removed. There is no
+bound on the first **nonzero** residual index and no assertion about its
+parity. Non-identical-zero residual still needs the periodicity bridge B.
+The expanded audit includes all 44 new declarations (201 total).

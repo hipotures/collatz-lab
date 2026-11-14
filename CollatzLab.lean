@@ -18,6 +18,7 @@ import CollatzLab.UnequalControl
 import CollatzLab.LeadingCoefficient
 import CollatzLab.ThueMorse
 import CollatzLab.PolynomialChecks
+import CollatzLab.PolynomialExistence
 
 /-!
 # CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word
@@ -53,7 +54,9 @@ Root module exporting the Lean 4 formalization of the paper
 * `CollatzLab.PolynomialCertificate`: arbitrary signed integer polynomial pairs,
   explicit finite residuals, non-unit valuations after a finite start, height
   bounds and conditional rational exclusion with all tails.
+* `CollatzLab.PolynomialExistence`: general division-free integer null vectors
+  and degree `d` / order at least `2*d+1` pair existence for all integer sequences.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
-  support further research; they do not assert an approximant exists.
+  are independent ingredients in the general polynomial certificate route.
 -/

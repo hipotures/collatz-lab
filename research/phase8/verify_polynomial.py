@@ -20,6 +20,18 @@ def v2(n):
     return (n & -n).bit_length() - 1
 
 
+def integer_null_vector(rows, width):
+    """Independent division-free reconstruction, including deficient rank."""
+    pivot_index = next((i for i, row in enumerate(rows) if row[0]), None)
+    if pivot_index is None:
+        return [1] + [0] * (width - 1)
+    pivot = rows[pivot_index]
+    reduced = [[pivot[0] * row[j] - row[0] * pivot[j] for j in range(1, width)]
+               for i, row in enumerate(rows) if i != pivot_index]
+    y = integer_null_vector(reduced, width - 1)
+    return [-sum(c * value for c, value in zip(pivot[1:], y))] + [pivot[0] * value for value in y]
+
+
 def main():
     rng = Random(14)
     count = 0
@@ -45,6 +57,24 @@ def main():
                         form += u * homogeneous(p1, a, b, degree + 1)
                         assert abs(form) <= constant * maximum**degree * (abs(u) + abs(denominator))
                 count += 1
+
+    matrix_count = 0
+    for rows_count in range(9):
+        for trial in range(16):
+            rows = [[rng.randrange(-4, 5) for _ in range(rows_count + 1)]
+                    for _ in range(rows_count)]
+            if trial % 4 == 0:
+                rows = [[0] * (rows_count + 1) for _ in range(rows_count)]
+            elif trial % 4 == 1:
+                for row in rows:
+                    row[0] = 0
+            elif trial % 4 == 2 and rows_count >= 2:
+                rows[-1] = rows[0][:]
+            x = integer_null_vector(rows, rows_count + 1)
+            assert len(x) == rows_count + 1 and any(x)
+            assert all(sum(c * value for c, value in zip(row, x)) == 0 for row in rows)
+            matrix_count += 1
+    print(f"{matrix_count} exact integer null vectors, including zero and deficient-rank matrices")
 
     word = [1]
     while len(word) < 128:

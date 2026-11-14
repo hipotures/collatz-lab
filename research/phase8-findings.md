@@ -16,12 +16,19 @@ remaining bounds to the already proved exponential contradiction.
 See `lean-polynomial-certificates.md` for exact finite identities, theorem
 interfaces, height constants, regressions, and the trust boundary.
 
+## C: uniform existence (Lean-kernel-verified)
+
+A division-free integer elimination proof establishes a nonzero kernel vector
+for every `m` by `m+1` integer matrix, including deficient rank. This gives
+raw degree `d` / order at least `2*d+1` polynomial pairs for **every integer
+sequence**, with a nonzero denominator polynomial. The required degree-six
+case follows directly. No finite binary-word cache or Mathlib was needed.
+
 ## Remaining proposal
 
-Non-eventual-periodicity still needs to exclude identically zero residuals,
-and the six-equation/seven-unknown construction needs a Lean existence proof.
-Until both are supplied, the unconditional equal-weight exclusion is **not
-proved**. There is no counterexample to the route established by this work.
+Non-eventual-periodicity still needs to exclude identically zero residuals
+via a general finite-memory periodicity theorem. Until that bridge is supplied,
+the unconditional equal-weight exclusion is **not proved**. There is no counterexample to the route established by this work.
 The coefficient-8 obstruction refutes only the discarded unit-leading shortcut.
 
 ## Scope

@@ -193,3 +193,16 @@ import CollatzLab
 #print axioms CollatzLab.PolynomialPair.thueMorseSix_start
 #print axioms CollatzLab.no_rational_seed_realizes_thueMorse_polynomial
 #print axioms CollatzLab.no_rational_seed_realizes_secondary_polynomial
+
+/-! Division-free linear algebra and uniform pair existence. -/
+#print axioms CollatzLab.FiniteLinear.total_ext
+#print axioms CollatzLab.FiniteLinear.total_zero
+#print axioms CollatzLab.FiniteLinear.total_head
+#print axioms CollatzLab.FiniteLinear.total_scaled_sub
+#print axioms CollatzLab.FiniteLinear.dot_scaled_sub
+#print axioms CollatzLab.FiniteLinear.dot_right_scale
+#print axioms CollatzLab.FiniteLinear.skip_surjective
+#print axioms CollatzLab.FiniteLinear.integer_null_vector
+#print axioms CollatzLab.PolynomialPair.convolution_dot
+#print axioms CollatzLab.PolynomialPair.polynomial_pair_exists
+#print axioms CollatzLab.PolynomialPair.degree_six_pair_exists
