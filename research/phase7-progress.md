@@ -15,8 +15,10 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
   eventual matches. Primary has independent contraction and Mahler proofs.
   Both targets have degree 1–24 exact finite certificates.
 - D: GENERIC SUBCRITICAL AND PERIODIC-CONTROL THEOREMS PROVED in Lean.
-  The first has explicit aperiodicity; the second consumes finite control
-  data and a stronger, independently checked height ledger.
+  Uniform aperiodicity now removes the first theorem's extra premise.
+  Periodic-control data cover all 144 listed small morphisms. Numerical
+  degree-six and non-unit leading-coefficient lemmas also kernel-check;
+  a universal supercritical exclusion is NOT claimed.
 
 ## Verified starting facts
 
@@ -30,13 +32,13 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 ## Next three proof obligations
 
-1. Generalize the certificate interface to arbitrary degree-bounded polynomial
-   pairs, including a non-unit first coefficient after sufficiently many levels.
-2. Investigate the dimension-count degree-6 Padé proposal: an order >=13
-   would close the universal worst-case height ledger; formalize that arithmetic
-   before asserting a universal theorem.
-3. Prove generic aperiodicity (or isolate its exact gap) before using it to
-   guarantee residual nonvanishing. General coverage is not yet proved.
+1. Generalize the finite convolution/interface to arbitrary polynomial pairs;
+   integrate the proved non-unit leading-coefficient lemma and finite `k0`.
+2. Prove the binary finite-memory recurrence -> eventual periodicity bridge;
+   use the now-proved generic aperiodicity to exclude an identically zero residual.
+3. Kernel-prove existence of a degree-six/order-at-least-thirteen integer pair
+   (six equations, seven unknowns), or certify the finite 13-symbol-prefix cache.
+   Keep the raw degree-six pair to avoid common-shift order bookkeeping.
 
 ## Checkpoint A (2026-11-14 UTC)
 
@@ -155,6 +157,32 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 - Validation: 140 approved audit declarations, 94 Rust tests, build, formatting,
   Clippy and deterministic Python/Lean artifact reproduction all pass.
 
+## Checkpoint D4 (2026-11-14 UTC)
+
+- D3 pushed as `8215b87f1ebab15349e59692aa260a977e5b8a61`.
+  CI success: https://github.com/hipotures/collatz-lab/actions/runs/43557345614.
+- `MorphismAperiodic.lean`: all admissible equal-weight fixed points are not
+  eventually periodic. Kernel proof descends period by gcd; the coprime case
+  gives `L|r`, contradicting `1<=r<L`. This is word combinatorics, not the
+  rational Periodicity Conjecture.
+- Thus all subcritical `3^r<2^L` cases and all tails are rationally excluded
+  with exactly H1–H3 and the subcritical inequality.
+- `DegreeSix.lean`: numerical gap for degree 6/order 13 holds for all admissible
+  parameters. This does not prove existence/nonvanishing of a Padé pair.
+- `LeadingCoefficient.lean`: exact valuation of `2^v*c_odd+2^m*t` for `v<m`,
+  and existence of a finite tower starting level. The degree-six TM coefficient
+  8 refutes a unit-leading shortcut; it does not refute the proposal.
+- `UnequalControl.lean`: distinct prolongable images `101/010` have unequal
+  weights and the rational fixed word `(10)^infinity`, realized by seed 1.
+  Dropping equal weights is refuted, including infinite rational semantics.
+- `phase7-next-directions.md` gives exact current signatures, the complete
+  aperiodicity proof, the unfinished proposal and ranked next obligations.
+- Local validation: 157 approved audit declarations, 94 Rust tests, build,
+  formatting, Clippy and deterministic artifact reproduction pass. Long public
+  names caused Lean to wrap audit lists; the new strict parser accepts only
+  approved-foundation continuations and checks the exact source declaration
+  order/count. Its 2 positive and 8 adversarial tests pass; no trust gate is relaxed.
+
 ## Resume here
 
 Read this file and `git log -5 --oneline`, fetch/pull `origin/main`, then inspect
@@ -166,6 +194,7 @@ checks before each formal checkpoint:
 ```text
 lake build
 lake env lean research/lean-audit/FamilyAudit.lean
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 157
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
@@ -173,4 +202,5 @@ rg -n '\b(sorry|admit|axiom|opaque|unsafe|native_decide|implemented_by|extern)\b
 ```
 
 An empty last command output is success (exit status 1). Commit and push each
-validated milestone to `origin/main`; leave issue #13 open while B is incomplete.
+validated milestone to `origin/main`. B is complete; the open research extension
+is the arbitrary polynomial-pair certificate and its degree-six existence proof.

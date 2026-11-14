@@ -16,6 +16,7 @@
 | [`lean-family-formalization.md`](lean-family-formalization.md) | Phase 6: all-`L >= 4` kernel proof, exact theorem signatures, tower cancellation, semantic correspondence, 44-declaration axiom audit, and validation |
 | [`lean-family-semantic-audit.md`](lean-family-semantic-audit.md) | Phase 7 A: independent semantic audit of the all-`L` theorem and signed, literal-substitution kernel checks |
 | [`phase7-progress.md`](phase7-progress.md) | durable campaign checkpoints and exact resumption instructions for issue #13 |
+| [`phase7-next-directions.md`](phase7-next-directions.md) | Phase 7 D4: uniform aperiodicity and all-subcritical exclusion in Lean, degree-six numerical ledger, non-unit leading coefficients, unequal-weight rational control, and exact remaining polynomial-certificate obligations |
 | [`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md) | Phase 7 B: generic Theorem 8.1 and all tails kernel-verified under exactly H1–H3 and (C); full signatures and audit |
 | [`mahler-uncovered-morphisms.md`](mahler-uncovered-morphisms.md) | Phase 7 C–D: both targets excluded in Lean; independent primary proofs; generic subcritical and periodic-control criteria; finite evidence |
 | [`mahler-uncovered/evidence.json`](mahler-uncovered/evidence.json) | 48 exact degree 1–24 Padé rows, 8 residue checkpoints, bounded signed rational falsification and 144 independently checked periodic-control certificates |

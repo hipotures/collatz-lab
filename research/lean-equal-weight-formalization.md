@@ -182,5 +182,10 @@ Python reproduction pass. CI enforces the exact audit count and dependency
 format. Pushed commits and CI runs are recorded in `phase7-progress.md`.
 
 Later C2/D2 adds the generic periodic-control criterion and both uncovered
-targets' Mahler certificates and the finite catalogue, bringing the current audit to 140; see
+targets' Mahler certificates and the finite catalogue. D4 adds uniform
+aperiodicity and further arithmetic, bringing the current audit to 157; see
 `mahler-uncovered-morphisms.md`. B3's mathematical theorem is unchanged.
+`check_axioms.py` validates exact source declaration names, order and count;
+it normalizes only approved-foundation continuation lines in Lean's output,
+and rejects diagnostics or every other dependency. Its adversarial self-tests
+are part of CI.

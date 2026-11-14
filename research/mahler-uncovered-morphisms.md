@@ -329,5 +329,20 @@ remain universally quantified and do not depend on this list.
 Compared with (C)'s 65 successes, this adds 79 rigorously certified words.
 It does not establish a bound of 15 or 24 for other lengths or guarantee the
 existence of any particular approximant outside the finite catalogue.
-CI now audits 140 declarations and runs 94 Rust tests, plus exact reproduction
+At D3, CI audits 140 declarations and runs 94 Rust tests, plus exact reproduction
 of both generated artifacts.
+
+## 7. Subsequent general results and the remaining obstruction (D4)
+
+`Morphism.not_eventually_periodic` now proves aperiodicity for **all** H1–H3
+images, by gcd period descent and exact block-weight counts. Consequently
+`no_rational_seed_realizes_subcritical_equal_weight` excludes every subcritical
+case, with all shifted and eventual tails, without a separate aperiodicity
+assumption. This closes the hypothesis left explicit in the initial D1 theorem.
+
+The current audit has 157 declarations. The kernel also proves the universal
+degree-six/order-thirteen numerical ledger and the non-unit leading-coefficient
+arithmetic with a finite starting level. Existence and general polynomial
+convolution/nonvanishing are still missing for a universal supercritical result.
+See `phase7-next-directions.md` for exact targets and a checked unequal-weight
+rational counterexample. No such universal irrationality theorem is claimed.

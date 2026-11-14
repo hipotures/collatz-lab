@@ -253,10 +253,15 @@ also excludes `101/011`, and supplies an independent Mahler proof for `10/01`.
 All 144 listed admissible morphisms of lengths 2–5 have kernel-checked finite
 periodic-control certificates, independently reproduced in Rust. This adds
 79 words beyond criterion (C)'s finite coverage. The current CI audit covers
-140 declarations. The
+157 declarations. Generic aperiodicity now also excludes **all subcritical
+equal-weight morphisms** under H1–H3, without an additional aperiodicity
+assumption. The
 [research report](research/mahler-uncovered-morphisms.md) distinguishes these
 proofs from 48 finite exact Padé certificates. See the
 [campaign journal](research/phase7-progress.md) to resume.
+The [next-directions note](research/phase7-next-directions.md) records a
+kernel-checked degree-six numerical ledger and the exact remaining obligations
+for arbitrary polynomial certificates; it makes no universal supercritical claim.
 
 ## Epistemic statuses
 
