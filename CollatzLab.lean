@@ -20,9 +20,10 @@ import CollatzLab.ThueMorse
 import CollatzLab.PolynomialChecks
 import CollatzLab.PolynomialExistence
 import CollatzLab.RationalSeriesChecks
+import CollatzLab.UniversalChecks
 
 /-!
-# CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word
+# CollatzLab: Lean 4 proofs for Collatz parity words
 
 Root module exporting the Lean 4 formalization of the paper
 `research/infinite-itineraries.md` (formalizing its finite integer-arithmetic core):
@@ -59,6 +60,8 @@ Root module exporting the Lean 4 formalization of the paper
   and degree `d` / order at least `2*d+1` pair existence for all integer sequences.
 * `CollatzLab.RationalSeries`: every coefficientwise rational binary series is
   eventually periodic, by deterministic finite-memory repetition.
+* `CollatzLab.UniversalEqualWeight`: rational exclusion for every uniform binary
+  morphism satisfying H1--H3, with all finite shifts and eventual matches.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   are independent ingredients in the general polynomial certificate route.

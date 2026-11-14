@@ -7,38 +7,41 @@ Initial working tree was clean; fetch and fast-forward pull succeeded.
 
 ## Resume here
 
-**The universal theorem is proposed, not yet proved.** Phase 7 results are
-retained. Read `phase7-next-directions.md` and the issue before extending them.
+**The universal theorem and its tails are now kernel-verified.** All Phase 7
+results and independent proofs are retained. Read the proof mapping before
+extending the theorem's scope.
 **Pushed A checkpoint:** `6560d1719ad5998be988236182feef8f2ade1292`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579255480 — success.
 
 **Pushed C checkpoint:** `723f103107406db4658d7122a2b2f3091b804bf3`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579550635 — success.
 
-**Current local result:** milestone B is kernel-verified and fully validated,
-including the recurrence, nonzero-residual corollary and independent examples.
-Next: compose A–C with the numerical ledger into milestone D.
-New modules are `PolynomialPair.lean`,
-`PolynomialHeight.lean`, `PolynomialCertificate.lean`, `PolynomialChecks.lean`.
-Read `lean-polynomial-certificates.md` for the exact conditional interface.
+**Pushed B checkpoint:** `83835a7e8ef8f0b0a3d12af332ad83b6642a557a`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579996609 — success.
+
+**Current D result:** the universal theorem, tails, explicit supercritical
+example and semantic checks pass full local validation, including a clean Lean
+rebuild, the 233-declaration audit, 94 Rust tests and both Python checkers.
+New public theorem: `CollatzLab.no_rational_seed_realizes_all_equal_weight`.
+Read `lean-polynomial-certificates.md` for its exact statement and dependency map.
 
 | Milestone | Verified status |
 |---|---|
 | A: arbitrary polynomial-pair conditional certificate | COMPLETE — kernel-verified, full local validation |
 | B: rational binary series implies eventual periodicity | COMPLETE — kernel-verified, full local validation |
 | C: universal degree-six/order-at-least-thirteen existence | COMPLETE — kernel-verified, full local validation |
-| D: unconditional equal-weight exclusion and tails | Open; A–C ingredients now proved |
+| D: unconditional equal-weight exclusion and tails | COMPLETE — kernel-verified, clean rebuild and full validation |
 | E: scope audit and further mathematics | Pending |
 
 ## Exact next obligations
 
-1. For the degree-six pair from C, use `RationalSeries.nonzero_residual`
-   and `Morphism.not_eventually_periodic` to obtain a nonzero residual.
-   Choose its least index `N`; the initial 13 cancellations imply `N>=13`.
-2. Lift `Morphism.degree_six_ledger` from order 13 to this arbitrary `N`,
-   then invoke `no_rational_seed_with_polynomial_pair` and export all tails.
-3. Audit the full theorem, exact supercritical length-six examples and
-   independent literal/rational semantics; then degree/order refinements.
+1. Record D's pushed SHA and CI, then continue the additional mathematics below.
+2. Adversarially audit the degree/order route. Exact integer search finds
+   that the worst-case degree-five/order-eleven ledger fails at `L=101`,
+   `r=e=100`; this is a candidate finite lemma to formalize, **not yet verified
+   in Lean**. It does not refute the main theorem or all smaller-degree pairs.
+3. Compare scope with primary literature. No novelty claim is authorized;
+   no general Collatz or Periodicity Conjecture consequence is claimed.
 
 ## Constraints and failed shortcuts to retain
 
@@ -56,14 +59,14 @@ Read `lean-polynomial-certificates.md` for the exact conditional interface.
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 214
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 233
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 57 new exported declarations (214 total).
+The exact audit now includes all 76 new exported declarations (233 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -121,3 +124,21 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 - Full B validation passes: Lean build, 214-declaration exact audit, 94 Rust
   tests, formatting, Clippy, both Python checkers, empty proof-escape scan,
   and diff whitespace check.
+
+## D checkpoint details
+
+- `Morphism.universal_degree_six_certificate`: pair and finite order exist
+  from H1–H3, independently of any rational seed hypothesis.
+- `no_rational_seed_realizes_all_equal_weight`, all finite shifts and
+  eventual shifted matches are kernel-checked. No (C), base ordering,
+  subcriticality or extra nonperiodicity hypothesis is present.
+- `UniversalChecks.lean`: old named cases as new corollaries; a supercritical
+  length-six example that fails (C); an independent explicit pair; literal
+  substitutions at lengths 2 through 6; signed rational prefix witnesses;
+  unreduced fractions equivalent at every index; non-vacuous infinite predicate.
+- Local full checks pass: build, 233-declaration exact audit, parser self-tests,
+  94 Rust tests, formatting, Clippy, Phase 7 artifact reproduction, 144 exact
+  null vectors, five semantic/existence fixtures, 686 convolution identities,
+  coefficient-8 form values, empty forbidden-token scan and diff check.
+- Clean rebuild: `lake clean && lake build` succeeds, followed by the exact
+  233-declaration audit. No stale compiled artifact is needed.

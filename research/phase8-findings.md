@@ -33,11 +33,26 @@ zero coefficients. Finite-window repetition gives eventual periodicity.
 Thus every nonperiodic binary sequence has a nonzero residual for every
 nonzero denominator pair. No rational Collatz periodicity assertion is used.
 
-## Remaining proposal
+## D: universal equal-weight exclusion (Lean-kernel-verified)
 
-The A–C ingredients now compile. Composition, universal/tail exports and
-adversarial semantic audit remain; the unconditional equal-weight exclusion
-is **not yet claimed**. There is no counterexample to the route established by this work.
+`no_rational_seed_realizes_all_equal_weight` has exactly H1–H3 and `L>=2`.
+Its all-shift and eventual-match corollaries preserve positive odd denominator
+semantics and allow negative numerators and unreduced fractions.
+
+The degree-six pair has a nonzero residual by B and proved word aperiodicity.
+A least nonzero index `N>=13` is obtained without an upper bound; the numerical
+ledger is monotone in `N`. A then gives the height/valuation contradiction,
+discarding the required finite number of early levels.
+
+The explicit length-six images `101011/011011` have `B=81>A=64` and fail (C).
+They are excluded by the universal theorem, and an independently checked
+raw polynomial pair has order 13 and a closing ledger. Literal substitution
+and actual signed rational prefix checks cover lengths 2 through 6, and the
+infinite itinerary predicate remains explicitly non-vacuous.
+
+See the proof mapping for exact signatures and the complete semantic audit.
+Further degree/order optimization and primary-literature comparison remain.
+ There is no counterexample to the route established by this work.
 The coefficient-8 obstruction refutes only the discarded unit-leading shortcut.
 
 ## Scope

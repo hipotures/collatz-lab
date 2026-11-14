@@ -184,3 +184,84 @@ nonperiodic binary sequence. Independent checks cover a finite impulse with
 constant denominator `-3`, an alternating series with common factor `z^2`
 and negative determining coefficient, and nonzero residuals of Thue–Morse.
 The exact audit now has 214 declarations, including all new B theorems.
+
+## D: unconditional universal equal-weight exclusion
+
+`UniversalEqualWeight.lean` composes A–C with the Phase 7 aperiodicity and
+numerical ledger. The main public signature is exactly:
+
+```lean
+theorem CollatzLab.no_rational_seed_realizes_all_equal_weight
+    {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+    (h1 : CollatzLab.Morphism.image M true 0 = true)
+    (hw : CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L)
+    (hd : M.zero ≠ M.one) (p q : Int) :
+    ¬ CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M)
+```
+
+`no_rational_seed_realizes_shifted_all_equal_weight` quantifies over every
+finite shift and arbitrary integer `p,q`. The eventual analogue is
+`no_eventually_shifted_all_equal_weight_itinerary`, with arbitrary start
+indices `s,t` and positive odd `q`. `no_integer_seed_realizes_all_equal_weight`
+specializes the denominator to 1.
+
+`Morphism.universal_degree_six_certificate` first supplies an actual pair
+and order, before any rational-realization assumption is introduced:
+
+```text
+exists P,N: degree(P)=6, N>=13, P1 nonzero, First(P,word,N), Gap(P,M,N).
+```
+
+The denominator is nonzero by C. If its residual vanished at every index,
+B would force eventual periodicity, contradicting Phase 7's theorem under
+exactly H1–H3. A nonzero residual coefficient therefore exists. Applying
+the finite first-nonzero-coefficient lemma up to that witness gives a least
+index `N`, and the initial cancellations give `N>=13`. Monotonicity of powers
+of 2 lifts the degree-six/order-13 ledger to this possibly larger `N`.
+A applies, including arbitrary `v2(R_N)` and its finite starting level.
+There is no finite upper bound on `N`, on `L`, or on coefficient magnitudes.
+
+### Semantics and adversarial audit
+
+The proof quantifies over arbitrary `Images L`; no finite list appears in
+its signature or dependency chain. No criterion (C), subcritical inequality,
+chosen control, nonperiodicity assumption or irrationality assertion is
+added to the public theorem. Nonperiodicity is a separately proved consequence
+of H1–H3. The argument does not depend on the older named rational-exclusion
+proofs, which remain available as independent cross-checks.
+
+`RealizesWord` and all actual Collatz definitions are unchanged. The theorem
+covers every integer numerator and every positive odd denominator, including
+negative numerators and unreduced fractions. Backward inverse branches used
+for shifts retain that domain. It excludes a particular class of infinite
+itineraries; it makes no claim about the behavior of every integer orbit or
+the general rational 2-adic Periodicity Conjecture.
+
+The new `supercriticalSix` example has literal images `1 -> 101011`,
+`0 -> 011011`, with `r=4`, `A=64`, `B=81`, `s=0`, `e=1`, `t=1`, `N_old=6`.
+The kernel checks `A<B` and failure of (C). The universal theorem excludes
+it directly. An independent explicit raw degree-six pair
+
+```text
+P0=-z-z^3+z^4-z^5, P1=z-z^4
+```
+
+has first residual at 13 with coefficient 1 and closes `81^37<2^390`.
+Its common initial factor is retained, exercising the raw-pair convention.
+
+`UniversalChecks.lean` also derives the old Thue–Morse, secondary, sigma and
+reverse-order cases from the new theorem without deleting their old proofs.
+Independent literal two-step substitutions and actual positive and negative
+rational prefix witnesses are checked for representative lengths 2 through 6.
+At length 6 the numerator `11999337121` reaches `49315963742` after 36 steps;
+the negative seed `(-8722791131)/5` and its unreduced representation with
+denominator 15 have the same prefix. Their parity equivalence is proved at
+**every** index using `numIter_equiv`, not inferred from that prefix.
+Explicit infinite all-zero and negative all-one realizations verify that the
+infinite predicate remains satisfiable outside the morphism hypotheses.
+
+All 76 new Phase 8 exported declarations are now audited (233 total), using
+only approved standard foundations. All finite checks use exact arithmetic;
+none substitutes for the universal kernel proof. See the campaign journal
+for actual validation, pushed commits and CI results.

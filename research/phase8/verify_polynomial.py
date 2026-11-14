@@ -76,6 +76,42 @@ def main():
             matrix_count += 1
     print(f"{matrix_count} exact integer null vectors, including zero and deficient-rank matrices")
 
+    semantic_fixtures = [
+        ([0, 1], [1, 0], 13, -15),
+        ([0, 1, 1], [1, 0, 1], 353, -283),
+        ([1, 0, 1, 0], [1, 1, 0, 0], 12947, -801),
+        ([1, 1, 1, 0, 1], [1, 1, 1, 1, 0], 25850607, -4964693),
+        ([0, 1, 1, 0, 1, 1], [1, 0, 1, 0, 1, 1], 11999337121, -8722791131),
+    ]
+    for zero, one, positive, negative in semantic_fixtures:
+        length = len(one)
+        literal = [c for letter in one for c in (one if letter else zero)]
+        for numerator, denominator in ((positive, 1), (negative, 5), (3 * negative, 15)):
+            actual = numerator
+            for bit in literal:
+                assert actual % 2 == bit
+                actual = actual // 2 if bit == 0 else (3 * actual + denominator) // 2
+        extended = [1]
+        while len(extended) < 128:
+            extended = [c for letter in extended for c in (one if letter else zero)]
+        assert extended[:length**2] == literal
+        rows = [[extended[n - j] for j in range(7)] for n in range(7, 13)]
+        p1 = integer_null_vector(rows, 7)
+        assert any(p1)
+        p0 = [-convolution(p1, extended, n) for n in range(7)]
+        assert all((p0[n] if n <= 6 else 0) + convolution(p1, extended, n) == 0
+                   for n in range(13))
+        if length == 6:
+            assert sum(one) == sum(zero) == 4 and 3**4 > 2**6
+            assert not 81**37 < 2**180
+            assert 81**37 < 2**390
+            explicit_p0 = [0, -1, 0, -1, 1, -1, 0]
+            explicit_p1 = [0, 1, 0, 0, -1, 0, 0]
+            residual = [(explicit_p0[n] if n <= 6 else 0) + convolution(explicit_p1, extended, n)
+                        for n in range(14)]
+            assert residual == [0] * 13 + [1]
+    print("Literal substitution and signed/unreduced rational prefixes at L=2..6; five degree-six pairs")
+
     word = [1]
     while len(word) < 128:
         word = [c for letter in word for c in ([1, 0] if letter else [0, 1])]

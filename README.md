@@ -252,7 +252,7 @@ for this instance. A separate generic periodic-control certificate theorem
 also excludes `101/011`, and supplies an independent Mahler proof for `10/01`.
 All 144 listed admissible morphisms of lengths 2–5 have kernel-checked finite
 periodic-control certificates, independently reproduced in Rust. This adds
-79 words beyond criterion (C)'s finite coverage. The current CI audit covers
+79 words beyond criterion (C)'s finite coverage. The Phase 7 closing audit covered
 157 declarations. Generic aperiodicity now also excludes **all subcritical
 equal-weight morphisms** under H1–H3, without an additional aperiodicity
 assumption. The
@@ -262,6 +262,35 @@ proofs from 48 finite exact Padé certificates. See the
 The [next-directions note](research/phase7-next-directions.md) records a
 kernel-checked degree-six numerical ledger and the exact remaining obligations
 for arbitrary polynomial certificates; it makes no universal supercritical claim.
+
+## Phase 8: universal equal-weight exclusion (issue #14)
+
+The proposed degree-six route is now **Lean-kernel-verified**. The single
+export `CollatzLab.no_rational_seed_realizes_all_equal_weight` excludes every
+rational seed for every binary uniform morphism of length `L>=2` that is
+prolongable at 1, has equal-weight distinct images, and is interpreted by the
+existing actual Collatz parity predicate. Criterion (C) and subcriticality
+are no longer required. All finite shifts and eventual shifted matches are
+also excluded; all older independent proofs are retained.
+
+The proof combines a general polynomial-pair certificate (including even
+leading coefficients after a finite start), rational-binary-series eventual
+periodicity, uniform integer approximant existence, and the Phase 7 word
+aperiodicity and degree-six ledger. Pair existence is proved by division-free
+integer elimination for every degree `d`, giving order at least `2*d+1` for
+**every integer coefficient sequence**, with nonzero denominator.
+
+The [proof mapping](research/lean-polynomial-certificates.md) gives exact
+signatures, finite identities, valuation and height bookkeeping, dependencies
+and semantic limits. The [Phase 8 journal](research/phase8-progress.md) records
+validated milestones and resumption instructions. The 233-declaration audit
+permits only standard foundations; no additional packages are used. New
+regressions include the coefficient-8 Thue–Morse pair and the supercritical
+length-six example `101011/011011` that fails (C).
+
+This theorem concerns this specified class of itineraries. It does not prove
+the Collatz conjecture or the general 2-adic Periodicity Conjecture, and no
+novelty claim is made.
 
 ## Epistemic statuses
 

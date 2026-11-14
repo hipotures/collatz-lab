@@ -221,3 +221,24 @@ import CollatzLab
 #print axioms CollatzLab.RationalSeries.shifted_alternating_identity
 #print axioms CollatzLab.RationalSeries.shifted_alternating_eventually_periodic
 #print axioms CollatzLab.RationalSeries.thueMorse_residual_nonzero
+
+/-! Universal equal-weight theorem, tails, and independent semantics. -/
+#print axioms CollatzLab.Morphism.universal_degree_six_certificate
+#print axioms CollatzLab.no_rational_seed_realizes_all_equal_weight
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_all_equal_weight
+#print axioms CollatzLab.no_eventually_shifted_all_equal_weight_itinerary
+#print axioms CollatzLab.no_integer_seed_realizes_all_equal_weight
+#print axioms CollatzLab.Morphism.supercriticalSix_admissible
+#print axioms CollatzLab.Morphism.supercriticalSix_parameters
+#print axioms CollatzLab.Morphism.supercriticalSix_fails_old_criterion
+#print axioms CollatzLab.no_rational_seed_realizes_supercriticalSix
+#print axioms CollatzLab.no_rational_seed_realizes_thueMorse_universal
+#print axioms CollatzLab.no_rational_seed_realizes_secondary_universal
+#print axioms CollatzLab.no_rational_seed_realizes_sigma_universal
+#print axioms CollatzLab.no_rational_seed_realizes_reverseOrder_universal
+#print axioms CollatzLab.Phase8Audit.supercritical_pair_valid
+#print axioms CollatzLab.Phase8Audit.literal_words_two_through_six
+#print axioms CollatzLab.Phase8Audit.positive_prefixes_two_through_six
+#print axioms CollatzLab.Phase8Audit.negative_prefixes_two_through_six
+#print axioms CollatzLab.Phase8Audit.unreduced_seed_equivalence
+#print axioms CollatzLab.Phase8Audit.predicate_nonvacuous
