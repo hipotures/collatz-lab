@@ -11,7 +11,12 @@
   2026. PR #25 is open/unmerged; both source/base match the issue snapshot.
 - First pushed review checkpoint:
   [`0688fce09e917e4362311b85f1016d0c24cc8eb5`](https://github.com/hipotures/collatz-lab/commit/0688fce09e917e4362311b85f1016d0c24cc8eb5).
-  This report milestone follows it; `git log -1` gives its own later SHA.
+- Completed, independently validated report checkpoint, pushed normally:
+  [`c99e68c9531938c912c3125330d453b9cbf520ca`](https://github.com/hipotures/collatz-lab/commit/c99e68c9531938c912c3125330d453b9cbf520ca).
+  This final metadata-only handoff follows it; `git log -1` gives its own SHA.
+- Review [PR #27](https://github.com/hipotures/collatz-lab/pull/27) is **open,
+  unmerged**, against main. It contains exactly the three authorized new
+  artifacts. PR #25 and issues #24/#26 remain open; nothing was merged/closed.
 - Independent derivations, exact interfaces, adversarial tests, source match
   and complete report are finished. **PASS** for the pinned mathematical
   statements and documented rational reductions; no blocking defect found.
@@ -29,8 +34,10 @@
   publisher PDF and Monks–Yazinski author PDF match the PR's SHA-256 hashes.
   Identified original statements and elementary proof portions were read;
   stronger external transcendence/automatic-word claims are not certified.
-- Next: commit/push the report milestone; open a separate PR against main;
-  record that URL and exact pushed SHA here, verify live refs/status and hand off.
+- Next: owner review of the report and integration decision. For resumption,
+  check live PR #27/head status and preserve the pinned-source scope; do not
+  redo the completed proofs or start Phase 13. A later source-head change
+  requires a new audit of its diff and relevant validation.
 - There is no outstanding proof obligation or validation blocker for issue #26.
   Owner decisions remain integration and any separate publication assessment.
 - Only these new review artifacts may change. Preserve PR #25, existing
@@ -152,3 +159,32 @@ return inequality's +1 fails at (3,1); a ceiling parent descent fails at
 (18,7). None falsifies the exact pinned statements. No novel exclusion was
 attempted or needed. No approval question or owner information blocks the
 authorized review handoff.
+
+## Final handoff
+
+Report checkpoint c99e68c was pushed and PR #27 opened against the unchanged
+main 47f34bd. A fresh fetch before that push found no source/base movement.
+The source checkout is detached and clean at the exact reviewed head.
+`git diff origin/main...HEAD --name-status` listed only:
+
+```text
+A research/phase12-independent-referee-report.md
+A research/phase12-referee-progress.md
+A research/phase12/referee_checks.py
+```
+
+The independent checker was rerun before the report commit; its complete
+output compared byte-for-byte equal to the prior deterministic result.
+Report fence/inventory/hash checks and `git diff --check` pass. This final
+metadata commit adds the review PR URL and exact durable checkpoint; it does
+not alter mathematical conclusions or checker behavior.
+
+The review PR's own CI runs main's baseline matrix (564 names), independently
+of the pinned source's locally verified 593-name matrix. Inspect its live head
+for the latest result; no pending job is represented here as passed. Source
+head CI and local full validation both actually passed as recorded above.
+
+No theorem, manuscript, prior review report, issue state, author identity or
+other checkout was edited. No external message beyond the explicitly requested
+review PR was sent. Owner integration/publication decisions remain outstanding;
+there is no unfinished mathematical task or assumed background continuation.

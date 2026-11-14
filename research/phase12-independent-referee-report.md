@@ -22,7 +22,8 @@ review. The stronger external transcendence arguments are not certified here.
   Live remote refs and PR metadata agreed with the issue snapshot. PR #25
   remained open and unmerged throughout the review.
 - Review date: 14 November 2026 UTC. Review branch:
-  `review/phase12-independent-audit`. The [resume journal](phase12-referee-progress.md)
+  `review/phase12-independent-audit`; separate [review PR #27](https://github.com/hipotures/collatz-lab/pull/27),
+  **open and unmerged**. The [resume journal](phase12-referee-progress.md)
   records pushed checkpoints and the separate review PR.
 - The review clone and detached source worktree are separate from every
   preexisting checkout. No other agent was used. Only the three new review
