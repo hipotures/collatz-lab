@@ -556,3 +556,33 @@ import CollatzLab
 #print axioms CollatzLab.no_eventually_shifted_nonContracting110111
 #print axioms CollatzLab.no_eventually_shifted_nonContracting110111_signed
 #print axioms CollatzLab.NonContractingChecks.signed_finite_semantics
+
+/-! Phase 11: exact spectral boundary, general return precision and controls. -/
+#print axioms CollatzLab.Morphism.nonContracting_nine_prefix_height
+#print axioms CollatzLab.matching_prefix_divisibility
+#print axioms CollatzLab.rational_matching_prefix_bound
+#print axioms CollatzLab.nonContracting_variable_cocycle
+#print axioms CollatzLab.nonContracting_no_common_center
+#print axioms CollatzLab.NonContractingChecks.all_one_rational_control
+#print axioms CollatzLab.Morphism.power_image_count
+#print axioms CollatzLab.Morphism.prolongable_spectral_gap
+#print axioms CollatzLab.Morphism.frequencyDen_zero_images
+#print axioms CollatzLab.Morphism.weight_chunks_bound
+#print axioms CollatzLab.Morphism.weight_prefix_shift_bound
+#print axioms CollatzLab.Morphism.uniform_chunks_frequency_necessary
+#print axioms CollatzLab.rational_ratio_contraction
+#print axioms CollatzLab.rational_ratio_no_contraction
+#print axioms CollatzLab.rational_threshold_ne
+#print axioms CollatzLab.Morphism.spectral_no_uniform_contraction
+#print axioms CollatzLab.Morphism.power_image_discrepancy_bound
+#print axioms CollatzLab.Morphism.exists_power_ratio_bound
+#print axioms CollatzLab.Morphism.exists_contracting_power_of_ratio
+#print axioms CollatzLab.rational_gap_thickening
+#print axioms CollatzLab.Morphism.subcritical_has_contracting_power
+#print axioms CollatzLab.Morphism.uniform_contraction_iff_subcritical
+#print axioms CollatzLab.Morphism.frequencyDen_nonnegative
+#print axioms CollatzLab.Morphism.frequencyDen_zero_word
+#print axioms CollatzLab.Morphism.binary_incidence_characteristic
+#print axioms CollatzLab.offset_weight_upper
+#print axioms CollatzLab.prefixCycleForm_weight_height
+#print axioms CollatzLab.rational_matching_prefix_weight_bound

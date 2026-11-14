@@ -35,3 +35,24 @@ theorem no_eventually_shifted_nonContracting110111_signed (s t : Nat) (p q : Int
     no_rational_seed_realizes_nonContracting110111 s t p q ho
 
 end CollatzLab
+
+namespace CollatzLab
+
+/-- The two expanding affine maps have different intercepts; this exact cocycle
+is the one used by rational realizations, not an equal-multiplier substitute. -/
+theorem nonContracting_variable_cocycle {p q : Int}
+    (hr : RealizesWord p q (Morphism.parityWord Morphism.nonContracting110111)) (n : Nat) :
+    8 * numIter q p (3 * (n + 1)) =
+      (if Morphism.word Morphism.nonContracting110111 n then 9 else 27) * numIter q p (3 * n) +
+      (if Morphism.word Morphism.nonContracting110111 n then 5 else 19) * q := by
+  have hh := Morphism.numIter_variable_block (by decide) _
+    Morphism.nonContracting_images.2.2.1 hr n
+  cases hb : Morphism.word Morphism.nonContracting110111 n <;> rw [hb] at hh
+  all_goals simpa [Morphism.c, Morphism.offset, Morphism.weight,
+      Morphism.image, Morphism.nonContracting110111] using hh
+
+/-- No common translation simultaneously removes both affine intercepts. -/
+theorem nonContracting_no_common_center :
+    ¬ ∃ c : Int, 5 = (8 - 9) * c ∧ 19 = (8 - 27) * c := by omega
+
+end CollatzLab

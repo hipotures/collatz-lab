@@ -73,3 +73,30 @@ conjecture. Aperiodicity alone never proves rational-seed exclusion.
   Theorem 1 and its real/2-adic transfer; Molchanov theorem scan being checked.
   A recent rStation manuscript was located; its analytic proof is not an input
   to this elementary argument, and no novelty claim is made.
+
+## Checkpoint C — spectral boundary and sharper returns
+
+- Checkpoint B pushed as `2af12dd7092570d6d0fd375caf125f6e9ff5e819`.
+- PR #20 is open and unmerged: <https://github.com/hipotures/collatz-lab/pull/20>.
+  Observed CI success: <https://github.com/hipotures/collatz-lab/actions/runs/43605243707>.
+- `SpectralThreshold.lean` compiles the exact iff classification for all
+  prolongable binary uniform substitutions with D>0, including effective
+  subcritical witnesses, arbitrary shifted supercritical obstructions, the
+  impossible critical equality and the D=0 constant-one exceptional case.
+- The general return precision is m+ell. The sharp weight-dependent offset
+  and return bounds now compile, extending the research mechanism to partial
+  repetitions. This uses actual numerator dynamics, with both controls intact.
+- The two-step 110/111 prefix-height identity is kernel proved. A separate
+  candidate Mahler relation for the actual seed has finite exact coefficient
+  checks; analytic specialization/transcendence is not proved and not used.
+- Independent spectral checks: 715 parameter triples, six explicit constructive
+  witness levels, negative/zero eigenvalues, and nonprimitive/constant controls.
+- Next: run the complete validation script, checkpoint C, then assess the
+  strongest partial-return application within remaining session resources.
+
+Checkpoint C full local validation passes: `bash research/phase11/validate.sh`
+(build, 545-declaration exact audit, parser self-tests, empty proof-escape scan,
+94 Rust tests, formatting/Clippy, every required Python checker, both new exact
+verifiers, manuscript static check and all 32 Lean-name checks). The initial
+validation-script invocation had an incorrect relative root; it was corrected
+before the successful complete run. No mathematical check failed.

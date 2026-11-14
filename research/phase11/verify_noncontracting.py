@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Finite exact regressions for Phase 11; these computations are not infinite proofs."""
+import sys
+sys.dont_write_bytecode = True
 from itertools import accumulate, product
 
 
@@ -63,6 +65,8 @@ def main():
         for block in product((0, 1), repeat=m):
             square = list(block) * 2
             r, c = affine(block)
+            assert c <= 2**(m-r)*3**r - 2**m
+            assert affine([0]*(m-r)+[1]*r)[1] == 2**(m-r)*3**r - 2**m
             rr, cc = affine(square)
             assert rr == 2*r and cc == (3**r + 2**m) * c
             modulus = 2**(2*m)
@@ -72,10 +76,22 @@ def main():
                     replay(p, q, square)
                     form = (2**m - 3**r)*p - c*q
                     assert form % modulus == 0
+                    assert abs(form) <= (abs(p) + abs(q)) * 2**(m-r)*3**r
                     assert abs(form) <= (abs(p) + abs(q)) * 3**m
                     if form:
                         assert 4**m <= (abs(p) + abs(q))*3**m
             square_count += 1
+    # Partial and longer returns test the general m+ell precision separately.
+    for m in range(1, 8):
+        for block in product((0, 1), repeat=m):
+            r, c = affine(block)
+            for ell in sorted(set((0, 1, m-1, m, m+1))):
+                prefix = [block[j % m] for j in range(m + ell)]
+                rr, cc = affine(prefix)
+                modulus = 2**(m+ell)
+                p = (-cc*5*pow(3**rr, -1, modulus)) % modulus
+                replay(p, 5, prefix)
+                assert ((2**m-3**r)*p-c*5) % modulus == 0
     # The concrete substitution has a square at every tested image power.
     for k in range(8):
         m = 3**k

@@ -216,3 +216,18 @@ theorem nonContracting_prefix_discrepancy : ∀ (k n : Nat), n < 3 ^ k →
     omega
 
 end CollatzLab.Morphism
+
+namespace CollatzLab.Morphism
+
+/-- Two substitutions have a fixed common prefix-height profile, although their
+full weights differ. This exact transport is useful for a separate Mahler route. -/
+theorem nonContracting_nine_prefix_height (n j : Nat) (hj : j < 9) :
+    weight (word nonContracting110111) (9 * n + j) =
+      6 * n + weight (word nonContracting110111) n + 2 * (j / 3) + j % 3 := by
+  have hs := nonContracting_prefix_step (3 * n + j / 3) (j % 3) (by omega)
+  have hp := nonContracting_prefix_step n (j / 3) (by omega)
+  have he : 3 * (3 * n + j / 3) + j % 3 = 9 * n + j := by omega
+  rw [he] at hs
+  omega
+
+end CollatzLab.Morphism

@@ -39,3 +39,22 @@ theorem signed_finite_semantics :
     (List.range 81).map (seedParity 15 (-3691912712317100901534027)) = literalIter 4 := by decide
 
 end CollatzLab.NonContractingChecks
+
+namespace CollatzLab.NonContractingChecks
+
+/-- A supercritical word with arbitrarily long squares can have a rational seed:
+independent aperiodicity cannot be removed from the new theorem. -/
+theorem all_one_rational_control : RealizesWord (-1) 1 (fun _ => 1) ∧
+    EventuallyPeriodic (fun _ => 1) := by
+  have hi : ∀ n, numIter 1 (-1) n = -1 := by
+    intro n
+    induction n with
+    | zero => rfl
+    | succ n ih => change numStep 1 (numIter 1 (-1) n) = -1; rw [ih]; rfl
+  constructor
+  · refine ⟨by decide, by decide, ?_⟩
+    intro n
+    simp [seedParity, hi]
+  · exact ⟨0, 1, by decide, by intro _ _; rfl⟩
+
+end CollatzLab.NonContractingChecks

@@ -8,31 +8,39 @@ open Morphism
 def prefixCycleForm (v : Nat → Bool) (m : Nat) (p q : Int) : Int :=
   ((2 : Int) ^ m - (3 : Int) ^ weight v m) * p - offset v m * q
 
-/-- Two consecutive equal blocks impose a modulus of twice the block length
-on the period-closing form. This uses the actual signed numerator dynamics. -/
-theorem square_prefix_divisibility (v : Nat → Bool) (m : Nat) {p q : Int}
+/-- Matching a prefix again at m forces a period-closing congruence of
+precision m+ell, even for a partial repetition shorter than a square. -/
+theorem matching_prefix_divisibility (v : Nat → Bool) (m ell : Nat) {p q : Int}
     (hr : RealizesWord p q (fun j => bit (v j)))
-    (hsquare : ∀ j, j < m → v (m + j) = v j) :
-    (2 : Int) ^ (m + m) ∣ prefixCycleForm v m p q := by
-  have h0 := affine_prefix v q p hr.2.1 0 m (fun j _ => by simpa using hr.2.2 j)
-  have h1 := affine_prefix v q p hr.2.1 m m
-    (fun j hj => (hr.2.2 (m + j)).trans (congrArg bit (hsquare j hj)))
-  simp only [Nat.zero_add, numIter] at h0
-  let A := (2 : Int) ^ m
-  let B := (3 : Int) ^ weight v m
+    (hmatch : ∀ j, j < ell → v (m + j) = v j) :
+    (2 : Int) ^ (m + ell) ∣ prefixCycleForm v m p q := by
+  have h0 := affine_prefix v q p hr.2.1 0 ell (fun j _ => by simpa using hr.2.2 j)
+  have h1 := affine_prefix v q p hr.2.1 m ell
+    (fun j hj => (hr.2.2 (m + j)).trans (congrArg bit (hmatch j hj)))
+  have hfull := affine_prefix v q p hr.2.1 0 m (fun j _ => by simpa using hr.2.2 j)
+  simp only [Nat.zero_add, numIter] at h0 hfull
+  let A := (2 : Int) ^ ell
+  let B := (3 : Int) ^ weight v ell
   have hd : A ∣ B * (numIter q p m - p) := by
-    refine ⟨numIter q p (m + m) - numIter q p m, ?_⟩
+    refine ⟨numIter q p (m + ell) - numIter q p ell, ?_⟩
     dsimp [A, B]
     family_ring
   have hbez : IsBezout A B := IsBezout.pow (show IsBezout 2 3 from ⟨-1, 1, rfl⟩) _ _
   rcases hbez.dvd_of_dvd_mul_left hd with ⟨d, hd⟩
   refine ⟨-d, ?_⟩
-  have he : prefixCycleForm v m p q = A * (p - numIter q p m) := by
-    dsimp [prefixCycleForm, A]
+  have he : prefixCycleForm v m p q = (2 : Int) ^ m * (p - numIter q p m) := by
+    dsimp [prefixCycleForm]
     family_ring
   rw [he, show p - numIter q p m = -(A * d) by omega, int_pow_add]
   dsimp [A]
   family_ring
+
+/-- Two equal initial blocks supply twice their length in congruence precision. -/
+theorem square_prefix_divisibility (v : Nat → Bool) (m : Nat) {p q : Int}
+    (hr : RealizesWord p q (fun j => bit (v j)))
+    (hsquare : ∀ j, j < m → v (m + j) = v j) :
+    (2 : Int) ^ (m + m) ∣ prefixCycleForm v m p q :=
+  matching_prefix_divisibility v m m hr hsquare
 
 /-- The period-closing form can vanish only if the actual orbit repeats. -/
 theorem prefixCycleForm_nonzero (v : Nat → Bool) (m : Nat) (hm : 1 ≤ m) {p q : Int}
@@ -73,6 +81,97 @@ theorem prefixCycleForm_height (v : Nat → Bool) (m : Nat) (p q : Int) (hq : 0 
   unfold prefixCycleForm
   family_ring
 
+/-- Exact weight-dependent offset cap, attained by placing all ones last.
+This improves the crude 3^m bound without assuming frequency convergence. -/
+theorem offset_weight_upper (v : Nat → Bool) : ∀ m,
+    offset v m ≤ (2 : Int) ^ (m - weight v m) * (3 : Int) ^ weight v m - (2 : Int) ^ m
+  | 0 => by simp [weight, offset]
+  | m + 1 => by
+    have hi := offset_weight_upper v m
+    have hn := weight_le v m
+    have hc := offset_nonneg v m
+    cases hb : v m
+    · simp only [offset, weight, hb, Bool.false_eq_true, if_false, Nat.add_zero]
+      rw [show m + 1 - weight v m = (m - weight v m) + 1 by omega, Int.pow_succ, Int.pow_succ]
+      family_ring
+    · simp only [offset, weight, hb, if_true]
+      rw [show m + 1 - (weight v m + 1) = m - weight v m by omega,
+        Int.pow_succ, Int.pow_succ]
+      have hi3 := Int.mul_le_mul_of_nonneg_left hi (show (0 : Int) ≤ 3 by decide)
+      family_ring
+
+/-- Sharper height for the same actual cycle-closing form, retaining the prefix
+one-count. Neither equal weights nor a common block multiplier is assumed. -/
+theorem prefixCycleForm_weight_height (v : Nat → Bool) (m : Nat) (p q : Int) (hq : 0 ≤ q) :
+    absInt (prefixCycleForm v m p q) ≤
+      (absInt p + q) * ((2 : Int) ^ (m - weight v m) * (3 : Int) ^ weight v m) := by
+  let H := (2 : Int) ^ (m - weight v m) * (3 : Int) ^ weight v m
+  have hM := weight_le v m
+  have h2 := pow_nonneg_of_nonneg (x := (2 : Int)) (by decide) m
+  have h3 := pow_nonneg_of_nonneg (x := (3 : Int)) (by decide) (weight v m)
+  have hp := Family.pow_ge_one (x := (2 : Int)) (by decide) (m - weight v m)
+  have hm := pow_le_pow_of_le (x := (2 : Int)) (y := 3) (by decide) (by decide) (weight v m)
+  have ht := Int.mul_le_mul_of_nonneg_left hm
+    (pow_nonneg_of_nonneg (x := (2 : Int)) (by decide) (m - weight v m))
+  rw [← int_pow_add, Nat.sub_add_cancel hM] at ht
+  have hH3 := Int.mul_le_mul_of_nonneg_right hp h3
+  have hd : absInt ((2 : Int) ^ m - (3 : Int) ^ weight v m) ≤ H := by
+    dsimp [H] at *
+    unfold absInt; split <;> omega
+  have hc := offset_nonneg v m
+  have hcap := offset_weight_upper v m
+  have hh := absInt_sub_le (((2 : Int) ^ m - (3 : Int) ^ weight v m) * p) (offset v m * q)
+  rw [absInt_mul, absInt_mul, absInt_of_nonneg hc, absInt_of_nonneg hq] at hh
+  have hd' := Int.mul_le_mul_of_nonneg_right hd (absInt_nonneg p)
+  have hc' := Int.mul_le_mul_of_nonneg_right (show offset v m ≤ H by dsimp [H]; omega) hq
+  unfold prefixCycleForm
+  dsimp [H] at *
+  family_ring
+
+/-- A partial return in a nonperiodic rational itinerary must respect this exact
+weight-dependent bound. This can apply even when the prefix is not a square. -/
+theorem rational_matching_prefix_weight_bound (v : Nat → Bool) (m ell : Nat) (hm : 1 ≤ m) {p q : Int}
+    (hr : RealizesWord p q (fun j => bit (v j)))
+    (haper : ¬ EventuallyPeriodic (fun j => bit (v j)))
+    (hmatch : ∀ j, j < ell → v (m + j) = v j) :
+    (2 : Int) ^ (ell + weight v m) ≤ (absInt p + q) * (3 : Int) ^ weight v m := by
+  rcases matching_prefix_divisibility v m ell hr hmatch with ⟨d, hd⟩
+  have he := prefixCycleForm_nonzero v m hm hr haper
+  have hd0 : d ≠ 0 := by intro hz; rw [hz, Int.mul_zero] at hd; exact he hd
+  have hd1 := absInt_pos_of_ne_zero hd0
+  have hpow := pow_pos_of_pos (x := (2 : Int)) (by decide) (m + ell)
+  have hlo := Int.mul_le_mul_of_nonneg_left hd1 (by omega : 0 ≤ (2 : Int) ^ (m + ell))
+  have habs : absInt (prefixCycleForm v m p q) = (2 : Int) ^ (m + ell) * absInt d := by
+    rw [hd, absInt_mul, absInt_of_nonneg (by omega)]
+  have hhi := prefixCycleForm_weight_height v m p q (by have := hr.1; omega)
+  have hbound : (2 : Int) ^ (m + ell) ≤
+      (absInt p + q) * ((2 : Int) ^ (m - weight v m) * (3 : Int) ^ weight v m) := by omega
+  have hn := weight_le v m
+  have hexp : m + ell = (m - weight v m) + (ell + weight v m) := by omega
+  rw [hexp, int_pow_add] at hbound
+  have hf : (2 : Int) ^ (m - weight v m) * (2 : Int) ^ (ell + weight v m) ≤
+      (2 : Int) ^ (m - weight v m) * ((absInt p + q) * (3 : Int) ^ weight v m) := by
+    simpa only [Int.mul_assoc, Int.mul_left_comm] using hbound
+  exact Int.le_of_mul_le_mul_left hf (pow_pos_of_pos (by decide) _)
+
+/-- Quantitative finite obstruction for any repeated prefix, including partial
+repetitions: the precision is m+ell and the height depends only on m. -/
+theorem rational_matching_prefix_bound (v : Nat → Bool) (m ell : Nat) (hm : 1 ≤ m) {p q : Int}
+    (hr : RealizesWord p q (fun j => bit (v j)))
+    (haper : ¬ EventuallyPeriodic (fun j => bit (v j)))
+    (hmatch : ∀ j, j < ell → v (m + j) = v j) :
+    (2 : Int) ^ (m + ell) ≤ (absInt p + q) * (3 : Int) ^ m := by
+  rcases matching_prefix_divisibility v m ell hr hmatch with ⟨d, hd⟩
+  have he := prefixCycleForm_nonzero v m hm hr haper
+  have hd0 : d ≠ 0 := by intro hz; rw [hz, Int.mul_zero] at hd; exact he hd
+  have hd1 := absInt_pos_of_ne_zero hd0
+  have hpow := pow_pos_of_pos (x := (2 : Int)) (by decide) (m + ell)
+  have hlo := Int.mul_le_mul_of_nonneg_left hd1 (by omega : 0 ≤ (2 : Int) ^ (m + ell))
+  have habs : absInt (prefixCycleForm v m p q) = (2 : Int) ^ (m + ell) * absInt d := by
+    rw [hd, absInt_mul, absInt_of_nonneg (by omega)]
+  have hhi := prefixCycleForm_height v m p q (by have := hr.1; omega)
+  omega
+
 /-- A nonperiodic rational orbit cannot have an arbitrarily long square prefix.
 The bound applies to negative numerators and unreduced representations. -/
 theorem rational_square_prefix_bound (v : Nat → Bool) (m : Nat) (hm : 1 ≤ m) {p q : Int}
@@ -80,19 +179,10 @@ theorem rational_square_prefix_bound (v : Nat → Bool) (m : Nat) (hm : 1 ≤ m)
     (haper : ¬ EventuallyPeriodic (fun j => bit (v j)))
     (hsquare : ∀ j, j < m → v (m + j) = v j) :
     (4 : Int) ^ m ≤ (absInt p + q) * (3 : Int) ^ m := by
-  rcases square_prefix_divisibility v m hr hsquare with ⟨d, hd⟩
-  have he := prefixCycleForm_nonzero v m hm hr haper
-  have hd0 : d ≠ 0 := by intro hz; rw [hz, Int.mul_zero] at hd; exact he hd
-  have hd1 := absInt_pos_of_ne_zero hd0
-  have hpow := pow_pos_of_pos (x := (2 : Int)) (by decide) (m + m)
-  have hlo := Int.mul_le_mul_of_nonneg_left hd1 (by omega : 0 ≤ (2 : Int) ^ (m + m))
-  have habs : absInt (prefixCycleForm v m p q) = (2 : Int) ^ (m + m) * absInt d := by
-    rw [hd, absInt_mul, absInt_of_nonneg (by omega)]
+  have hh := rational_matching_prefix_bound v m m hm hr haper hsquare
   have h4 : (4 : Int) ^ m = (2 : Int) ^ (m + m) := by
     rw [show m + m = 2 * m by omega, ← int_pow_mul]; rfl
-  rw [← h4] at hlo habs
-  have hhi := prefixCycleForm_height v m p q (by have := hr.1; omega)
-  omega
+  rwa [← h4] at hh
 
 /-- A genuinely different sufficient criterion: unbounded initial squares and
 independent non-eventual-periodicity, with no block contraction hypothesis. -/
