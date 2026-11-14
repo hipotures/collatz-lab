@@ -1,4 +1,6 @@
 import CollatzLab.UnequalSparse
+import CollatzLab.SparseFamily
+import CollatzLab.UnequalControl
 
 /-! Literal and actual-integer finite checks for the longer spectral examples. -/
 namespace CollatzLab.SparseChecks
@@ -33,5 +35,17 @@ theorem spectral_counts :
     weight (word (unequalSparse 4)) 16 = 10 ∧
     weight (word (unequalSparse 5)) 25 = 17 ∧
     weight (word (unequalSparse 5)) 125 = 49 := by decide
+
+theorem sparse_length_two_control : RealizesWord 1 1 (parityWord (unequalSparse 2)) := by
+  have he : parityWord (unequalSparse 2) = parityWord unequalAlternating := by
+    funext n
+    rw [unequalAlternating_word]
+    have hh := word_rec (by decide) (unequalSparse 2) (by decide) n
+    simp only [parityWord, hh]
+    cases word (unequalSparse 2) (n / 2) <;>
+      rcases (show n % 2 = 0 ∨ n % 2 = 1 by omega) with hn | hn <;>
+        simp [image, unequalSparse, bit, hn]
+  rw [he]
+  exact unequalAlternating_realized
 
 end CollatzLab.SparseChecks

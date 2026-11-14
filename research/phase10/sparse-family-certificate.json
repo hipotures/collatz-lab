@@ -1,0 +1,137 @@
+{
+  "bounds": {
+    "length_max": 16,
+    "length_min": 3,
+    "max_level": "L"
+  },
+  "rows": [
+    {
+      "L": 3,
+      "chunk_length": "27",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 3,
+      "odd_count_cap": "14",
+      "transient": "1"
+    },
+    {
+      "L": 4,
+      "chunk_length": "256",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 4,
+      "odd_count_cap": "136",
+      "transient": "16"
+    },
+    {
+      "L": 5,
+      "chunk_length": "3125",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 5,
+      "odd_count_cap": "1684",
+      "transient": "243"
+    },
+    {
+      "L": 6,
+      "chunk_length": "46656",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 6,
+      "odd_count_cap": "25376",
+      "transient": "4096"
+    },
+    {
+      "L": 7,
+      "chunk_length": "823543",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 7,
+      "odd_count_cap": "450834",
+      "transient": "78125"
+    },
+    {
+      "L": 8,
+      "chunk_length": "16777216",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 8,
+      "odd_count_cap": "9228416",
+      "transient": "1679616"
+    },
+    {
+      "L": 9,
+      "chunk_length": "387420489",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 9,
+      "odd_count_cap": "213887048",
+      "transient": "40353607"
+    },
+    {
+      "L": 10,
+      "chunk_length": "10000000000",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 10,
+      "odd_count_cap": "5536870912",
+      "transient": "1073741824"
+    },
+    {
+      "L": 11,
+      "chunk_length": "285311670611",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 11,
+      "odd_count_cap": "158346365110",
+      "transient": "31381059609"
+    },
+    {
+      "L": 12,
+      "chunk_length": "8916100448256",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 12,
+      "odd_count_cap": "4958050224128",
+      "transient": "1000000000000"
+    },
+    {
+      "L": 13,
+      "chunk_length": "302875106592253",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 13,
+      "odd_count_cap": "168698909368092",
+      "transient": "34522712143931"
+    },
+    {
+      "L": 14,
+      "chunk_length": "11112006825558016",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 14,
+      "odd_count_cap": "6197962645053440",
+      "transient": "1283918464548864"
+    },
+    {
+      "L": 15,
+      "chunk_length": "437893890380859375",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 15,
+      "odd_count_cap": "244539891697475066",
+      "transient": "51185893014090757"
+    },
+    {
+      "L": 16,
+      "chunk_length": "18446744073709551616",
+      "eight_R_le_five_S": true,
+      "four_transient_le_length": true,
+      "level": 16,
+      "odd_count_cap": "10312348705759461376",
+      "transient": "2177953337809371136"
+    }
+  ],
+  "scope": "The finite checks are regressions for the generic kernel proof, not a search-based extension.",
+  "theorem": "no_rational_seed_realizes_unequalSparse: every L>=3, every integer p,q"
+}

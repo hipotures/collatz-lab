@@ -14,7 +14,8 @@ from pathlib import Path
 
 
 REPORT = Path(__file__).with_name("search-summary.json")
-LEAN_PROVED = {("100", "110"), ("110", "100"), ("1000", "1110"), ("10000", "11110")}
+LEAN_PROVED = {("1" + "0" * (length - 1), "1" * (length - 1) + "0")
+               for length in range(3, 7)} | {("110", "100")}
 
 
 def substitute(xs, one, zero):

@@ -453,3 +453,26 @@ import CollatzLab
 #print axioms CollatzLab.SparseChecks.longer_literal_prefixes
 #print axioms CollatzLab.SparseChecks.longer_positive_prefixes
 #print axioms CollatzLab.SparseChecks.spectral_counts
+
+/-! Uniform sparse-family proof and its rational boundary control. -/
+#print axioms CollatzLab.absInt_pow_eq
+#print axioms CollatzLab.second_order_binomial_lower
+#print axioms CollatzLab.four_times_power_le
+#print axioms CollatzLab.quarter_power_gap
+#print axioms CollatzLab.five_eighths_contraction
+#print axioms CollatzLab.Morphism.weight_initial_ones
+#print axioms CollatzLab.Morphism.weight_singleton_one
+#print axioms CollatzLab.Morphism.unequalSparse_one_image
+#print axioms CollatzLab.Morphism.unequalSparse_zero_image
+#print axioms CollatzLab.Morphism.unequalSparse_weights
+#print axioms CollatzLab.Morphism.unequalSparse_parameters
+#print axioms CollatzLab.Morphism.unequalSparse_power_balance
+#print axioms CollatzLab.Morphism.unequalSparse_power_weight_bound
+#print axioms CollatzLab.Morphism.unequalSparse_uniform_margin
+#print axioms CollatzLab.no_rational_seed_realizes_unequalSparse
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_unequalSparse
+#print axioms CollatzLab.no_eventually_shifted_unequalSparse_itinerary
+#print axioms CollatzLab.no_int_seed_realizes_shifted_unequalSparse
+#print axioms CollatzLab.no_int_orbit_enters_shifted_unequalSparse
+#print axioms CollatzLab.no_eventually_shifted_unequalSparse_signed_denominator
+#print axioms CollatzLab.SparseChecks.sparse_length_two_control

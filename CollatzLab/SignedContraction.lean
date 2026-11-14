@@ -1,5 +1,6 @@
 import CollatzLab.Unequal100110
 import CollatzLab.Unequal110100
+import CollatzLab.SparseFamily
 
 /-! Sign normalization uses the existing rational itinerary equivalence only. -/
 namespace CollatzLab
@@ -41,5 +42,11 @@ theorem no_eventually_shifted_unequal_110_100_signed_denominator (s t : Nat) (p 
     ¬ (∀ j, seedParity q p (s + j) = Morphism.parityWord Morphism.unequal110100 (t + j)) :=
   no_eventually_shifted_itinerary_odd_denominator _ (Morphism.parity_binary _)
     no_rational_seed_realizes_unequal_110_100 s t p q ho
+
+theorem no_eventually_shifted_unequalSparse_signed_denominator (L : Nat) (hL : 3 ≤ L)
+    (s t : Nat) (p q : Int) (ho : q % 2 = 1) :
+    ¬ (∀ j, seedParity q p (s + j) = Morphism.parityWord (Morphism.unequalSparse L) (t + j)) :=
+  no_eventually_shifted_itinerary_odd_denominator _ (Morphism.parity_binary _)
+    (no_rational_seed_realizes_unequalSparse L hL) s t p q ho
 
 end CollatzLab

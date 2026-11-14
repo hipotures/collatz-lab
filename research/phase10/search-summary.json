@@ -92,6 +92,10 @@
       "11110"
     ],
     [
+      "100000",
+      "111110"
+    ],
+    [
       "110",
       "100"
     ]
@@ -493,6 +497,72 @@
         }
       ],
       "zero": "11110"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "first_h": null,
+      "incidence_eigenvalues": [
+        6,
+        -4
+      ],
+      "length": 6,
+      "one": "100000",
+      "primitive_power_witness": 1,
+      "r0": 5,
+      "r1": 1,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 5,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 10,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 15,
+          "contracts": false,
+          "h": 3,
+          "windows": 8
+        },
+        {
+          "R": 20,
+          "contracts": false,
+          "h": 4,
+          "windows": 12
+        },
+        {
+          "R": 25,
+          "contracts": false,
+          "h": 5,
+          "windows": 16
+        },
+        {
+          "R": 26,
+          "contracts": false,
+          "h": 6,
+          "windows": 18
+        },
+        {
+          "R": 31,
+          "contracts": false,
+          "h": 7,
+          "windows": 20
+        },
+        {
+          "R": 36,
+          "contracts": false,
+          "h": 8,
+          "windows": 22
+        }
+      ],
+      "zero": "111110"
     }
   ],
   "totals": {

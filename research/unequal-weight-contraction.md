@@ -373,3 +373,50 @@ none of these external results is an assumption of the Lean proofs.
 The contraction and incidence-matrix ideas are established mathematics. This
 work claims checked sufficient criteria and explicit formal applications,
 without an originality, transcendence, or general periodicity-conjecture claim.
+
+## Uniform exclusion for the complete sparse/dense family
+
+The optional extension is now **kernel-proved** in `SparseFamily.lean`:
+
+```lean
+theorem no_rational_seed_realizes_unequalSparse
+    (L : Nat) (hL : 3 ≤ L) (p q : Int) :
+    ¬ RealizesWord p q (Morphism.parityWord (Morphism.unequalSparse L))
+```
+
+This covers precisely `1 -> 10^(L-1)`, `0 -> 1^(L-1)0`. The kernel proves its
+literal image weights `1` and `L-1`, independent column aperiodicity, and every
+finite-shift, eventual shifted-tail, integer-orbit, and signed-odd-denominator
+corollary. `L>=3` matters: at `L=2` the identical images both equal `10`, and
+`SparseChecks.sparse_length_two_control` proves realization by `p=q=1`.
+
+The proof is entirely finite integer arithmetic. Its exact power-block balance
+for parent bit b is
+
+```text
+2*W(L^k*a,L^k)-L^k = (2-L)^k*(2*b-1).
+```
+
+Thus every aligned power block has weight at most
+`R_k=floor((L^k+(L-2)^k)/2)`. Set `k=L`, `S=L^L` and `U=(L-2)^L`.
+The kernel proves `4*U<=S` using a second-order binomial lower bound. Explicitly,
+for `t=L-2`, expand the first three terms of `(t+2)^(t+2)`; after factoring
+`t^t`, their coefficient is
+`t^2+2*(t+2)*t+2*(t+2)*(t+1)=5*t^2+10*t+4>=4*t^2`.
+The omitted terms are nonnegative, with the finite lower bound itself proved
+by induction. It follows that `8*R_L<=4*(S+U)<=5*S`. Finally,
+`3^(8*R_L)<=3^(5*S)<2^(8*S)` from `3^5<2^8`, so `3^R_L<2^S`.
+The generic variable-contraction theorem now excludes rational realizations.
+No asymptotic frequency theorem, real logarithm, or search over L is needed.
+
+`verify_sparse_family.py --check` is a small independent regression at
+`L=3..16` and `k=0..L`, checking signed balances, the transient cap, and the
+uniform integer margin. It compares small exact powers such as `L^L`; it
+does not materialize the huge words or evaluate `3^(L^L)`. The infinite range
+comes solely from the symbolic Lean proof. The earlier short 9/16/125-step
+certificates remain useful because their block lengths are much smaller.
+
+The bounded search report now identifies five proved image pairs in its
+length-2..6 domain: four members of this family and the separate `110/100`
+example. Its 1284 finite contracting pairs still do not imply 1284 exclusions;
+aperiodicity has only been proved for the stated examples/family.

@@ -117,7 +117,33 @@ explicit user approval. Never force-push.
   verifiers; empty forbidden-proof scan; `git diff --check`.
 - Original dynamics/API, Rust sources/tests, Cargo files, Phase 9 report and
   manuscript paths have no diff from the recorded base.
-- Checkpoint follows C1, commit message: "Prove exact spectral contraction and longer unequal examples".
+- Pushed commit: `206bbd00e6c95cc24f87f362639082b9661c5d8a`.
+- GitHub CI observed **success** for this commit:
+  <https://github.com/hipotures/collatz-lab/actions/runs/43589709561>.
+
+## Milestone C3: validated infinite sparse/dense family
+
+- `SparseFamily.lean` kernel-proves rational exclusion for **every L>=3** in
+  `1 -> 10^(L-1), 0 -> 1^(L-1)0`, including shifts, eventual shifted tails,
+  integer orbits, and (via `SignedContraction`) either sign of odd denominator.
+- Exact weights are 1 and L-1. The power balance is
+  `2*W(L^k*a,L^k)-L^k=(2-L)^k*(2*b-1)` for every parent index and level.
+- A finite second-order binomial inequality proves
+  `4*(L-2)^L<=L^L`. The explicit cap
+  `R=floor((L^L+(L-2)^L)/2)` has `8*R<=5*L^L`; `3^5<2^8` proves
+  contraction at chunk length `L^L`. No limit theorem or search over L appears
+  in the Lean proof.
+- The length-two identical-image boundary is an explicit rational control,
+  realized by 1/1. This prevents removing L>=3 from the family theorem.
+- Independent small regressions at L=3..16 verify exact signed balances and
+  integer margins. No giant Collatz powers or huge words are evaluated.
+- The bounded length-2..6 search now identifies **five** pairs with kernel
+  exclusions: four sparse-family members and the separate 110/100 example.
+- **Fresh validation passed**: `lake clean && lake build`; **445 exact audited
+  declarations**; all **139 new theorem exports** audited and all 306 baseline
+  entries retained; parser self-tests; **94 Rust tests**, formatting, Clippy;
+  all six Python verifiers; empty forbidden-proof scan; `git diff --check`.
+- Checkpoint follows C2, commit message: "Prove rational exclusion for the entire unequal sparse family".
 
 ## Failed routes / cautions
 
@@ -136,7 +162,7 @@ explicit user approval. Never force-push.
 
 ```sh
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 424
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 445
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
@@ -145,6 +171,7 @@ python3 research/mahler-uncovered/verify_uncovered.py --check
 python3 research/phase10/verify_unequal.py --check
 python3 research/phase10/search_unequal.py --check
 python3 research/phase10/verify_spectral.py --check
+python3 research/phase10/verify_sparse_family.py --check
 git diff --check
 ```
 
@@ -158,13 +185,12 @@ milestone to `origin/codex/unequal-weight-contraction`.
 2. Inspect the latest commit with `git log -1 --format='%H %s'` and this file.
 3. The generic criterion is complete; do not redo it. See theorem map in
    `research/unequal-weight-contraction.md`.
-4. Milestones A/B/C1/C2 meet the issue's completion gate and research requirements;
+4. Milestones A/B/C1/C2/C3 meet the issue's completion gate and research requirements;
    PR #17 stays unmerged, and the issue stays open for user review.
-5. Optional further productive research: uniform exclusion for the complete
-   sparse/dense family `unequalSparse L`, L>=3. Aperiodicity is already proved.
-   Its balance is `2*W-S = (2-L)^k*(2*b-1)`. Seek an explicit k (k=L should
-   suffice) with `4*(L-2)^k <= L^k`, hence `8*W<=5*S`, and use `3^5<2^8`.
-   A second-order binomial lower bound gives the first inequality. Keep any
-   new statement separate from the four already validated concrete exclusions.
+5. Optional further research: finite aperiodicity certificates using forced
+   columns that distinguish every nonzero residue, plus an injective column
+   for period descent. This should certify `1100/1110` (forced columns 0,1=1;
+   3=0; column 2 complements), independently of the sparse family. Its 16-step
+   spectral cap is 10. Do not repeat the completed exhaustive finite search.
 6. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
    files, or infer completion from a context/token limit.
