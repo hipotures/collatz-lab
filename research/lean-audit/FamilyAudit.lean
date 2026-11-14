@@ -607,3 +607,34 @@ import CollatzLab
 #print axioms CollatzLab.NonContractingPartialChecks.literalIter
 #print axioms CollatzLab.NonContractingPartialChecks.literal_semantics
 #print axioms CollatzLab.NonContractingPartialChecks.signed_finite_semantics
+
+/-! Phase 12: finite compatibility, candidate structure and return no-go. -/
+#print axioms CollatzLab.cycleCoeff
+#print axioms CollatzLab.returnDet
+#print axioms CollatzLab.cycleCoeff_odd
+#print axioms CollatzLab.returnDet_elimination
+#print axioms CollatzLab.returnDet_of_forms
+#print axioms CollatzLab.two_return_divisibility
+#print axioms CollatzLab.finiteWord
+#print axioms CollatzLab.finiteWord_realized
+#print axioms CollatzLab.returnDet_automatic
+#print axioms CollatzLab.returnDet_zero_or_large
+#print axioms CollatzLab.returnDet_small_iff_zero
+#print axioms CollatzLab.Morphism.frontierSix
+#print axioms CollatzLab.Morphism.frontierSix_images
+#print axioms CollatzLab.Morphism.frontierSix_columns
+#print axioms CollatzLab.Morphism.frontierSix_both_letters
+#print axioms CollatzLab.Morphism.frontierSix_not_periodic_from
+#print axioms CollatzLab.Morphism.frontierSix_not_eventually_periodic
+#print axioms CollatzLab.Morphism.frontierSix_power_count
+#print axioms CollatzLab.Morphism.frontierSix_incidence
+#print axioms CollatzLab.Morphism.frontierSix_prefix_step
+#print axioms CollatzLab.Morphism.frontierSix_boundary_discrepancy
+#print axioms CollatzLab.Morphism.frontierSix_prefix_discrepancy
+#print axioms CollatzLab.Morphism.frontierSix_no_uniform_contraction
+#print axioms CollatzLab.Morphism.frontierSix_return_bound
+#print axioms CollatzLab.Morphism.frontierSix_no_square_prefix
+#print axioms CollatzLab.FrontierSixChecks.literalStep
+#print axioms CollatzLab.FrontierSixChecks.literalIter
+#print axioms CollatzLab.FrontierSixChecks.literal_semantics
+#print axioms CollatzLab.FrontierSixChecks.signed_finite_semantics

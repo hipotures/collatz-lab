@@ -37,6 +37,8 @@ import CollatzLab.NonContractingChecks
 import CollatzLab.NonContractingExclusion
 import CollatzLab.SpectralThreshold
 import CollatzLab.NonContractingPartialReturn
+import CollatzLab.TwoReturn
+import CollatzLab.FrontierSixChecks
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
