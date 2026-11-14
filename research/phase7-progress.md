@@ -4,6 +4,33 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 `d0ced40fd35af9b94fa6373c9f5e913a58018cc7`. `git fetch origin` and
 `git pull --ff-only` succeeded; working tree was clean.
 
+## Resume here — verified code checkpoint
+
+**Branch:** `main`. **Pushed code commit:**
+`e22393369321ae9a3d41352afdcca17ffaa46393`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43558583276 — success.
+The following journal-only checkpoint records that immutable code commit;
+read `git rev-parse HEAD` for the latest journal commit.
+
+A, B and both C targets are complete. D has several general kernel-verified
+results. The next open objective is the **arbitrary polynomial-pair certificate
+interface**, not another attempt at Theorem 8.1. Start with
+`research/phase7-next-directions.md` §3 and the three obligations below.
+
+```text
+git status --short
+git fetch origin
+git pull --ff-only
+lake build
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 157
+python3 research/mahler-uncovered/verify_uncovered.py --check
+```
+
+Do not redo A–C, rerun failed degree-zero truncations, assume every leading
+coefficient is odd, or infer a universal supercritical result from the
+degree-six numerical ledger. There is no uncommitted Lean scratch proof to
+recover. All useful code and generated artifacts are pushed.
+
 ## Milestone status
 
 - A: COMPLETE — `lean-family-semantic-audit.md`; no critical defect found.
@@ -183,13 +210,32 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
   approved-foundation continuations and checks the exact source declaration
   order/count. Its 2 positive and 8 adversarial tests pass; no trust gate is relaxed.
 
-## Resume here
+## Pushed milestone history
 
-Read this file and `git log -5 --oneline`, fetch/pull `origin/main`, then inspect
-the milestone documents and existing Lean modules. Starting commit is recorded
-above; A, B and the primary C target are complete. Follow
-the next three obligations above. Run the complete issue-required
-checks before each formal checkpoint:
+Each row was locally validated and pushed directly to `origin/main`; every
+linked CI run succeeded. No branch, worktree, PR or force push was used.
+
+| Checkpoint | Commit | CI |
+|---|---|---|
+| A: semantic audit | [1d9d111489e9cf97858e3aecc4c39b7f3e714197](https://github.com/hipotures/collatz-lab/commit/1d9d111489e9cf97858e3aecc4c39b7f3e714197) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43552062967) |
+| B1: generic finite foundations | [f0096192a39587f009ccae133b628babe44486b8](https://github.com/hipotures/collatz-lab/commit/f0096192a39587f009ccae133b628babe44486b8) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43552993269) |
+| C1/D1: primary contraction proof | [cef06e304de989d36820de80496b61ccbed84dcb](https://github.com/hipotures/collatz-lab/commit/cef06e304de989d36820de80496b61ccbed84dcb) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43553950577) |
+| B2: cancelled tower and valuation | [ade482f541ab0d314cec860f12144bc450ea5f08](https://github.com/hipotures/collatz-lab/commit/ade482f541ab0d314cec860f12144bc450ea5f08) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43554808926) |
+| B3: generic Theorem 8.1 and tails | [f365bf53998d53054a05d479863d838251deb91e](https://github.com/hipotures/collatz-lab/commit/f365bf53998d53054a05d479863d838251deb91e) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43556057828) |
+| C2/D2: periodic controls, both targets | [2a59ac3ede068ff6c308814afb94fb9cc0a798d4](https://github.com/hipotures/collatz-lab/commit/2a59ac3ede068ff6c308814afb94fb9cc0a798d4) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43556760230) |
+| D3: 144 finite kernel certificates | [8215b87f1ebab15349e59692aa260a977e5b8a61](https://github.com/hipotures/collatz-lab/commit/8215b87f1ebab15349e59692aa260a977e5b8a61) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43557345614) |
+| D4: uniform aperiodicity and further arithmetic | [e22393369321ae9a3d41352afdcca17ffaa46393](https://github.com/hipotures/collatz-lab/commit/e22393369321ae9a3d41352afdcca17ffaa46393) | [success](https://github.com/hipotures/collatz-lab/actions/runs/43558583276) |
+
+Final verified counts: **157 exact audited declarations**, only standard
+foundations; **94 Rust tests**, zero failures; 2 positive and 8 adversarial
+audit-parser checks. Formatting, Clippy with `-D warnings`, Lean build,
+Python reproduction of JSON and generated Lean, and forbidden-token scan
+pass. The major generic theorem was also rebuilt from a clean local Lake
+directory; CI checks every code checkpoint from a fresh checkout.
+
+## Full reproduction commands
+
+Run the complete issue-required checks before each new formal checkpoint:
 
 ```text
 lake build
