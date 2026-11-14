@@ -1,0 +1,1497 @@
+{
+  "bounds": {
+    "h_max": 8,
+    "h_min": 1,
+    "length_max": 6,
+    "length_min": 2,
+    "max_windows_per_language": 256
+  },
+  "by_length": [
+    {
+      "equal_weight_skipped": 3,
+      "first_contracting_h_counts": {
+        "1": 1
+      },
+      "languages_tested": 40,
+      "length": 2,
+      "no_certificate_at_h_le_8": 4,
+      "pairs_with_contraction": 1,
+      "unequal_pairs_tested": 5
+    },
+    {
+      "column_aperiodicity_data_found": 6,
+      "contracting_with_column_data": 6,
+      "contracting_with_expanding_image": 11,
+      "equal_weight_skipped": 10,
+      "first_contracting_h_counts": {
+        "1": 1,
+        "2": 2,
+        "3": 7,
+        "4": 2
+      },
+      "languages_tested": 176,
+      "length": 3,
+      "no_certificate_at_h_le_8": 10,
+      "pairs_with_contraction": 12,
+      "unequal_pairs_tested": 22
+    },
+    {
+      "column_aperiodicity_data_found": 16,
+      "contracting_with_column_data": 10,
+      "contracting_with_expanding_image": 24,
+      "equal_weight_skipped": 35,
+      "first_contracting_h_counts": {
+        "1": 22,
+        "2": 3,
+        "4": 21
+      },
+      "languages_tested": 744,
+      "length": 4,
+      "no_certificate_at_h_le_8": 47,
+      "pairs_with_contraction": 46,
+      "unequal_pairs_tested": 93
+    },
+    {
+      "column_aperiodicity_data_found": 110,
+      "contracting_with_column_data": 58,
+      "equal_weight_skipped": 126,
+      "first_contracting_h_counts": {
+        "1": 181
+      },
+      "languages_tested": 3088,
+      "length": 5,
+      "no_certificate_at_h_le_8": 205,
+      "pairs_with_contraction": 181,
+      "unequal_pairs_tested": 386
+    },
+    {
+      "column_aperiodicity_data_found": 216,
+      "contracting_with_column_data": 148,
+      "contracting_with_expanding_image": 653,
+      "equal_weight_skipped": 462,
+      "first_contracting_h_counts": {
+        "1": 391,
+        "2": 6,
+        "3": 149,
+        "4": 243,
+        "5": 118,
+        "6": 63,
+        "7": 48,
+        "8": 26
+      },
+      "languages_tested": 12688,
+      "length": 6,
+      "no_certificate_at_h_le_8": 542,
+      "pairs_with_contraction": 1044,
+      "unequal_pairs_tested": 1586
+    }
+  ],
+  "kernel_catalogue_count": 222,
+  "kernel_proved_exclusions": [
+    [
+      "100",
+      "101"
+    ],
+    [
+      "100",
+      "110"
+    ],
+    [
+      "1000",
+      "1001"
+    ],
+    [
+      "1000",
+      "1100"
+    ],
+    [
+      "1000",
+      "1110"
+    ],
+    [
+      "10000",
+      "10001"
+    ],
+    [
+      "10000",
+      "10010"
+    ],
+    [
+      "10000",
+      "10011"
+    ],
+    [
+      "10000",
+      "10100"
+    ],
+    [
+      "10000",
+      "10101"
+    ],
+    [
+      "10000",
+      "11000"
+    ],
+    [
+      "10000",
+      "11010"
+    ],
+    [
+      "10000",
+      "11100"
+    ],
+    [
+      "10000",
+      "11110"
+    ],
+    [
+      "100000",
+      "100001"
+    ],
+    [
+      "100000",
+      "100010"
+    ],
+    [
+      "100000",
+      "100011"
+    ],
+    [
+      "100000",
+      "101000"
+    ],
+    [
+      "100000",
+      "101001"
+    ],
+    [
+      "100000",
+      "110000"
+    ],
+    [
+      "100000",
+      "110010"
+    ],
+    [
+      "100000",
+      "111000"
+    ],
+    [
+      "100000",
+      "111110"
+    ],
+    [
+      "100001",
+      "000001"
+    ],
+    [
+      "100001",
+      "100000"
+    ],
+    [
+      "100001",
+      "100011"
+    ],
+    [
+      "100001",
+      "100101"
+    ],
+    [
+      "100001",
+      "100111"
+    ],
+    [
+      "100001",
+      "101001"
+    ],
+    [
+      "100001",
+      "101011"
+    ],
+    [
+      "100001",
+      "110001"
+    ],
+    [
+      "100001",
+      "110101"
+    ],
+    [
+      "100001",
+      "111001"
+    ],
+    [
+      "10001",
+      "00001"
+    ],
+    [
+      "10001",
+      "10000"
+    ],
+    [
+      "10001",
+      "10011"
+    ],
+    [
+      "10001",
+      "10101"
+    ],
+    [
+      "10001",
+      "11001"
+    ],
+    [
+      "100010",
+      "000010"
+    ],
+    [
+      "100010",
+      "100000"
+    ],
+    [
+      "100010",
+      "100011"
+    ],
+    [
+      "100010",
+      "100110"
+    ],
+    [
+      "100010",
+      "100111"
+    ],
+    [
+      "100010",
+      "110010"
+    ],
+    [
+      "100010",
+      "110011"
+    ],
+    [
+      "100011",
+      "000010"
+    ],
+    [
+      "100011",
+      "000011"
+    ],
+    [
+      "100011",
+      "100000"
+    ],
+    [
+      "100011",
+      "100001"
+    ],
+    [
+      "100011",
+      "100010"
+    ],
+    [
+      "100011",
+      "100111"
+    ],
+    [
+      "100011",
+      "101011"
+    ],
+    [
+      "100011",
+      "110011"
+    ],
+    [
+      "1001",
+      "0001"
+    ],
+    [
+      "1001",
+      "1000"
+    ],
+    [
+      "1001",
+      "1011"
+    ],
+    [
+      "1001",
+      "1101"
+    ],
+    [
+      "10010",
+      "00010"
+    ],
+    [
+      "10010",
+      "10000"
+    ],
+    [
+      "10010",
+      "10011"
+    ],
+    [
+      "10010",
+      "10110"
+    ],
+    [
+      "10010",
+      "11010"
+    ],
+    [
+      "100101",
+      "000001"
+    ],
+    [
+      "100101",
+      "000101"
+    ],
+    [
+      "100101",
+      "100001"
+    ],
+    [
+      "100101",
+      "100111"
+    ],
+    [
+      "100101",
+      "110101"
+    ],
+    [
+      "10011",
+      "00010"
+    ],
+    [
+      "10011",
+      "00011"
+    ],
+    [
+      "10011",
+      "10000"
+    ],
+    [
+      "10011",
+      "10001"
+    ],
+    [
+      "10011",
+      "10010"
+    ],
+    [
+      "100110",
+      "000010"
+    ],
+    [
+      "100110",
+      "000110"
+    ],
+    [
+      "100110",
+      "100010"
+    ],
+    [
+      "100110",
+      "100111"
+    ],
+    [
+      "100110",
+      "101110"
+    ],
+    [
+      "100111",
+      "000101"
+    ],
+    [
+      "100111",
+      "000110"
+    ],
+    [
+      "100111",
+      "000111"
+    ],
+    [
+      "100111",
+      "100001"
+    ],
+    [
+      "100111",
+      "100010"
+    ],
+    [
+      "100111",
+      "100011"
+    ],
+    [
+      "100111",
+      "100101"
+    ],
+    [
+      "100111",
+      "100110"
+    ],
+    [
+      "101",
+      "001"
+    ],
+    [
+      "101",
+      "100"
+    ],
+    [
+      "10100",
+      "00100"
+    ],
+    [
+      "10100",
+      "10000"
+    ],
+    [
+      "10100",
+      "10101"
+    ],
+    [
+      "10100",
+      "10110"
+    ],
+    [
+      "10100",
+      "11100"
+    ],
+    [
+      "101000",
+      "001000"
+    ],
+    [
+      "101000",
+      "100000"
+    ],
+    [
+      "101000",
+      "101001"
+    ],
+    [
+      "101000",
+      "101100"
+    ],
+    [
+      "101000",
+      "111000"
+    ],
+    [
+      "101000",
+      "111001"
+    ],
+    [
+      "101000",
+      "111100"
+    ],
+    [
+      "101001",
+      "100000"
+    ],
+    [
+      "101001",
+      "100001"
+    ],
+    [
+      "101001",
+      "101000"
+    ],
+    [
+      "101001",
+      "101011"
+    ],
+    [
+      "101001",
+      "111001"
+    ],
+    [
+      "10101",
+      "00001"
+    ],
+    [
+      "10101",
+      "00101"
+    ],
+    [
+      "10101",
+      "10000"
+    ],
+    [
+      "10101",
+      "10001"
+    ],
+    [
+      "10101",
+      "10100"
+    ],
+    [
+      "101011",
+      "000011"
+    ],
+    [
+      "101011",
+      "001011"
+    ],
+    [
+      "101011",
+      "100001"
+    ],
+    [
+      "101011",
+      "100011"
+    ],
+    [
+      "101011",
+      "101001"
+    ],
+    [
+      "10110",
+      "00010"
+    ],
+    [
+      "10110",
+      "00100"
+    ],
+    [
+      "10110",
+      "00110"
+    ],
+    [
+      "10110",
+      "10010"
+    ],
+    [
+      "10110",
+      "10100"
+    ],
+    [
+      "101100",
+      "001000"
+    ],
+    [
+      "101100",
+      "001100"
+    ],
+    [
+      "101100",
+      "101000"
+    ],
+    [
+      "101100",
+      "101110"
+    ],
+    [
+      "101100",
+      "111100"
+    ],
+    [
+      "101110",
+      "000110"
+    ],
+    [
+      "101110",
+      "001100"
+    ],
+    [
+      "101110",
+      "001110"
+    ],
+    [
+      "101110",
+      "100110"
+    ],
+    [
+      "101110",
+      "101100"
+    ],
+    [
+      "110",
+      "010"
+    ],
+    [
+      "110",
+      "100"
+    ],
+    [
+      "1100",
+      "0100"
+    ],
+    [
+      "1100",
+      "1000"
+    ],
+    [
+      "1100",
+      "1101"
+    ],
+    [
+      "1100",
+      "1110"
+    ],
+    [
+      "11000",
+      "01000"
+    ],
+    [
+      "11000",
+      "10000"
+    ],
+    [
+      "11000",
+      "11001"
+    ],
+    [
+      "11000",
+      "11010"
+    ],
+    [
+      "11000",
+      "11100"
+    ],
+    [
+      "110000",
+      "010000"
+    ],
+    [
+      "110000",
+      "100000"
+    ],
+    [
+      "110000",
+      "110001"
+    ],
+    [
+      "110000",
+      "110010"
+    ],
+    [
+      "110000",
+      "110011"
+    ],
+    [
+      "110000",
+      "110100"
+    ],
+    [
+      "110000",
+      "110101"
+    ],
+    [
+      "110000",
+      "111000"
+    ],
+    [
+      "110000",
+      "111010"
+    ],
+    [
+      "110000",
+      "111100"
+    ],
+    [
+      "110001",
+      "000001"
+    ],
+    [
+      "110001",
+      "010000"
+    ],
+    [
+      "110001",
+      "010001"
+    ],
+    [
+      "110001",
+      "100001"
+    ],
+    [
+      "110001",
+      "110000"
+    ],
+    [
+      "110001",
+      "110011"
+    ],
+    [
+      "110001",
+      "110101"
+    ],
+    [
+      "110001",
+      "111001"
+    ],
+    [
+      "11001",
+      "00001"
+    ],
+    [
+      "11001",
+      "01000"
+    ],
+    [
+      "11001",
+      "01001"
+    ],
+    [
+      "11001",
+      "10001"
+    ],
+    [
+      "11001",
+      "11000"
+    ],
+    [
+      "110010",
+      "100000"
+    ],
+    [
+      "110010",
+      "100010"
+    ],
+    [
+      "110010",
+      "110000"
+    ],
+    [
+      "110010",
+      "110011"
+    ],
+    [
+      "110010",
+      "111010"
+    ],
+    [
+      "110011",
+      "000011"
+    ],
+    [
+      "110011",
+      "010001"
+    ],
+    [
+      "110011",
+      "010011"
+    ],
+    [
+      "110011",
+      "100010"
+    ],
+    [
+      "110011",
+      "100011"
+    ],
+    [
+      "110011",
+      "110000"
+    ],
+    [
+      "110011",
+      "110001"
+    ],
+    [
+      "110011",
+      "110010"
+    ],
+    [
+      "11010",
+      "01000"
+    ],
+    [
+      "11010",
+      "01010"
+    ],
+    [
+      "11010",
+      "10000"
+    ],
+    [
+      "11010",
+      "10010"
+    ],
+    [
+      "11010",
+      "11000"
+    ],
+    [
+      "110100",
+      "010000"
+    ],
+    [
+      "110100",
+      "010100"
+    ],
+    [
+      "110100",
+      "110000"
+    ],
+    [
+      "110100",
+      "110101"
+    ],
+    [
+      "110100",
+      "111100"
+    ],
+    [
+      "110101",
+      "100001"
+    ],
+    [
+      "110101",
+      "100101"
+    ],
+    [
+      "110101",
+      "110000"
+    ],
+    [
+      "110101",
+      "110001"
+    ],
+    [
+      "110101",
+      "110100"
+    ],
+    [
+      "11100",
+      "00100"
+    ],
+    [
+      "11100",
+      "01100"
+    ],
+    [
+      "11100",
+      "10000"
+    ],
+    [
+      "11100",
+      "10100"
+    ],
+    [
+      "11100",
+      "11000"
+    ],
+    [
+      "111000",
+      "001000"
+    ],
+    [
+      "111000",
+      "011000"
+    ],
+    [
+      "111000",
+      "100000"
+    ],
+    [
+      "111000",
+      "101000"
+    ],
+    [
+      "111000",
+      "110000"
+    ],
+    [
+      "111000",
+      "111001"
+    ],
+    [
+      "111000",
+      "111010"
+    ],
+    [
+      "111000",
+      "111100"
+    ],
+    [
+      "111001",
+      "010001"
+    ],
+    [
+      "111001",
+      "011000"
+    ],
+    [
+      "111001",
+      "011001"
+    ],
+    [
+      "111001",
+      "100001"
+    ],
+    [
+      "111001",
+      "101000"
+    ],
+    [
+      "111001",
+      "101001"
+    ],
+    [
+      "111001",
+      "110001"
+    ],
+    [
+      "111001",
+      "111000"
+    ],
+    [
+      "111010",
+      "011000"
+    ],
+    [
+      "111010",
+      "011010"
+    ],
+    [
+      "111010",
+      "110000"
+    ],
+    [
+      "111010",
+      "110010"
+    ],
+    [
+      "111010",
+      "111000"
+    ],
+    [
+      "111100",
+      "001100"
+    ],
+    [
+      "111100",
+      "010100"
+    ],
+    [
+      "111100",
+      "011100"
+    ],
+    [
+      "111100",
+      "101000"
+    ],
+    [
+      "111100",
+      "101100"
+    ],
+    [
+      "111100",
+      "110000"
+    ],
+    [
+      "111100",
+      "110100"
+    ],
+    [
+      "111100",
+      "111000"
+    ]
+  ],
+  "kernel_proved_pair_count": 225,
+  "scope": "The 222 catalogue rows and named sparse-family examples are kernel-proved; other finite contraction data do not certify rational exclusion.",
+  "selected": [
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "column_certificate_data": {
+        "distinguish": 1,
+        "separate": [
+          0,
+          2,
+          0
+        ]
+      },
+      "first_h": 3,
+      "incidence_eigenvalues": [
+        3,
+        -1
+      ],
+      "length": 3,
+      "one": "100",
+      "primitive_power_witness": 1,
+      "r0": 2,
+      "r1": 1,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 2,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 4,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 5,
+          "contracts": true,
+          "h": 3,
+          "windows": 6
+        },
+        {
+          "R": 7,
+          "contracts": true,
+          "h": 4,
+          "windows": 8
+        },
+        {
+          "R": 9,
+          "contracts": true,
+          "h": 5,
+          "windows": 10
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 6,
+          "windows": 12
+        },
+        {
+          "R": 12,
+          "contracts": true,
+          "h": 7,
+          "windows": 14
+        },
+        {
+          "R": 13,
+          "contracts": true,
+          "h": 8,
+          "windows": 16
+        }
+      ],
+      "zero": "110"
+    },
+    {
+      "aperiodicity_lean_proved": false,
+      "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
+      "first_h": 2,
+      "incidence_eigenvalues": [
+        3,
+        1
+      ],
+      "length": 3,
+      "one": "101",
+      "primitive_power_witness": 1,
+      "r0": 1,
+      "r1": 2,
+      "rational_exclusion_lean_proved": false,
+      "rows": [
+        {
+          "R": 2,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 3,
+          "contracts": true,
+          "h": 2,
+          "windows": 2
+        },
+        {
+          "R": 5,
+          "contracts": true,
+          "h": 3,
+          "windows": 2
+        },
+        {
+          "R": 6,
+          "contracts": true,
+          "h": 4,
+          "windows": 2
+        },
+        {
+          "R": 8,
+          "contracts": true,
+          "h": 5,
+          "windows": 2
+        },
+        {
+          "R": 9,
+          "contracts": true,
+          "h": 6,
+          "windows": 2
+        },
+        {
+          "R": 11,
+          "contracts": true,
+          "h": 7,
+          "windows": 2
+        },
+        {
+          "R": 12,
+          "contracts": true,
+          "h": 8,
+          "windows": 2
+        }
+      ],
+      "zero": "010"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "column_certificate_data": {
+        "distinguish": 1,
+        "separate": [
+          0,
+          2,
+          0
+        ]
+      },
+      "first_h": 3,
+      "incidence_eigenvalues": [
+        3,
+        1
+      ],
+      "length": 3,
+      "one": "110",
+      "primitive_power_witness": 1,
+      "r0": 1,
+      "r1": 2,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 2,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 4,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 5,
+          "contracts": true,
+          "h": 3,
+          "windows": 6
+        },
+        {
+          "R": 7,
+          "contracts": true,
+          "h": 4,
+          "windows": 8
+        },
+        {
+          "R": 9,
+          "contracts": true,
+          "h": 5,
+          "windows": 10
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 6,
+          "windows": 12
+        },
+        {
+          "R": 12,
+          "contracts": true,
+          "h": 7,
+          "windows": 14
+        },
+        {
+          "R": 13,
+          "contracts": true,
+          "h": 8,
+          "windows": 16
+        }
+      ],
+      "zero": "100"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
+      "first_h": 4,
+      "incidence_eigenvalues": [
+        4,
+        -2
+      ],
+      "length": 4,
+      "one": "1000",
+      "primitive_power_witness": 1,
+      "r0": 3,
+      "r1": 1,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 3,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 6,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 9,
+          "contracts": false,
+          "h": 3,
+          "windows": 8
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 4,
+          "windows": 10
+        },
+        {
+          "R": 13,
+          "contracts": false,
+          "h": 5,
+          "windows": 12
+        },
+        {
+          "R": 16,
+          "contracts": false,
+          "h": 6,
+          "windows": 14
+        },
+        {
+          "R": 19,
+          "contracts": false,
+          "h": 7,
+          "windows": 16
+        },
+        {
+          "R": 20,
+          "contracts": true,
+          "h": 8,
+          "windows": 20
+        }
+      ],
+      "zero": "1110"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "3/5",
+      "column_certificate_data": {
+        "distinguish": 2,
+        "separate": [
+          0,
+          3,
+          1,
+          0
+        ]
+      },
+      "first_h": 4,
+      "incidence_eigenvalues": [
+        4,
+        -1
+      ],
+      "length": 4,
+      "one": "1100",
+      "primitive_power_witness": 1,
+      "r0": 3,
+      "r1": 2,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 3,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 6,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 8,
+          "contracts": false,
+          "h": 3,
+          "windows": 6
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 4,
+          "windows": 8
+        },
+        {
+          "R": 13,
+          "contracts": false,
+          "h": 5,
+          "windows": 10
+        },
+        {
+          "R": 16,
+          "contracts": false,
+          "h": 6,
+          "windows": 12
+        },
+        {
+          "R": 18,
+          "contracts": false,
+          "h": 7,
+          "windows": 14
+        },
+        {
+          "R": 20,
+          "contracts": true,
+          "h": 8,
+          "windows": 16
+        }
+      ],
+      "zero": "1110"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
+      "first_h": null,
+      "incidence_eigenvalues": [
+        5,
+        -3
+      ],
+      "length": 5,
+      "one": "10000",
+      "primitive_power_witness": 1,
+      "r0": 4,
+      "r1": 1,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 4,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 8,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 12,
+          "contracts": false,
+          "h": 3,
+          "windows": 8
+        },
+        {
+          "R": 16,
+          "contracts": false,
+          "h": 4,
+          "windows": 12
+        },
+        {
+          "R": 17,
+          "contracts": false,
+          "h": 5,
+          "windows": 14
+        },
+        {
+          "R": 21,
+          "contracts": false,
+          "h": 6,
+          "windows": 16
+        },
+        {
+          "R": 25,
+          "contracts": false,
+          "h": 7,
+          "windows": 18
+        },
+        {
+          "R": 29,
+          "contracts": false,
+          "h": 8,
+          "windows": 20
+        }
+      ],
+      "zero": "11110"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
+      "first_h": null,
+      "incidence_eigenvalues": [
+        6,
+        -4
+      ],
+      "length": 6,
+      "one": "100000",
+      "primitive_power_witness": 1,
+      "r0": 5,
+      "r1": 1,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 5,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 10,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 15,
+          "contracts": false,
+          "h": 3,
+          "windows": 8
+        },
+        {
+          "R": 20,
+          "contracts": false,
+          "h": 4,
+          "windows": 12
+        },
+        {
+          "R": 25,
+          "contracts": false,
+          "h": 5,
+          "windows": 16
+        },
+        {
+          "R": 26,
+          "contracts": false,
+          "h": 6,
+          "windows": 18
+        },
+        {
+          "R": 31,
+          "contracts": false,
+          "h": 7,
+          "windows": 20
+        },
+        {
+          "R": 36,
+          "contracts": false,
+          "h": 8,
+          "windows": 22
+        }
+      ],
+      "zero": "111110"
+    }
+  ],
+  "totals": {
+    "column_aperiodicity_data_found": 348,
+    "contracting_with_column_data": 222,
+    "contracting_with_expanding_image": 688,
+    "equal_weight_skipped": 636,
+    "languages_tested": 16736,
+    "no_certificate_at_h_le_8": 808,
+    "pairs_with_contraction": 1284,
+    "unequal_pairs_tested": 2092
+  }
+}

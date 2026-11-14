@@ -1,0 +1,99 @@
+{
+  "chunk_denominator": 512,
+  "finite_offset_cap": 761,
+  "finite_realization_witnesses": [
+    {
+      "end": "34710635340769718209",
+      "p": "2301021985950669302953629",
+      "q": 1,
+      "steps": 81
+    },
+    {
+      "end": "-8811805182005340970",
+      "p": "-584148266392945232293615",
+      "q": 5,
+      "steps": 81
+    },
+    {
+      "end": "-26435415546016022910",
+      "p": "-1752444799178835696880845",
+      "q": 15,
+      "steps": 81
+    },
+    {
+      "end": "8811805182005340970",
+      "p": "584148266392945232293615",
+      "q": -5,
+      "steps": 81
+    }
+  ],
+  "literal_lengths": [
+    3,
+    9,
+    27,
+    81
+  ],
+  "literal_prefix_81": "100110110100100110100100110100110110100110110100100110100110110100110110100100110",
+  "one": "100",
+  "rational_control": {
+    "one": "101",
+    "p": 1,
+    "q": 1,
+    "zero": "010"
+  },
+  "safe_offset_cap": 19171,
+  "source_windows_without_000": [
+    {
+      "expanded": "110110100",
+      "multiplier": 243,
+      "odd_count": 5,
+      "offset": 319,
+      "source": "001"
+    },
+    {
+      "expanded": "110100110",
+      "multiplier": 243,
+      "odd_count": 5,
+      "offset": 527,
+      "source": "010"
+    },
+    {
+      "expanded": "110100100",
+      "multiplier": 81,
+      "odd_count": 4,
+      "offset": 133,
+      "source": "011"
+    },
+    {
+      "expanded": "100110110",
+      "multiplier": 243,
+      "odd_count": 5,
+      "offset": 761,
+      "source": "100"
+    },
+    {
+      "expanded": "100110100",
+      "multiplier": 81,
+      "odd_count": 4,
+      "offset": 211,
+      "source": "101"
+    },
+    {
+      "expanded": "100100110",
+      "multiplier": 81,
+      "odd_count": 4,
+      "offset": 419,
+      "source": "110"
+    },
+    {
+      "expanded": "100100100",
+      "multiplier": 27,
+      "odd_count": 3,
+      "offset": 97,
+      "source": "111"
+    }
+  ],
+  "status": "Finite checks; infinite exclusion and aperiodicity are Lean theorems.",
+  "uniform_multiplier_cap": 243,
+  "zero": "110"
+}

@@ -1,0 +1,344 @@
+{
+  "bounds": {
+    "cases": 5,
+    "max_level": 5,
+    "prefix_length": 81
+  },
+  "cases": [
+    {
+      "R": 5,
+      "closing_level": 2,
+      "delta": -1,
+      "frequency_denominator": 4,
+      "levels": [
+        {
+          "contracts": false,
+          "length": 1,
+          "level": 0,
+          "max_count": 1,
+          "one_count": 1,
+          "zero_count": 0
+        },
+        {
+          "contracts": false,
+          "length": 3,
+          "level": 1,
+          "max_count": 2,
+          "one_count": 1,
+          "zero_count": 2
+        },
+        {
+          "contracts": true,
+          "length": 9,
+          "level": 2,
+          "max_count": 5,
+          "one_count": 5,
+          "zero_count": 4
+        },
+        {
+          "contracts": true,
+          "length": 27,
+          "level": 3,
+          "max_count": 14,
+          "one_count": 13,
+          "zero_count": 14
+        },
+        {
+          "contracts": true,
+          "length": 81,
+          "level": 4,
+          "max_count": 41,
+          "one_count": 41,
+          "zero_count": 40
+        },
+        {
+          "contracts": true,
+          "length": 243,
+          "level": 5,
+          "max_count": 122,
+          "one_count": 121,
+          "zero_count": 122
+        }
+      ],
+      "negative_prefix_81": {
+        "p": "-584148266392945232293615",
+        "q": 5
+      },
+      "one": "100",
+      "positive_prefix_81": {
+        "end": "34710635340769718209",
+        "p": "2301021985950669302953629"
+      },
+      "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
+      "zero": "110"
+    },
+    {
+      "R": 5,
+      "closing_level": 2,
+      "delta": 1,
+      "frequency_denominator": 2,
+      "levels": [
+        {
+          "contracts": false,
+          "length": 1,
+          "level": 0,
+          "max_count": 1,
+          "one_count": 1,
+          "zero_count": 0
+        },
+        {
+          "contracts": false,
+          "length": 3,
+          "level": 1,
+          "max_count": 2,
+          "one_count": 2,
+          "zero_count": 1
+        },
+        {
+          "contracts": true,
+          "length": 9,
+          "level": 2,
+          "max_count": 5,
+          "one_count": 5,
+          "zero_count": 4
+        },
+        {
+          "contracts": true,
+          "length": 27,
+          "level": 3,
+          "max_count": 14,
+          "one_count": 14,
+          "zero_count": 13
+        },
+        {
+          "contracts": true,
+          "length": 81,
+          "level": 4,
+          "max_count": 41,
+          "one_count": 41,
+          "zero_count": 40
+        },
+        {
+          "contracts": true,
+          "length": 243,
+          "level": 5,
+          "max_count": 122,
+          "one_count": 122,
+          "zero_count": 121
+        }
+      ],
+      "negative_prefix_81": {
+        "p": "-466923536215857888525721",
+        "q": 5
+      },
+      "one": "110",
+      "positive_prefix_81": {
+        "end": "20475100934524160408",
+        "p": "1357326276294383431942267"
+      },
+      "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
+      "zero": "100"
+    },
+    {
+      "R": 10,
+      "closing_level": 2,
+      "delta": -2,
+      "frequency_denominator": 6,
+      "levels": [
+        {
+          "contracts": false,
+          "length": 1,
+          "level": 0,
+          "max_count": 1,
+          "one_count": 1,
+          "zero_count": 0
+        },
+        {
+          "contracts": false,
+          "length": 4,
+          "level": 1,
+          "max_count": 3,
+          "one_count": 1,
+          "zero_count": 3
+        },
+        {
+          "contracts": true,
+          "length": 16,
+          "level": 2,
+          "max_count": 10,
+          "one_count": 10,
+          "zero_count": 6
+        },
+        {
+          "contracts": true,
+          "length": 64,
+          "level": 3,
+          "max_count": 36,
+          "one_count": 28,
+          "zero_count": 36
+        },
+        {
+          "contracts": true,
+          "length": 256,
+          "level": 4,
+          "max_count": 136,
+          "one_count": 136,
+          "zero_count": 120
+        },
+        {
+          "contracts": true,
+          "length": 1024,
+          "level": 5,
+          "max_count": 528,
+          "one_count": 496,
+          "zero_count": 528
+        }
+      ],
+      "negative_prefix_81": {
+        "p": "-1912250647058231044496711",
+        "q": 5
+      },
+      "one": "1000",
+      "positive_prefix_81": {
+        "end": "1790509375726802165",
+        "p": "1068260854125908800748069"
+      },
+      "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
+      "zero": "1110"
+    },
+    {
+      "R": 76,
+      "closing_level": 3,
+      "delta": -3,
+      "frequency_denominator": 8,
+      "levels": [
+        {
+          "contracts": false,
+          "length": 1,
+          "level": 0,
+          "max_count": 1,
+          "one_count": 1,
+          "zero_count": 0
+        },
+        {
+          "contracts": false,
+          "length": 5,
+          "level": 1,
+          "max_count": 4,
+          "one_count": 1,
+          "zero_count": 4
+        },
+        {
+          "contracts": false,
+          "length": 25,
+          "level": 2,
+          "max_count": 17,
+          "one_count": 17,
+          "zero_count": 8
+        },
+        {
+          "contracts": true,
+          "length": 125,
+          "level": 3,
+          "max_count": 76,
+          "one_count": 49,
+          "zero_count": 76
+        },
+        {
+          "contracts": true,
+          "length": 625,
+          "level": 4,
+          "max_count": 353,
+          "one_count": 353,
+          "zero_count": 272
+        },
+        {
+          "contracts": true,
+          "length": 3125,
+          "level": 5,
+          "max_count": 1684,
+          "one_count": 1441,
+          "zero_count": 1684
+        }
+      ],
+      "negative_prefix_81": {
+        "p": "-327394338745425712385591",
+        "q": 5
+      },
+      "one": "10000",
+      "positive_prefix_81": {
+        "end": "28664001524819015",
+        "p": "1385232115788469867170293"
+      },
+      "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
+      "zero": "11110"
+    },
+    {
+      "R": 10,
+      "closing_level": 2,
+      "delta": -1,
+      "frequency_denominator": 5,
+      "levels": [
+        {
+          "contracts": false,
+          "length": 1,
+          "level": 0,
+          "max_count": 1,
+          "one_count": 1,
+          "zero_count": 0
+        },
+        {
+          "contracts": false,
+          "length": 4,
+          "level": 1,
+          "max_count": 3,
+          "one_count": 2,
+          "zero_count": 3
+        },
+        {
+          "contracts": true,
+          "length": 16,
+          "level": 2,
+          "max_count": 10,
+          "one_count": 10,
+          "zero_count": 9
+        },
+        {
+          "contracts": true,
+          "length": 64,
+          "level": 3,
+          "max_count": 39,
+          "one_count": 38,
+          "zero_count": 39
+        },
+        {
+          "contracts": true,
+          "length": 256,
+          "level": 4,
+          "max_count": 154,
+          "one_count": 154,
+          "zero_count": 153
+        },
+        {
+          "contracts": true,
+          "length": 1024,
+          "level": 5,
+          "max_count": 615,
+          "one_count": 614,
+          "zero_count": 615
+        }
+      ],
+      "negative_prefix_81": {
+        "p": "-1941281237670314221888801",
+        "q": 5
+      },
+      "one": "1100",
+      "positive_prefix_81": {
+        "end": "105153145684560865940321",
+        "p": "1062454736003492165269651"
+      },
+      "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
+      "zero": "1110"
+    }
+  ]
+}

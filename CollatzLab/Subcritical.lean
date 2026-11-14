@@ -1,4 +1,4 @@
-import CollatzLab.MorphismOffset
+import CollatzLab.VariableContraction
 
 /-! Bounded rational dynamics under a uniformly contracting block multiplier. -/
 namespace CollatzLab
@@ -70,28 +70,9 @@ theorem bounded_blocks_periodic (L : Nat) (hL : 1 ≤ L) (p q K : Int) (hK : 0 �
 theorem contracting_recurrence_bounded (A B C : Int) (hB : 0 ≤ B) (hBA : B < A)
     (hC : 0 ≤ C) (y d : Nat → Int) (hd : ∀ n, -C ≤ d n ∧ d n ≤ C)
     (hr : ∀ n, A * y (n + 1) = B * y n + d n) :
-    ∀ n, -(absInt (y 0) + C) ≤ y n ∧ y n ≤ absInt (y 0) + C := by
-  let K := absInt (y 0) + C
-  have hK : 0 ≤ K := by have := absInt_nonneg (y 0); dsimp [K]; omega
-  have hg := Int.mul_le_mul_of_nonneg_right (show (1 : Int) ≤ A - B by omega) hK
-  have hgap : C ≤ (A - B) * K := by dsimp [K] at *; have := absInt_nonneg (y 0); omega
-  intro n
-  induction n with
-  | zero => unfold absInt; split <;> omega
-  | succ n ih =>
-    change -K ≤ y n ∧ y n ≤ K at ih
-    have hlo := Int.mul_le_mul_of_nonneg_left ih.1 hB
-    have hhi := Int.mul_le_mul_of_nonneg_left ih.2 hB
-    have hh := hr n
-    have hd' := hd n
-    have hu : A * y (n + 1) ≤ A * K := by
-      simp only [Int.sub_mul] at hgap
-      omega
-    have hl : A * (-K) ≤ A * y (n + 1) := by
-      simp only [Int.sub_mul] at hgap
-      rw [Int.mul_neg] at hlo ⊢
-      omega
-    exact ⟨Int.le_of_mul_le_mul_left hl (by omega), Int.le_of_mul_le_mul_left hu (by omega)⟩
+    ∀ n, -(absInt (y 0) + C) ≤ y n ∧ y n ≤ absInt (y 0) + C :=
+  variable_contracting_recurrence_bounded A B C hBA hC (fun _ => B) y d
+    (fun _ => ⟨hB, Int.le_refl _⟩) hd hr
 
 namespace Morphism
 

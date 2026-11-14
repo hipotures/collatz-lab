@@ -27,6 +27,12 @@ import CollatzLab.BoundedSeriesChecks
 import CollatzLab.PrematureValuation
 import CollatzLab.UniformStart
 import CollatzLab.CertificateSanity
+import CollatzLab.MorphismContraction
+import CollatzLab.UnequalContractionChecks
+import CollatzLab.UnequalCertificates
+import CollatzLab.SignedContraction
+import CollatzLab.SparseChecks
+import CollatzLab.FiniteContractionCatalogue
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -78,4 +84,14 @@ Root module exporting the Lean 4 formalization of the paper
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   are independent ingredients in the general polynomial certificate route.
+* `CollatzLab.VariableContraction` and `MorphismContraction`: variable signed
+  multipliers, exact source-block weights, rational periodicity and exclusion.
+* `CollatzLab.WindowCertificate`: finite substitution-language certificates
+  covering every infinite-word window, with exact weight and offset bounds.
+* `CollatzLab.Unequal100110` and `Unequal110100`: aperiodic unequal-weight
+  examples with nine-step contraction, rational exclusion and all shifted tails.
+* `CollatzLab.MorphismBalance` and `SparseFamily`: exact spectral block bounds
+  and exclusion for `1 -> 10^(L-1), 0 -> 1^(L-1)0` at every `L >= 3`.
+* `CollatzLab.FiniteContractionCatalogue`: 222 distinct finite column/window
+  certificates with universal rational exclusions and all shifted tails.
 -/
