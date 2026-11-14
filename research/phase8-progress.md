@@ -12,29 +12,33 @@ retained. Read `phase7-next-directions.md` and the issue before extending them.
 **Pushed A checkpoint:** `6560d1719ad5998be988236182feef8f2ade1292`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579255480 — success.
 
-**Current local result:** milestone C is kernel-verified and fully validated,
-using general integer elimination. Next work is milestone B.
-No finite-prefix cache is needed. New modules are `PolynomialPair.lean`,
+**Pushed C checkpoint:** `723f103107406db4658d7122a2b2f3091b804bf3`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579550635 — success.
+
+**Current local result:** milestone B is kernel-verified and fully validated,
+including the recurrence, nonzero-residual corollary and independent examples.
+Next: compose A–C with the numerical ledger into milestone D.
+New modules are `PolynomialPair.lean`,
 `PolynomialHeight.lean`, `PolynomialCertificate.lean`, `PolynomialChecks.lean`.
 Read `lean-polynomial-certificates.md` for the exact conditional interface.
 
 | Milestone | Verified status |
 |---|---|
 | A: arbitrary polynomial-pair conditional certificate | COMPLETE — kernel-verified, full local validation |
-| B: rational binary series implies eventual periodicity | Open |
+| B: rational binary series implies eventual periodicity | COMPLETE — kernel-verified, full local validation |
 | C: universal degree-six/order-at-least-thirteen existence | COMPLETE — kernel-verified, full local validation |
-| D: unconditional equal-weight exclusion and tails | Open; depends on B |
+| D: unconditional equal-weight exclusion and tails | Open; A–C ingredients now proved |
 | E: scope audit and further mathematics | Pending |
 
 ## Exact next obligations
 
-1. Prove deterministic finite-memory repetition for a binary sequence
-   satisfying an eventual recurrence with nonzero determining coefficient;
-   handle initial zero coefficients in the denominator polynomial.
-2. Compose B with A, `PolynomialPair.degree_six_pair_exists` and the existing
-   degree-six ledger; choose the first nonzero residual index with no upper bound.
-3. Audit the full theorem and tails, then exact supercritical length-six
-   examples and degree/order refinements.
+1. For the degree-six pair from C, use `RationalSeries.nonzero_residual`
+   and `Morphism.not_eventually_periodic` to obtain a nonzero residual.
+   Choose its least index `N`; the initial 13 cancellations imply `N>=13`.
+2. Lift `Morphism.degree_six_ledger` from order 13 to this arbitrary `N`,
+   then invoke `no_rational_seed_with_polynomial_pair` and export all tails.
+3. Audit the full theorem, exact supercritical length-six examples and
+   independent literal/rational semantics; then degree/order refinements.
 
 ## Constraints and failed shortcuts to retain
 
@@ -52,14 +56,14 @@ Read `lean-polynomial-certificates.md` for the exact conditional interface.
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 201
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 214
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 44 new exported declarations (201 total).
+The exact audit now includes all 57 new exported declarations (214 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -98,3 +102,22 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 - Full C validation passes: Lean build, 201-declaration exact audit, 94 Rust
   tests, formatting, Clippy, both Python checkers, forbidden-token scan and
   diff whitespace check. All new declarations use approved foundations only.
+
+## B checkpoint details
+
+- `RationalSeries.deterministic_binary_periodic` encodes each length-`d`
+  binary window below `2^d`, finds a repeated state and extends equality by
+  strong induction. It includes `d=0`.
+- `first_nonzero_coefficient` isolates a determining nonzero coefficient
+  without changing the raw pair. `recurrence_determines` works with initial
+  zeros, negative coefficients, and arbitrary numerator coefficients.
+- `rational_binary_eventually_periodic` proves coefficientwise rational
+  binary series are eventually periodic. `nonzero_residual` is its general
+  contrapositive for every nonperiodic binary sequence.
+- `RationalSeriesChecks.lean` checks a degree-zero negative denominator,
+  a finite impulse, alternating symbols with common factor `z^2` and a
+  negative determining coefficient, and Thue–Morse residual nonvanishing.
+  No Collatz rational-exclusion theorem is used in this bridge.
+- Full B validation passes: Lean build, 214-declaration exact audit, 94 Rust
+  tests, formatting, Clippy, both Python checkers, empty proof-escape scan,
+  and diff whitespace check.

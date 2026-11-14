@@ -206,3 +206,18 @@ import CollatzLab
 #print axioms CollatzLab.PolynomialPair.convolution_dot
 #print axioms CollatzLab.PolynomialPair.polynomial_pair_exists
 #print axioms CollatzLab.PolynomialPair.degree_six_pair_exists
+
+/-! Binary rational-series periodicity and independent examples. -/
+#print axioms CollatzLab.RationalSeries.window_bound
+#print axioms CollatzLab.RationalSeries.window_injective
+#print axioms CollatzLab.RationalSeries.deterministic_binary_periodic
+#print axioms CollatzLab.RationalSeries.total_eq_pivot
+#print axioms CollatzLab.RationalSeries.first_nonzero_coefficient
+#print axioms CollatzLab.RationalSeries.recurrence_determines
+#print axioms CollatzLab.RationalSeries.rational_binary_eventually_periodic
+#print axioms CollatzLab.RationalSeries.nonzero_residual
+#print axioms CollatzLab.RationalSeries.impulse_identity
+#print axioms CollatzLab.RationalSeries.impulse_eventually_periodic
+#print axioms CollatzLab.RationalSeries.shifted_alternating_identity
+#print axioms CollatzLab.RationalSeries.shifted_alternating_eventually_periodic
+#print axioms CollatzLab.RationalSeries.thueMorse_residual_nonzero

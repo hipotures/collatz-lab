@@ -19,6 +19,7 @@ import CollatzLab.LeadingCoefficient
 import CollatzLab.ThueMorse
 import CollatzLab.PolynomialChecks
 import CollatzLab.PolynomialExistence
+import CollatzLab.RationalSeriesChecks
 
 /-!
 # CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word
@@ -56,6 +57,8 @@ Root module exporting the Lean 4 formalization of the paper
   bounds and conditional rational exclusion with all tails.
 * `CollatzLab.PolynomialExistence`: general division-free integer null vectors
   and degree `d` / order at least `2*d+1` pair existence for all integer sequences.
+* `CollatzLab.RationalSeries`: every coefficientwise rational binary series is
+  eventually periodic, by deterministic finite-memory repetition.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   are independent ingredients in the general polynomial certificate route.

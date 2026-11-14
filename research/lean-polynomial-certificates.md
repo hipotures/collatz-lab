@@ -156,3 +156,31 @@ The raw degree is retained; no common power of `z` is removed. There is no
 bound on the first **nonzero** residual index and no assertion about its
 parity. Non-identical-zero residual still needs the periodicity bridge B.
 The expanded audit includes all 44 new declarations (201 total).
+
+## B: coefficientwise rational binary series are eventually periodic
+
+`RationalSeries.rational_binary_eventually_periodic` takes any integer sequence
+`v` with `v n = 0 ∨ v n = 1`, any raw polynomial pair `P`, a nonzero coefficient
+of its denominator within the raw degree, and the identity
+`∀ n, P.residual v n = 0`. It concludes `EventuallyPeriodic v`.
+
+The proof is independent of all Collatz rational-exclusion theorems. Choose
+the first nonzero denominator coefficient `p1_s`. For sufficiently late
+indices, the numerator is absent. Comparing the recurrences at
+`a+d+s` and `b+d+s`, coefficients before `s` are zero, and coefficients after
+`s` inspect the preceding length-`d` windows. Equal windows therefore force
+`p1_s*v(a+d)=p1_s*v(b+d)`. Integer cancellation gives equal next symbols,
+without dividing by that coefficient or requiring it to be a unit.
+
+`deterministic_binary_periodic` encodes each such window as a natural number
+strictly below `2^d`. The existing elementary bounded-collision theorem finds
+two equal windows. Strong induction extends their equality to every future
+symbol, supplying an explicit eventual period. The empty window `d=0` is
+included; it forces the tail to be constant. The proof keeps the raw pair
+and handles any common initial power of `z`.
+
+`RationalSeries.nonzero_residual` exports the contrapositive for every
+nonperiodic binary sequence. Independent checks cover a finite impulse with
+constant denominator `-3`, an alternating series with common factor `z^2`
+and negative determining coefficient, and nonzero residuals of Thue–Morse.
+The exact audit now has 214 declarations, including all new B theorems.
