@@ -9,12 +9,29 @@ reported "Already up to date".
 
 ## Resume here
 
-**State:** all five gates have a written deliverable. Gates 0, A, C:
-`phase9-prior-art.md`, `phase9-referee-report.md`. Gates B, D:
-`paper/main.tex` (complete written proof and manuscript),
-`paper/references.bib`, `paper/README.md`, `paper/check_tex.py`.
-No Lean or Rust source has been changed in Phase 9. CI gained three
-steps (independent checker, manuscript static check, Lean name check).
+**One-line resume prompt:** `Resume issue #15 on main: read research/phase9-progress.md; the only open items are compiling paper/main.tex with a TeX engine, the author line, and owner review; do not close the issue without the owner.`
+
+**State (2026-11-14, after commit `604893b`):** all Gate 0–D deliverables
+are written, pushed and green in CI. The issue is **not closed**: its
+closing condition requires a manuscript "ready for external human
+review", and the PDF has never been compiled, the author line is a
+placeholder, and no human has read the proofs. Closing is left to the
+owner. No submission or publicity has taken place.
+
+**Final validation at `604893be381cc8a24f4f9fe4ea6e130468d84d5d`**
+(clean clone, 2026-11-14T12:22Z):
+
+| Check | Result |
+|---|---|
+| `lake clean && lake build` | success, 55 jobs, 42 s |
+| axiom audit, `--expected-count 306` | 306 declarations; only `propext`, `Classical.choice`, `Quot.sound`; parser self-test passes |
+| proof-escape scan | no match |
+| `cargo fmt --check` / `clippy -D warnings` | clean / no warnings |
+| `cargo test --locked --all-targets` | 94 passed, 0 failed |
+| `verify_uncovered.py --check`, `phase8/verify_polynomial.py` | pass |
+| `phase9/verify_independent.py` (T1–T9) | pass |
+| `paper/check_tex.py`, Lean name check (32 names) | pass |
+| TeX build | **not run**: no TeX engine; downloading one was refused by the session permission policy |
 
 **Gate 0 verdict** (`phase9-prior-art.md` §0): the headline irrationality
 statement is **not new** — it follows from S. M. Molchanov's 1983 *p*-adic
@@ -38,7 +55,10 @@ measure for the seed, exponent `2L/(2-theta)` with
 pair, limit 4). Paper only; `verify_independent.py` T9 tests the
 integrality, the size bound and the exact valuation of the pulled-back
 forms on all 34 admissible substitutions with `L <= 4`. Recorded as
-matrix row 11 in `phase9-prior-art.md` ("possibly new", unresolved).
+matrix row 11 in `phase9-prior-art.md` as **unresolved**: the upstream
+text calls irrationality measures for *p*-adic Mahler values classical
+(Loxton–van der Poorten 1982, not obtained), so the paper does not claim
+it as new.
 
 **What is still open (in order of value):**
 
@@ -100,6 +120,8 @@ commits are made from a separate plain clone of `origin` on `main`
 | `da4f5b0` | Gate A | <https://github.com/hipotures/collatz-lab/actions/runs/43589026117> success |
 | `6a6b4a0` | manuscript, bibliography, static checks | <https://github.com/hipotures/collatz-lab/actions/runs/43593203252> success |
 | `a7b017f` | irrationality measure | <https://github.com/hipotures/collatz-lab/actions/runs/43593983443> success |
+| `923b247` | keywords, proof-status table, formal Thue–Morse pair | <https://github.com/hipotures/collatz-lab/actions/runs/43594278399> success |
+| `604893b` | second referee pass corrections | <https://github.com/hipotures/collatz-lab/actions/runs/43594509375> success |
 
 ## Environment (checked 2026-11-14)
 
