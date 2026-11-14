@@ -19,11 +19,15 @@ extending the theorem's scope.
 **Pushed B checkpoint:** `83835a7e8ef8f0b0a3d12af332ad83b6642a557a`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579996609 — success.
 
-**Current D result:** the universal theorem, tails, explicit supercritical
-example and semantic checks pass full local validation, including a clean Lean
-rebuild, the 233-declaration audit, 94 Rust tests and both Python checkers.
-New public theorem: `CollatzLab.no_rational_seed_realizes_all_equal_weight`.
-Read `lean-polynomial-certificates.md` for its exact statement and dependency map.
+**Pushed D checkpoint:** `59cc117ef9beeb81ebacdc2d8594781c622e607a`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43580578326 — success.
+A–D are complete. No main theorem proof obligation remains.
+
+**Current additional result:** degree/order audit E is kernel-verified. The uniform
+ledger at guaranteed order `2*d+1` holds iff `d>=6`; an actual length-101
+example obstructs degrees 0–5 but has its own degree-two/order-201 certificate.
+Full validation passes (245-declaration audit, 94 Rust tests, all independent
+checkers). See `DegreeTradeoff.lean`.
 
 | Milestone | Verified status |
 |---|---|
@@ -31,17 +35,18 @@ Read `lean-polynomial-certificates.md` for its exact statement and dependency ma
 | B: rational binary series implies eventual periodicity | COMPLETE — kernel-verified, full local validation |
 | C: universal degree-six/order-at-least-thirteen existence | COMPLETE — kernel-verified, full local validation |
 | D: unconditional equal-weight exclusion and tails | COMPLETE — kernel-verified, clean rebuild and full validation |
-| E: scope audit and further mathematics | Pending |
+| E: scope audit and further mathematics | Kernel-verified degree/order results, scope and literature audit; further work optional |
 
 ## Exact next obligations
 
-1. Record D's pushed SHA and CI, then continue the additional mathematics below.
-2. Adversarially audit the degree/order route. Exact integer search finds
-   that the worst-case degree-five/order-eleven ledger fails at `L=101`,
-   `r=e=100`; this is a candidate finite lemma to formalize, **not yet verified
-   in Lean**. It does not refute the main theorem or all smaller-degree pairs.
-3. Compare scope with primary literature. No novelty claim is authorized;
-   no general Collatz or Periodicity Conjecture consequence is claimed.
+1. Validate and push E; record its SHA and CI. A–D are complete and should
+   not be re-proved or replaced by finite enumeration.
+2. Optional further work: generalize the standalone finite-memory theorem
+   to bounded integer alphabets. This would extend only the algebraic bridge;
+   larger-alphabet Collatz exclusion still requires a valid scalar/vector tower.
+3. Investigate individual smaller-degree certificates with order better than
+   `2*d+1`, or independently review the main theorem. Do not confuse the
+   proved ledger minimum with a minimum certificate degree for every word.
 
 ## Constraints and failed shortcuts to retain
 
@@ -59,14 +64,14 @@ Read `lean-polynomial-certificates.md` for its exact statement and dependency ma
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 233
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 245
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 76 new exported declarations (233 total).
+The exact audit now includes all 88 new exported declarations (245 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -142,3 +147,24 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
   coefficient-8 form values, empty forbidden-token scan and diff check.
 - Clean rebuild: `lake clean && lake build` succeeds, followed by the exact
   233-declaration audit. No stale compiled artifact is needed.
+
+## E checkpoint details
+
+- `universal_dimension_gap_iff`: the existing uniform numerical ledger at
+  guaranteed order `2*d+1` holds iff `d>=6`.
+- Actual admissible `highWeight101` realizes `r=e=100` and refutes that ledger
+  for every `d<=5`. Six small-base comparisons are checked in the kernel,
+  then monotone powers lift them to the ledger.
+- The same example has `highWeight101Low`, degree 2, first order 201,
+  coefficient -1, with a proved strict gap and an independent conditional
+  rational exclusion. This prevents overclaiming the degree-six minimum.
+- `Morphism.universal_high_degree_certificate`: every degree `d>=6` supplies
+  a closing pair for every admissible equal-weight morphism.
+- `phase8-findings.md` records a scope audit and direct primary-source
+  comparisons (Bugeaud–Yao, Adamczewski–Faverjon, López–Stoll), with no novelty
+  claim and no imported external proof assumption.
+- Independent exact search of worst-parameter ledger failures finds first
+  lengths `[2,2,2,7,16,101]` for degrees 0 through 5; only this finite search
+  result, not its length minimality in Lean, is asserted.
+- Full E validation passes: build, exact 245-declaration audit, 94 Rust tests,
+  formatting, Clippy, both Python checkers, empty proof-escape scan and diff check.

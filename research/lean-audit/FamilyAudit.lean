@@ -242,3 +242,17 @@ import CollatzLab
 #print axioms CollatzLab.Phase8Audit.negative_prefixes_two_through_six
 #print axioms CollatzLab.Phase8Audit.unreduced_seed_equivalence
 #print axioms CollatzLab.Phase8Audit.predicate_nonvacuous
+
+/-! Degree/order optimality for the specified numerical ledger. -/
+#print axioms CollatzLab.highWeight101_admissible
+#print axioms CollatzLab.highWeight101_parameters
+#print axioms CollatzLab.small_degree_base_obstruction
+#print axioms CollatzLab.small_degree_worst_ledger_failure
+#print axioms CollatzLab.highWeight101_small_degree_failure
+#print axioms CollatzLab.highWeight101_low_first
+#print axioms CollatzLab.highWeight101_low_gap
+#print axioms CollatzLab.no_rational_seed_realizes_highWeight101_low_degree
+#print axioms CollatzLab.numerical_gap_from_six
+#print axioms CollatzLab.universal_dimension_gap_iff
+#print axioms CollatzLab.Morphism.universal_high_degree_certificate
+#print axioms CollatzLab.no_rational_seed_realizes_highWeight101

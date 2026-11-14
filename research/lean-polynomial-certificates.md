@@ -154,7 +154,8 @@ binary case required by the issue:
 `degree_six_pair_exists` specializes to `d=6`, order at least 13.
 The raw degree is retained; no common power of `z` is removed. There is no
 bound on the first **nonzero** residual index and no assertion about its
-parity. Non-identical-zero residual still needs the periodicity bridge B.
+parity. Non-identical-zero residual is supplied by the periodicity bridge B
+in the next section.
 The expanded audit includes all 44 new declarations (201 total).
 
 ## B: coefficientwise rational binary series are eventually periodic
@@ -265,3 +266,19 @@ All 76 new Phase 8 exported declarations are now audited (233 total), using
 only approved standard foundations. All finite checks use exact arithmetic;
 none substitutes for the universal kernel proof. See the campaign journal
 for actual validation, pushed commits and CI results.
+
+## E: exact limits of the dimension-count ledger
+
+`DegreeTradeoff.lean` proves `universal_dimension_gap_iff`: the uniform ledger
+with guaranteed order `2*d+1` holds exactly when `6<=d`. The counterexample
+for all smaller degrees is realized by `highWeight101`, an admissible
+length-101 pair with `r=e=100`. This is a statement about the **specific
+ledger and guaranteed order**, not the smallest possible individual certificate.
+Indeed `highWeight101Low` is an independent degree-two certificate with order
+201 and coefficient -1, accepted by `no_rational_seed_with_polynomial_pair`.
+
+`Morphism.universal_high_degree_certificate` supplies a valid closing
+certificate at every raw degree `d>=6`, with order at least `2*d+1`, for every
+admissible equal-weight morphism. The degree-six main theorem stays unchanged.
+The findings report records scope limits and primary-literature comparisons;
+none of the external sources is a proof dependency or a novelty certificate.

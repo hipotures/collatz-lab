@@ -21,6 +21,7 @@ import CollatzLab.PolynomialChecks
 import CollatzLab.PolynomialExistence
 import CollatzLab.RationalSeriesChecks
 import CollatzLab.UniversalChecks
+import CollatzLab.DegreeTradeoff
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -62,6 +63,8 @@ Root module exporting the Lean 4 formalization of the paper
   eventually periodic, by deterministic finite-memory repetition.
 * `CollatzLab.UniversalEqualWeight`: rational exclusion for every uniform binary
   morphism satisfying H1--H3, with all finite shifts and eventual matches.
+* `CollatzLab.DegreeTradeoff`: optimality of degree six for the uniform
+  dimension-count ledger, and higher-degree certificates.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   are independent ingredients in the general polynomial certificate route.

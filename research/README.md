@@ -19,6 +19,9 @@
 | [`phase7-next-directions.md`](phase7-next-directions.md) | Phase 7 D4: uniform aperiodicity and all-subcritical exclusion in Lean, degree-six numerical ledger, non-unit leading coefficients, unequal-weight rational control, and exact remaining polynomial-certificate obligations |
 | [`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md) | Phase 7 B: generic Theorem 8.1 and all tails kernel-verified under exactly H1–H3 and (C); full signatures and audit |
 | [`mahler-uncovered-morphisms.md`](mahler-uncovered-morphisms.md) | Phase 7 C–D: both targets excluded in Lean; independent primary proofs; generic subcritical and periodic-control criteria; finite evidence |
+| [`phase8-progress.md`](phase8-progress.md) | Phase 8 entrypoint: verified A–D, additional degree/order audit, commits, CI and resumption |
+| [`lean-polynomial-certificates.md`](lean-polynomial-certificates.md) | Exact general polynomial certificate, rational-series periodicity, integer approximant existence and universal theorem mapping |
+| [`phase8-findings.md`](phase8-findings.md) | Mathematical synthesis, degree-six ledger optimality, scope audit and primary-literature comparison |
 | [`mahler-uncovered/evidence.json`](mahler-uncovered/evidence.json) | 48 exact degree 1–24 Padé rows, 8 residue checkpoints, bounded signed rational falsification and 144 independently checked periodic-control certificates |
 | [`mahler-family/summary.md`](mahler-family/summary.md) | generated Phase 5 finite checks: family table, `L = 5` checkpoints, Pade table (`1 <= m <= 16`), criterion counts |
 | [`mahler-family/evidence.json`](mahler-family/evidence.json) | generated Phase 5 machine-readable evidence |

@@ -76,6 +76,16 @@ def main():
             matrix_count += 1
     print(f"{matrix_count} exact integer null vectors, including zero and deficient-rank matrices")
 
+    first_ledger_failures = []
+    for degree in range(6):
+        first = next(length for length in range(2, 102)
+                     if max(2**length, 3**(length - 1))**(degree*(length - 1) + 2*length - 1)
+                     >= 2**((2*degree + 1)*length*(length - 1)))
+        first_ledger_failures.append(first)
+    assert first_ledger_failures == [2, 2, 2, 7, 16, 101]
+    assert all(2**((2*degree + 1)*101) <= 3**(degree*100 + 201) for degree in range(6))
+    print(f"First worst-parameter ledger failures for degrees 0..5: {first_ledger_failures}")
+
     semantic_fixtures = [
         ([0, 1], [1, 0], 13, -15),
         ([0, 1, 1], [1, 0, 1], 353, -283),
