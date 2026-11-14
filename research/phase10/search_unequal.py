@@ -15,7 +15,27 @@ from pathlib import Path
 
 REPORT = Path(__file__).with_name("search-summary.json")
 LEAN_PROVED = {("1" + "0" * (length - 1), "1" * (length - 1) + "0")
-               for length in range(3, 7)} | {("110", "100")}
+               for length in range(3, 7)} | {("110", "100"), ("1100", "1110")}
+
+
+def column_certificate(one, zero):
+    """Find finite field data for the proved ColumnCertificate interface.
+
+    Finding data here is not reported as a kernel instantiation for every pair.
+    """
+    length = len(one)
+    if one == zero:
+        return None
+    distinguish = next(j for j in range(length) if one[j] != zero[j])
+    separate = [0]
+    for r in range(1, length):
+        choices = [j for j in range(length)
+                   if one[j] == zero[j] and one[(j + r) % length] == zero[(j + r) % length]
+                   and one[j] != one[(j + r) % length]]
+        if not choices:
+            return None
+        separate.append(choices[0])
+    return {"distinguish": distinguish, "separate": separate}
 
 
 def substitute(xs, one, zero):
@@ -95,6 +115,11 @@ def build_report():
                 continue
             counts["unequal_pairs_tested"] += 1
             first, rows = analyze(one, zero)
+            columns = column_certificate(one, zero)
+            if columns is not None:
+                counts["column_aperiodicity_data_found"] += 1
+                if first is not None:
+                    counts["contracting_with_column_data"] += 1
             counts["languages_tested"] += 8
             if first is not None:
                 counts["pairs_with_contraction"] += 1
@@ -116,6 +141,7 @@ def build_report():
                                  "primitive_power_witness": primitive_witness(length, r0, r1),
                                  "incidence_eigenvalues": [length, r1 - r0],
                                  "candidate_one_frequency": str(frequency),
+                                 "column_certificate_data": columns,
                                  "aperiodicity_lean_proved": (text_one, text_zero) in LEAN_PROVED,
                                  "rational_exclusion_lean_proved": (text_one, text_zero) in LEAN_PROVED})
         totals.update(counts)

@@ -19,6 +19,8 @@
       "unequal_pairs_tested": 5
     },
     {
+      "column_aperiodicity_data_found": 6,
+      "contracting_with_column_data": 6,
       "contracting_with_expanding_image": 11,
       "equal_weight_skipped": 10,
       "first_contracting_h_counts": {
@@ -34,6 +36,8 @@
       "unequal_pairs_tested": 22
     },
     {
+      "column_aperiodicity_data_found": 16,
+      "contracting_with_column_data": 10,
       "contracting_with_expanding_image": 24,
       "equal_weight_skipped": 35,
       "first_contracting_h_counts": {
@@ -48,6 +52,8 @@
       "unequal_pairs_tested": 93
     },
     {
+      "column_aperiodicity_data_found": 110,
+      "contracting_with_column_data": 58,
       "equal_weight_skipped": 126,
       "first_contracting_h_counts": {
         "1": 181
@@ -59,6 +65,8 @@
       "unequal_pairs_tested": 386
     },
     {
+      "column_aperiodicity_data_found": 216,
+      "contracting_with_column_data": 148,
       "contracting_with_expanding_image": 653,
       "equal_weight_skipped": 462,
       "first_contracting_h_counts": {
@@ -98,6 +106,10 @@
     [
       "110",
       "100"
+    ],
+    [
+      "1100",
+      "1110"
     ]
   ],
   "scope": "Finite-language contraction data for other pairs do not certify aperiodicity or rational exclusion.",
@@ -105,6 +117,14 @@
     {
       "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
+      "column_certificate_data": {
+        "distinguish": 1,
+        "separate": [
+          0,
+          2,
+          0
+        ]
+      },
       "first_h": 3,
       "incidence_eigenvalues": [
         3,
@@ -171,6 +191,7 @@
     {
       "aperiodicity_lean_proved": false,
       "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
       "first_h": 2,
       "incidence_eigenvalues": [
         3,
@@ -237,6 +258,14 @@
     {
       "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
+      "column_certificate_data": {
+        "distinguish": 1,
+        "separate": [
+          0,
+          2,
+          0
+        ]
+      },
       "first_h": 3,
       "incidence_eigenvalues": [
         3,
@@ -303,6 +332,7 @@
     {
       "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
       "first_h": 4,
       "incidence_eigenvalues": [
         4,
@@ -367,8 +397,17 @@
       "zero": "1110"
     },
     {
-      "aperiodicity_lean_proved": false,
+      "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "3/5",
+      "column_certificate_data": {
+        "distinguish": 2,
+        "separate": [
+          0,
+          3,
+          1,
+          0
+        ]
+      },
       "first_h": 4,
       "incidence_eigenvalues": [
         4,
@@ -379,7 +418,7 @@
       "primitive_power_witness": 1,
       "r0": 3,
       "r1": 2,
-      "rational_exclusion_lean_proved": false,
+      "rational_exclusion_lean_proved": true,
       "rows": [
         {
           "R": 3,
@@ -435,6 +474,7 @@
     {
       "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
       "first_h": null,
       "incidence_eigenvalues": [
         5,
@@ -501,6 +541,7 @@
     {
       "aperiodicity_lean_proved": true,
       "candidate_one_frequency": "1/2",
+      "column_certificate_data": null,
       "first_h": null,
       "incidence_eigenvalues": [
         6,
@@ -566,6 +607,8 @@
     }
   ],
   "totals": {
+    "column_aperiodicity_data_found": 348,
+    "contracting_with_column_data": 222,
     "contracting_with_expanding_image": 688,
     "equal_weight_skipped": 636,
     "languages_tested": 16736,

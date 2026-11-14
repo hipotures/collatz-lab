@@ -143,7 +143,30 @@ explicit user approval. Never force-push.
   declarations**; all **139 new theorem exports** audited and all 306 baseline
   entries retained; parser self-tests; **94 Rust tests**, formatting, Clippy;
   all six Python verifiers; empty forbidden-proof scan; `git diff --check`.
-- Checkpoint follows C2, commit message: "Prove rational exclusion for the entire unequal sparse family".
+- Pushed commit: `4ff05be682bbe996155cabb488a2b1a9b648961e`.
+- GitHub CI observed **success**:
+  <https://github.com/hipotures/collatz-lab/actions/runs/43590396527>.
+
+## Milestone C4: validated finite aperiodicity certificate
+
+- `ColumnCertificate.lean` proves eventual aperiodicity from an injective column
+  and opposite forced columns separating every nonzero residue. This is a
+  genuine infinite-word proof by period descent; concrete fields are finite.
+- `no_rational_seed_finite_certificates` combines finite column and window
+  certificates with the exact gap, discharging every infinite word premise.
+- `Unequal11001110.lean` proves exclusion for `1100/1110` with both finite
+  certificates, an exact eight-window language, the 16-step count/recurrence,
+  sharp offset cap 300277 (attained), and a positive 81-bit witness. Every shift
+  and eventual tail, including signed odd denominators, is excluded.
+- The bounded search now finds column data for **348** pairs, of which **222**
+  also contract within h<=8 (6 at length 3, 10 at 4, 58 at 5, 148 at 6).
+  Only six pairs in the bounded domain have explicit kernel instantiations at
+  this checkpoint. The remaining candidate fields are kept distinct from proofs.
+- Full validation passed: `lake build`; **466 exact audited declarations**;
+  all **160 new theorem exports** audited, all 306 baseline entries retained
+  in order; parser self-tests; **94 Rust tests**, formatting, Clippy; all six
+  Python verifiers; empty forbidden-proof scan; `git diff --check`.
+- Checkpoint follows C3, commit message: "Certify finite column aperiodicity and the unequal 1100/1110 word".
 
 ## Failed routes / cautions
 
@@ -162,7 +185,7 @@ explicit user approval. Never force-push.
 
 ```sh
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 445
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 466
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
@@ -185,12 +208,12 @@ milestone to `origin/codex/unequal-weight-contraction`.
 2. Inspect the latest commit with `git log -1 --format='%H %s'` and this file.
 3. The generic criterion is complete; do not redo it. See theorem map in
    `research/unequal-weight-contraction.md`.
-4. Milestones A/B/C1/C2/C3 meet the issue's completion gate and research requirements;
+4. Milestones A/B/C1/C2/C3/C4 meet the issue's completion gate and research requirements;
    PR #17 stays unmerged, and the issue stays open for user review.
-5. Optional further research: finite aperiodicity certificates using forced
-   columns that distinguish every nonzero residue, plus an injective column
-   for period descent. This should certify `1100/1110` (forced columns 0,1=1;
-   3=0; column 2 complements), independently of the sparse family. Its 16-step
-   spectral cap is 10. Do not repeat the completed exhaustive finite search.
+5. Optional further research: serialize the 222 contracting pairs with column
+   data into a bounded Lean catalogue, with a generic decidable validation
+   predicate whose soundness constructs both certificate structures. Ordinary
+   kernel evaluation could then instantiate all 222 without adding assumptions.
+   Keep this separate until every row is actually checked, and watch CI bounds.
 6. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
    files, or infer completion from a context/token limit.

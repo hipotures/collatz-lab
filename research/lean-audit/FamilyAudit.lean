@@ -476,3 +476,26 @@ import CollatzLab
 #print axioms CollatzLab.no_int_orbit_enters_shifted_unequalSparse
 #print axioms CollatzLab.no_eventually_shifted_unequalSparse_signed_denominator
 #print axioms CollatzLab.SparseChecks.sparse_length_two_control
+
+/-! Finite forced-column aperiodicity and the non-sparse 1100/1110 example. -/
+#print axioms CollatzLab.Morphism.column_injective
+#print axioms CollatzLab.Morphism.bit_injective
+#print axioms CollatzLab.Morphism.column_certificate_not_periodic_from
+#print axioms CollatzLab.Morphism.column_certificate_not_eventually_periodic
+#print axioms CollatzLab.Morphism.no_rational_seed_finite_certificates
+#print axioms CollatzLab.Morphism.unequal11001110_images_weights
+#print axioms CollatzLab.Morphism.unequal11001110_not_eventually_periodic
+#print axioms CollatzLab.Morphism.unequal11001110_language_covers
+#print axioms CollatzLab.Morphism.unequal11001110_language_occurs
+#print axioms CollatzLab.Morphism.unequal11001110_certificate_weight
+#print axioms CollatzLab.Morphism.unequal11001110_certificate_offset
+#print axioms CollatzLab.Morphism.unequal11001110_sixteen_weight
+#print axioms CollatzLab.Morphism.unequal11001110_sixteen_offset
+#print axioms CollatzLab.Morphism.unequal11001110_sixteen_recurrence
+#print axioms CollatzLab.Morphism.unequal11001110_offset_attained
+#print axioms CollatzLab.Morphism.unequal11001110_locally_expanding
+#print axioms CollatzLab.Morphism.unequal11001110_positive_prefix
+#print axioms CollatzLab.no_rational_seed_realizes_unequal_1100_1110
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_unequal_1100_1110
+#print axioms CollatzLab.no_eventually_shifted_unequal_1100_1110_itinerary
+#print axioms CollatzLab.no_eventually_shifted_unequal_1100_1110_signed_denominator

@@ -237,7 +237,8 @@ This confirms why contraction alone only proves periodicity.
 Selected further data: `1000/1110` first contracts at `h=4`, with `R=10`
 and `3^10=59049<65536=2^16`; `1100/1110` has the same first bound.
 The first is now an exclusion by the separate spectral argument below;
-`1100/1110` is not claimed as an exclusion. `10000/11110` has no certificate in
+`1100/1110` is also proved later using finite column and window certificates.
+`10000/11110` has no certificate in
 the prescribed `h<=8` range, despite its candidate limiting one-frequency
 one-half. This distinguishes a search cutoff from failure of every possible
 uniform-block argument. Contraction need not be monotone in h:
@@ -416,7 +417,42 @@ does not materialize the huge words or evaluate `3^(L^L)`. The infinite range
 comes solely from the symbolic Lean proof. The earlier short 9/16/125-step
 certificates remain useful because their block lengths are much smaller.
 
-The bounded search report now identifies five proved image pairs in its
+At C3 the bounded search report identified five proved image pairs in its
 length-2..6 domain: four members of this family and the separate `110/100`
 example. Its 1284 finite contracting pairs still do not imply 1284 exclusions;
 aperiodicity has only been proved for the stated examples/family.
+
+## Finite aperiodicity certificates and a non-sparse application
+
+`ColumnCertificate.lean` adds a finite independent aperiodicity criterion.
+Its fields give one column where the two images differ, and, for each nonzero
+residue r modulo L, a column j whose bit and the bit at `(j+r) mod L` are
+opposite constants for **both** parent symbols. If a purported eventual period
+has nonzero residue, those forced columns contradict it. Otherwise, read the
+distinguishing column to descend to the positive smaller period p/L. The kernel
+checks the strong induction and the exact Boolean-to-parity conversion.
+
+Combining this certificate with `WindowCertificate` gives
+`no_rational_seed_finite_certificates`: all infinite word premises follow from
+finite, kernel-checked fields and one exact numerical comparison. This remains
+a sufficient condition; some aperiodic morphisms, including longer members of
+the sparse family, require a different aperiodicity argument.
+
+`Unequal11001110.lean` applies both finite interfaces to
+`1 -> 1100`, `0 -> 1110`, with weights two and three. Column 2 distinguishes
+the parents; residue 1 uses forced columns 3/0, residue 2 uses 1/3, and residue
+3 uses 0/3. The exact length-four language is
+`0011,0110,0111,1001,1011,1100,1101,1110`, with closure and occurrence
+kernel-checked. Its image-weight cap is ten, giving `3^10<2^16`; the sharp
+offset cap is 300277, attained at the initial sixteen-step chunk. The actual
+recurrence, independent positive 81-bit witness, universal rational exclusion,
+every shift, and eventual shifted tails (either odd-denominator sign) are proved.
+
+The updated bounded search finds candidate column-certificate data for 348
+of the 2092 tested pairs, of which 222 also have a contracting language at
+h<=8. These are **Python-computed candidate data**, not 222 claimed kernel
+instantiations. Six pairs in the bounded domain are explicitly covered by
+Lean exclusion theorems: the four sparse-family members and the two separate
+examples `110/100`, `1100/1110`. The periodic `101/010` control has no such
+column certificate. The generic finite interfaces permit further instances
+without any new assumptions about arbitrary unequal-weight substitutions.

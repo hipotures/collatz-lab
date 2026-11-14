@@ -1,6 +1,6 @@
 {
   "bounds": {
-    "cases": 4,
+    "cases": 5,
     "max_level": 5,
     "prefix_length": 81
   },
@@ -272,6 +272,73 @@
       },
       "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
       "zero": "11110"
+    },
+    {
+      "R": 10,
+      "closing_level": 2,
+      "delta": -1,
+      "frequency_denominator": 5,
+      "levels": [
+        {
+          "contracts": false,
+          "length": 1,
+          "level": 0,
+          "max_count": 1,
+          "one_count": 1,
+          "zero_count": 0
+        },
+        {
+          "contracts": false,
+          "length": 4,
+          "level": 1,
+          "max_count": 3,
+          "one_count": 2,
+          "zero_count": 3
+        },
+        {
+          "contracts": true,
+          "length": 16,
+          "level": 2,
+          "max_count": 10,
+          "one_count": 10,
+          "zero_count": 9
+        },
+        {
+          "contracts": true,
+          "length": 64,
+          "level": 3,
+          "max_count": 39,
+          "one_count": 38,
+          "zero_count": 39
+        },
+        {
+          "contracts": true,
+          "length": 256,
+          "level": 4,
+          "max_count": 154,
+          "one_count": 154,
+          "zero_count": 153
+        },
+        {
+          "contracts": true,
+          "length": 1024,
+          "level": 5,
+          "max_count": 615,
+          "one_count": 614,
+          "zero_count": 615
+        }
+      ],
+      "negative_prefix_81": {
+        "p": "-1941281237670314221888801",
+        "q": 5
+      },
+      "one": "1100",
+      "positive_prefix_81": {
+        "end": "105153145684560865940321",
+        "p": "1062454736003492165269651"
+      },
+      "status": "Aperiodicity and exclusion kernel-proved; finite checks independent.",
+      "zero": "1110"
     }
   ]
 }

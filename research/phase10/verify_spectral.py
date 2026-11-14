@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Independent exact literal, incidence, signed-balance and prefix checks.
 
-Bounds are fixed: four substitutions, levels 0..5, prefix length 81. Larger
+Bounds are fixed: five substitutions, levels 0..5, prefix length 81. Larger
 images are counted by a two-entry recurrence, not materialized or seed-scanned.
 """
 
@@ -22,6 +22,7 @@ def build_report():
     for one_text, zero_text, closing_level, bound in (
         ("100", "110", 2, 5), ("110", "100", 2, 5),
         ("1000", "1110", 2, 10), ("10000", "11110", 3, 76),
+        ("1100", "1110", 2, 10),
     ):
         one, zero = tuple(map(int, one_text)), tuple(map(int, zero_text))
         length, r0, r1 = len(one), sum(zero), sum(one)
@@ -64,7 +65,7 @@ def build_report():
                       "positive_prefix_81": {"p": str(p), "end": str(states[-1])},
                       "negative_prefix_81": {"p": str(negative), "q": 5},
                       "status": "Aperiodicity and exclusion kernel-proved; finite checks independent."})
-    return {"bounds": {"cases": 4, "max_level": 5, "prefix_length": 81}, "cases": cases}
+    return {"bounds": {"cases": 5, "max_level": 5, "prefix_length": 81}, "cases": cases}
 
 
 def main():
@@ -79,7 +80,7 @@ def main():
         REPORT.write_text(rendered)
     if args.check:
         assert REPORT.read_text() == rendered, "spectral finite certificate differs"
-    print("Four exact spectral certificates; literal counts and signed balances at levels 0..5")
+    print("Five exact spectral certificates; literal counts and signed balances at levels 0..5")
     print("1000/1110: 3^10 < 2^16; 10000/11110: 3^76 < 2^125; signed 81-bit witnesses")
 
 
