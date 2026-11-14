@@ -19,6 +19,12 @@ admissible substitutions of small length:
   T5  The numerical ledger: degree six closes for all 2 <= L <= 400;
       degrees 0..5 first fail at L = 2, 2, 2, 7, 16, 101.
   T6  Bounded aperiodicity evidence and the unequal-weight control 101/010.
+  T7  The lower-bound example of the manuscript (L = 1000, r = 993,
+      e = 999): the Hankel-type determinants for degrees 0..5 are
+      1, -1, 1, -1, -1, -1 and the height inequality fails for those
+      degrees with the forced order 2d+1, while it holds for degree six.
+  T8  The explicit Thue-Morse pair printed in the manuscript has order 13
+      and leading remainder coefficient -8.
 
 All checks are finite.  They support, and do not replace, the proofs.
 """
@@ -227,6 +233,62 @@ def eventually_periodic_bounded(word, max_start, max_period):
     return any(tail[p:] == tail[:n - max_start - p] for p in range(1, max_period + 1))
 
 
+def determinant(rows):
+    mat = [[Fraction(v) for v in row] for row in rows]
+    n, det = len(mat), Fraction(1)
+    for col in range(n):
+        piv = next((i for i in range(col, n) if mat[i][col] != 0), None)
+        if piv is None:
+            return Fraction(0)
+        if piv != col:
+            mat[col], mat[piv] = mat[piv], mat[col]
+            det = -det
+        det *= mat[col][col]
+        for i in range(col + 1, n):
+            f = mat[i][col] / mat[col][col]
+            mat[i] = [x - f * y for x, y in zip(mat[i], mat[col])]
+    return det
+
+
+def check_lower_bound_example():
+    prefix = [1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1]
+    L = 1000
+    one = [prefix[j] if j < 12 else (0 if j == L - 1 else 1) for j in range(L)]
+    zero = [0 if j == 0 else (1 if j == L - 1 else one[j]) for j in range(L)]
+    assert one[0] == 1 and zero != one and sum(zero) == sum(one) == 993
+    diff = [j for j in range(L) if zero[j] != one[j]]
+    assert (diff[0], diff[-1]) == (0, 999)
+    assert fixed_point({0: zero, 1: one}, 12) == prefix
+    dets = []
+    for d in range(6):
+        rows = [[prefix[n - j] if n >= j else 0 for j in range(d + 1)]
+                for n in range(d + 1, 2 * d + 2)]
+        dets.append(int(determinant(rows)))
+    assert dets == [1, -1, 1, -1, -1, -1], dets
+    assert 2 ** 19 < 3 ** 12 and 3 ** 8 < 2 ** 13
+    r, e = 993, 999
+    for d in range(7):
+        gain = (2 * d + 1) * L * (L - 1)
+        cost = r * (d * (L - 1) + L + e)
+        if d <= 5:
+            # 12 gain <= 19 cost and 2^19 < 3^12 give 2^gain < 3^cost.
+            assert 12 * gain <= 19 * cost
+            assert 2 ** gain <= 3 ** cost
+        else:
+            assert 3 ** cost < 2 ** gain
+    assert 12 * 11 * 1000 * 999 == 131868000 and 19 * 993 * 6994 == 131955798
+    return dets
+
+
+def check_thue_morse_pair():
+    word = fixed_point({0: [0, 1], 1: [1, 0]}, 200)
+    p1 = [1, -6, 3, -5, 3, 2, 1]
+    p0 = [-1, 6, -3, 4, 3, -6, 9]
+    residuals = [residual(p0, p1, word, n) for n in range(14)]
+    assert residuals[:13] == [0] * 13 and residuals[13] == -8, residuals
+    assert 4 ** (6 * 1 + 2 + 1) < 2 ** (2 * 1 * 13)
+
+
 def main():
     count = 0
     stats = {}
@@ -263,6 +325,11 @@ def main():
         assert (y & 1) == alt[i]
         y = (3 * y + 1) // 2 if y & 1 else y // 2
     print("T6: unequal-weight control 101/010 is periodic and realised by the seed 1")
+    dets = check_lower_bound_example()
+    print("T7: lower-bound example L=1000: determinants", dets,
+          "; inequality fails for degrees 0..5 and holds for degree 6")
+    check_thue_morse_pair()
+    print("T8: explicit Thue-Morse pair has order 13 and leading coefficient -8")
     print("all independent checks passed")
     return 0
 

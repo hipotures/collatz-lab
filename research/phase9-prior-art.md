@@ -333,6 +333,43 @@ So the class, the method, and the remark about the subcritical half are
 all anticipated there. What the present repository adds relative to
 that text is listed in §6.
 
+## 5a. Other adjacent work (added at the second Gate C pass)
+
+- **E. Dejesus, *Transcendence of the 3x+1 conjugacy map on Sturmian
+  words*, SSRN preprint, DOI 10.2139/ssrn.7584439 (Crossref record
+  created 2026-10-08).** *Abstract only* (from the Crossref record; SSRN
+  refused automated access and no other copy was found). The abstract
+  announces transcendence of `Phi` on Sturmian words of irrational slope
+  below `(3+sqrt 5)/(4 log_2 3) = 0.8259...` and all their shifts, by
+  approximating with periodic words (the Bernstein–Lagarias isometry
+  turns a common prefix into 2-adic closeness) and applying a *p*-adic
+  Ridout theorem; Theorem 1.3 and Corollary 1.4 are said to be checked in
+  Lean 4 with Mathlib assuming Ridout's theorem. **Relation:** a
+  different class of words (Sturmian words are not fixed points of
+  constant-length substitutions with equal block weights) and a different
+  method (repetitions plus Ridout, not a Mahler equation). It is the
+  closest recent work in spirit: a transcendence statement for `Phi` on a
+  combinatorially defined family with a Lean component. **Unresolved:**
+  whether the repetition method reaches the equal-weight class. My own
+  remark (deduction, not from the source): a fixed point of a uniform
+  substitution begins with arbitrarily long prefixes of the form
+  `U^w` with a fixed exponent `w > 1`, which gives rational approximants
+  at 2-adic distance `2^{-w|U|}` and height about `max(2^L,3^r)^{|U|/L}`;
+  a Liouville-type argument then proves irrationality only when `w`
+  exceeds `max(1, (r/L) log_2 3)`, which is automatic in the subcritical
+  case and is a genuine restriction in the supercritical case. I did not
+  pursue this.
+- **O. Rozier, arXiv:1805.00133** (parity sequences and a Euclidean
+  embedding) and **J. Yazinski, arXiv:1102.5547** (pseudoperiodicity and
+  the fixed-point conjecture for `Phi`): abstracts read; neither contains
+  a rational-exclusion statement for substitution words.
+- Web searches on 2026-11-14 for combinations of "3x+1", "conjugacy
+  map", "automatic sequence", "Thue-Morse", "uniform morphism",
+  "transcendental", "Mahler" returned no source treating fixed points of
+  constant-length substitutions as parity sequences, other than the
+  upstream project. This is recorded as "not found", not as evidence of
+  absence.
+
 ## 6. Claim-to-source matrix
 
 | # | Claimed contribution | Closest prior source | Applicability | Originality status |
@@ -357,6 +394,8 @@ that text is listed in §6.
 - Loxton–van der Poorten 1982 and the Bundschuh–Väänänen papers were
   not read.
 - Molchanov's proof was not verified line by line.
+- The full text of Dejesus (2026) was not available; §5a rests on the
+  abstract.
 - No search of MathSciNet or zbMATH was possible (zbMATH Open API
   returned a proxy error on 2026-11-14); novelty labels "possibly new"
   mean only "not found in the sources listed here".

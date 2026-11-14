@@ -9,10 +9,12 @@ reported "Already up to date".
 
 ## Resume here
 
-**State:** Gates 0 and A are complete and written up. Gate C matrix is
-written (open items listed there). Gates B and D (written proof and
-manuscript in `paper/`) are the remaining work. No Lean or Rust source
-has been changed in Phase 9; one new Python checker was added.
+**State:** all five gates have a written deliverable. Gates 0, A, C:
+`phase9-prior-art.md`, `phase9-referee-report.md`. Gates B, D:
+`paper/main.tex` (complete written proof and manuscript),
+`paper/references.bib`, `paper/README.md`, `paper/check_tex.py`.
+No Lean or Rust source has been changed in Phase 9. CI gained three
+steps (independent checker, manuscript static check, Lean name check).
 
 **Gate 0 verdict** (`phase9-prior-art.md` §0): the headline irrationality
 statement is **not new** — it follows from S. M. Molchanov's 1983 *p*-adic
@@ -25,23 +27,30 @@ defect; findings F1 (framing), F2 (formal statement covers only the
 fixed point starting with `1`), F3 (degree six is interface-specific),
 F4 (conjugacy-map phrasing needs a cited bijection), F5 (stale memos).
 
-**Framing for the paper:** elementary, division-free, machine-checked
-proof of a known consequence of the *p*-adic Mahler method, with an
-explicit uniform certificate. No "new theorem" claim for irrationality.
+**Framing used in the paper:** elementary, integer-arithmetic,
+machine-checked proof of a known consequence of the *p*-adic Mahler
+method, with an explicit uniform certificate. No "new theorem" claim.
 
-**Next actions, in order:**
+**What is still open (in order of value):**
 
-1. Write `paper/main.tex`, `paper/references.bib`, `paper/README.md`
-   (Gates B and D). No TeX engine is installed here; validate syntax
-   by script and say so in `paper/README.md`.
-2. Re-run the validation list of issue #15 item 6 after the last
-   change and record CI run URLs.
-3. Optional: generalise the Lean statement to the fixed point starting
-   with `0` (finding F2); obtain Wang 2006 / Wang–Xu 2006.
+1. **The PDF has never been built.** No TeX engine is installed, and an
+   attempt to download a standalone engine into the scratch directory
+   was refused by the session's permission policy. `paper/check_tex.py`
+   is a static substitute only. First action for anyone with TeX:
+   `cd paper && latexmk -pdf main.tex`, fix what it reports.
+2. The author line in `paper/main.tex` is a placeholder (`\paperauthor`).
+3. Finding F2: the Lean theorem covers the fixed point beginning with
+   `1`; the paper proves the other fixed point on paper only. A Lean
+   generalisation is optional work.
+4. Sources not obtained: Wang 2006, Wang–Xu 2006, Loxton–van der
+   Poorten 1982, full text of Dejesus 2026. Molchanov's proof was read
+   in outline only.
+5. Issue #15 must stay open until the owner has reviewed the manuscript;
+   no submission or publicity.
 
-**Highest-risk open issue:** Molchanov's proof was read only in outline;
-the "known" verdict rests on its published statement plus classical
-facts (Fatou-type rational/transcendental dichotomy) not re-derived here.
+**Highest-risk open issue:** the manuscript's written proofs have had no
+independent human reader, and the "known" verdict rests on the published
+statement of Molchanov's theorem.
 
 **Working-copy note.** At 10:50:45 UTC a concurrent Codex session
 switched the shared checkout `/home/user/DEV/collatz-lab` to its own
@@ -57,11 +66,19 @@ commits are made from a separate plain clone of `origin` on `main`
 
 | Gate | Status |
 |---|---|
-| 0 — López–Stoll / prior-art red flag | **resolved**: see `phase9-prior-art.md` §0 |
+| 0 — López–Stoll / prior-art red flag | **resolved**: `phase9-prior-art.md` §0 |
 | A — adversarial mathematical and Lean review | **complete**: `phase9-referee-report.md` |
-| B — independent proof reconstruction | derivation done and cross-checked (referee report §5); to be written in `paper/main.tex` |
-| C — literature review and novelty verdict | matrix written (`phase9-prior-art.md` §6); open items listed in its §7 |
-| D — manuscript | not started; editorial gate open (no critical defect; framing resolved) |
+| B — independent proof reconstruction | **written**: `paper/main.tex` §§2–4 (2-adic presentation; exponents agree with the Lean integer proof); numerically cross-checked by `research/phase9/verify_independent.py` |
+| C — literature review and novelty verdict | **written**: `phase9-prior-art.md` §§5a–7; open items in its §7 |
+| D — manuscript | **written, not compiled**: `paper/`; static checks pass |
+
+## CI record
+
+| Commit | Content | Run |
+|---|---|---|
+| `d2a71fa` | journal started | <https://github.com/hipotures/collatz-lab/actions/runs/43587089247> success |
+| `2ee7681` | Gate 0 | <https://github.com/hipotures/collatz-lab/actions/runs/43587705634> success |
+| `da4f5b0` | Gate A | <https://github.com/hipotures/collatz-lab/actions/runs/43589026117> success |
 
 ## Environment (checked 2026-11-14)
 
@@ -71,7 +88,11 @@ commits are made from a separate plain clone of `origin` on `main`
 - No TeX distribution found on `PATH` (`tex`, `pdflatex`, `xelatex`,
   `lualatex`, `tectonic`, `latexmk` all absent). A manuscript can be
   written but not compiled here unless a TeX engine is installed.
-- Network access to arXiv and author pages works.
+- Network access to arXiv and author pages works. Crossref API works
+  (used to verify every bibliography entry). SSRN and Springer refuse
+  automated access; zbMATH Open API returned a proxy error.
+- Downloading a standalone TeX engine (Tectonic) into the scratch
+  directory was refused by the session's permission policy; not retried.
 
 ## Source inventory
 
@@ -88,6 +109,9 @@ source during Phase 9, not taken from a summary.
 | D. J. Bernstein, J. C. Lagarias, *The 3x+1 conjugacy map*, Canad. J. Math. 48 (1996) 1154–1169 | Lagarias's PDF (dated 1996-02-15) | Read: introduction, formulas (1.5)–(1.6), statement that `Phi` preserves `Q ∩ Z_2` |
 | `msharpe248/collatz` | commit `ec8174b5` (2026-09-06), still default-branch head | Read: `paper/rung1.tex` introduction, §"Relation to Mahler's method", bibliography |
 | T. Q. Wang (2006); T.-Q. Wang, G.-S. Xu (2006) | — | **Not obtained** (login/captcha); known only through Bugeaud–Yao's citation |
+| E. Dejesus, *Transcendence of the 3x+1 conjugacy map on Sturmian words*, SSRN preprint, DOI 10.2139/ssrn.7584439 (2026) | Crossref record only | Abstract read; full text **not obtained** |
+| O. Rozier, arXiv:1805.00133; J. Yazinski, arXiv:1102.5547 | arXiv abstract pages | Abstracts read; not relevant to the rational-exclusion statement |
+| Bibliographic metadata of all 20 entries of `paper/references.bib` | Crossref / arXiv / Math-Net.Ru records | Checked 2026-11-14; entries not read are marked in the `note` field |
 
 ## Gate 0 working notes (preliminary; to be finalised in `phase9-prior-art.md`)
 
@@ -159,3 +183,8 @@ number of ones among the first `l` symbols.
 - 2026-11-14: Gate 0 resolved; `phase9-prior-art.md` written.
 - 2026-11-14: Gate A complete; `phase9-referee-report.md` and
   `research/phase9/verify_independent.py` added.
+- 2026-11-14: Gates B and D written: `paper/` (manuscript, verified
+  bibliography, README, static checker); `verify_independent.py`
+  extended with T7 (lower-bound example) and T8 (explicit Thue–Morse
+  pair); CI extended; second Gate C pass recorded one adjacent preprint
+  (Dejesus 2026, abstract only).
