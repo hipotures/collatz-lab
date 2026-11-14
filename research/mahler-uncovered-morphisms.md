@@ -1,9 +1,10 @@
 # Morphisms outside criterion (C): Phase 7 research
 
 2026-11-14 UTC. **Primary target resolved in Lean:** no rational number with
-positive odd denominator realizes the fixed point starting in `1` of
-`1 -> 10, 0 -> 01`, any shifted tail, or an eventual shifted tail. This is a
-contraction argument, separate from generic Theorem 8.1, now also kernel-checked.
+positive odd denominator realizes either target, `1 -> 10, 0 -> 01` or
+`1 -> 101, 0 -> 011`, any shifted tail, or an eventual shifted tail. The primary
+target has two independent infinite proofs: contraction and Mahler forms.
+Generic Theorem 8.1 is also kernel-checked.
 No claim about Collatz or the general Periodicity Conjecture follows.
 
 ## Status and reproducible evidence
@@ -15,7 +16,8 @@ No claim about Collatz or the general Periodicity Conjecture follows.
 | `10/01` rational exclusion, all shifts and eventual shifted matches | Lean-kernel-verified |
 | Both target Mahler equations and rational seed identities below | proven-by-algebra; finite integer identities are generic Lean theorems |
 | 48 exact Padé rows, degrees 1–24; 8 modular checkpoints; signed small rational falsification | verified-for-finite-domain |
-| `101/011` improved degree-2 pair and infinite contradiction below | proven-by-algebra, kernel formalization pending |
+| `101/011` degree-2 periodic control and infinite contradiction | Lean-kernel-verified |
+| Generic periodic-control certificate with freely chosen period | Lean-kernel-verified |
 | Generic Theorem 8.1 under exactly H1–H3 and (C) | Lean-kernel-verified; see `lean-equal-weight-formalization.md` |
 
 ```text
@@ -162,7 +164,7 @@ case; aperiodicity alone has no general rational exclusion consequence;
 real/complex automatic-digit theorems concern a different object. Repeating
 or enlarging these failed searches is unnecessary.
 
-## 4. Secondary target: complete algebraic certificate, kernel proof pending
+## 4. Secondary target: complete algebraic and kernel certificate
 
 For `1->101, 0->011`,
 
@@ -222,8 +224,42 @@ The strict integer comparison `2^15>4*9^4` then forces
 `4^(3^k)<=3^k*H_0` at every `k`. But `3^k>=2k` and `16^k>=6^k`, so
 `2^k<=H_0` for every `k`, impossible at `k=H_0` since `k<2^k`.
 This proves rational exclusion on paper; tails follow from inverse branches.
-The kernel has not yet checked the specialized tower and height chain, so
-**this secondary exclusion is not advertised as Lean verified**.
+The kernel now checks the entire argument through the generic periodic-control
+interface in `PeriodicCertificate.lean`. `Secondary.lean` proves the exact
+finite control conditions and exports `no_rational_seed_realizes_secondary`,
+`no_rational_seed_realizes_shifted_secondary`, and
+`no_eventually_shifted_secondary_itinerary`. The same old signed tower and
+the general height bound are reused; no infinite certificate assumption is
+added to the public theorem for this concrete word.
+
+## 4.1 Stronger criterion and a second primary proof (D2)
+
+`PeriodicControl` contains a positive period `P`, a length-`P` binary block
+and an order `N`. Its kernel-checkable predicate `Valid M C` requires
+`1<=P<=N`, agreement of the actual fixed point with that periodic block at
+every index below `N`, and an odd difference at `N`. The improved sufficient
+condition is exactly
+
+```text
+2^(L*(L-1)*N) > max(A,B)^(P*(L-1)+L+e).
+```
+
+`no_rational_seed_with_periodic_control` proves exclusion for arbitrary
+equal-weight images under H1–H3, this finite validity predicate and the gap.
+`no_rational_seed_with_shifted_periodic_control` excludes all tails.
+The form has degree `P`, is an odd multiple of `a_k^N`, and satisfies the
+height ledger with `P*(L-1)+L+e` instead of `L^2+e`. The proof retains
+`(2L)^k` and uses the general strict-gap contradiction. This is a verified
+parametric certificate interface; certificates contain finite data rather
+than an assumed irrationality proposition.
+
+For `101/011`, `alternatingControl` is block `10`, `P=2,N=5`. It gives exactly
+the degree-2 pair found independently and already recorded upstream.
+For `10/01`, `thueMorseControl` is block `100101`, `P=6,N=10`. It gives
+`p0=1+z^3+z^5`, `p1=-1+z^6`, leading coefficient -1 and
+`2^20>4^9`. The export `no_rational_seed_realizes_thueMorse_mahler` therefore
+proves the primary exclusion **without** using its aperiodicity or contraction
+theorem. Both routes are audited. Searching degree beyond 24 is unnecessary.
 
 ## 5. Literature and attribution audit
 
@@ -252,6 +288,7 @@ No novelty is claimed. Primary sources checked on 2026-11-14:
   candidate; it is not an original discovery. No conclusion about other
   files or unpublished work is inferred from this inspection.
 
-Next priorities: finish the generic signed tower, kernel-check the secondary
-certificate, and prove precisely when distinct equal-weight fixed points
-must be aperiodic before broadening the subcritical theorem's hypotheses.
+Next priorities: systematically test small periodic controls on the existing
+finite catalogue, then investigate generic aperiodicity before removing that
+explicit hypothesis from the subcritical theorem. General coverage of all
+admissible morphisms remains open.

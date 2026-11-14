@@ -10,6 +10,7 @@ import CollatzLab.MorphismOffset
 import CollatzLab.MorphismTower
 import CollatzLab.MorphismApprox
 import CollatzLab.EqualWeightChecks
+import CollatzLab.Secondary
 import CollatzLab.ThueMorse
 
 /-!

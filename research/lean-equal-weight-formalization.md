@@ -160,7 +160,7 @@ replaces this finite-index argument.
 - `thueMorse_fails_criterion` remains a checked statement. Its separate
   rational exclusion uses the subcritical theorem.
 
-The expanded audit has **118 declarations**, permitting only subsets of
+At B3 the audit has **118 declarations**, permitting only subsets of
 `propext`, `Classical.choice`, `Quot.sound`, or no axioms. The three generic
 exports use exactly those three standard foundations. There are no extra
 unproved assumptions or proof escapes. Standalone infinite series and 2-adic
@@ -180,3 +180,7 @@ python3 research/mahler-uncovered/verify_uncovered.py --check
 The clean build, audit, formatting, Clippy, all 93 Rust tests, and deterministic
 Python reproduction pass. CI enforces the exact audit count and dependency
 format. Pushed commits and CI runs are recorded in `phase7-progress.md`.
+
+Later C2/D2 adds the generic periodic-control criterion and both uncovered
+targets' Mahler certificates, bringing the current audit to 137; see
+`mahler-uncovered-morphisms.md`. B3's mathematical theorem is unchanged.

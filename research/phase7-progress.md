@@ -11,11 +11,12 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 - B: COMPLETE — generic Theorem 8.1 with exactly H1–H3 and (C), shifted
   tails and eventual shifted matches kernel-check. No finite catalogue or
   additional sign/height hypotheses. See `lean-equal-weight-formalization.md`.
-- C: PRIMARY TARGET PROVED in Lean — `10/01`, all shifts and eventual shifted
-  matches. Both targets have degree 1–24 exact certificates; secondary
-  `101/011` has a complete written proof, kernel work remains.
-- D: GENERIC SUBCRITICAL THEOREM PROVED in Lean with explicit aperiodicity
-  hypothesis; extends the contraction proof beyond the single primary instance.
+- C: BOTH TARGETS PROVED in Lean — `10/01` and `101/011`, all shifts and
+  eventual matches. Primary has independent contraction and Mahler proofs.
+  Both targets have degree 1–24 exact finite certificates.
+- D: GENERIC SUBCRITICAL AND PERIODIC-CONTROL THEOREMS PROVED in Lean.
+  The first has explicit aperiodicity; the second consumes finite control
+  data and a stronger, independently checked height ledger.
 
 ## Verified starting facts
 
@@ -29,12 +30,12 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 ## Next three proof obligations
 
-1. Kernel-check the secondary degree-2 certificate, ideally through a generic
-   periodic-control certificate interface reusing the completed height tower.
-2. State and test the improved sufficient inequality
-   `2^(L*(L-1)*N)>m^(P*(L-1)+L+e)` for control period `P`.
-3. Explore the remaining failing-certificate catalogue only after documenting
-   these exact results; avoid repeating degree-0 or aperiodicity-only arguments.
+1. Search periodic control periods 1–24 on the existing admissible catalogue
+   `2<=L<=5`; verify every proposed certificate independently.
+2. If useful, generate finite Lean certificate data against the generic
+   theorem. Catalogue coverage must remain distinguished from generic B.
+3. Explore generic aperiodicity / unequal-weight cocycles after preserving
+   these completed results; do not repeat known failed truncations.
 
 ## Checkpoint A (2026-11-14 UTC)
 
@@ -119,6 +120,23 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 - Current full audit: 118 declarations; expected Rust tests: 93.
   A clean rebuild is used for this major checkpoint; no unproved theorem
   or forbidden proof escape is introduced.
+
+## Checkpoint C2 / D2 (2026-11-14 UTC)
+
+- B3 pushed as `f365bf53998d53054a05d479863d838251deb91e`.
+  CI success: https://github.com/hipotures/collatz-lab/actions/runs/43556057828.
+- `PeriodicCertificate.lean` proves a generic periodic-control exclusion from
+  finite validity and `2^(L*(L-1)*N)>m^(P*(L-1)+L+e)`. The control period is
+  independent of the substitution length. Exact all-level valuation and heights
+  reuse the generic tower; no irrationality assertion is a certificate input.
+- `Secondary.lean` kernel-checks block `10`, `P=2,N=5`, for `101/011`, plus
+  its rational theorem and tails. The actual 32-symbol integer prefix witness
+  2567104865 reaches 6252160216.
+- A second primary certificate, block `100101`, `P=6,N=10`, gives
+  `2^20>4^9` and `no_rational_seed_realizes_thueMorse_mahler`, independently
+  of the contraction/aperiodicity proof.
+- Current validation: 137 approved axiom-audit declarations, 93 Rust tests,
+  formatting, Clippy, build and Python reproduction. No forbidden library tokens.
 
 ## Resume here
 

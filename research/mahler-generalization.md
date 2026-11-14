@@ -633,7 +633,7 @@ No originality is claimed for the method or for the results.
    and aperiodicity proofs and standalone formal-series/2-adic analytic
    statements remain written proofs.
 2. **Morphisms failing (C)** (§8.4): Phase 7 excludes `10/01` in Lean and
-   records a complete written proof and improved certificate for `101/011`;
+   kernel-checks `101/011` using an improved periodic-control certificate;
    see `mahler-uncovered-morphisms.md`. General coverage remains open.
 3. **Non-uniform or unequal-weight morphisms.** If the images have different numbers of ones,
    the block multiplier is not constant and the reduction to a single-variable Mahler equation
