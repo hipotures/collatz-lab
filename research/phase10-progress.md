@@ -166,7 +166,39 @@ explicit user approval. Never force-push.
   all **160 new theorem exports** audited, all 306 baseline entries retained
   in order; parser self-tests; **94 Rust tests**, formatting, Clippy; all six
   Python verifiers; empty forbidden-proof scan; `git diff --check`.
-- Checkpoint follows C3, commit message: "Certify finite column aperiodicity and the unequal 1100/1110 word".
+- Pushed commit: `ae09fc1889a7b80d0b2911b18445116829f3ea68`.
+- GitHub CI observed **success**:
+  <https://github.com/hipotures/collatz-lab/actions/runs/43590951718>.
+
+## Milestone C5: validated catalogue of 222 distinct exclusions
+
+- `FiniteContractionEntry.lean` defines serializable finite data, a decidable
+  `Valid` predicate, literal-image correctness, and the soundness theorem
+  constructing both certificates and excluding every rational realization.
+- Four generated Lean data modules kernel-prove validity of **all 222 rows**:
+  lengths 3/4/5/6, counts **6/10/58/148**. Every image length, weight inequality,
+  prolongability, column separator, initial window, window length, closure,
+  weight cap, and exact gap is checked by ordinary `decide`.
+- `FiniteContractionCatalogue.lean` proves count 222 and distinctness of the
+  literal image pairs, then universal exclusion, every shift and every eventual
+  shifted tail (either sign of odd denominator) for every catalogue member.
+- The generator is not trusted: changing its data must still pass every Lean
+  validation proof. Its `--check` mode reproduces all four files and independently
+  checks actual positive and signed/unreduced 81-step prefixes for all 222 words.
+  No seed intervals, distributed work, or giant words are used.
+- The bounded search union reports **225 distinct proved pairs**, combining the
+  222 kernel catalogue entries with three further sparse-family members.
+  The other finite contraction/column counts remain separate from exclusions.
+- Full validation passed: `lake build`; **487 exact audited declarations**;
+  all **181 new theorem exports** audited, all 306 baseline entries preserved
+  in order; parser self-tests; **94 Rust tests**, formatting, Clippy; all **seven**
+  Python verifiers; empty forbidden-proof scan; `git diff --check`.
+- `lake env lean research/phase10/Signatures.lean` prints the exact generic,
+  concrete, normalization, infinite-family and catalogue theorem signatures.
+- Fetched `origin/main` at `da4f5b0` during final isolation review: no competing
+  changes to the shared module index, audit, CI or `Subcritical.lean`; the actual
+  dynamics, Rust APIs and Fable/manuscript paths have no feature-branch changes.
+- Checkpoint follows C4, commit message: "Kernel-check 222 finite unequal-weight contraction certificates".
 
 ## Failed routes / cautions
 
@@ -185,7 +217,7 @@ explicit user approval. Never force-push.
 
 ```sh
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 466
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 487
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
@@ -195,6 +227,8 @@ python3 research/phase10/verify_unequal.py --check
 python3 research/phase10/search_unequal.py --check
 python3 research/phase10/verify_spectral.py --check
 python3 research/phase10/verify_sparse_family.py --check
+python3 research/phase10/generate_catalogue.py --check
+lake env lean research/phase10/Signatures.lean
 git diff --check
 ```
 
@@ -208,12 +242,12 @@ milestone to `origin/codex/unequal-weight-contraction`.
 2. Inspect the latest commit with `git log -1 --format='%H %s'` and this file.
 3. The generic criterion is complete; do not redo it. See theorem map in
    `research/unequal-weight-contraction.md`.
-4. Milestones A/B/C1/C2/C3/C4 meet the issue's completion gate and research requirements;
+4. Milestones A/B/C1/C2/C3/C4/C5 meet the completion gate and research requirements;
    PR #17 stays unmerged, and the issue stays open for user review.
-5. Optional further research: serialize the 222 contracting pairs with column
-   data into a bounded Lean catalogue, with a generic decidable validation
-   predicate whose soundness constructs both certificate structures. Ordinary
-   kernel evaluation could then instantiate all 222 without adding assumptions.
-   Keep this separate until every row is actually checked, and watch CI bounds.
+5. Finish the review checkpoint: push C5, update PR #17 to the final scope and
+   count, observe its actual CI result, and record the exact pushed SHA here.
+   Do not merge or integrate while issue #15 remains unfinished or without
+   explicit user approval. Later optional research can reduce block sizes or
+   certify candidates beyond the forced-column sufficient condition.
 6. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
    files, or infer completion from a context/token limit.

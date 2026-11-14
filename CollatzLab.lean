@@ -32,6 +32,7 @@ import CollatzLab.UnequalContractionChecks
 import CollatzLab.UnequalCertificates
 import CollatzLab.SignedContraction
 import CollatzLab.SparseChecks
+import CollatzLab.FiniteContractionCatalogue
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -91,4 +92,6 @@ Root module exporting the Lean 4 formalization of the paper
   examples with nine-step contraction, rational exclusion and all shifted tails.
 * `CollatzLab.MorphismBalance` and `SparseFamily`: exact spectral block bounds
   and exclusion for `1 -> 10^(L-1), 0 -> 1^(L-1)0` at every `L >= 3`.
+* `CollatzLab.FiniteContractionCatalogue`: 222 distinct finite column/window
+  certificates with universal rational exclusions and all shifted tails.
 -/

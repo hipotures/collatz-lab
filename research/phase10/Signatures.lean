@@ -1,0 +1,13 @@
+import CollatzLab
+
+/-! Reproduce the exact public signatures without eliding seed quantifiers. -/
+#check CollatzLab.variable_contracting_recurrence_bounded
+#check CollatzLab.Morphism.no_rational_seed_block_contraction
+#check CollatzLab.no_rational_seed_realizes_unequal_100_110
+#check CollatzLab.no_rational_seed_realizes_shifted_unequal_100_110
+#check CollatzLab.no_eventually_shifted_unequal_100_110_itinerary
+#check CollatzLab.positive_odd_denominator_normalization
+#check CollatzLab.no_rational_seed_realizes_unequalSparse
+#check CollatzLab.Morphism.no_rational_seed_finite_certificates
+#check CollatzLab.Morphism.no_rational_seed_contractionCatalogue
+#check CollatzLab.Morphism.no_eventually_shifted_contractionCatalogue

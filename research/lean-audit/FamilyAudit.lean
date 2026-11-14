@@ -499,3 +499,26 @@ import CollatzLab
 #print axioms CollatzLab.no_rational_seed_realizes_shifted_unequal_1100_1110
 #print axioms CollatzLab.no_eventually_shifted_unequal_1100_1110_itinerary
 #print axioms CollatzLab.no_eventually_shifted_unequal_1100_1110_signed_denominator
+
+/-! Serializable finite validation and all 222 distinct catalogue exclusions. -/
+#print axioms CollatzLab.Morphism.finite_entry_literal_images
+#print axioms CollatzLab.Morphism.finite_entry_no_rational_seed
+#print axioms CollatzLab.Morphism.catalogueThree_valid
+#print axioms CollatzLab.Morphism.catalogueThree_bounds
+#print axioms CollatzLab.Morphism.catalogueThree_length
+#print axioms CollatzLab.Morphism.catalogueFour_valid
+#print axioms CollatzLab.Morphism.catalogueFour_bounds
+#print axioms CollatzLab.Morphism.catalogueFour_length
+#print axioms CollatzLab.Morphism.catalogueFive_valid
+#print axioms CollatzLab.Morphism.catalogueFive_bounds
+#print axioms CollatzLab.Morphism.catalogueFive_length
+#print axioms CollatzLab.Morphism.catalogueSix_valid
+#print axioms CollatzLab.Morphism.catalogueSix_bounds
+#print axioms CollatzLab.Morphism.catalogueSix_length
+#print axioms CollatzLab.Morphism.contractionCatalogue_length
+#print axioms CollatzLab.Morphism.contractionCatalogue_distinct
+#print axioms CollatzLab.Morphism.contractionCatalogue_valid
+#print axioms CollatzLab.Morphism.contractionCatalogue_bounds
+#print axioms CollatzLab.Morphism.no_rational_seed_contractionCatalogue
+#print axioms CollatzLab.Morphism.no_rational_seed_shifted_contractionCatalogue
+#print axioms CollatzLab.Morphism.no_eventually_shifted_contractionCatalogue

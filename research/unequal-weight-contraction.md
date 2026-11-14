@@ -448,7 +448,7 @@ offset cap is 300277, attained at the initial sixteen-step chunk. The actual
 recurrence, independent positive 81-bit witness, universal rational exclusion,
 every shift, and eventual shifted tails (either odd-denominator sign) are proved.
 
-The updated bounded search finds candidate column-certificate data for 348
+At C4 the updated bounded search found candidate column-certificate data for 348
 of the 2092 tested pairs, of which 222 also have a contracting language at
 h<=8. These are **Python-computed candidate data**, not 222 claimed kernel
 instantiations. Six pairs in the bounded domain are explicitly covered by
@@ -456,3 +456,36 @@ Lean exclusion theorems: the four sparse-family members and the two separate
 examples `110/100`, `1100/1110`. The periodic `101/010` control has no such
 column certificate. The generic finite interfaces permit further instances
 without any new assumptions about arbitrary unequal-weight substitutions.
+
+## Kernel-checked catalogue: 222 finite certificates
+
+C5 promotes all 222 contracting column candidates to actual kernel proofs.
+`FiniteContractionEntry.lean` defines a serializable entry and a decidable
+`Valid` predicate. It checks image lengths and literal ordering, unequal
+weights, prolongability, a distinguishing column, every residue separator,
+the initial window, all window lengths, substitution closure, all weight caps,
+and the exact contraction inequality. `finite_entry_literal_images` proves
+that its actual `Images` functions are precisely the supplied lists.
+`finite_entry_no_rational_seed` constructs the two previously proved certificate
+structures from a successful validation. It concludes exclusion for every
+integer p,q under the unchanged `RealizesWord` semantics.
+
+`phase10/generate_catalogue.py --check` deterministically reproduces the four
+`FiniteCatalogueThree/Four/Five/Six.lean` data modules. The generator is outside
+the trusted proof chain: each module separately kernel-proves `e.Valid` for
+**every** row using ordinary `decide`, plus its length/h bounds and exact count.
+The counts are 6, 10, 58, 148, totaling 222. No executable proof shortcut is used.
+
+`FiniteContractionCatalogue.lean` proves the aggregate count and distinctness
+of the literal image pairs, then exports universal rational exclusion, every
+finite shift, and every eventual shifted tail with either sign of odd
+denominator for every catalogue member. This combines independent finite
+aperiodicity and contraction certificates; no periodicity conjecture or
+aperiodicity assumption remains for these concrete entries.
+
+The bounded domain now has **225 distinct proved image pairs**: these 222 plus
+three additional sparse-family members (lengths four, five and six). The
+infinite sparse-family theorem extends beyond that bounded domain. The
+remaining contracting pairs have only the stated finite search evidence;
+neither the 1284 contraction count nor the 348 column-data count is treated
+as a universal exclusion result. The rational periodic controls remain proved.

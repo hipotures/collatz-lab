@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 REPORT = Path(__file__).with_name("search-summary.json")
-LEAN_PROVED = {("1" + "0" * (length - 1), "1" * (length - 1) + "0")
+NAMED_LEAN_PROVED = {("1" + "0" * (length - 1), "1" * (length - 1) + "0")
                for length in range(3, 7)} | {("110", "100"), ("1100", "1110")}
 
 
@@ -104,6 +104,7 @@ def analyze(one, zero):
 
 def build_report():
     summaries, selected, totals = [], [], Counter()
+    catalogue_pairs = set()
     for length in range(2, 7):
         counts, firsts = Counter(), Counter()
         one_images = [(1,) + tail for tail in itertools.product((0, 1), repeat=length - 1)]
@@ -129,8 +130,11 @@ def build_report():
             else:
                 counts["no_certificate_at_h_le_8"] += 1
             text_one, text_zero = "".join(map(str, one)), "".join(map(str, zero))
+            if columns is not None and first is not None:
+                catalogue_pairs.add((text_one, text_zero))
+            proved = (text_one, text_zero) in NAMED_LEAN_PROVED or (text_one, text_zero) in catalogue_pairs
             # Keep a small deterministic selection, not a huge catalogue.
-            chosen = ((text_one, text_zero) in LEAN_PROVED or
+            chosen = ((text_one, text_zero) in NAMED_LEAN_PROVED or
                       (text_one, text_zero) in {("1000", "1110"), ("1100", "1110"),
                                                ("10000", "11110"), ("101", "010")})
             if chosen:
@@ -142,17 +146,22 @@ def build_report():
                                  "incidence_eigenvalues": [length, r1 - r0],
                                  "candidate_one_frequency": str(frequency),
                                  "column_certificate_data": columns,
-                                 "aperiodicity_lean_proved": (text_one, text_zero) in LEAN_PROVED,
-                                 "rational_exclusion_lean_proved": (text_one, text_zero) in LEAN_PROVED})
+                                 "aperiodicity_lean_proved": proved,
+                                 "rational_exclusion_lean_proved": proved})
         totals.update(counts)
         summaries.append({"length": length, **dict(sorted(counts.items())),
                           "first_contracting_h_counts": {str(h): firsts[h] for h in sorted(firsts)}})
+    assert len(catalogue_pairs) == totals["contracting_with_column_data"] == 222
+    proved_pairs = catalogue_pairs | NAMED_LEAN_PROVED
+    assert len(proved_pairs) == 225
     return {"bounds": {"length_min": 2, "length_max": 6, "h_min": 1, "h_max": 8,
                        "max_windows_per_language": 256},
             "totals": dict(sorted(totals.items())), "by_length": summaries,
             "selected": selected,
-            "kernel_proved_exclusions": [list(pair) for pair in sorted(LEAN_PROVED)],
-            "scope": "Finite-language contraction data for other pairs do not certify aperiodicity or rational exclusion."}
+            "kernel_catalogue_count": len(catalogue_pairs),
+            "kernel_proved_pair_count": len(proved_pairs),
+            "kernel_proved_exclusions": [list(pair) for pair in sorted(proved_pairs)],
+            "scope": "The 222 catalogue rows and named sparse-family examples are kernel-proved; other finite contraction data do not certify rational exclusion."}
 
 
 def main():
