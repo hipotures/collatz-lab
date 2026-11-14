@@ -1,0 +1,423 @@
+# Phase 11: beyond uniform contraction
+
+Issue: <https://github.com/hipotures/collatz-lab/issues/19>.
+No originality claim is made. All infinite claims below identify their proof status.
+
+## Gate A: exact supercritical aperiodic example
+
+`NonContracting110111.lean` defines precisely `mu(1)=110`, `mu(0)=111`.
+The fixed point starts at 1, has both symbols (indices 0 and 2), and satisfies
+`w(3n)=w(3n+1)=1`, `w(3n+2)=1-w(n)`, including index zero.
+`NonContractingChecks.literal_semantics` independently kernel-evaluates four
+literal list-substitution levels and compares them with the indexed word.
+
+**Kernel theorem:** this word is not eventually periodic. For a positive
+period p beyond any starting index s, set d=floor(p/3). If p mod 3=0, compare
+last columns and cancel the complement to obtain the smaller positive period d.
+If p mod 3=1, compare the forced column at `3*(3s+2d)+1` with its p-shift,
+whose index is `3*(3*(s+d))+2`. Its parent has forced value 1, so the shifted
+value is 0, a contradiction. For residue 2, start at `3*(3s+2d)` instead.
+Strong induction excludes all periods. No rationality premise is used.
+
+**Kernel theorem:** every three consecutive bits contain at least two ones.
+Consequently every length-3h window, at every starting index, contains at least
+2h ones. For h>0 and R>=2h, `3^R >= 9^h > 8^h = 2^(3h)`. Thus no complete-image
+grouping satisfies the Phase 10 gap. More strongly, suppose length-k chunks
+starting at any shift t all have at most R ones. Summing three chunks gives
+`3R>=2k`. Cubing a purported `3^R<2^k` would contradict `9^k>8^k`.
+`nonContracting_no_uniform_chunks` therefore excludes **all** positive fixed
+chunk lengths, at **all** shifts. This is a limitation of that criterion.
+
+**Kernel frequency estimate:** for every n<3^k,
+`|4*W(n)-3n|<=2k`, represented as two integer inequalities. The exact recurrence
+is `W(3n+r)+W(n)=3n+r` for r=0,1,2; discrepancy changes to its negative plus r.
+Choosing k just above log_3(n) gives `W(n)/n -> 3/4`. This last real-limit
+interpretation is an elementary deduction from the kernel estimate, not a
+formal real-analysis theorem. It covers all prefixes, not only powers.
+The exact aligned power count, reusing Phase 10 `balance_power`, is
+`4W_k(b)=3*3^k+(-1)^k*(4b-3)` for each occurring parent bit.
+
+These facts alone do not imply rational-seed exclusion.
+
+## Completed repeated-prefix research
+
+The word begins with 11, which gives square prefixes of length 2*3^k
+under substitution. The exact congruence and height argument has now been
+proved and kernel checked in `RepeatedPrefix.lean`, with independent
+arithmetic and rational-semantic regressions. The following section describes
+the completed proof. Its priority status has been corrected in light of the
+independent AI-assisted referee report in
+[PR #22](https://github.com/hipotures/collatz-lab/pull/22).
+
+## Gate C: a successful mechanism independent of contraction
+
+**Kernel theorem, `RepeatedPrefix.lean`:** if a Boolean word v is not eventually
+periodic and has arbitrarily long square prefixes UU, no rational seed realizes
+v. Both conditions are used in this sufficient criterion; this does not
+claim that both are necessary for irrationality. There is no frequency premise.
+
+Here is an independent integer reconstruction. Let m=|U|>0, r the one-count,
+c the affine offset, A=2^m, B=3^r, and let x_j be numerator states with fixed
+positive odd denominator q. Actual realization of the two identical blocks gives
+
+```
+A*x_m = B*p + c*q,
+A*x_(2m) = B*x_m + c*q.
+```
+
+Subtracting shows `A | B*(x_m-p)`. Since A and B are coprime, `A | x_m-p`.
+Thus the integer `E=(A-B)*p-c*q=A*(p-x_m)` is divisible by `A^2=4^m`.
+If E=0, `x_m=p`, so determinism makes the full itinerary periodic. Independent
+non-eventual-periodicity implies E!=0, hence `4^m<=|E|`.
+
+For every length-m Boolean word, `0<=c<=3^m-2^m` and `r<=m`. Both A and B are
+in `[0,3^m]`, so `|A-B|<=3^m`. Therefore `|E|<=(|p|+q)*3^m`. The exact strict
+base gap 4>3 contradicts arbitrarily large m. The formal proof uses the existing
+integer Bernoulli bound to choose `m>=3*(|p|+q+1)`, not real limits or logarithms.
+This does not bound the actual orbit states, which can grow very rapidly.
+
+`word_power_congr` proves equal parent letters have identical iterated images
+at every level. A prolongable fixed word beginning with 11 therefore has square
+prefixes of length `2*L^k`. The formalized general theorem
+`no_rational_seed_morphism_initial_double` assumes exactly this initial double
+and independent non-eventual-periodicity; it assumes neither equal image weights
+nor a contracting chunk. It applies to the explicit 110/111 word.
+`NonContractingExclusion.lean` excludes every rational realization, every finite
+shift, and eventual agreement after arbitrary finite prefixes. The raw eventual
+itinerary theorem covers **either sign** of odd denominator using the existing
+normalization theorem. Negative numerators and unreduced fractions are included.
+
+The theorem strengthens the repository's available sufficient criteria: this
+concrete example provably satisfies no fixed-length uniform contraction premise.
+It does not prove exclusion for all supercritical words or all automatic words.
+It proves rational exclusion, not transcendence. The general square-prefix
+and sharp partial-return criteria are **already present in earlier preprints**,
+not new theorems: see Allikvere (2026, Theorem 2.3 and Corollary 3.2) and
+Cassidy (2026, Theorem R), as checked in the Phase 11 independent referee
+report. The contribution here is an independent elementary Lean formalization
+and concrete applications outside this repository's earlier contraction scope.
+First discovery of the concrete examples has not been established.
+
+### Independent adversarial checks
+
+- Python computes affine maps independently for all 254 binary blocks of
+  lengths 1..7 and their squares. Positive, negative and signed-denominator
+  finite witnesses satisfy the exact modulus and height bound.
+- Literal substitution, independently of both Lean indexing and the balance
+  formula, gives square prefixes at levels 0..7.
+- Actual positive, negative and unreduced 81-bit rational prefixes are checked
+  by Lean reduction and Python numerator iteration. They establish non-vacuous
+  finite semantics; none is an infinite rational realization.
+- `101/010` remains realized by 1/1. Its fixed point starts 10, so the initial
+  double premise fails. The all-one word at -1/1 has unbounded square prefixes
+  and density one but is periodic, so the aperiodicity premise fails.
+  Dropping non-eventual-periodicity is false, as the all-one control shows.
+  Dropping the repetition premise while retaining non-eventual-periodicity
+  would assert the open rational Periodicity Conjecture, not a known false
+  statement. The alternating control does not establish otherwise.
+
+## Gate B: exact classification of the contraction method
+
+**Kernel theorem, `SpectralThreshold.uniform_contraction_iff_subcritical`:**
+let L>=2, mu be any binary length-L substitution prolongable on 1, r0/r1 its
+image weights, and D=L-r1+r0>0. There exist a finite shift t, positive chunk
+length k and cap R satisfying the Phase 10 uniform bound and `3^R<2^k`
+**if and only if** `3^r0<2^D`. The reverse implication supplies a power-block
+certificate; the forward implication rules out every chunk size and shift in
+the supercritical case. No aperiodicity premise is needed for this classification.
+Rational exclusion still needs a separate aperiodicity theorem.
+
+This classifies certificates for the actual selected fixed point, not every
+word in its substitution subshift and not arbitrary nonuniform substitutions.
+The underlying balance identity is reused from Phase 10, not claimed as new.
+
+### Exact identities and degeneracies
+
+The incidence characteristic polynomial is `(X-L)(X-(r1-r0))`, kernel checked
+by polynomial expansion. `power_image_count` exports
+
+```
+D*W_k(b) = r0*L^k + Delta^k*(D*b-r0).
+```
+
+It applies to each occurring parent at every position. It does not assert that
+both parents occur. The signed negative-eigenvalue case is included. A uniform
+bound for the absolute discrepancy is `(D+r0)*|Delta|^k`.
+
+`frequencyDen_nonnegative` proves D>=0. When D=0, r0=0 and r1=L; the selected
+fixed point is the constant-one word (`frequencyDen_zero_word`). Dividing by D
+is invalid there. When D>0, prolongability forces r1>=1, so `|Delta|<L` follows
+without primitivity. The otherwise exceptional Delta=-L case would require
+r1=0 and cannot be prolongable on 1. Constant-one examples with r1=L and r0>0
+have D=r0, frequency one and no contraction. Nonprimitive examples with r0=0,
+r1<L have limiting frequency zero and are covered by the subcritical theorem;
+they can be eventually constant and need not be rational exclusions. Identical
+images, absent letters, Delta=0 and period-one fixed points are all permitted.
+
+The exact discrepancy and Phase 10 boundary estimate imply the ordinary
+frequency rho=r0/D, uniformly in finite-window starting position. This analytic
+interpretation is a deduction from integer estimates, not a Lean real-limit
+statement. The classification itself uses no limits. Critical equality would
+require `3^r0=2^D`, impossible since the former is odd and the latter even for
+D>=1 (`rational_threshold_ne`). Equivalently rational rho cannot equal
+log(2)/log(3); that equivalence uses elementary real logarithms only in exposition.
+
+### Effective subcritical witness
+
+Choose integers s,d>=1 with `d*r0<D*s` and `3^s<2^d`. Such a separating slope
+is constructed entirely in integers: from `3^r0<2^D`, take
+`t=3*3^r0+1`, `s=r0*t+1`, `d=D*t`. Integer Bernoulli amplification gives
+`4*(3^r0)^t <= (2^D)^t`, so `3^s<2^d` and `d*r0<D*s`.
+
+Set `B=max(1,|Delta|)`, `C=d*(D+r0)+D*d`, `k=B*C+1`, `S=L^k`,
+`R=floor(s*S/d)`. Since 1<=B<L, the same amplification proves
+`(C+1)*B^k<=S`. The spectral transient and the integer floor error are
+therefore both dominated by the positive margin:
+
+```
+d*D*W_k(b) <= D*s*S - D*d <= D*d*R.
+```
+
+Thus every aligned S-block has weight at most R, and raising a purported
+failure of `3^R<2^S` to the positive d-th power contradicts `3^s<2^d`.
+These constructions, including existence and rounding, are kernel checked.
+The witness is deliberately large; no minimal k is claimed. A faster finite
+search can return a smaller certificate but failure below a cutoff proves nothing.
+
+### Why no supercritical grouping can help
+
+`uniform_chunks_frequency_necessary` proves the stronger necessary inequality
+`r0*k<=D*R` for every uniform cap on shifted length-k chunks. Sum the cap at
+length `k*L^e`, retain the initial-prefix boundary term, and compare with the
+exact balance formula. If `D*R<r0*k`, its positive integer gap times L^e would
+be bounded by a constant times `B^e`, where B<L. An explicit Bernoulli witness
+e gives a contradiction. Raising the proposed contraction gap to D and the
+supercritical inequality to k then gives inconsistent integer powers.
+
+This establishes that subcritical substitutions are eventually covered by
+power-block contraction, whereas supercritical ones are outside that method.
+The 110/111 exclusion is therefore an application of a genuinely different
+repository criterion, rather than a search for a longer contracting chunk.
+
+## Sharper return bound and further research routes
+
+The repeated-prefix mechanism also proves the following **kernel-checked**
+finite inequality. If the first ell bits recur at position m>0 in a nonperiodic
+rational itinerary, and r=W(m), then
+
+```
+2^(m+ell) | E_m,
+2^(ell+r) <= (abs(p)+q)*3^r.
+```
+
+The sharper bound uses the exact universal offset cap
+`offset(v,m)<=2^(m-r)*3^r-2^m`, attained by putting all ones last. It requires no
+frequency hypothesis. This identifies a quantitative partial-repetition route
+beyond full squares; a finite return alone is not an infinite exclusion theorem.
+
+| Route | Precise obligation / smallest test | Evidence and outcome | Status / genuine scope |
+|---|---|---|---|
+| Variable affine cocycle | Actual maps `8*y'=9*y+5q` and `8*y'=27*y+19q`; seek bounded states or a common center | Exact recurrence kernel proved. Their homogeneous integer matrices have off-diagonal products 287 and 211, so do not commute. A common center would be both -5 and -1, kernel proved impossible. Both multipliers expand. | Bounded-state pigeonhole route fails; it excludes no seed. The successful route bounds a cycle-closing form instead of states. |
+| Finite rational congruences | Find a contradiction for unbounded repeated prefixes with fixed p/q, not merely a failed finite seed search | For every tested finite word the affine congruence has a residue solution because 3^r is odd. Signed witnesses exist through 81 bits. Adding repetition yields modulus `2^(m+ell)` and a height contradiction. | Successful general kernel criterion, non-vacuously applied to 110/111 and all shifts/tails. Strictly extends available contraction criteria. |
+| Spectral discrepancy | Determine whether longer fixed chunks can contract in the supercritical case | Exact iff theorem above; no fixed chunk can work. Quantified transient proves every subcritical case does eventually work. | Kernel classification of this method, not a universal irrationality theorem. Rational constant-one and 101/010 controls prevent deleting aperiodicity. |
+| Vector / Mahler transport | Relate the **actual seed**, not just an ordinary automatic generating series, to a functional equation with valid arithmetic heights | A useful two-step prefix-height profile is kernel proved below. Finite coefficient and seed-sum checks support the stated exploratory relation. No analytic specialization theorem is proved here. | A separate possible proof, not a dependency of the exclusion. Transcendence remains open in this development. |
+
+### A concrete Mahler route with its remaining obligations
+
+For nu=mu^2, `nu(0)=110110110`, `nu(1)=110110111`. For j<9 the common
+prefix-height vector is `(0,1,2,2,3,4,4,5,6)`. The new kernel theorem
+`nonContracting_nine_prefix_height` proves, for every n>=0 and 0<=j<9,
+
+```
+W(9n+j)=6n+W(n)+2*floor(j/3)+(j mod 3).
+```
+
+Consider the exploratory formal series `H(x,y)=sum_n x^n*y^W(n)` and
+`F(x,y)=sum_n w(n)*x^n*y^W(n)`. The candidate identities are
+
+```
+H(x,y)=P(x,y)*H(x^9*y^6,y),
+P=(1+x*y+x^2*y^2)*(1+x^3*y^2+x^6*y^4),
+(1-x)*H(x,y)-1=x*(y-1)*F(x,y).
+```
+
+The exact profile supplies a coefficientwise derivation, checked independently
+on finite coefficients by `verify_spectral_boundary.py`; these infinite formal
+series identities are **not exported as Lean theorems**. Finite affine sums
+confirm that the actual Collatz seed is `-F(2,1/3)/3` in Q_2, and the proposed
+specialization would give `seed=-(H(2,1/3)+1)/4`. To reduce the transformation
+to z->z^9, put `x=3^(3/4)*z`; the candidate evaluation point becomes
+`z=2/3^(3/4)`, an algebraic 2-adic point of positive valuation. A choice of the
+fourth root requires working in a suitable finite extension.
+
+Remaining obligations: formalize the series/specialization identities, prove
+non-rationality or transcendence of the normalized H over the relevant field,
+check functional-equation nonvanishing at the orbit, and supply an appropriate
+p-adic specialization/height argument. The real and 2-adic sums are never
+identified here. Generic automatic generating functions alone do not provide
+any of those missing steps. This route excludes no additional seed at present.
+
+## Primary-source scope and originality
+
+Initial source comparison: 2026-11-14; supplemented by the independently
+reconstructed AI-assisted [Phase 11 referee report](https://github.com/hipotures/collatz-lab/pull/22)
+(issue #21), particularly its Section 6. The review is not human peer
+review. No external theorem is an assumption of any new Lean result.
+
+**Confirmed earlier overlap, with exact scopes:**
+
+- **J. Allikvere**, *Periodic shadows, drift pressure, and transcendence of
+  the 3x+1 conjugacy map*, [Zenodo 21543841](https://doi.org/10.5281/zenodo.21543841),
+  July 2026 preprint (record updated August 2026), Lemma 2.1,
+  Theorem 2.3, Corollary 3.2. These contain the sharp fixed-weight offset
+  bound, the partial-prefix return inequality, and the unbounded-square
+  rational exclusion. They overlap respectively with
+  `offset_weight_upper`, `rational_matching_prefix_weight_bound`,
+  and `no_rational_seed_unbounded_square_prefix`. The reviewer checked
+  the exact change of notation and the elementary proofs. This is a
+  preprint, not a verified peer-reviewed journal article.
+- **E. Cassidy**, *Transversality foundry: the divergence target is
+  Lagarias's Periodicity Conjecture…*, [pinned September 2026 author note](https://github.com/eliottcassidy2000/math/blob/6b805eed1613edaedd87965e2b1986390fa84f0e/05-knowledge/results/collatz_procgen_20260922_transversality_foundry.md),
+  Section 4.3, Lemma G and Theorem R. This gives a broader rational
+  2-adic repetition/height framework; it is an author note, not an
+  independently verified journal publication.
+- **A. Dubickas**, *On integer sequences generated by linear maps*,
+  Glasgow Math. J. **51** (2009), 243–252,
+  [DOI:10.1017/S0017089508004655](https://doi.org/10.1017/S0017089508004655),
+  Theorem 5 and Section 5. The published factor-complexity/collision
+  mechanism provides an alternative route. The independent reviewer
+  derived a signed-rational odd-denominator extension of that argument
+  covering both `110/111` and `1011/1111` and a larger single-hole
+  family; **that extension is not attributed as Dubickas's literal
+  published theorem**. See review Section 2.4.
+- **E. De Jesús**, *The 3x+1 Conjugacy Map Sends Every Sturmian Word to
+  an Irrational 2-adic Integer*, [Zenodo 23108370](https://doi.org/10.5281/zenodo.23108370),
+  2026 preprint, Section 9, states a related stronger signed-rational
+  lower-complexity criterion. The reviewer read the identified primary
+  text, but journal acceptance or priority among 2026 preprints has
+  not been established.
+
+These results materially restrict originality claims: the core
+repeated-prefix and square criteria are previously stated. The exact
+spectral uniform-contraction iff formulation is a formalized elementary
+specialization whose worldwide priority remains undetermined. Neither
+the new Lean verification nor the two concrete exclusions should be
+presented as a first-discovered mathematical theorem.
+
+- **Monks–Yazinski**, *The autoconjugacy of the 3x+1 function*, Discrete Math.
+  275 (2004), 219–236, [author PDF](https://monks.scranton.edu/files/pubs/AutoConjV13.pdf),
+  Theorem 2.7(b), printed p. 6, proof in Section 4.1: statement and proof read.
+  It supplies a lower density bound for noncyclic rational orbits; it does not
+  exclude the supercritical example. The exclusion here uses repetition instead.
+- **López–Stoll**, arXiv:2101.12747v1 (2021), [Section 6](https://arxiv.org/html/2101.12747v1#S6),
+  Theorem 1 and equations (15)–(16): relevant statement and transfer step read.
+  The final inference from the real value to the 2-adic value is unsupported
+  for a hypothetical escaping rational orbit. This agrees with the earlier
+  repository audit; no theorem here relies on that claim.
+- **Molchanov**, Vestnik Moskov. Univ. Ser. I Mat. Mekh. (1983), no. 2, 31–37,
+  [original scan](https://www.mathnet.ru/eng/vmumm3467): theorem text on pp. 31–32
+  inspected in the original scan's extracted text; the proof was not checked
+  line by line in this phase. It concerns p-adic Mahler values under substantive
+  function, transformation and point hypotheses. It motivates the separate H
+  route; no direct application to H has been established here. Phase 9's
+  equal-weight comparison is preserved without modification.
+- **lyapunov_weaver**, *Automatic parity and primitive substitutions in rational
+  Collatz dynamics*, [rStation version 2, 22 Oct 2026](https://rstation.ai/problems/collatz/papers/16/v2):
+  statements and scope discussion read; full analytic proof not independently
+  checked. It claims restrictions for positive rational automatic/primitive
+  itineraries through analytic comparison of completions. The webpage's review
+  is platform review, not evidence of journal publication. This phase uses an
+  elementary argument for both numerator signs and makes no general automatic
+  word or priority claim.
+
+The repetition and periodic-approximation criteria were known before this
+development, as shown by the earlier preprints above; the examples also follow
+from the independently reconstructed extension of the published counting
+mechanism. What remains useful is an auditable Lean formalization, explicit
+signed rational applications, and a rigorous exact spectral boundary.
+Priority of the exact spectral formulation remains undetermined. No claim of
+journal publication, human peer review, or progress on the general Collatz
+Periodicity Conjecture follows.
+
+## Second application: exclusion from a partial return
+
+`NonContractingPartialReturn.lean` defines exactly `1->1011`, `0->1111`.
+**All statements in this paragraph are kernel checked:** literal images and
+columns; both symbols; non-eventual-periodicity; a return of length S=4^k at
+position 2S for every level; `8S-3<=5W(2S)<=8S+3`; no fixed-length uniform
+contraction at any shift; and universal rational exclusion, every finite shift
+and all eventual shifted tails with either sign of odd denominator. Independent
+literal list evaluation through length 256 and signed/unreduced 81-bit numerator
+iteration are also kernel checked.
+
+The word begins with 10, so the initial-double hypothesis of the earlier morphism
+corollary is false. This does **not** assert that all possible square prefixes
+are absent. The new proof deliberately uses the shorter return inherited from
+the initial 101, not that corollary.
+
+For a purported eventual period, any nonzero residue modulo four sends a known
+zero at `4*(4*start)+1` into a forced-one column. Residue zero descends through
+the complement column at index one. This proves independent aperiodicity. Its
+parameters D=5,r0=4 satisfy `2^5=32<81=3^4`, so the generic spectral obstruction
+excludes every fixed chunk size.
+
+Put r=W(2S) and C=|p|+q for a hypothetical realization. The general sharp return
+bound gives `2^(S+r)<=C*3^r`. Raise to the fifth power and use the exact spectral
+transient `|5r-8S|<=3`:
+
+```
+2^(13S) <= 216*C^5*3^(8S).
+```
+
+Since `2^13=8192>6561=3^8`, the existing integer exponential-gap theorem
+contradicts this inequality along S=4^k. Actual orbit states need not be bounded.
+This proves the sharper return inequality has a concrete noncontracting
+application beyond the initial-double interface. No novelty claim is made.
+
+### Remaining hypotheses and next experiments
+
+1. **A wider partial-return criterion.** For a specified substitution and parent
+   return of period a and match length b, combine exact counts with the sharp
+   return inequality. A prospective sufficient strict margin is
+   `2^(D*b+r0*a)>3^(r0*a)`; spectral transients and rounding must be controlled
+   before exporting such a general theorem. The two examples here do not prove
+   this proposed general formulation.
+2. **Next concrete test:** `1->10111`, `0->11111`. The analogous period-two,
+   length-one return has prospective base margin `2^16>3^10`. Aperiodicity,
+   count transport, tails and signed semantics still need formal instantiation;
+   no exclusion theorem for this word is claimed here.
+3. **A ledger obstruction, not a counterexample to irrationality:** for
+   `1->101111`, `0->111111`, the same prospective margin fails:
+   `2^19=524288<531441=3^12`. Thus merely extending this partial-return ledger
+   to every length silently would be false. A sharper offset estimate or a
+   stronger return is needed; rational exclusion for that target is unresolved
+   by this development.
+4. **Normalized H specialization:** complete the analytic obligations above
+   only if the goal is transcendence or an exclusion beyond the return criteria.
+   Do not reuse the equal-weight scalar tower without actual seed transport.
+
+## Reproduction and proof-status inventory
+
+Run `bash research/phase11/validate.sh` from the isolated clone. It reads the
+exact audit count from current CI and runs the full issue #19 matrix, all three
+Phase 11 verifiers, the proof-escape scan, and the manuscript Lean-name check.
+The manuscript is read for checks only; no Phase 9 or paper file is modified.
+`research/phase11/Signatures.lean` prints the main formal interfaces for review.
+
+- **Kernel results:** the six Phase 11 Lean modules imported by `CollatzLab.lean`,
+  every new theorem and definition explicitly included in `FamilyAudit.lean`.
+- **Finite deterministic support:** three new Python verifiers, including
+  literal-index comparisons, 254 small square blocks, partial overlaps, 715
+  spectral parameter cases, effective witness levels, signed/unreduced prefixes
+  and both rational controls. These counts are not infinite proofs.
+- **Analytic deductions:** real-frequency limits interpreted from the explicit
+  integer estimates; no Lean real-analysis library or external theorem assumed.
+- **Unfinished routes:** the infinite formal H identities and their analytic
+  specialization/transcendence, the proposed general spectral return criterion,
+  and the length-five/six additional targets above. They are not required for
+  either proved concrete exclusion. General Collatz periodicity remains open.
+- **Priority:** the central sharp return/square-prefix criteria are known
+  from earlier 2026 preprints (Allikvere, Cassidy), and the two exclusions
+  also follow by an extension of Dubickas's published complexity argument;
+  the exact spectral iff statement's broader priority remains undetermined.
+  This is an independently checked formalization, not a new-theorem claim.

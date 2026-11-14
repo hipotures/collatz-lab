@@ -1,0 +1,24 @@
+import CollatzLab
+
+/-! Exact Phase 11 interfaces, independent of explanatory prose. -/
+#check CollatzLab.Morphism.nonContracting_images
+#check CollatzLab.Morphism.nonContracting_not_eventually_periodic
+#check CollatzLab.Morphism.nonContracting_group_expands
+#check CollatzLab.Morphism.nonContracting_no_uniform_chunks
+#check CollatzLab.Morphism.nonContracting_prefix_discrepancy
+#check CollatzLab.Morphism.nonContracting_power_count
+#check CollatzLab.Morphism.uniform_contraction_iff_subcritical
+#check CollatzLab.Morphism.subcritical_has_contracting_power
+#check CollatzLab.Morphism.frequencyDen_zero_word
+#check CollatzLab.matching_prefix_divisibility
+#check CollatzLab.offset_weight_upper
+#check CollatzLab.rational_matching_prefix_weight_bound
+#check CollatzLab.no_rational_seed_unbounded_square_prefix
+#check CollatzLab.no_rational_seed_morphism_initial_double
+#check CollatzLab.no_rational_seed_realizes_nonContracting110111
+#check CollatzLab.no_eventually_shifted_nonContracting110111_signed
+#check CollatzLab.Morphism.nonContracting1011_no_uniform_chunks
+#check CollatzLab.no_rational_seed_realizes_nonContracting1011
+#check CollatzLab.no_eventually_shifted_nonContracting1011_signed
+#check CollatzLab.NonContractingChecks.rational_control_preserved
+#check CollatzLab.NonContractingChecks.all_one_rational_control

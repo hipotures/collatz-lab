@@ -522,3 +522,88 @@ import CollatzLab
 #print axioms CollatzLab.Morphism.no_rational_seed_contractionCatalogue
 #print axioms CollatzLab.Morphism.no_rational_seed_shifted_contractionCatalogue
 #print axioms CollatzLab.Morphism.no_eventually_shifted_contractionCatalogue
+
+/-! Phase 11: aperiodic supercritical word and exact contraction obstruction. -/
+#print axioms CollatzLab.Morphism.nonContracting_images
+#print axioms CollatzLab.Morphism.nonContracting_columns
+#print axioms CollatzLab.Morphism.nonContracting_parity_columns
+#print axioms CollatzLab.Morphism.nonContracting_both_bits
+#print axioms CollatzLab.Morphism.nonContracting_not_periodic_from
+#print axioms CollatzLab.Morphism.nonContracting_not_eventually_periodic
+#print axioms CollatzLab.Morphism.nonContracting_group_weight
+#print axioms CollatzLab.Morphism.nonContracting_three_weight
+#print axioms CollatzLab.Morphism.nonContracting_window_lower
+#print axioms CollatzLab.Morphism.nonContracting_group_expands
+#print axioms CollatzLab.Morphism.nonContracting_no_uniform_chunks
+#print axioms CollatzLab.Morphism.nonContracting_power_count
+#print axioms CollatzLab.Morphism.nonContracting_prefix_step
+#print axioms CollatzLab.Morphism.nonContracting_prefix_discrepancy
+#print axioms CollatzLab.NonContractingChecks.literal_semantics
+#print axioms CollatzLab.NonContractingChecks.rational_control_preserved
+
+/-! Phase 11: repeated-prefix rational exclusion, independently of contraction. -/
+#print axioms CollatzLab.square_prefix_divisibility
+#print axioms CollatzLab.prefixCycleForm_nonzero
+#print axioms CollatzLab.prefixCycleForm_height
+#print axioms CollatzLab.rational_square_prefix_bound
+#print axioms CollatzLab.no_rational_seed_unbounded_square_prefix
+#print axioms CollatzLab.Morphism.word_power_congr
+#print axioms CollatzLab.Morphism.initial_double_square
+#print axioms CollatzLab.no_rational_seed_morphism_initial_double
+#print axioms CollatzLab.nonContracting_square_prefix
+#print axioms CollatzLab.no_rational_seed_realizes_nonContracting110111
+#print axioms CollatzLab.no_rational_seed_shifted_nonContracting110111
+#print axioms CollatzLab.no_eventually_shifted_nonContracting110111
+#print axioms CollatzLab.no_eventually_shifted_nonContracting110111_signed
+#print axioms CollatzLab.NonContractingChecks.signed_finite_semantics
+
+/-! Phase 11: exact spectral boundary, general return precision and controls. -/
+#print axioms CollatzLab.Morphism.nonContracting_nine_prefix_height
+#print axioms CollatzLab.matching_prefix_divisibility
+#print axioms CollatzLab.rational_matching_prefix_bound
+#print axioms CollatzLab.nonContracting_variable_cocycle
+#print axioms CollatzLab.nonContracting_no_common_center
+#print axioms CollatzLab.NonContractingChecks.all_one_rational_control
+#print axioms CollatzLab.Morphism.power_image_count
+#print axioms CollatzLab.Morphism.prolongable_spectral_gap
+#print axioms CollatzLab.Morphism.frequencyDen_zero_images
+#print axioms CollatzLab.Morphism.weight_chunks_bound
+#print axioms CollatzLab.Morphism.weight_prefix_shift_bound
+#print axioms CollatzLab.Morphism.uniform_chunks_frequency_necessary
+#print axioms CollatzLab.rational_ratio_contraction
+#print axioms CollatzLab.rational_ratio_no_contraction
+#print axioms CollatzLab.rational_threshold_ne
+#print axioms CollatzLab.Morphism.spectral_no_uniform_contraction
+#print axioms CollatzLab.Morphism.power_image_discrepancy_bound
+#print axioms CollatzLab.Morphism.exists_power_ratio_bound
+#print axioms CollatzLab.Morphism.exists_contracting_power_of_ratio
+#print axioms CollatzLab.rational_gap_thickening
+#print axioms CollatzLab.Morphism.subcritical_has_contracting_power
+#print axioms CollatzLab.Morphism.uniform_contraction_iff_subcritical
+#print axioms CollatzLab.Morphism.frequencyDen_nonnegative
+#print axioms CollatzLab.Morphism.frequencyDen_zero_word
+#print axioms CollatzLab.Morphism.binary_incidence_characteristic
+#print axioms CollatzLab.offset_weight_upper
+#print axioms CollatzLab.prefixCycleForm_weight_height
+#print axioms CollatzLab.rational_matching_prefix_weight_bound
+
+/-! Phase 11: partial-return application and all new definition dependencies. -/
+#print axioms CollatzLab.Morphism.nonContracting110111
+#print axioms CollatzLab.NonContractingChecks.literalStep
+#print axioms CollatzLab.NonContractingChecks.literalIter
+#print axioms CollatzLab.prefixCycleForm
+#print axioms CollatzLab.Morphism.nonContracting1011
+#print axioms CollatzLab.Morphism.nonContracting1011_images
+#print axioms CollatzLab.Morphism.nonContracting1011_columns
+#print axioms CollatzLab.Morphism.nonContracting1011_not_periodic_from
+#print axioms CollatzLab.Morphism.nonContracting1011_not_eventually_periodic
+#print axioms CollatzLab.Morphism.nonContracting1011_partial_return
+#print axioms CollatzLab.Morphism.nonContracting1011_prefix_weight
+#print axioms CollatzLab.Morphism.nonContracting1011_no_uniform_chunks
+#print axioms CollatzLab.no_rational_seed_realizes_nonContracting1011
+#print axioms CollatzLab.no_rational_seed_shifted_nonContracting1011
+#print axioms CollatzLab.no_eventually_shifted_nonContracting1011_signed
+#print axioms CollatzLab.NonContractingPartialChecks.literalStep
+#print axioms CollatzLab.NonContractingPartialChecks.literalIter
+#print axioms CollatzLab.NonContractingPartialChecks.literal_semantics
+#print axioms CollatzLab.NonContractingPartialChecks.signed_finite_semantics
