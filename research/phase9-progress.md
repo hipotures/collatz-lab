@@ -9,43 +9,59 @@ reported "Already up to date".
 
 ## Resume here
 
-**State:** Gate 0 resolved and written up in
-`research/phase9-prior-art.md`. Nothing in the Lean or Rust code has been
-changed in Phase 9 so far.
+**State:** Gates 0 and A are complete and written up. Gate C matrix is
+written (open items listed there). Gates B and D (written proof and
+manuscript in `paper/`) are the remaining work. No Lean or Rust source
+has been changed in Phase 9; one new Python checker was added.
 
-**Gate 0 verdict (details and evidence labels in the prior-art file):**
+**Gate 0 verdict** (`phase9-prior-art.md` §0): the headline irrationality
+statement is **not new** — it follows from S. M. Molchanov's 1983 *p*-adic
+Mahler theorem, which even gives transcendence. López–Stoll Theorem 1
+has a gap (real limit identified with 2-adic limit). The subcritical
+half is a short corollary of Monks–Yazinski 2.7(b).
 
-- The headline irrationality statement is **not new**: it follows from
-  S. M. Molchanov's 1983 *p*-adic Mahler theorem (statement read in the
-  original), which even gives transcendence of the 2-adic seed.
-- López–Stoll Theorem 1 would cover the supercritical half but its proof
-  has a gap (real limit identified with 2-adic limit); do not rely on it.
-- The subcritical half is a short corollary of Monks–Yazinski 2.7(b).
-- Framing for the paper: elementary, division-free, machine-checked
-  proof of a known consequence of the *p*-adic Mahler method, with an
-  explicit uniform certificate. No "new theorem" claim for irrationality.
+**Gate A verdict** (`phase9-referee-report.md` §1): no correctness
+defect; findings F1 (framing), F2 (formal statement covers only the
+fixed point starting with `1`), F3 (degree six is interface-specific),
+F4 (conjugacy-map phrasing needs a cited bijection), F5 (stale memos).
+
+**Framing for the paper:** elementary, division-free, machine-checked
+proof of a known consequence of the *p*-adic Mahler method, with an
+explicit uniform certificate. No "new theorem" claim for irrationality.
 
 **Next actions, in order:**
 
-1. Gate A: read the Lean chain from `Word.lean` (`RealizesWord`) to
-   `UniversalEqualWeight.lean` and write `research/phase9-referee-report.md`.
-2. Gate B/D: write the independent proof and the manuscript in `paper/`.
-3. Gate C leftovers: the "Open items" list at the end of the prior-art
-   file (Wang 2006, Wang–Xu 2006, Loxton–van der Poorten 1982 not read).
+1. Write `paper/main.tex`, `paper/references.bib`, `paper/README.md`
+   (Gates B and D). No TeX engine is installed here; validate syntax
+   by script and say so in `paper/README.md`.
+2. Re-run the validation list of issue #15 item 6 after the last
+   change and record CI run URLs.
+3. Optional: generalise the Lean statement to the fixed point starting
+   with `0` (finding F2); obtain Wang 2006 / Wang–Xu 2006.
 
 **Highest-risk open issue:** Molchanov's proof was read only in outline;
 the "known" verdict rests on its published statement plus classical
 facts (Fatou-type rational/transcendental dichotomy) not re-derived here.
+
+**Working-copy note.** At 10:50:45 UTC a concurrent Codex session
+switched the shared checkout `/home/user/DEV/collatz-lab` to its own
+branch `codex/unequal-weight-contraction`. One Phase 9 commit landed on
+that branch by accident; it was re-applied to `main` (`2ee7681`) and
+removed from that branch with a compare-and-swap ref update, leaving
+the other session's branch and files as they were. Since then Phase 9
+commits are made from a separate plain clone of `origin` on `main`
+(no branch, worktree or PR). When resuming, check
+`git rev-parse --abbrev-ref HEAD` before committing.
 
 ## Gate checklist
 
 | Gate | Status |
 |---|---|
 | 0 — López–Stoll / prior-art red flag | **resolved**: see `phase9-prior-art.md` §0 |
-| A — adversarial mathematical and Lean review | not started |
-| B — independent proof reconstruction | not started |
+| A — adversarial mathematical and Lean review | **complete**: `phase9-referee-report.md` |
+| B — independent proof reconstruction | derivation done and cross-checked (referee report §5); to be written in `paper/main.tex` |
 | C — literature review and novelty verdict | matrix written (`phase9-prior-art.md` §6); open items listed in its §7 |
-| D — manuscript | not started; blocked on 0, A, C |
+| D — manuscript | not started; editorial gate open (no critical defect; framing resolved) |
 
 ## Environment (checked 2026-11-14)
 
@@ -132,11 +148,14 @@ number of ones among the first `l` symbols.
       derivation: 574 admissible morphisms with `2 <= L <= 6`, modulus
       `2^200`, first 40 parities (scratch script, not committed).
 - [ ] Wang 2006, Wang–Xu 2006, Loxton–van der Poorten 1982 statements.
-- [ ] Baseline re-verification on a clean build (Lean build from
-      `lake clean`, axiom audit, Rust, Python checkers).
+- [x] Baseline re-verification on a fresh clone: Lean build, 306-entry
+      axiom audit, proof-escape scan, `cargo fmt/clippy/test` (94 tests),
+      both Python checkers — all pass (referee report §2, §7).
 
 ## Checkpoint log
 
 - 2026-11-14: journal created at `d6df8a2`; Gate 0 reading of
   López–Stoll and Monks–Yazinski done; preliminary notes above.
 - 2026-11-14: Gate 0 resolved; `phase9-prior-art.md` written.
+- 2026-11-14: Gate A complete; `phase9-referee-report.md` and
+  `research/phase9/verify_independent.py` added.
