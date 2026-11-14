@@ -5,64 +5,49 @@ Starting HEAD (2026-11-14 UTC):
 `63296dd317eb1b8d48554b7ea843424fca97b74b`.
 Initial working tree was clean; fetch and fast-forward pull succeeded.
 
-## Resume here
+## Resume here — all required milestones complete
 
-**The universal theorem and its tails are now kernel-verified.** All Phase 7
-results and independent proofs are retained. Read the proof mapping before
-extending the theorem's scope.
-**Pushed A checkpoint:** `6560d1719ad5998be988236182feef8f2ade1292`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579255480 — success.
+**Verified code commit:** `63a52b4b400a1bf17aac38531c3d8c8c147ff70b`.
+**Code CI:** https://github.com/hipotures/collatz-lab/actions/runs/43584835901 — success.
+This journal-only checkpoint follows that immutable code commit; read
+`git rev-parse HEAD` for the current journal commit. Work remains on `main`.
 
-**Pushed C checkpoint:** `723f103107406db4658d7122a2b2f3091b804bf3`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579550635 — success.
-
-**Pushed B checkpoint:** `83835a7e8ef8f0b0a3d12af332ad83b6642a557a`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43579996609 — success.
-
-**Pushed D checkpoint:** `59cc117ef9beeb81ebacdc2d8594781c622e607a`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43580578326 — success.
-A–D are complete. No main theorem proof obligation remains.
-
-**Pushed E checkpoint:** `7cd9a95285718e01cc5f59e6086ad13495bf2fcb`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43581609610 — success.
-
-**Pushed E2 checkpoint:** `4f54b3acbca6010b608a6a35bc92f59cdf9c52f6`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43582367746 — success.
-
-**Pushed E3 checkpoint:** `12e9e53c74c92a31492de9b0c83f06647de594eb`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43583179137 — success.
-
-**Pushed E4 checkpoint:** `50bdb4d3ad6916782b8283c875abe1dfd3466390`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43583686517 — success.
-
-**Pushed E5 checkpoint:** `476cd2a0b3d2d099217745a06d8040bc622012a6`.
-**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43584500897 — success.
-
-**Final local code checkpoint E6:** finite `First`/`Gap` conditions themselves
-force a nonzero denominator. All 149 new theorem exports are audited, every
-157 baseline audit entry is retained, and the complete count is 306.
-A fresh clean rebuild and all full checks pass before the final code push.
-No main or required milestone proof obligation remains.
+The main export is `CollatzLab.no_rational_seed_realizes_all_equal_weight`
+in `CollatzLab/UniversalEqualWeight.lean`. It has exactly H1–H3 and `L>=2`,
+with arbitrary integer numerators/denominators interpreted by the unchanged
+`RealizesWord` predicate. All finite shifts and eventual matches are excluded.
+No main theorem or required milestone proof obligation remains. All useful
+Lean work is committed; no scratch proof must be recovered.
 
 | Milestone | Verified status |
 |---|---|
-| A: arbitrary polynomial-pair conditional certificate | COMPLETE — kernel-verified, full local validation |
-| B: rational binary series implies eventual periodicity | COMPLETE — kernel-verified, full local validation |
-| C: universal degree-six/order-at-least-thirteen existence | COMPLETE — kernel-verified, full local validation |
-| D: unconditional equal-weight exclusion and tails | COMPLETE — kernel-verified, clean rebuild and full validation |
-| E: scope audit and further mathematics | Kernel-verified degree/order results, scope and literature audit; further work optional |
+| A: arbitrary polynomial-pair conditional certificate | COMPLETE — arbitrary signs and non-unit coefficients, explicit finite start |
+| B: rational binary series implies eventual periodicity | COMPLETE — also generalized to every bounded integer alphabet, with converse |
+| C: universal degree-six/order-at-least-thirteen existence | COMPLETE — general division-free integer linear algebra, no prefix cache |
+| D: unconditional equal-weight exclusion and tails | COMPLETE — kernel-verified, independent semantic witnesses and clean rebuild |
+| E: additional research and audit | COMPLETE — scope/literature comparison, minimum degree for the implemented criterion, premature-valuation counterexample, quantitative bounds and uniform safe level |
 
-## Exact next obligations
+Read `lean-polynomial-certificates.md` for the exact theorem mapping and
+`phase8-findings.md` for mathematical scope, additional results and sources.
+Do not repeat the Phase 7/8 proof campaigns or finite catalogues.
 
-1. Record E6's pushed SHA and green CI, then finish the durable journal.
-   A–D and all described E refinements are complete. Do not repeat the
-   completed proof campaign or finite catalogues.
-2. Optional later work: sharpen the chosen coefficient bound and safe
-   starting level using controlled maximal minors or primitive null vectors.
-   The proved current values are `X=720*2^57`, valuation below 70, safe level 6.
-3. Optional new domains require a valid common block multiplier and new
-   scalar/vector transport. No general automatic-word, unequal-weight,
-   larger-alphabet Collatz or Periodicity Conjecture claim is proved.
+## Optional future proof obligations — not blockers for issue #14
+
+1. Sharpen the coefficient bound by proving controlled maximal-minor or
+   primitive-vector bounds, including deficient-rank and zero matrices.
+   The current verified bound is `X=720*2^57`; chosen certificates have
+   leading valuation below 70 and safe valuation level 6. No minimum safe
+   level is asserted, and no upper bound on first residual order is supplied.
+2. Improve the actual height recurrence before seeking a smaller universal
+   certificate degree. Degree six is least **for the implemented Gap criterion**,
+   even at arbitrary order; a genuinely stronger criterion needs a new proof.
+3. For broader substitution domains, first supply a valid common block
+   multiplier and scalar/vector transport. Unequal weights have a known
+   rational periodic counterexample. The bounded-series bridge alone does
+   not exclude general automatic or larger-alphabet Collatz itineraries.
+
+Independent mathematical review and a fuller prior-art comparison remain
+welcome; no novelty, Collatz or general Periodicity Conjecture claim is made.
 
 ## Constraints and failed shortcuts to retain
 
@@ -85,6 +70,8 @@ cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
+python3 research/phase8/verify_polynomial.py
+python3 research/lean-audit/check_axioms.py --self-test
 ```
 
 The exact audit now includes all 149 new exported declarations (306 total).
@@ -260,3 +247,33 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
   empty proof-escape scan and full-baseline whitespace check pass.
 - The original `Word`, `MorphismWord`, `MorphismTower`, Rust source/test and
   Cargo dependency files have no diff from the starting commit.
+
+## Pushed code history
+
+Every code checkpoint below was fully validated locally and pushed directly
+onto `origin/main`; no branch, worktree, PR or force push was used. CI status
+is recorded only after observation of the actual run.
+
+| Checkpoint | Full commit SHA | CI |
+|---|---|---|
+| A: general polynomial certificate | `6560d1719ad5998be988236182feef8f2ade1292` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43579255480) |
+| C: integer elimination and universal pair existence | `723f103107406db4658d7122a2b2f3091b804bf3` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43579550635) |
+| B: rational binary-series periodicity | `83835a7e8ef8f0b0a3d12af332ad83b6642a557a` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43579996609) |
+| D: universal theorem and all tails | `59cc117ef9beeb81ebacdc2d8594781c622e607a` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43580578326) |
+| E: dimension-count ledger threshold and scope | `7cd9a95285718e01cc5f59e6086ad13495bf2fcb` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43581609610) |
+| E2: least degree for the actual certificate interface | `4f54b3acbca6010b608a6a35bc92f59cdf9c52f6` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43582367746) |
+| E3: bounded integer rational-series characterization | `12e9e53c74c92a31492de9b0c83f06647de594eb` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43583179137) |
+| E4: actual premature valuation counterexample | `50bdb4d3ad6916782b8283c875abe1dfd3466390` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43583686517) |
+| E5: uniform coefficient and starting-level bounds | `476cd2a0b3d2d099217745a06d8040bc622012a6` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43584500897) |
+| E6: finite certificate nonzero audit | `63a52b4b400a1bf17aac38531c3d8c8c147ff70b` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43584835901) |
+
+Final verified local counts: **306 exact audited declarations**, including
+all **149** new theorem exports and all **157** retained baseline entries;
+only approved standard foundations. **94 Rust tests**, zero failures.
+Both Python checkers pass, including 686 general finite convolution identities,
+144 bounded null-vector fixtures, 5,635 signed-alphabet encodings, literal and
+signed/unreduced prefix checks, minimal-degree systems, coefficient bounds,
+and the genuine premature-valuation regression. The final code was rebuilt
+from a clean Lake directory. Actual parity semantics and Rust behavior remain
+unchanged. The main target and all described additional research are complete;
+future work above is optional.
