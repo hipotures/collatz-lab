@@ -1,0 +1,498 @@
+{
+  "bounds": {
+    "h_max": 8,
+    "h_min": 1,
+    "length_max": 6,
+    "length_min": 2,
+    "max_windows_per_language": 256
+  },
+  "by_length": [
+    {
+      "equal_weight_skipped": 3,
+      "first_contracting_h_counts": {
+        "1": 1
+      },
+      "languages_tested": 40,
+      "length": 2,
+      "no_certificate_at_h_le_8": 4,
+      "pairs_with_contraction": 1,
+      "unequal_pairs_tested": 5
+    },
+    {
+      "contracting_with_expanding_image": 11,
+      "equal_weight_skipped": 10,
+      "first_contracting_h_counts": {
+        "1": 1,
+        "2": 2,
+        "3": 7,
+        "4": 2
+      },
+      "languages_tested": 176,
+      "length": 3,
+      "no_certificate_at_h_le_8": 10,
+      "pairs_with_contraction": 12,
+      "unequal_pairs_tested": 22
+    },
+    {
+      "contracting_with_expanding_image": 24,
+      "equal_weight_skipped": 35,
+      "first_contracting_h_counts": {
+        "1": 22,
+        "2": 3,
+        "4": 21
+      },
+      "languages_tested": 744,
+      "length": 4,
+      "no_certificate_at_h_le_8": 47,
+      "pairs_with_contraction": 46,
+      "unequal_pairs_tested": 93
+    },
+    {
+      "equal_weight_skipped": 126,
+      "first_contracting_h_counts": {
+        "1": 181
+      },
+      "languages_tested": 3088,
+      "length": 5,
+      "no_certificate_at_h_le_8": 205,
+      "pairs_with_contraction": 181,
+      "unequal_pairs_tested": 386
+    },
+    {
+      "contracting_with_expanding_image": 653,
+      "equal_weight_skipped": 462,
+      "first_contracting_h_counts": {
+        "1": 391,
+        "2": 6,
+        "3": 149,
+        "4": 243,
+        "5": 118,
+        "6": 63,
+        "7": 48,
+        "8": 26
+      },
+      "languages_tested": 12688,
+      "length": 6,
+      "no_certificate_at_h_le_8": 542,
+      "pairs_with_contraction": 1044,
+      "unequal_pairs_tested": 1586
+    }
+  ],
+  "kernel_proved_exclusions": [
+    [
+      "100",
+      "110"
+    ],
+    [
+      "110",
+      "100"
+    ]
+  ],
+  "scope": "Finite-language contraction data for other pairs do not certify aperiodicity or rational exclusion.",
+  "selected": [
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "first_h": 3,
+      "incidence_eigenvalues": [
+        3,
+        -1
+      ],
+      "length": 3,
+      "one": "100",
+      "primitive_power_witness": 1,
+      "r0": 2,
+      "r1": 1,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 2,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 4,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 5,
+          "contracts": true,
+          "h": 3,
+          "windows": 6
+        },
+        {
+          "R": 7,
+          "contracts": true,
+          "h": 4,
+          "windows": 8
+        },
+        {
+          "R": 9,
+          "contracts": true,
+          "h": 5,
+          "windows": 10
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 6,
+          "windows": 12
+        },
+        {
+          "R": 12,
+          "contracts": true,
+          "h": 7,
+          "windows": 14
+        },
+        {
+          "R": 13,
+          "contracts": true,
+          "h": 8,
+          "windows": 16
+        }
+      ],
+      "zero": "110"
+    },
+    {
+      "aperiodicity_lean_proved": false,
+      "candidate_one_frequency": "1/2",
+      "first_h": 2,
+      "incidence_eigenvalues": [
+        3,
+        1
+      ],
+      "length": 3,
+      "one": "101",
+      "primitive_power_witness": 1,
+      "r0": 1,
+      "r1": 2,
+      "rational_exclusion_lean_proved": false,
+      "rows": [
+        {
+          "R": 2,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 3,
+          "contracts": true,
+          "h": 2,
+          "windows": 2
+        },
+        {
+          "R": 5,
+          "contracts": true,
+          "h": 3,
+          "windows": 2
+        },
+        {
+          "R": 6,
+          "contracts": true,
+          "h": 4,
+          "windows": 2
+        },
+        {
+          "R": 8,
+          "contracts": true,
+          "h": 5,
+          "windows": 2
+        },
+        {
+          "R": 9,
+          "contracts": true,
+          "h": 6,
+          "windows": 2
+        },
+        {
+          "R": 11,
+          "contracts": true,
+          "h": 7,
+          "windows": 2
+        },
+        {
+          "R": 12,
+          "contracts": true,
+          "h": 8,
+          "windows": 2
+        }
+      ],
+      "zero": "010"
+    },
+    {
+      "aperiodicity_lean_proved": true,
+      "candidate_one_frequency": "1/2",
+      "first_h": 3,
+      "incidence_eigenvalues": [
+        3,
+        1
+      ],
+      "length": 3,
+      "one": "110",
+      "primitive_power_witness": 1,
+      "r0": 1,
+      "r1": 2,
+      "rational_exclusion_lean_proved": true,
+      "rows": [
+        {
+          "R": 2,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 4,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 5,
+          "contracts": true,
+          "h": 3,
+          "windows": 6
+        },
+        {
+          "R": 7,
+          "contracts": true,
+          "h": 4,
+          "windows": 8
+        },
+        {
+          "R": 9,
+          "contracts": true,
+          "h": 5,
+          "windows": 10
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 6,
+          "windows": 12
+        },
+        {
+          "R": 12,
+          "contracts": true,
+          "h": 7,
+          "windows": 14
+        },
+        {
+          "R": 13,
+          "contracts": true,
+          "h": 8,
+          "windows": 16
+        }
+      ],
+      "zero": "100"
+    },
+    {
+      "aperiodicity_lean_proved": false,
+      "candidate_one_frequency": "1/2",
+      "first_h": 4,
+      "incidence_eigenvalues": [
+        4,
+        -2
+      ],
+      "length": 4,
+      "one": "1000",
+      "primitive_power_witness": 1,
+      "r0": 3,
+      "r1": 1,
+      "rational_exclusion_lean_proved": false,
+      "rows": [
+        {
+          "R": 3,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 6,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 9,
+          "contracts": false,
+          "h": 3,
+          "windows": 8
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 4,
+          "windows": 10
+        },
+        {
+          "R": 13,
+          "contracts": false,
+          "h": 5,
+          "windows": 12
+        },
+        {
+          "R": 16,
+          "contracts": false,
+          "h": 6,
+          "windows": 14
+        },
+        {
+          "R": 19,
+          "contracts": false,
+          "h": 7,
+          "windows": 16
+        },
+        {
+          "R": 20,
+          "contracts": true,
+          "h": 8,
+          "windows": 20
+        }
+      ],
+      "zero": "1110"
+    },
+    {
+      "aperiodicity_lean_proved": false,
+      "candidate_one_frequency": "3/5",
+      "first_h": 4,
+      "incidence_eigenvalues": [
+        4,
+        -1
+      ],
+      "length": 4,
+      "one": "1100",
+      "primitive_power_witness": 1,
+      "r0": 3,
+      "r1": 2,
+      "rational_exclusion_lean_proved": false,
+      "rows": [
+        {
+          "R": 3,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 6,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 8,
+          "contracts": false,
+          "h": 3,
+          "windows": 6
+        },
+        {
+          "R": 10,
+          "contracts": true,
+          "h": 4,
+          "windows": 8
+        },
+        {
+          "R": 13,
+          "contracts": false,
+          "h": 5,
+          "windows": 10
+        },
+        {
+          "R": 16,
+          "contracts": false,
+          "h": 6,
+          "windows": 12
+        },
+        {
+          "R": 18,
+          "contracts": false,
+          "h": 7,
+          "windows": 14
+        },
+        {
+          "R": 20,
+          "contracts": true,
+          "h": 8,
+          "windows": 16
+        }
+      ],
+      "zero": "1110"
+    },
+    {
+      "aperiodicity_lean_proved": false,
+      "candidate_one_frequency": "1/2",
+      "first_h": null,
+      "incidence_eigenvalues": [
+        5,
+        -3
+      ],
+      "length": 5,
+      "one": "10000",
+      "primitive_power_witness": 1,
+      "r0": 4,
+      "r1": 1,
+      "rational_exclusion_lean_proved": false,
+      "rows": [
+        {
+          "R": 4,
+          "contracts": false,
+          "h": 1,
+          "windows": 2
+        },
+        {
+          "R": 8,
+          "contracts": false,
+          "h": 2,
+          "windows": 4
+        },
+        {
+          "R": 12,
+          "contracts": false,
+          "h": 3,
+          "windows": 8
+        },
+        {
+          "R": 16,
+          "contracts": false,
+          "h": 4,
+          "windows": 12
+        },
+        {
+          "R": 17,
+          "contracts": false,
+          "h": 5,
+          "windows": 14
+        },
+        {
+          "R": 21,
+          "contracts": false,
+          "h": 6,
+          "windows": 16
+        },
+        {
+          "R": 25,
+          "contracts": false,
+          "h": 7,
+          "windows": 18
+        },
+        {
+          "R": 29,
+          "contracts": false,
+          "h": 8,
+          "windows": 20
+        }
+      ],
+      "zero": "11110"
+    }
+  ],
+  "totals": {
+    "contracting_with_expanding_image": 688,
+    "equal_weight_skipped": 636,
+    "languages_tested": 16736,
+    "no_certificate_at_h_le_8": 808,
+    "pairs_with_contraction": 1284,
+    "unequal_pairs_tested": 2092
+  }
+}

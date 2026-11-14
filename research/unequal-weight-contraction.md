@@ -153,5 +153,104 @@ sign-normalization check, and the rational `101/010` control. The finite table
 gives a sharper offset cap 761; the current infinite Lean proof only needs the
 universal cap 19171. Finite checks and kernel proofs are kept distinct.
 
-Focused primary-literature comparisons and further finite-language research
-follow after the principal validation checkpoint.
+## Kernel-checked finite-language interface
+
+`WindowCertificate.lean` implements the stretch certificate. A certificate is
+a finite list of source windows, containing the actual initial window and
+closed under the `L` child-window offsets of substitution. For a source window
+at any positive index `a`, its parent starts at `a/L<a`. Strong induction,
+the literal fixed-point recurrence, and a verified parent-index bound prove
+that every infinite-word window is in the finite language. No primitivity,
+recurrence, or finite-prefix saturation assumption is needed for coverage.
+
+The finite fields are checked with ordinary Lean `decide`, with every proof
+term checked by the kernel. `window_certificate_weight_bound` links the finite
+row weights to every infinite source window. `no_rational_seed_window_certificate`
+combines that bound with the generic contraction criterion and an independently
+supplied aperiodicity theorem. A second bridge transports finite expanded-offset
+bounds to all infinite source-aligned chunks.
+
+For `100/110`, the exact language and nine-step expansions give:
+
+| Source window | Expanded odd count | Expanded offset |
+|---|---:|---:|
+| 001 | 5 | 319 |
+| 010 | 5 | 527 |
+| 011 | 4 | 133 |
+| 100 | 5 | 761 |
+| 101 | 4 | 211 |
+| 110 | 4 | 419 |
+
+`UnequalCertificates.lean` kernel-checks closure and occurrence of every row
+in a bounded prefix. Therefore this is the exact length-three language.
+`unequal100110_nine_offset_sharp` proves the infinite cap 761, attained at
+index zero. `no_rational_seed_unequal_100_110_via_certificate` independently
+applies the finite-language interface. An actual aligned two-source window
+starting at index ten is `00`, with image weight four and `3^4>2^6`; thus the
+shorter two-source uniform criterion fails.
+
+## Second kernel-proved example: `1 -> 110`, `0 -> 100`
+
+`Unequal110100.lean` proves literal weights two and one, distinctness and
+prolongability. Its indexed recurrences have the same forced endpoint columns
+and the identity middle column: `w(3*n+1)=w(n)`. The generic
+`ternary_columns_not_eventually_periodic` theorem in `ColumnAperiodic.lean`
+proves non-eventual-periodicity whenever the middle-column map is injective.
+It uses the same explicit period reduction, with no rationality premise.
+
+The exact six-window language above has selected image weights at most five.
+The one image is locally expanding (`9>8`), but all nine-step chunks contract
+(`243<512`) and have offset at most 761. All these facts and the true affine
+recurrence are kernel-checked. `no_rational_seed_realizes_unequal_110_100`
+proves universal rational exclusion, with all finite shifts, eventual shifted
+tails, and integer forward-orbit corollaries. An actual positive integer
+`1357326276294383431942267` has its first 81 parity bits, ending at
+`20475100934524160408`, as kernel-checked independently of the exclusion.
+
+## Bounded exhaustive finite exploration
+
+`phase10/search_unequal.py --check` reproduces `phase10/search-summary.json`.
+It tests every binary length-2..6 image pair prolongable at one with unequal
+weights: **2092 pairs**, **16736 languages** at `h=1..8`. There are at most
+256 rows in any language. Each language is the least closure of the initial
+window under child offsets. Every added row has an actual occurrence by
+substitution; the generic strong-induction proof explains coverage. Exact
+integer products determine contraction; no floating-point threshold or seed
+interval is used.
+
+| Length | Unequal pairs | Some h<=8 contracts | Includes locally expanding image | No h<=8 certificate |
+|---|---:|---:|---:|---:|
+| 2 | 5 | 1 | 0 | 4 |
+| 3 | 22 | 12 | 11 | 10 |
+| 4 | 93 | 46 | 24 | 47 |
+| 5 | 386 | 181 | 0 | 205 |
+| 6 | 1586 | 1044 | 653 | 542 |
+| Total | 2092 | 1284 | 688 | 808 |
+
+Only the two explicitly named examples are claimed kernel-proved exclusions
+at this checkpoint. All other counts are deterministic finite analysis, without
+an aperiodicity conclusion. In particular the rational `101/010` control has
+an exact contracting two-source certificate (`3^3<2^6`) and remains periodic.
+This confirms why contraction alone only proves periodicity.
+
+Selected further data: `1000/1110` first contracts at `h=4`, with `R=10`
+and `3^10=59049<65536=2^16`; `1100/1110` has the same first bound.
+Neither is yet claimed as an exclusion. `10000/11110` has no certificate in
+the prescribed `h<=8` range, despite its candidate limiting one-frequency
+one-half. This distinguishes a search cutoff from failure of every possible
+uniform-block argument. Contraction need not be monotone in h:
+`1000/1110` passes at h=4 and h=8, but fails the all-window maxima at h=5,6,7.
+
+## Signed denominator normalization
+
+The original predicate still requires a positive odd denominator. The new
+`SignedContraction.lean` uses the unchanged `numIter_equiv` to prove
+`seedParity (-q) (-p) n = seedParity q p n` for every odd signed `q` and every
+index. `positive_odd_denominator_normalization` explicitly constructs the
+equivalent positive odd representation and cross-product equality. The two
+examples therefore also exclude raw eventual shifted-tail parity agreement
+for either sign of an odd denominator. Zero/even denominators are outside the
+existing rational 2-adic model, and no claim is made for them.
+
+Uniform frequency bounds and a focused primary-literature comparison remain
+the next research checkpoint.

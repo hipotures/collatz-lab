@@ -24,7 +24,9 @@ jobs:
         run: python3 research/mahler-uncovered/verify_uncovered.py --check
 
       - name: Verify unequal-weight finite certificates
-        run: python3 research/phase10/verify_unequal.py --check
+        run: |
+          python3 research/phase10/verify_unequal.py --check
+          python3 research/phase10/search_unequal.py --check
 
       - name: Verify finite general-polynomial regressions
         run: python3 research/phase8/verify_polynomial.py
@@ -56,4 +58,4 @@ jobs:
           # Exact source declaration order/count, approved foundations only; tolerate
           # Lean's wrapping only when continuation tokens name those foundations.
           python3 research/lean-audit/check_axioms.py --self-test
-          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 350
+          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 396

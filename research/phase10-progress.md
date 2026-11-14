@@ -54,8 +54,39 @@ explicit user approval. Never force-push.
   parser self-tests; **94 Rust tests**, formatting, Clippy; both existing Python
   verifiers and the new deterministic checker; empty forbidden-proof scan;
   `git diff --check`.
-- This checkpoint follows the exact Milestone A commit above. Recover its SHA
-  with `git log --format='%H %s'` (message: "Prove aperiodic unequal 100/110 rational exclusion and tails").
+- Pushed commit: `fc5bf15375bb8a3a00ed08508b9672c1045bb937`.
+- [PR #17](https://github.com/hipotures/collatz-lab/pull/17) is open, unmerged,
+  with the explicit hold for issue #15 and user approval. GitHub reported it
+  mergeable on inspection; that is not permission to merge.
+
+## Milestone C1: validated finite certificate interface and second example
+
+- `WindowCertificate.lean` proves infinite coverage by strong induction on
+  window position from finite initial membership and substitution closure.
+  It links finite image-weight and expanded-offset tables to every window.
+  No primitivity or recurrence hypothesis is needed for this certificate.
+- `UnequalCertificates.lean` gives the exact six-window language for `100/110`,
+  kernel-checks closure and occurrence of each row, applies the generic finite
+  certificate to rational exclusion, and proves the sharp infinite offset cap
+  **761**, attained at index zero. The two-source criterion fails at the aligned
+  `00` window beginning at source index ten.
+- `ColumnAperiodic.lean` proves the generic ternary-column period descent for
+  an injective middle-column map and forced endpoint columns 1 and 0.
+- `Unequal110100.lean` proves a second genuinely aperiodic unequal example,
+  `1 -> 110`, `0 -> 100`, with weights two/one, a locally expanding image,
+  exact finite language, nine-step count/offset/recurrence, universal rational
+  exclusion, shifts, eventual tails, and an actual positive 81-bit witness.
+- `SignedContraction.lean` proves universal normalization of both numerator
+  and odd denominator signs using unchanged `numIter_equiv`, and extends raw
+  eventual-tail exclusions for both examples to either sign of odd denominator.
+- Bounded exhaustive Python search: **2092 unequal pairs**, **16736 languages**
+  at lengths 2..6 and h=1..8; **1284** have a contraction certificate, **688**
+  including a locally expanding image. Only the two named Lean examples are
+  claimed as rational exclusions; periodic `101/010` also contracts at h=2.
+- Full validation passed: `lake build`; **396 exact audited declarations**;
+  parser self-tests; **94 Rust tests**, formatting, Clippy; all four Python
+  checkers; empty forbidden-proof scan; `git diff --check`.
+- Checkpoint follows B above, commit message: "Certify finite languages and a second unequal rational exclusion".
 
 ## Failed routes / cautions
 
@@ -63,20 +94,25 @@ explicit user approval. Never force-push.
   cannot prove contraction: the zero image has `9>8`; grouping is necessary.
 - `000` alone must be excluded globally, not just within images. The Lean proof
   quantifies over every source index and uses the forced multiple-of-three column.
-- The universal safe offset cap is 19171; the sharper finite cap 761 requires
-  a language or expanded-window certificate before use in an infinite theorem.
+- The universal safe offset cap is 19171; C1 now proves the sharper 761 cap
+  universally using the finite language and expanded-window bridge.
+- Finite maxima need not contract at every larger h: `1000/1110` passes at
+  h=4 and h=8, but fails at h=5,6,7. The length-five candidate `10000/11110`
+  fails at all h<=8 despite a candidate frequency one-half; this cutoff is not
+  a proof that every longer uniform certificate fails.
 
 ## Required validation at a compiling milestone
 
 ```sh
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 350
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 396
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/phase8/verify_polynomial.py
 python3 research/mahler-uncovered/verify_uncovered.py --check
 python3 research/phase10/verify_unequal.py --check
+python3 research/phase10/search_unequal.py --check
 git diff --check
 ```
 
@@ -90,11 +126,11 @@ milestone to `origin/codex/unequal-weight-contraction`.
 2. Inspect the latest commit with `git log -1 --format='%H %s'` and this file.
 3. The generic criterion is complete; do not redo it. See theorem map in
    `research/unequal-weight-contraction.md`.
-4. Milestones A/B are complete and fully validated. Open an unmerged PR against
-   main, with `Refs #16` and explicit hold for issue #15 and user approval.
-5. Continue Milestone C: bounded length-2..6 / h<=8 substitution search, exact
-   finite-language certificates, a second aperiodic example (`110/100` is a
-   promising independent column-recursion candidate), and uniform frequency
-   bounds. Consult a small set of primary sources and record precise comparisons.
+4. Milestones A/B/C1 are complete and fully validated; PR #17 stays unmerged.
+5. Continue C2: derive an exact uniform frequency/spectral bound with controlled
+   boundary errors, and finish focused primary-source comparisons. Optional:
+   kernel-prove length-four `1000/1110` (h=4, R=10) and its aperiodicity;
+   its middle columns are both complements and endpoints are forced 1/0.
+   No extra global search is needed; the existing bounded search is complete.
 6. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
    files, or infer completion from a context/token limit.
