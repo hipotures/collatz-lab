@@ -38,7 +38,13 @@ $3x+1$ trajectories: an elementary, formally verified proof}
 
 \author{\paperauthor}
 
-\date{14 November 2026}
+\date{Preprint draft, 14 November 2026}
+
+\subjclass[2020]{Primary 11J72; Secondary 11B85, 11J61, 11J82, 03B35}
+
+\keywords{$3x+1$ problem, Collatz map, $2$-adic integers, parity sequence,
+uniform substitution, Mahler functions, irrationality measure, formal
+verification, Lean}
 
 \begin{abstract}
 Let $T$ be the $3x+1$ map on the $2$-adic integers and let $v$ be a
@@ -662,14 +668,17 @@ For $0\mapsto 01$, $1\mapsto 10$ and the fixed point
 $v=1001\,0110\,0110\,1001\cdots$ we have $L=2$, $r=1$, $s=0$, $e=1$,
 $m=4$.  A pair of degree six is
 \begin{align*}
-  P_1&=1-6z+3z^{2}-5z^{3}+3z^{4}+2z^{5}+z^{6},\\
-  P_0&=-1+6z-3z^{2}+4z^{3}+3z^{4}-6z^{5}+9z^{6},
+  P_1&=-1+6z-3z^{2}+5z^{3}-3z^{4}-2z^{5}-z^{6},\\
+  P_0&=1-6z+3z^{2}-4z^{3}-3z^{4}+6z^{5}-9z^{6},
 \end{align*}
-with order $N=13$ and $R_{13}=-8$.  Inequality \eqref{eq:gap} reads
+with order $N=13$ and $R_{13}=8$.  Inequality \eqref{eq:gap} reads
 $4^{9}<2^{26}$.  The leading coefficient has valuation $3$, so
 Lemma~\ref{lem:valuation} applies from level $k=1$ on (since $2^{2}>3$) and
 gives $\vt(E_k)=13\cdot 2^{k+1}+3$.  An argument that assumed an odd
-leading coefficient would not apply to this pair.
+leading coefficient would not apply to this pair.  This is the pair used
+in the formal development, where the order, the value $R_{13}=8$, and the
+valuations $29$ and $55$ of $E_0$ and $E_1$ for the seed of a $64$-letter
+prefix are checked by computation in the kernel.
 \end{example}
 
 \subsection{An explicit irrationality measure}\label{ssec:measure}
@@ -1060,8 +1069,41 @@ Theorem \ref{thm:main}(2) (start $1$) & \lean{no_rational_seed_realizes_shifted_
 Proposition \ref{prop:sharp} & \lean{MinimalCertificate.universal_certificate_degree_iff} \\
 Proposition \ref{prop:start} & \lean{Morphism.universal_bounded_degree_six_certificate}, \lean{Morphism.universal_degree_six_valuation} \\
 Subcritical contraction (Section \ref{sec:prior}) & \lean{no_rational_seed_realizes_subcritical_equal_weight} \\
-Thue--Morse instance & \lean{no_rational_seed_realizes_thueMorse} \\
+Thue--Morse instance, Example \ref{ex:tm} & \lean{no_rational_seed_realizes_thueMorse}, \lean{PolynomialPair.thueMorseSix_first}, \lean{PolynomialPair.thueMorseSix_finite_valuation} \\
 Unequal-weight control $010/101$ & \lean{Morphism.unequalAlternating_realized} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Proof status}
+Table~\ref{tab:status} records, for each result, how it is established:
+by a proof written in this paper, by a Lean kernel check, by a theorem of
+another author, or by a finite computation.  No result of the paper is
+conjectural.
+
+\begin{table}[ht]
+\caption{Proof status of the results.  ``Written'': complete proof in this
+paper.  ``Lean'': kernel-checked (fixed point beginning with $1$, integer
+form).  ``Cited'': rests on a published theorem.  ``Computed'': finite
+exact computation, not part of any proof.}\label{tab:status}
+\small
+\begin{tabular}{@{}p{0.40\textwidth}p{0.56\textwidth}@{}}
+\toprule
+Result & Status \\
+\midrule
+Theorem \ref{thm:main}, start letter $1$ & Written; Lean \\
+Theorem \ref{thm:main}, start letter $0$; Remark \ref{rem:powers} & Written \\
+Lemmas \ref{lem:affine}--\ref{lem:rational}, \ref{lem:mahler}, \ref{lem:pair}--\ref{lem:size}; Corollary \ref{cor:tower}; Propositions \ref{prop:criterion}, \ref{prop:ledger} & Written; Lean (as integer identities and congruences) \\
+Proposition \ref{prop:seed}, Theorem \ref{thm:value} ($2$-adic form) & Written; Lean only in the seed form of Theorem \ref{thm:main} \\
+Proposition \ref{prop:sharp} & Written; Lean; determinants also Computed \\
+Proposition \ref{prop:start} & Statement here; proof in Lean only \\
+Remark after Proposition \ref{prop:start} & Written (sketch) \\
+Example \ref{ex:tm} & Lean; Computed \\
+Theorem \ref{thm:measure}, Corollary \ref{cor:exponent} & Written; part (1) of Theorem \ref{thm:measure} also Computed for $L\le 4$ \\
+Proposition \ref{prop:sub} & Written; Cited \cite{MonksYazinski2004} \\
+Subcritical contraction argument (Section \ref{sec:prior}) & Written; Lean \\
+Theorem \ref{thm:molchanov} & Cited \cite{Molchanov1983} (statement read, proof read in outline) \\
+Corollary \ref{cor:transcendental} & Written deduction; Cited \cite{Molchanov1983,Fatou1906} \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -81,18 +81,11 @@ python3 research/phase9/verify_independent.py
 
 ## Proof status of each statement
 
-| Statement in the paper | Status |
-|---|---|
-| Lemmas 2.1–2.4, 3.1, 4.2–4.6, Corollary 4.4, Propositions 4.7, 4.8 | proved in the paper; formalized (integer form, start letter `1`) |
-| Theorem 1.2 for the fixed point beginning with `1` | proved in the paper; formalized |
-| Theorem 1.2 for a fixed point beginning with `0`; Remark 4.9 | proved in the paper only |
-| Proposition 3.2, Theorem 3.4 (2-adic formulation) | proved in the paper only; the formal theorem is the seed form |
-| Propositions 5.1, 5.2 | formalized; proof of 5.1 given in the paper, 5.2 stated with the formal constants |
-| Remark 5.3 (Cramer bound) | paper only |
-| Theorem 5.5, Corollary 5.6 (explicit irrationality measure, exponent `2L/(2-theta)`) | paper only; identities and bounds of Theorem 5.5(1) tested numerically (`verify_independent.py`, T9) |
-| Proposition 6.1 | paper; depends on the cited theorem of Monks–Yazinski (statement and proof read) |
-| Theorem 6.2 (Molchanov) | quoted; statement read in the original, proof read in outline only |
-| Corollary 6.3 (transcendence) | deduction from Theorem 6.2 and two classical facts; not formalized |
-
-Theorem and lemma numbers are those the current source is expected to
+Table 2 of the paper (Section 7.4, "Proof status") gives the status of
+every result: written proof, Lean kernel check, cited theorem, or finite
+computation. In short: the main theorem for the fixed point beginning
+with `1` is written and kernel-checked; the other fixed point, the 2-adic
+formulation, the irrationality measure (Theorem 5.5, Corollary 5.6) and
+the literature-dependent statements of Section 6 are written or cited
+only. Table and theorem numbers are those the source is expected to
 produce; they have not been confirmed against a compiled PDF.

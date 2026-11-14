@@ -23,8 +23,9 @@ admissible substitutions of small length:
       e = 999): the Hankel-type determinants for degrees 0..5 are
       1, -1, 1, -1, -1, -1 and the height inequality fails for those
       degrees with the forced order 2d+1, while it holds for degree six.
-  T8  The explicit Thue-Morse pair printed in the manuscript has order 13
-      and leading remainder coefficient -8.
+  T8  The explicit Thue-Morse pair printed in the manuscript (the pair
+      thueMorseSix of the Lean development) has order 13 and leading
+      remainder coefficient 8.
   T9  The pulled-back linear forms of the irrationality-measure theorem:
       the integers Q_k, P_k are integral, bounded by the stated B_k, and
       v2(Q_k xi - P_k) equals w_k, for all admissible substitutions with
@@ -286,10 +287,10 @@ def check_lower_bound_example():
 
 def check_thue_morse_pair():
     word = fixed_point({0: [0, 1], 1: [1, 0]}, 200)
-    p1 = [1, -6, 3, -5, 3, 2, 1]
-    p0 = [-1, 6, -3, 4, 3, -6, 9]
+    p1 = [-1, 6, -3, 5, -3, -2, -1]
+    p0 = [1, -6, 3, -4, -3, 6, -9]
     residuals = [residual(p0, p1, word, n) for n in range(14)]
-    assert residuals[:13] == [0] * 13 and residuals[13] == -8, residuals
+    assert residuals[:13] == [0] * 13 and residuals[13] == 8, residuals
     assert 4 ** (6 * 1 + 2 + 1) < 2 ** (2 * 1 * 13)
 
 
@@ -378,7 +379,7 @@ def main():
     print("T7: lower-bound example L=1000: determinants", dets,
           "; inequality fails for degrees 0..5 and holds for degree 6")
     check_thue_morse_pair()
-    print("T8: explicit Thue-Morse pair has order 13 and leading coefficient -8")
+    print("T8: explicit Thue-Morse pair has order 13 and leading coefficient 8")
     forms = 0
     for L in range(2, 5):
         for m0, m1 in admissible(L):
