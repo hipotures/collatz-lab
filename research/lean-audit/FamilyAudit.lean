@@ -1,6 +1,6 @@
 import CollatzLab
 
-/-! The exact 52-declaration audit consumed by the Lean CI job. -/
+/-! The explicit declaration audit consumed by the Lean CI job. -/
 #print axioms CollatzLab.all_prefixes_survive
 #print axioms CollatzLab.w_not_eventually_periodic
 #print axioms CollatzLab.iter4L_affine_identity
@@ -53,3 +53,21 @@ import CollatzLab
 #print axioms CollatzLab.Phase7Audit.signed_branch_checks
 #print axioms CollatzLab.Phase7Audit.negative_realization
 #print axioms CollatzLab.Phase7Audit.disagreement_controls
+#print axioms CollatzLab.Morphism.word_rec
+#print axioms CollatzLab.Morphism.word_unique
+#print axioms CollatzLab.Morphism.literal_block
+#print axioms CollatzLab.Morphism.parity_binary
+#print axioms CollatzLab.Morphism.weight_positive
+#print axioms CollatzLab.Morphism.one_has_zero
+#print axioms CollatzLab.Morphism.weight_lt_length
+#print axioms CollatzLab.Morphism.affine_prefix
+#print axioms CollatzLab.Morphism.numIter_block
+#print axioms CollatzLab.Morphism.prefix_mahler
+#print axioms CollatzLab.Morphism.base_identity
+#print axioms CollatzLab.Morphism.offsets_odd_multiple
+#print axioms CollatzLab.Morphism.first_disagreement
+#print axioms CollatzLab.Morphism.sigma_admissible
+#print axioms CollatzLab.Morphism.sigma_criterion
+#print axioms CollatzLab.Morphism.thueMorse_admissible
+#print axioms CollatzLab.Morphism.thueMorse_fails_criterion
+#print axioms CollatzLab.Morphism.secondary_fails_criterion

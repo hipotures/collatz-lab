@@ -8,7 +8,9 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 - A: COMPLETE — `lean-family-semantic-audit.md`; no critical defect found.
   Eight new declarations in `CollatzLab/FamilySemanticChecks.lean`.
-- B: NOT COMPLETE — generic Theorem 8.1 is still a written proof.
+- B: PARTIAL — arbitrary finite images, correct fixed point, affine blocks,
+  finite Mahler/base identities, exact signed offset valuation and first
+  disagreement kernel-check. The generic irrationality theorem is NOT VERIFIED.
 - C: NOT STARTED — prioritize `10/01`, then `101/011`; exact degree 1–24 search.
 - D: NOT STARTED — choose after the primary obstruction is understood.
 
@@ -41,6 +43,23 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
   all-one realization are independently kernel checked.
 - No change to a mathematical theorem was needed. Repaired a stale README
   claim about compilation and identified the Phase 6 audit count as historical.
+
+## Checkpoint B1 (2026-11-14 UTC)
+
+- A pushed as `1d9d111489e9cf97858e3aecc4c39b7f3e714197`.
+  CI success: https://github.com/hipotures/collatz-lab/actions/runs/43552062967.
+- New generic modules: `MorphismWord`, `MorphismPrefix`, `MorphismParameters`,
+  `MorphismOffset`. No finite catalogue is substituted for the generic result.
+- Exact signed offset quotient and first disagreement are proved for arbitrary
+  images. Canonical criterion examples `110/011` (passes), `10/01` and
+  `101/011` (fail) are kernel reductions.
+- Next B obstruction is the signed cancelled congruence tower with full modulus
+  after division by `a^s`. Full target signatures and subsequent obligations
+  are in `lean-equal-weight-formalization.md`; B is incomplete.
+- Pursue C's elementary invariants next before spending the remaining session
+  exclusively on tower bookkeeping. The `10/01` blocks have slope `3/4`:
+  bounded fixed-denominator rational dynamics may exclude their aperiodic word.
+  This is a proof direction, not yet a claimed theorem.
 
 ## Resume here
 

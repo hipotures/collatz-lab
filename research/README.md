@@ -16,6 +16,7 @@
 | [`lean-family-formalization.md`](lean-family-formalization.md) | Phase 6: all-`L >= 4` kernel proof, exact theorem signatures, tower cancellation, semantic correspondence, 44-declaration axiom audit, and validation |
 | [`lean-family-semantic-audit.md`](lean-family-semantic-audit.md) | Phase 7 A: independent semantic audit of the all-`L` theorem and signed, literal-substitution kernel checks |
 | [`phase7-progress.md`](phase7-progress.md) | durable campaign checkpoints and exact resumption instructions for issue #13 |
+| [`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md) | Phase 7 B: checked generic fixed-point, finite identities and signed offsets; exact remaining generic theorem obligations |
 | [`mahler-family/summary.md`](mahler-family/summary.md) | generated Phase 5 finite checks: family table, `L = 5` checkpoints, Pade table (`1 <= m <= 16`), criterion counts |
 | [`mahler-family/evidence.json`](mahler-family/evidence.json) | generated Phase 5 machine-readable evidence |
 | [`example/summary.md`](example/summary.md) | generated summary of the reference experiment |
