@@ -4,6 +4,14 @@ Phase 7 B, 2026-11-14 UTC. The modules below are accepted by the Lean 4.18.0
 kernel. **The generic irrationality theorem is incomplete.** No finite
 catalogue or conditional helper is presented as Theorem 8.1.
 
+**B2 update:** `MorphismTransport`, `MorphismPolynomial`, and `MorphismTower`
+now discharge the polynomial factorization, odd unit, `s<e<L`, exact initial
+division, full signed tower transport and all-level odd denominators. The
+`MorphismApprox` now also checks the general residual valuation, including
+nonvanishing at every level. Remaining components are the height bound and
+strict-gap contradiction, followed by the exported rational theorem and tails.
+The current audit has 95 declarations; the counts below describe B1.
+
 ## Completed generic components
 
 `CollatzLab.Morphism.Images L` stores `zero, one : Fin L → Bool`.
@@ -75,11 +83,11 @@ assuming `A<B` or `c_0>c_1`. `first_disagreement` proves, under exactly H1–H3,
 agreement with the periodic image of `1` at every index below `N=L*t+s` and
 disagreement at `N`.
 
-## Exact remaining obligations
+## B1 obstruction and its B2 resolution
 
-The first unproved component is the **normalized generic tower**, not a
-failure of the fixed-point or seed identity. Required targets, in the notation
-of §8 (not yet executable definitions):
+At B1 the first unproved component was the **normalized generic tower**.
+The following targets are now proved in B2 using a signed denominator before
+converting to absolute heights:
 
 ```text
 Gamma_h(a,b) = a^s * b^(L-1-e) * GammaStar_h(a,b),
@@ -109,9 +117,23 @@ corollaries. The factor `(2L)^k` cannot be discarded without proof.
 disagreement); the canonical positions and exact first disagreement already
 compile without that unused bound.
 
-These are open formal proof goals, not assumed propositions inside a public
-irrationality theorem. There are no incomplete imported proofs or new
-unproved assumptions. B remains incomplete until all of them are discharged.
+The signed executable tower uses `D_0=(B-A)*kappa*q` and
+`D_(k+1)=D_k*GammaStar_h*(b^L-a^L)`, with exact integer `u_k`.
+Oddness implies every `D_k` is nonzero. Taking its absolute value gives
+precisely the positive denominator recurrence in the paper; a numerator
+sign adjustment represents the same value. The generic congruence proof
+does not assume a sign for either base difference or polynomial factor.
+`initial_exact` proves the initial quotient before use; `normalized_base`
+uses the old length `n+1` to preserve the full modulus after removing `2^s`.
+`congruence_step` uses `L*(n+1)` and cancels `a^s`, then a coprime power of
+`b`. All statements are executable and accepted by the kernel.
+
+The height and exponential contradiction described above remain open formal
+goals. The residual identity was proved uniformly by finite convolution and
+tail sums; its first nonzero coefficient is odd, so `valuation` gives exactly
+the requested divisibility, next-power nondivisibility and absolute lower
+bound, with arbitrary signed `D_k`. There are no incomplete imported proofs or new
+unproved assumptions. B remains incomplete until all are discharged.
 
 ## Validation
 

@@ -246,7 +246,7 @@ theorem CollatzLab.no_rational_seed_realizes_thueMorse (p q : Int) :
 
 All shifts and eventual shifted matches are also excluded. A generic
 subcritical-block theorem makes aperiodicity an explicit hypothesis, proved
-for this instance. The current CI audit covers 83 declarations. The
+for this instance. The current CI audit covers 95 declarations. The
 [research report](research/mahler-uncovered-morphisms.md) distinguishes these
 proofs from 48 finite exact Padé certificates and the secondary target's
 written proof. See the [campaign journal](research/phase7-progress.md) to resume.

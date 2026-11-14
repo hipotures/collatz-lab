@@ -7,6 +7,8 @@ import CollatzLab.Family
 import CollatzLab.FamilyChecks
 import CollatzLab.FamilySemanticChecks
 import CollatzLab.MorphismOffset
+import CollatzLab.MorphismTower
+import CollatzLab.MorphismApprox
 import CollatzLab.ThueMorse
 
 /-!

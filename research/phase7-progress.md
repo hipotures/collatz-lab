@@ -9,8 +9,10 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 - A: COMPLETE — `lean-family-semantic-audit.md`; no critical defect found.
   Eight new declarations in `CollatzLab/FamilySemanticChecks.lean`.
 - B: PARTIAL — arbitrary finite images, correct fixed point, affine blocks,
-  finite Mahler/base identities, exact signed offset valuation and first
-  disagreement kernel-check. The generic irrationality theorem is NOT VERIFIED.
+  finite Mahler/base identities, exact signed offset valuation, first
+  disagreement, multiplier factorization and the exactly cancelled signed
+  tower and exact residual valuation kernel-check. The generic irrationality
+  theorem is NOT VERIFIED.
 - C: PRIMARY TARGET PROVED in Lean — `10/01`, all shifts and eventual shifted
   matches. Both targets have degree 1–24 exact certificates; secondary
   `101/011` has a complete written proof, kernel work remains.
@@ -29,11 +31,9 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 ## Next three proof obligations
 
-1. Formalize generic congruence transport for a signed denominator tower; use
-   `D'=D*GammaStar_h*(b^L-a^L)` and convert to positive denominators afterwards.
-   This removes repeated sign case splits without strengthening (C).
-2. Finish normalized base divisibility and factorization of the finite Gamma
-   polynomial, then the generic first-difference/height contradiction under (C).
+1. Prove the generic height bound under (C)'s exact exponent ledger.
+2. Prove the strict-gap contradiction under (C),
+   including the singly exponential factor `(2L)^k`.
 3. Kernel-check the secondary degree-2 certificate using the division-free
    `s=0,e=1,L=3` tower described in the uncovered-morphism report.
 
@@ -86,6 +86,24 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
   foundations. Python artifacts reproduce exactly; CI runs that check too.
 - Do not repeat unsuccessful degree-0 truncations or treat (C)'s failure as a
   rational example. Do not infer generic aperiodicity from H1–H3 without proof.
+
+## Checkpoint B2 (2026-11-14 UTC)
+
+- C1/D1 pushed as `cef06e304de989d36820de80496b61ccbed84dcb`.
+  CI success: https://github.com/hipotures/collatz-lab/actions/runs/43553950577.
+- The B1 tower obstruction is resolved by signed denominators. New modules:
+  `MorphismTransport.lean`, `MorphismPolynomial.lean`, `MorphismTower.lean`.
+- Kernel proves Gamma's exact support factor and odd unit, `s<e<L`, exact
+  initial division, all-level `a_k^s | delta_k`, odd signed denominators,
+  and full congruences at every `k,n` for arbitrary admissible images.
+- The initial congruence uses old length `n+1`; the tower transport uses old
+  length `L*(n+1)`. Removing powers of 2 at shorter lengths loses precision.
+- Still no generic irrationality export: valuation, heights and the final
+  strict-base-gap growth lemma must be supplied first.
+- B2 also completed `MorphismApprox.lean`: a generic finite convolution/tail
+  identity proves a unit leading residual and exact all-level valuation
+  `N*L^(k+1)`. Only heights and the strict-gap growth argument remain on the
+  principal route. The audit now has 95 declarations; Rust tests remain 93.
 
 ## Resume here
 

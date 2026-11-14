@@ -84,3 +84,15 @@ import CollatzLab
 #print axioms CollatzLab.no_rational_seed_realizes_thueMorse
 #print axioms CollatzLab.no_rational_seed_realizes_shifted_thueMorse
 #print axioms CollatzLab.no_eventually_shifted_thueMorse_itinerary
+#print axioms CollatzLab.Morphism.gamma_factor
+#print axioms CollatzLab.Morphism.gammaStar_odd
+#print axioms CollatzLab.Morphism.s_lt_e
+#print axioms CollatzLab.Morphism.delta_exact
+#print axioms CollatzLab.Morphism.congruence_step
+#print axioms CollatzLab.Morphism.initial_divisibility
+#print axioms CollatzLab.Morphism.normalized_base
+#print axioms CollatzLab.Morphism.denominator_odd
+#print axioms CollatzLab.Morphism.tower_congruence
+#print axioms CollatzLab.Morphism.tower_exact
+#print axioms CollatzLab.Morphism.residual_identity
+#print axioms CollatzLab.Morphism.valuation
