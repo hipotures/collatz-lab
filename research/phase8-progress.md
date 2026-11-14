@@ -23,11 +23,15 @@ extending the theorem's scope.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43580578326 — success.
 A–D are complete. No main theorem proof obligation remains.
 
-**Current additional result:** degree/order audit E is kernel-verified. The uniform
-ledger at guaranteed order `2*d+1` holds iff `d>=6`; an actual length-101
-example obstructs degrees 0–5 but has its own degree-two/order-201 certificate.
-Full validation passes (245-declaration audit, 94 Rust tests, all independent
-checkers). See `DegreeTradeoff.lean`.
+**Pushed E checkpoint:** `7cd9a95285718e01cc5f59e6086ad13495bf2fcb`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43581609610 — success.
+
+**Current additional result E2:** `MinimalCertificate.lean` is kernel-verified. Degree
+six is the least uniform degree for the implemented certificate criterion,
+**allowing arbitrary residual order**, by a length-1000 example excluding
+all degree-at-most-five pairs. An explicit degree-six pair closes that case.
+Full validation passes before committing this stronger result (258 audited
+declarations, 94 Rust tests, both independent checkers).
 
 | Milestone | Verified status |
 |---|---|
@@ -39,14 +43,14 @@ checkers). See `DegreeTradeoff.lean`.
 
 ## Exact next obligations
 
-1. Validate and push E; record its SHA and CI. A–D are complete and should
+1. Record E2's pushed SHA and CI. A–D are complete and should
    not be re-proved or replaced by finite enumeration.
 2. Optional further work: generalize the standalone finite-memory theorem
-   to bounded integer alphabets. This would extend only the algebraic bridge;
-   larger-alphabet Collatz exclusion still requires a valid scalar/vector tower.
-3. Investigate individual smaller-degree certificates with order better than
-   `2*d+1`, or independently review the main theorem. Do not confuse the
-   proved ledger minimum with a minimum certificate degree for every word.
+   to bounded integer alphabets. This extends only the algebraic bridge;
+   a larger-alphabet Collatz theorem still needs a valid scalar/vector tower.
+3. Investigate improved height recurrences, different approximant shapes,
+   or independent review. The E2 minimal degree is relative to the exact
+   implemented gap, not to every possible mathematical exclusion method.
 
 ## Constraints and failed shortcuts to retain
 
@@ -64,14 +68,14 @@ checkers). See `DegreeTradeoff.lean`.
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 245
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 258
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 88 new exported declarations (245 total).
+The exact audit now includes all 101 new exported declarations (258 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -168,3 +172,20 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
   result, not its length minimality in Lean, is asserted.
 - Full E validation passes: build, exact 245-declaration audit, 94 Rust tests,
   formatting, Clippy, both Python checkers, empty proof-escape scan and diff check.
+
+## E2 checkpoint details
+
+- `MinimalCertificate.universal_certificate_degree_iff`: minimum uniform
+  degree six for the implemented finite polynomial interface, at arbitrary
+  first residual order.
+- One admissible length-1000 word has prefix `110100010011`, weight 993 and
+  last disagreement 999. Six small nonsingular systems force every nonzero
+  denominator of degree `d<=5` to have order at most `2*d+1`; exact twelfth-power
+  comparisons then block its gap. No huge closed power is evaluated.
+- An explicit degree-six/order-13 pair with leading coefficient -1 closes
+  the same word and independently excludes rational seeds through A.
+- Python checks all six determinants, the actual images/weights, the
+  exponent comparisons, explicit degree-six pair and the earlier order-201
+  low-degree example. Full validation passes for this checkpoint.
+- Build, 258-declaration exact audit, 94 Rust tests, formatting, Clippy, both
+  Python checkers, empty proof-escape scan and diff check all pass.

@@ -256,3 +256,18 @@ import CollatzLab
 #print axioms CollatzLab.universal_dimension_gap_iff
 #print axioms CollatzLab.Morphism.universal_high_degree_certificate
 #print axioms CollatzLab.no_rational_seed_realizes_highWeight101
+
+/-! Minimum uniform degree for the actual polynomial certificate interface. -/
+#print axioms CollatzLab.MinimalCertificate.prefix_kernel
+#print axioms CollatzLab.MinimalCertificate.convolution_word_ext
+#print axioms CollatzLab.MinimalCertificate.prefix_order_bound
+#print axioms CollatzLab.MinimalCertificate.hard_admissible
+#print axioms CollatzLab.MinimalCertificate.hard_parameters
+#print axioms CollatzLab.MinimalCertificate.hard_prefix
+#print axioms CollatzLab.MinimalCertificate.hard_exponent_comparison
+#print axioms CollatzLab.MinimalCertificate.hard_small_degree_ledger_failure
+#print axioms CollatzLab.MinimalCertificate.hard_no_small_certificate
+#print axioms CollatzLab.MinimalCertificate.hard_six_first
+#print axioms CollatzLab.MinimalCertificate.hard_six_gap
+#print axioms CollatzLab.MinimalCertificate.hard_no_rational_seed
+#print axioms CollatzLab.MinimalCertificate.universal_certificate_degree_iff

@@ -4,6 +4,8 @@
 These checks are regression evidence. Universal claims come from Lean proofs.
 """
 from random import Random
+from functools import reduce
+from math import gcd
 
 
 def homogeneous(coefficients, a, b, length):
@@ -30,6 +32,27 @@ def integer_null_vector(rows, width):
                for i, row in enumerate(rows) if i != pivot_index]
     y = integer_null_vector(reduced, width - 1)
     return [-sum(c * value for c, value in zip(pivot[1:], y))] + [pivot[0] * value for value in y]
+
+
+def determinant(matrix):
+    """Exact Bareiss determinant for the six fixed prefix systems."""
+    rows = [row[:] for row in matrix]
+    size, previous, sign = len(rows), 1, 1
+    for k in range(size - 1):
+        pivot = next((i for i in range(k, size) if rows[i][k]), None)
+        if pivot is None:
+            return 0
+        if pivot != k:
+            rows[k], rows[pivot] = rows[pivot], rows[k]
+            sign = -sign
+        for i in range(k + 1, size):
+            for j in range(k + 1, size):
+                value = rows[k][k] * rows[i][j] - rows[i][k] * rows[k][j]
+                assert value % previous == 0
+                rows[i][j] = value // previous
+            rows[i][k] = 0
+        previous = rows[k][k]
+    return sign * rows[-1][-1]
 
 
 def main():
@@ -85,6 +108,37 @@ def main():
     assert first_ledger_failures == [2, 2, 2, 7, 16, 101]
     assert all(2**((2*degree + 1)*101) <= 3**(degree*100 + 201) for degree in range(6))
     print(f"First worst-parameter ledger failures for degrees 0..5: {first_ledger_failures}")
+
+    normal_prefix = [1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1]
+    determinants = [determinant([[normal_prefix[n - j] for j in range(size)]
+                                for n in range(size, 2 * size)]) for size in range(1, 7)]
+    assert determinants == [1, -1, 1, -1, -1, -1]
+    hard_one = normal_prefix + [1] * 987 + [0]
+    hard_zero = hard_one[:]
+    hard_zero[0], hard_zero[999] = 0, 1
+    assert len(hard_one) == len(hard_zero) == 1000
+    assert hard_one[0] == 1 and hard_one != hard_zero
+    assert sum(hard_one) == sum(hard_zero) == 993
+    assert [j for j in range(1000) if hard_one[j] != hard_zero[j]] == [0, 999]
+    assert 2**19 <= 3**12
+    for degree in range(6):
+        assert ((2 * degree + 1) * 1000 * 999) * 12 <= 19 * 993 * (degree * 999 + 1999)
+    hard_p1 = integer_null_vector([[hard_one[n - j] for j in range(7)] for n in range(7, 13)], 7)
+    content = reduce(gcd, map(abs, hard_p1))
+    hard_p1 = [c // content for c in hard_p1]
+    hard_p0 = [-convolution(hard_p1, hard_one, n) for n in range(7)]
+    assert hard_p1 == [-1, -1, 1, 1, 2, 1, -1]
+    assert hard_p0 == [1, 2, 0, -1, -2, -4, -1]
+    assert [(hard_p0[n] if n <= 6 else 0) + convolution(hard_p1, hard_one, n)
+            for n in range(14)] == [0] * 13 + [-1]
+    high_one = [1] * 101
+    high_one[1] = 0
+    high_zero = [1] * 101
+    high_zero[100] = 0
+    high_word = high_one + high_zero
+    assert [([-1, 1, -1][n] if n <= 2 else 0) + convolution([1, -1, 0], high_word, n)
+            for n in range(202)] == [0] * 201 + [-1]
+    print("Six exact nonsingular prefix systems; hard length-1000 degree-six pair; degree-two/order-201 pair")
 
     semantic_fixtures = [
         ([0, 1], [1, 0], 13, -15),

@@ -282,3 +282,21 @@ certificate at every raw degree `d>=6`, with order at least `2*d+1`, for every
 admissible equal-weight morphism. The degree-six main theorem stays unchanged.
 The findings report records scope limits and primary-literature comparisons;
 none of the external sources is a proof dependency or a novelty certificate.
+
+## E2: sharpness for arbitrary residual orders
+
+`MinimalCertificate.lean` strengthens the guaranteed-order ledger audit:
+`UniversalCertificateDegree d ↔ 6<=d` for the exact certificate interface
+above, even when pairs may have arbitrarily high first residual order.
+`hardImages` is an admissible length-1000 counterexample to every degree
+bound at most five. `prefix_kernel` checks six small nonsingular systems;
+`prefix_order_bound` uses them to force `N<=2*d+1`. Then
+`hard_small_degree_ledger_failure` and `hard_no_small_certificate` rule out
+closing the gap. All coefficients, raw common factors and orders are quantified.
+
+This formal lower bound concerns the specified coefficient/height ledger,
+not arbitrary possible irrationality arguments. The degree-two/order-201
+length-101 example remains a useful illustration that individual words can
+have smaller certificates. The findings report gives the hard example's
+explicit degree-six pair and its exact proof mapping. The expanded audit is
+258 declarations (all 101 new Phase 8 theorem exports included).

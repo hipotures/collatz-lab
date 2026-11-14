@@ -22,6 +22,7 @@ import CollatzLab.PolynomialExistence
 import CollatzLab.RationalSeriesChecks
 import CollatzLab.UniversalChecks
 import CollatzLab.DegreeTradeoff
+import CollatzLab.MinimalCertificate
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -65,6 +66,8 @@ Root module exporting the Lean 4 formalization of the paper
   morphism satisfying H1--H3, with all finite shifts and eventual matches.
 * `CollatzLab.DegreeTradeoff`: optimality of degree six for the uniform
   dimension-count ledger, and higher-degree certificates.
+* `CollatzLab.MinimalCertificate`: minimum uniform degree six within the
+  implemented polynomial certificate criterion, allowing arbitrary residual order.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   are independent ingredients in the general polynomial certificate route.

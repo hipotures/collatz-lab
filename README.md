@@ -283,10 +283,16 @@ integer elimination for every degree `d`, giving order at least `2*d+1` for
 The [proof mapping](research/lean-polynomial-certificates.md) gives exact
 signatures, finite identities, valuation and height bookkeeping, dependencies
 and semantic limits. The [Phase 8 journal](research/phase8-progress.md) records
-validated milestones and resumption instructions. The 245-declaration audit
+validated milestones and resumption instructions. The 258-declaration audit
 permits only standard foundations; no additional packages are used. New
 regressions include the coefficient-8 Thue–Morse pair and the supercritical
 length-six example `101011/011011` that fails (C).
+
+The minimum uniform polynomial degree is also kernel-checked: six is least
+for the implemented finite coefficient and height-gap criterion, even allowing
+arbitrary residual orders. A length-1000 admissible example defeats every
+smaller degree within that criterion; individual words can still have much
+smaller certificates.
 
 This theorem concerns this specified class of itineraries. It does not prove
 the Collatz conjecture or the general 2-adic Periodicity Conjecture, and no

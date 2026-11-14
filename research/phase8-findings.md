@@ -51,7 +51,8 @@ and actual signed rational prefix checks cover lengths 2 through 6, and the
 infinite itinerary predicate remains explicitly non-vacuous.
 
 See the proof mapping for exact signatures and the complete semantic audit.
-Further degree/order optimization and primary-literature comparison remain.
+Further degree/order results and the limited primary-literature comparison
+are recorded below.
  There is no counterexample to the route established by this work.
 The coefficient-8 obstruction refutes only the discarded unit-leading shortcut.
 
@@ -158,3 +159,61 @@ The Padé/Mahler framework is established prior mathematics. This comparison
 does not establish that the all-equal-weight statement, its proof, or its
 formalization is new. A complete prior-art review and independent mathematical
 review remain appropriate before making any such claim.
+
+## E2: minimum uniform degree within the implemented certificate interface
+
+**Lean-kernel-verified:**
+`MinimalCertificate.universal_certificate_degree_iff d` proves that a closing
+polynomial certificate of degree at most `d` exists for every admissible
+morphism **if and only if `6<=d`**, allowing arbitrary residual orders and
+arbitrary integer coefficients. The definition `UniversalCertificateDegree`
+includes the nonzero denominator, first residual, degree/order bound and the
+exact `PolynomialPair.Gap` used in milestone A. This is a lower bound within
+that explicit interface; it says nothing about stronger height estimates,
+other exclusion methods, or transcendence proofs.
+
+For the lower bound, a single admissible length-1000 example is constructed.
+Its one-image starts
+
+```text
+110100010011
+```
+
+then has ones through position 998, and a zero at 999. Its zero-image swaps
+the bits at positions 0 and 999. Both weights are 993, they are distinct and
+prolongable at 1, and their last disagreement is 999. These properties are
+checked directly in the kernel.
+
+For each `d=0,...,5`, the `(d+1)` equations at coefficient indices
+`d+1,...,2*d+1` have an invertible denominator matrix. Its entries are
+`w_(d+1+i-j)` and depend only on the displayed twelve symbols. The six
+integer linear systems are explicitly expanded and solved by Lean's `omega`;
+no determinant assertion is assumed. Therefore any nonzero denominator of
+raw degree `d<=5` must have its first residual at some `N<=2*d+1`.
+
+For all those degrees the exact inequality
+
+```text
+12*(2*d+1)*1000*999 <= 19*993*(d*999+1999)
+```
+
+and `2^19<=3^12` prove failure of the required base gap even at the largest
+possible `N`. Smaller `N` only weakens that gap. Twelfth-power comparison
+avoids evaluating the multi-million-bit ledger integers. Thus **no**
+nonzero-denominator pair of degree at most five can certify this particular
+word through the implemented gap.
+
+The positive direction uses the already proved universal degree-six theorem.
+An independent explicit certificate for the hard example is also checked:
+
+```text
+P0=1+2z-z^3-2z^4-4z^5-z^6,
+P1=-1-z+z^2+z^3+2z^4+z^5-z^6,
+N=13, first coefficient -1.
+```
+
+The existing numerical ledger closes it, and the conditional polynomial
+theorem excludes its rational seeds independently. The Python regression
+checks the six matrix determinants as `[1,-1,1,-1,-1,-1]`, the actual weights
+and disagreements, the small exponent comparisons, and this explicit pair.
+These finite checks support the kernel proof but do not replace it.
