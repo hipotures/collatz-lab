@@ -9,9 +9,12 @@
   branch `codex/phase11-noncontracting`, open and unmerged when inspected.
 - Detached validation clone: `/home/user/DEV/collatz-lab-phase11-audit`.
 - External evidence directory: `/home/user/DEV/collatz-lab-phase11-evidence`.
-- Last pushed checkpoint: `dd9ba1c6f6ffb28f3ae6cd6a147ae211a4278ba7`
-  (standalone proofs and initial prior-art finding). The complete report is
-  ready for the next push; a commit cannot contain its own hash.
+- Last pushed full-report checkpoint:
+  [`8a56e3357a600ac62e5082d8da3a04418f2549d0`](https://github.com/hipotures/collatz-lab/commit/8a56e3357a600ac62e5082d8da3a04418f2549d0).
+  This final journal-only handoff follows it; use the review PR head or
+  `git log -1` for that later commit, which cannot contain its own hash.
+- Separate review [PR #22](https://github.com/hipotures/collatz-lab/pull/22)
+  is open and unmerged against `main`, with only the two requested reports.
 - Completed input reading: complete issues #21/#19, PR #20 metadata and empty
   discussion threads; root AGENTS.md; the six Phase 11 modules; all three
   Phase 11 Python verifiers, signatures and validation script; the specified
@@ -37,11 +40,39 @@
   rows, two reproducible scripts/outputs and the broader counting deduction.
   Verdict: mathematical PASS; merge CONDITIONAL on documentation/attribution;
   separate new-theorem publication FAIL on present evidence.
-- Outstanding: push the completed reports and open the separate review PR.
-- Next: `git diff --check`, commit/push only this review branch, then open the
-  report PR against main. Do not modify or merge PR #20.
+- Review work complete: no unproved obligation is concealed. Source access
+  limits and unchecked stronger literature claims remain explicitly bounded
+  in report §6.3; they are not needed for its mathematical verdict.
+- Next owner task: arrange the P1/M1 documentation corrections on the
+  implementation branch and decide whether to authorize its integration.
+  Human review and a contribution-based editorial decision are needed before
+  commissioning any formalization note. Do not modify or merge PR #20 as
+  part of this review handoff.
 - No source proof, manuscript, author metadata, issue #15, original checkout,
   or Codex branch has been changed. No PR has been merged and no issue closed.
+
+## Final handoff — 14 November 2026
+
+The complete report was committed and pushed as
+`8a56e3357a600ac62e5082d8da3a04418f2549d0`; PR #22 was opened with that
+checkpoint. Its journal-only follow-up records this durable handoff. Final
+`git diff --check` and the document structure/Python syntax checks passed.
+The report embeds both independently executed checkers and their outputs;
+the external evidence directory is supplementary, not required to recover
+the independent finite checks.
+
+Immediately after opening PR #22, its separate main-baseline CI
+[run 43627704656](https://github.com/hipotures/collatz-lab/actions/runs/43627704656)
+was **in progress**, not recorded as passed. This does not replace the
+completed local 564-declaration validation at PR #20's exact head. A later
+journal-only push may trigger another run; inspect the actual review head
+when using GitHub evidence.
+
+Final live reads reconfirmed PR #20 open/unmerged at the pinned SHA, issue
+#19 open, and issue #15 open with its update timestamp unchanged. Remote
+`main` and the Codex branch retained their initial SHAs. Both original main
+and detached audit checkouts remained clean. No approval to merge either PR
+or to publish/submit a manuscript was inferred from the mathematical PASS.
 
 ## Review protocol and evidence levels
 
