@@ -10,6 +10,11 @@
 | [`infinite-itineraries.md`](infinite-itineraries.md) | Phase 3 mathematical memo: all-prefix survival proof, aperiodicity proof, 2-adic Mahler reduction, `B(z) = z^2 - z^3` denominator analysis, Padé table (`1 <= m <= 16`), and literature audit |
 | [`mahler/summary.md`](mahler/summary.md) | generated Phase 3 summary: 5-way modular checkpoints up to `2^1024`, periodic control `(1110)^infinity`, and exact Padé table |
 | [`mahler/evidence.json`](mahler/evidence.json) | generated Phase 3 machine-readable evidence (arbitrary-precision integers as decimal strings) |
+| [`lean-semantic-audit.md`](lean-semantic-audit.md) | Phase 5 Gate A: adversarial audit of the Lean formalization in PR #9 (statement semantics, dependency path, axioms, documentation defects with suggested patches) |
+| [`lean-audit/AuditChecks.lean`](lean-audit/AuditChecks.lean) | the audit's own kernel-checked statements; run against a checkout of PR #9 (not a Lake target on this branch) |
+| [`mahler-generalization.md`](mahler-generalization.md) | Phase 5 Gate B: the family `mu_L(1) = 1^(L-1) 0`, `mu_L(0) = 1^(L-2) 0 1`, written proof that no rational seed realizes `w_L` for every `L >= 4` (`L = 5` explicit), a sufficient criterion for uniform equal-weight morphisms, bounded Pade table, literature comparison; unformalized |
+| [`mahler-family/summary.md`](mahler-family/summary.md) | generated Phase 5 finite checks: family table, `L = 5` checkpoints, Pade table (`1 <= m <= 16`), criterion counts |
+| [`mahler-family/evidence.json`](mahler-family/evidence.json) | generated Phase 5 machine-readable evidence |
 | [`example/summary.md`](example/summary.md) | generated summary of the reference experiment |
 | [`example/ledger.jsonl`](example/ledger.jsonl) | generated machine-readable ledger of the reference experiment |
 
@@ -48,6 +53,18 @@ cargo run --locked --release -- mahler --out-dir research/mahler
 See [`infinite-itineraries.md`](infinite-itineraries.md) for the algebraic proofs,
 the periodic control `(1110)^infinity` (`x = -19/11`), the comparison with
 `msharpe248/collatz` (`Rung1.lean`), and the unresolved proof obligations.
+
+The Phase 5 family checks are reproduced byte for byte with (standard library
+only, about three seconds):
+
+```text
+python3 research/mahler-family/verify_family.py
+cargo test --locked --test mahler_family
+```
+
+They are finite checks. The all-`L` statements in
+[`mahler-generalization.md`](mahler-generalization.md) are written proofs that
+have not been formalized in Lean.
 
 ## Certificate families on record
 
