@@ -301,3 +301,22 @@ import CollatzLab
 #print axioms CollatzLab.PolynomialPair.secondaryTen_forms
 #print axioms CollatzLab.PolynomialPair.secondaryTen_premature_failure
 #print axioms CollatzLab.no_rational_seed_realizes_secondary_nonunit
+
+/-! Quantitative integer elimination, coefficient bounds and uniform safe starting level. -/
+#print axioms CollatzLab.FiniteLinear.absInt_neg_eq
+#print axioms CollatzLab.FiniteLinear.elimination_bound_positive
+#print axioms CollatzLab.FiniteLinear.nullBound_positive
+#print axioms CollatzLab.FiniteLinear.dot_abs_bound
+#print axioms CollatzLab.FiniteLinear.elimination_entry_bound
+#print axioms CollatzLab.FiniteLinear.integer_null_vector_bounded
+#print axioms CollatzLab.PolynomialPair.convolution_abs_bound_general
+#print axioms CollatzLab.PolynomialPair.bounded_polynomial_pair_exists
+#print axioms CollatzLab.PolynomialPair.convolution_abs_bound
+#print axioms CollatzLab.PolynomialPair.degree_six_coefficient_bound
+#print axioms CollatzLab.PolynomialPair.coefficientNorm_upper
+#print axioms CollatzLab.PolynomialPair.degree_six_height_cap
+#print axioms CollatzLab.PolynomialPair.degree_six_norm_bound
+#print axioms CollatzLab.PolynomialPair.degree_six_leading_bound
+#print axioms CollatzLab.PolynomialPair.uniform_safe_level
+#print axioms CollatzLab.Morphism.universal_bounded_degree_six_certificate
+#print axioms CollatzLab.Morphism.universal_degree_six_valuation

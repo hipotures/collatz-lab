@@ -25,6 +25,7 @@ import CollatzLab.DegreeTradeoff
 import CollatzLab.MinimalCertificate
 import CollatzLab.BoundedSeriesChecks
 import CollatzLab.PrematureValuation
+import CollatzLab.UniformStart
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -71,6 +72,8 @@ Root module exporting the Lean 4 formalization of the paper
   dimension-count ledger, and higher-degree certificates.
 * `CollatzLab.MinimalCertificate`: minimum uniform degree six within the
   implemented polynomial certificate criterion, allowing arbitrary residual order.
+* `CollatzLab.UniformStart`: explicit coefficient bounds and a common safe
+  valuation starting level six for chosen certificates across all admissible images.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   are independent ingredients in the general polynomial certificate route.

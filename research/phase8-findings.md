@@ -272,3 +272,58 @@ deleted. The coefficient-8 Thue–Morse example happened to retain the formula
 at level zero, so that example alone would not catch this stronger shortcut.
 No Padé search bound or existing artifact was extended or regenerated to
 obtain this regression; the degree-ten row was already in the verified table.
+
+## E5: coefficient bounds and a uniform valuation starting level
+
+**Lean-kernel-verified:** every admissible morphism has a chosen degree-six
+certificate whose leading residual valuation is below 70. The same safe
+starting level **k=6** therefore works for that chosen certificate across
+all lengths and images. This concerns the valuation argument, not a uniform
+upper bound on residual order or on the later height-contradiction index.
+
+`BoundedLinear.integer_null_vector_bounded` quantifies the division-free
+construction. If the original matrix entries have absolute value at most
+`H>=1`, elimination bounds each reduced entry by `2*H^2`. Reconstruction
+bounds the new vector by `m*H` times the preceding bound. The recursive
+quantity is
+
+```text
+B(0,H)=1,
+B(m+1,H)=(m+1)*H*B(m,2*H^2).
+```
+
+Its positivity and the vector bounds are proved for arbitrary dimensions,
+including zero columns, deficient rank, negative entries and zero matrices.
+For six binary rows the kernel computes
+
+```text
+X = B(6,1) = 720*2^57 = 103762935414616227840.
+```
+
+`UniformStart.lean` chooses denominator coefficients bounded by `X`, and
+numerator coefficients bounded by `7*X`. Consequently
+
+```text
+norm(P) <= 2+56*X,
+heightConstant(P) < 2^76.
+```
+
+The first residual index is still allowed to be arbitrarily large. Since
+`N>=13>6`, its coefficient is a convolution of seven bounded denominator
+coefficients with binary symbols. Its absolute value is at most `7*X<2^70`.
+The exact factorization `R_N=2^val*c_odd` therefore has `val<70`. At any
+`k>=6`, `L^(k+1)>=2^7=128>val`, so the non-unit valuation theorem applies.
+
+`Morphism.universal_bounded_degree_six_certificate` exports all this data
+before any seed is chosen. `universal_degree_six_valuation` gives exact
+valuation, divisibility, next-power nondivisibility and the absolute lower
+bound at every `k>=6` for a hypothetical realization. The original universal
+exclusion theorem is unchanged. Arbitrarily long finite rational prefix
+realizations remain consistent with these bounds: the height contradiction
+still depends on the seed height and the required prefix precision grows
+with the tower level.
+
+The independent exact Python implementation checks the vector bounds on its
+144 matrices, the constant `X`, both power caps, and the coefficient/height
+bounds of its explicit binary-word fixtures. No finite binary-prefix cache
+is used in the universal proof.

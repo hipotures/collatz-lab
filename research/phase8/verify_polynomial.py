@@ -35,6 +35,12 @@ def integer_null_vector(rows, width):
     return [-sum(c * value for c, value in zip(pivot[1:], y))] + [pivot[0] * value for value in y]
 
 
+def null_bound(rows, height):
+    if rows == 0:
+        return 1
+    return rows * height * null_bound(rows - 1, 2 * height * height)
+
+
 def determinant(matrix):
     """Exact Bareiss determinant for the six fixed prefix systems."""
     rows = [row[:] for row in matrix]
@@ -96,9 +102,18 @@ def main():
                 rows[-1] = rows[0][:]
             x = integer_null_vector(rows, rows_count + 1)
             assert len(x) == rows_count + 1 and any(x)
+            height = max([1] + [abs(c) for row in rows for c in row])
+            assert all(abs(c) <= null_bound(rows_count, height) for c in x)
             assert all(sum(c * value for c, value in zip(row, x)) == 0 for row in rows)
             matrix_count += 1
     print(f"{matrix_count} exact integer null vectors, including zero and deficient-rank matrices")
+
+    coefficient_bound = null_bound(6, 1)
+    assert coefficient_bound == 103762935414616227840 == 720 * 2**57
+    assert 7 * coefficient_bound < 2**70
+    assert 7 * (2 + 56 * coefficient_bound) < 2**76
+    assert 69 < 2**7
+    print("Uniform degree-six coefficient/height bounds; leading valuation <70; safe level 6")
 
     first_ledger_failures = []
     for degree in range(6):
@@ -211,7 +226,10 @@ def main():
         rows = [[extended[n - j] for j in range(7)] for n in range(7, 13)]
         p1 = integer_null_vector(rows, 7)
         assert any(p1)
+        assert all(abs(c) <= coefficient_bound for c in p1)
         p0 = [-convolution(p1, extended, n) for n in range(7)]
+        assert all(abs(c) <= 7 * coefficient_bound for c in p0)
+        assert 7 * (2 + sum(map(abs, p0 + p1))) < 2**76
         assert all((p0[n] if n <= 6 else 0) + convolution(p1, extended, n) == 0
                    for n in range(13))
         if length == 6:

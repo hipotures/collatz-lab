@@ -32,10 +32,14 @@ A–D are complete. No main theorem proof obligation remains.
 **Pushed E3 checkpoint:** `12e9e53c74c92a31492de9b0c83f06647de594eb`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43583179137 — success.
 
-**Current additional result E4:** the secondary degree-ten/coefficient-24 row
-has a real finite-prefix valuation obstruction at level zero: 68 instead of
-66. Level one gives the correct 192. `PrematureValuation.lean` and all full
-checks pass (284-declaration audit, 94 Rust tests, independent Python checks).
+**Pushed E4 checkpoint:** `50bdb4d3ad6916782b8283c875abe1dfd3466390`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43583686517 — success.
+
+**Current additional result E5:** quantitative elimination and uniform starting
+level are kernel-verified. Every admissible morphism has a chosen certificate
+with first coefficient valuation below 70, height constant below `2^76`, and
+safe valuation at every `k>=6`. All full checks pass: 301 audited declarations,
+94 Rust tests, formatting, Clippy, both independent Python checkers.
 
 | Milestone | Verified status |
 |---|---|
@@ -47,17 +51,14 @@ checks pass (284-declaration audit, 94 Rust tests, independent Python checks).
 
 ## Exact next obligations
 
-1. Record E4's pushed SHA and CI. A–D and E2's sharpness result are complete;
-   no main theorem proof obligation remains.
-2. Optional quantitative improvement: bound the integer null vector produced
-   by the existing division-free elimination. With matrix entries bounded by H,
-   the next matrix is bounded by `2*H^2`; reconstructing the vector multiplies
-   its bound by `m*H`. For six binary rows this suggests coefficient bound
-   `6!*2^57`, leading valuation below 70 and a uniform safe level 6.
-   This quantitative statement is **proposed**, not kernel-verified yet.
-3. Other alphabets or improved height recurrences still require proved
-   scalar/vector transport. Bounded generating-function coefficients alone
-   do not extend the Collatz exclusion's domain.
+1. Record E5's pushed SHA and CI. A–D and all described E refinements are
+   complete. No main theorem proof obligation remains.
+2. Final interface audit: explicitly derive a nonzero denominator from the
+   finite first-residual and strict-gap conditions; it is already supplied
+   independently by every constructed universal certificate.
+3. Optional later research: sharper coefficient bounds through controlled
+   maximal minors/primitive vectors, or new scalar/vector transport for
+   broader substitution classes. No such improved statement is assumed.
 
 ## Constraints and failed shortcuts to retain
 
@@ -75,14 +76,14 @@ checks pass (284-declaration audit, 94 Rust tests, independent Python checks).
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 284
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 301
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 127 new exported declarations (284 total).
+The exact audit now includes all 144 new exported declarations (301 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -226,4 +227,19 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 - The finite seed is not an infinite realization. The refuted step is an
   arithmetic deduction from finite congruence/residual data.
 - Full validation passes: build, 284-declaration exact audit, 94 Rust tests,
+  formatting, Clippy, both Python checkers, empty proof-escape scan, diff check.
+
+## E5 checkpoint details
+
+- `BoundedLinear.integer_null_vector_bounded`: explicit finite coefficient
+  bounds at every dimension, with arbitrary signed entries and deficient rank.
+- `UniformStart.lean`: bounded approximant existence, exact degree-six
+  coefficient/norm/height constants, first residual valuation below 70 and
+  a uniform safe starting level 6.
+- `Morphism.universal_bounded_degree_six_certificate` and
+  `universal_degree_six_valuation` export this data for every admissible
+  morphism, before choosing any hypothetical rational seed.
+- No upper bound on first order or contradiction level is claimed. The
+  general exclusion and its hypotheses are unchanged.
+- Full checks pass: build, 301-declaration exact audit, 94 Rust tests,
   formatting, Clippy, both Python checkers, empty proof-escape scan, diff check.

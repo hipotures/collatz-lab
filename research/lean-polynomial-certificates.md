@@ -328,3 +328,24 @@ valuations 68 and 192. Level zero therefore violates the premature formula
 the finite arithmetic shortcut, without asserting an infinite realization.
 The old coefficient-8 regressions remain independent. All eight new exports
 are in the expanded exact audit (284 declarations total).
+
+## E5: uniform quantitative certificates
+
+`BoundedLinear.integer_null_vector_bounded` proves a coefficient bound for
+the general division-free elimination. Applied to six binary rows, it gives
+`X=720*2^57=103762935414616227840`. The bounded approximant construction
+has `|P1_j|<=X`, `|P0_j|<=7*X`, norm at most `2+56*X` and height constant
+strictly below `2^76`.
+
+`Morphism.universal_bounded_degree_six_certificate` supplies a degree-six
+pair and first order `N>=13`, together with these bounds, a strict gap and
+an exact first coefficient `2^val*c_odd` with `val<70`.
+`uniform_safe_level` proves `val<L^(k+1)` for every `k>=6`, uniformly in all
+admissible lengths and images. `Morphism.universal_degree_six_valuation`
+combines these structural data with the existing exact valuation theorem.
+The selected pair is independent of the hypothetical numerator and denominator.
+No bound on `N` or on the growth-contradiction index is asserted.
+
+The complete audit now contains 301 declarations, including all 144 new
+Phase 8 theorem exports. The old unbounded integer-elimination proof is
+retained as an independent existence proof.
