@@ -221,7 +221,9 @@ foundation axioms.
 
 See [`research/lean-family-formalization.md`](research/lean-family-formalization.md)
 for full signatures, dependencies, semantic checks, validation, and scope.
-The arbitrary-morphism criterion and the family's general symbolic survival
+The independent [Phase 7 semantic audit](research/lean-family-semantic-audit.md)
+adds literal substitution and signed rational checks, bringing the CI audit to
+52 declarations. The arbitrary-morphism criterion and the family's general symbolic survival
 and aperiodicity arguments remain written proofs. This result does not
 prove Collatz, CST, or the general Periodicity Conjecture.
 
@@ -315,7 +317,9 @@ The primary-source audit now includes Terras's and Garner's cached scans,
 versioned arXiv text and the indexed ResearchGate preprints, with exact
 access and theorem references. Terras's historical argument covers
 `tau<=2592`; our finite-depth checks are reproductions, not new evidence.
-No third-party code was copied, and the Lean project was not compiled.
+No third-party code was copied. The earlier literature investigation did not
+compile the external Lean project; this repository's own Lean results are
+kernel-checked as documented above.
 
 The slack hypothesis **P1a is refuted**: among the twelve first-crossing
 words with six odd steps, the least member is 287, while the largest

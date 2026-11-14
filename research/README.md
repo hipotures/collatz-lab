@@ -14,6 +14,8 @@
 | [`lean-audit/AuditChecks.lean`](lean-audit/AuditChecks.lean) | the audit's own kernel-checked statements; run against a checkout of PR #9 (not a Lake target on this branch) |
 | [`mahler-generalization.md`](mahler-generalization.md) | Phase 5 Gate B: the family `mu_L(1) = 1^(L-1) 0`, `mu_L(0) = 1^(L-2) 0 1`, written proof that no rational seed realizes `w_L` for every `L >= 4` (`L = 5` explicit), a sufficient criterion for uniform equal-weight morphisms, bounded Pade table, literature comparison; uniform irrationality and tails kernel-checked in Phase 6 |
 | [`lean-family-formalization.md`](lean-family-formalization.md) | Phase 6: all-`L >= 4` kernel proof, exact theorem signatures, tower cancellation, semantic correspondence, 44-declaration axiom audit, and validation |
+| [`lean-family-semantic-audit.md`](lean-family-semantic-audit.md) | Phase 7 A: independent semantic audit of the all-`L` theorem and signed, literal-substitution kernel checks |
+| [`phase7-progress.md`](phase7-progress.md) | durable campaign checkpoints and exact resumption instructions for issue #13 |
 | [`mahler-family/summary.md`](mahler-family/summary.md) | generated Phase 5 finite checks: family table, `L = 5` checkpoints, Pade table (`1 <= m <= 16`), criterion counts |
 | [`mahler-family/evidence.json`](mahler-family/evidence.json) | generated Phase 5 machine-readable evidence |
 | [`example/summary.md`](example/summary.md) | generated summary of the reference experiment |

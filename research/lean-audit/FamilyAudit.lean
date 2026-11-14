@@ -1,6 +1,6 @@
 import CollatzLab
 
-/-! The exact 44-declaration audit consumed by the Lean CI job. -/
+/-! The exact 52-declaration audit consumed by the Lean CI job. -/
 #print axioms CollatzLab.all_prefixes_survive
 #print axioms CollatzLab.w_not_eventually_periodic
 #print axioms CollatzLab.iter4L_affine_identity
@@ -45,3 +45,11 @@ import CollatzLab
 #print axioms CollatzLab.no_int_seed_realizes_shifted_family
 #print axioms CollatzLab.family_five_positive_prefix_witness
 #print axioms CollatzLab.realizes_all_zero
+#print axioms CollatzLab.Phase7Audit.literal_four
+#print axioms CollatzLab.Phase7Audit.literal_five
+#print axioms CollatzLab.Phase7Audit.literal_six
+#print axioms CollatzLab.Phase7Audit.signed_prefix_witnesses
+#print axioms CollatzLab.Phase7Audit.positive_prefix_witnesses
+#print axioms CollatzLab.Phase7Audit.signed_branch_checks
+#print axioms CollatzLab.Phase7Audit.negative_realization
+#print axioms CollatzLab.Phase7Audit.disagreement_controls

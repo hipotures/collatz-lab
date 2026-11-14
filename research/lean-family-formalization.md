@@ -1,5 +1,9 @@
 # Phase 6: the uniform Mahler family in Lean 4 (issue #12)
 
+Phase 7 adds an [independent semantic audit](lean-family-semantic-audit.md)
+and eight kernel-checked regressions. The 44-declaration counts below describe
+the Phase 6 checkpoint; the current CI audit contains 52 declarations.
+
 Theorem 4.1 and Corollary 9.1 of
 [`mahler-generalization.md`](mahler-generalization.md) are now accepted by the
 Lean 4.18.0 kernel for **every natural number `L >= 4`**. The parameter `L` is
