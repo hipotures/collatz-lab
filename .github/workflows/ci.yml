@@ -20,3 +20,63 @@ jobs:
       - run: cargo clippy --locked --all-targets --all-features -- -D warnings
       # Unit, property and small end-to-end tests only; no open-ended searches.
       - run: cargo test --locked --all-targets
+
+  lean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan and Lean 4 toolchain
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Check for forbidden proof escapes
+        run: |
+          if grep -rnE '\b(sorry|admit|axiom|unsafe|native_decide)\b' CollatzLab CollatzLab.lean; then
+            echo "Forbidden keyword found in Lean formalization!"
+            exit 1
+          fi
+      - name: Build Lean 4 formalization
+        run: lake build
+      - name: Audit theorem axioms
+        run: |
+          output=$(lake env lean --stdin <<'EOF'
+          import CollatzLab
+          #print axioms CollatzLab.all_prefixes_survive
+          #print axioms CollatzLab.w_not_eventually_periodic
+          #print axioms CollatzLab.iter4L_affine_identity
+          #print axioms CollatzLab.uncancelled_d1_divisible_by_256
+          #print axioms CollatzLab.dTower_pos_and_odd
+          #print axioms CollatzLab.tower_congruence_all
+          #print axioms CollatzLab.deltaTower_exact_div
+          #print axioms CollatzLab.pade4_identity
+          #print axioms CollatzLab.theorem_7_1_part1
+          #print axioms CollatzLab.hTower_closed_bound
+          #print axioms CollatzLab.eForm_upper_bound
+          #print axioms CollatzLab.no_rational_seed_realizes_w
+          #print axioms CollatzLab.no_int_seed_realizes_w
+          #print axioms CollatzLab.realizes_shiftWord_pred
+          #print axioms CollatzLab.no_rational_seed_realizes_shifted_w
+          #print axioms CollatzLab.no_eventually_shifted_w_itinerary
+          EOF
+          )
+          echo "$output"
+          # Check both absence of sorryAx and the explicit list of permitted core axioms.
+          # A deny-list alone could miss newly introduced nonstandard axioms.
+          if echo "$output" | grep -q "sorryAx"; then
+            echo "Error: sorryAx detected in theorem axioms!"
+            exit 1
+          fi
+          axiom_lines=$(printf '%s\n' "$output" | grep "depends on axioms:" || true)
+          expected_count=16
+          actual_count=$(printf '%s\n' "$axiom_lines" | grep -c "depends on axioms:" || true)
+          if [ "$actual_count" -ne "$expected_count" ]; then
+            echo "Error: expected $expected_count audited theorems, found $actual_count"
+            exit 1
+          fi
+          unexpected=$(printf '%s\n' "$axiom_lines" | grep -Ev "^'CollatzLab\.[A-Za-z0-9_']+' depends on axioms: \[(propext|Classical.choice|Quot.sound)(, (propext|Classical.choice|Quot.sound))*\]$" || true)
+          if [ -n "$unexpected" ]; then
+            echo "Error: unapproved axiom dependency:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi

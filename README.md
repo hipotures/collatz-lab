@@ -173,6 +173,32 @@ the full mathematical derivations and literature audit:
   rules out rational seeds for every shifted tail `sigma^t(w)` (`t >= 0`),
   without implying anything about general infinite survivor words.
 
+## Phase 4: Lean 4 kernel formalization (issue #8)
+
+The integer-arithmetic core of the irrationality proof in
+[`research/infinite-itineraries.md`](research/infinite-itineraries.md)
+(Theorems 6.2, 7.1 and Corollary 7.3) is formalized and verified by the Lean 4 kernel
+(`leanprover/lean4:v4.18.0`, core `Init` library only, zero `sorry`, `admit`,
+custom `axiom`, `unsafe`, or `native_decide`) in [`CollatzLab/`](CollatzLab):
+
+```text
+lake build
+```
+
+See [`research/lean-formalization.md`](research/lean-formalization.md) for the
+complete paper-to-Lean theorem mapping (`CollatzLab.all_prefixes_survive`,
+`CollatzLab.w_not_eventually_periodic`, `CollatzLab.uncancelled_d1_divisible_by_256`,
+`CollatzLab.tower_congruence_all`, `CollatzLab.theorem_7_1_part1`,
+`CollatzLab.eForm_upper_bound`, `CollatzLab.no_rational_seed_realizes_w`,
+`CollatzLab.no_rational_seed_realizes_shifted_w`,
+`CollatzLab.no_eventually_shifted_w_itinerary`) and the `#print axioms` audit.
+The generating-function and 2-adic statements are represented by the finite
+integer identities needed for the contradiction, not formalized as standalone
+power-series or 2-adic analytic theorems.
+This formalization covers the explicit 4-automatic word `w` and its shifts
+`w^(t)` only; it does not prove the Collatz conjecture, CST, or the general
+open Periodicity Conjecture.
+
 ## Epistemic statuses
 
 Every ledger entry and report line carries exactly one of:
