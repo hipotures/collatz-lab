@@ -8,7 +8,7 @@ import CollatzLab.Shifted
 # CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word
 
 Root module exporting the Lean 4 formalization of the paper
-`research/mahler-collatz-parity.md`:
+`research/infinite-itineraries.md` (formalizing its finite integer-arithmetic core):
 * `CollatzLab.Word`: 4-automatic word `w`, Lemma 3.1, Theorem 3.1 (prefix survival),
   Theorem 3.2 (aperiodicity), and rational 2-adic itinerary definitions.
 * `CollatzLab.Prefix`: Finite prefix sums `S_k`, Lemma 4.2, Theorem 6.2(1) base
@@ -16,8 +16,8 @@ Root module exporting the Lean 4 formalization of the paper
 * `CollatzLab.Tower`: Proposition 6.1 (refutation of uncancelled `Odd D_k`),
   cancelled denominator tower `D_k`, Bézout coprimality of `(a_k, b_k)`, and
   Theorem 6.2(2)–(3) (`a_k^2 ∣ Δ_k` and exact tower step).
-* `CollatzLab.Pade`: Theorem 7.1(1)–(3) (`n = 2` Padé polynomial identity,
-  2-adic valuation `v_2(E_k) ≥ 14 * 4^k`, Archimedean height bound
+* `CollatzLab.Pade`: Theorem 7.1(1)–(3) (degree-4 Padé polynomial identity,
+  exact 2-adic valuation `v_2(E_k) = 56 * 4^k`, Archimedean height bound
   `|E_k| < 3 * H_0 * 3^(19 * 4^k)`, and impossibility of rational 2-adic seeds
   realizing `w`).
 * `CollatzLab.Shifted`: Lemma 7.2 and Corollary 7.3 (backward preimage closure
