@@ -195,9 +195,35 @@ complete paper-to-Lean theorem mapping (`CollatzLab.all_prefixes_survive`,
 The generating-function and 2-adic statements are represented by the finite
 integer identities needed for the contradiction, not formalized as standalone
 power-series or 2-adic analytic theorems.
-This formalization covers the explicit 4-automatic word `w` and its shifts
+The Phase 4 formalization covers the explicit 4-automatic word `w` and its shifts
 `w^(t)` only; it does not prove the Collatz conjecture, CST, or the general
 open Periodicity Conjecture.
+
+## Phase 6: uniform family theorem in Lean 4 (issue #12)
+
+The integer-arithmetic proof now covers **every `L >= 4`** for
+`mu_L(1) = 1^(L-1)0`, `mu_L(0) = 1^(L-2)01`. The publicly exported theorem is
+
+```lean
+theorem CollatzLab.no_rational_seed_realizes_family
+  (L : Nat) (hL : 4 <= L) (p q : Int) :
+  ¬ CollatzLab.RealizesWord p q (CollatzLab.familyWord L)
+```
+
+`lake build` checks the uniform finite Mahler identities, exact cancelled
+tower, nonvanishing and exact divisibility of the linear form, and height
+contradiction. The shifted-tail and eventual-itinerary exclusions are
+`no_rational_seed_realizes_shifted_family` and
+`no_eventually_shifted_family_itinerary`. `familyWord_four` proves equality
+with the original `w`; a concrete `L=5` positive prefix witness checks the
+parity semantics. CI audits 44 declarations using only standard Lean
+foundation axioms.
+
+See [`research/lean-family-formalization.md`](research/lean-family-formalization.md)
+for full signatures, dependencies, semantic checks, validation, and scope.
+The arbitrary-morphism criterion and the family's general symbolic survival
+and aperiodicity arguments remain written proofs. This result does not
+prove Collatz, CST, or the general Periodicity Conjecture.
 
 ## Epistemic statuses
 

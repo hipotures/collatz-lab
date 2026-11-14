@@ -11,8 +11,11 @@ itinerary of any rational number with odd denominator; in particular it is not t
 of any integer. The proof is the 2-adic Mahler argument of issue #7 with the linear form
 built from the periodic approximant $(1^{L-1}0)^\infty$, which agrees with $w_L$ on its first
 $N = L^2 - 2$ symbols. For $L = 5$ every constant is written out. A sufficient criterion for
-arbitrary uniform equal-weight morphisms is proved in §8. **None of this is formalized in
-Lean**, and none of it says anything about general Collatz orbits.
+arbitrary uniform equal-weight morphisms is proved in §8. At Phase 5 these were written proofs only. **Phase 6 now kernel-checks
+Theorem 4.1 (all `L >= 4`, including Theorem 5.1) and Corollary 9.1**, using
+finite integer identities; see [`lean-family-formalization.md`](lean-family-formalization.md).
+The general symbolic survival and aperiodicity arguments and the arbitrary-morphism
+criterion remain unformalized. None of these results says anything about general Collatz orbits.
 
 Reproduce every finite check in this memo from the repository root:
 
@@ -37,10 +40,10 @@ Labels are the repository's: `proven-by-algebra`, `verified-for-finite-domain`,
 | All-prefix noncrossing $3^{r_k} > 2^k$, all $L \ge 4$ (fails for $L = 3$) | `proven-by-algebra` / `refuted` for $L=3$ | Theorem 2.2 |
 | $w_L$ not eventually periodic, all $L \ge 3$ | `proven-by-algebra` | Theorem 2.3 |
 | Mahler equation for $F_L$ and seed identity $x(w_L) = -\frac{B - 2^{L-2}}{B-A} + \frac{2^{L-2}}{B}F_{L,2}(A/B)$ | `proven-by-algebra` | Lemma 3.1, Theorem 3.3 |
-| **$L = 5$: no rational with odd denominator realizes $w_5$** | `proven-by-algebra`, unformalized | Theorem 5.1 |
-| **All $L \ge 4$: no rational with odd denominator realizes $w_L$** | `proven-by-algebra`, unformalized | Theorem 4.1 |
+| **$L = 5$: no rational with odd denominator realizes $w_5$** | `proven-by-algebra`, kernel-checked in Phase 6 | Theorem 5.1 |
+| **All $L \ge 4$: no rational with odd denominator realizes $w_L$** | `proven-by-algebra`, kernel-checked in Phase 6 | Theorem 4.1 |
 | Sufficient criterion (C) for uniform equal-weight morphisms | `proven-by-algebra`, unformalized | Theorem 8.1 |
-| Tails $\sigma^t(w_L)$ and words eventually equal to them | `proven-by-algebra`, unformalized | Corollary 9.1 |
+| Tails $\sigma^t(w_L)$ and words eventually equal to them | `proven-by-algebra`, kernel-checked in Phase 6 | Corollary 9.1 |
 | Identities of the proofs at tower levels $k \le 2$ ($L = 4, 5$), $k \le 1$ ($6 \le L \le 12$), and on all 144 admissible morphisms with $L \le 5$ | `verified-for-finite-domain` | §5.3, §8.3 |
 | Padé table for $L = 5$, degree bound $1 \le m \le 16$ | `verified-for-finite-domain` | §6 |
 | "`Odd D_k`" for the uncancelled tower | `refuted` ($v_2(D_1^{\mathrm{unc}}) = L(L-2)$) | §7 |
@@ -178,7 +181,7 @@ $x = -\frac{23}{11} + \frac{4}{27}F_2\bigl(\frac{16}{27}\bigr)$, the identity of
 
 ## 4. Main theorem for the whole family
 
-### Theorem 4.1 (no rational realization, all $L \ge 4$; `proven-by-algebra`, unformalized)
+### Theorem 4.1 (no rational realization, all $L \ge 4$; `proven-by-algebra`, kernel-checked in Phase 6)
 *Let $L \ge 4$. There are no integers $p$ and odd $q \ge 1$ such that $x = p/q$ has parity
 itinerary $w_L$ under $T$. In particular no integer has itinerary $w_L$.*
 
@@ -278,12 +281,12 @@ which is false for large $k$. $\blacksquare$
   Rust test evaluates $2^{L(L^2-2)} > 3^{L^2+L-1}$ for $4 \le L \le 64$ only as an illustration.
 - The only place $L \ge 4$ is used is the height constants ($A/B \le 16/27$, $a^{L-2} \ge 256$).
   The method does not need the word to be a survivor; see §8 for $L = 3$.
-- **Integer-only reformulation (for a future formalization).** $u_k = D_k f_k$ in $\mathbb{Z}_2$ is
+- **Integer-only reformulation (used in Phase 6).** $u_k = D_k f_k$ in $\mathbb{Z}_2$ is
   equivalent to the family of integer congruences
   $b_k^{n-1}u_k \equiv D_k \sum_{j<n} w(j)\,a_k^j b_k^{n-1-j} \pmod{a_k^n}$ for all $n \ge 1$, which
   is the form used in PR #9 for $L = 4$ (`tower_congruence_all`). Step 2 then reads
-  $b_k^{N}E_k \equiv D_k\,a_k^N b_k^{L} \pmod{a_k^{N+1}}$. Translating Steps 1–2 into that form for
-  general $L$ has not been done here.
+  $b_k^{N}E_k \equiv D_k\,a_k^N b_k^{L} \pmod{a_k^{N+1}}$. Phase 6 formalizes Steps 1–2 in this form for every $L \ge 4$; see
+  `CollatzLab.Family.tower_congruence` and `CollatzLab.Family.valuation`.
 
 ---
 
@@ -295,7 +298,7 @@ $A = 32$, $B = 81$, $B - A = 49$, $c_1 = 65$, $c_0 = 73$, $N = 23$.
 
 ### 5.1 Statement
 
-### Theorem 5.1 ($L = 5$; `proven-by-algebra`, unformalized)
+### Theorem 5.1 ($L = 5$; `proven-by-algebra`, kernel-checked in Phase 6)
 *No rational number with odd denominator has parity itinerary $w_5$. Explicitly, if $x = p/q$
 with $q \ge 1$ odd realized $w_5$, then with*
 $$a_k = 32^{5^k},\quad b_k = 81^{5^k},\quad D_0 = 49q,\quad u_0 = \frac{81(49p + 73q)}{8},$$
@@ -426,8 +429,8 @@ Observations.
    kept as the main line because it matches PR #9 and gives cleaner constants.
 4. **Aperiodicity alone.** Theorem 2.3 does not imply irrationality of the seed; that step is
    the open Periodicity Conjecture.
-5. **Not attempted:** a Lean formalization of Theorem 4.1 or 5.1; irrationality measures;
-   transcendence of $x(w_L)$.
+5. **Not attempted in Phase 5:** a Lean formalization of Theorem 4.1 or 5.1 (now completed
+   in Phase 6). Irrationality measures and transcendence of $x(w_L)$ remain outside scope.
 
 ---
 
@@ -547,7 +550,7 @@ Theorem 4.1, and $L = 3$ by §8.2.
 
 ## 9. Shift tails
 
-### Corollary 9.1 (`proven-by-algebra`, unformalized)
+### Corollary 9.1 (`proven-by-algebra`; family case kernel-checked in Phase 6)
 *Let $w$ be a word for which the conclusion of Theorem 4.1 or 8.1 holds (in particular $w = w_L$,
 $L \ge 4$). Let $v$ be any infinite word such that $v(s + j) = w(t + j)$ for all $j \ge 0$, for some
 $s, t \ge 0$. Then no rational number with odd denominator has itinerary $v$. In particular no
@@ -618,9 +621,11 @@ No originality is claimed for the method or for the results.
 
 ## 11. Open proof obligations
 
-1. **Formalization.** Theorems 4.1, 5.1, 8.1 and Corollary 9.1 are written proofs. A Lean
-   version for general $L$ would need either $\mathbb{Z}_2$ or the integer-congruence
-   reformulation noted after Theorem 4.1. PR #9 covers $L = 4$ only.
+1. **Formalization.** Phase 6 completes Theorems 4.1 and 5.1 and the family case of
+   Corollary 9.1 for every $L \ge 4$, using the integer-congruence reformulation;
+   see [`lean-family-formalization.md`](lean-family-formalization.md). The arbitrary-morphism
+   criterion (Theorem 8.1), the family's general symbolic survival and aperiodicity proofs,
+   and standalone formal-series/2-adic analytic statements remain written proofs.
 2. **Morphisms failing (C)** (§8.4), starting with $1 \mapsto 10$, $0 \mapsto 01$.
 3. **Non-uniform or unequal-weight morphisms.** If the images have different numbers of ones,
    the block multiplier is not constant and the reduction to a single-variable Mahler equation

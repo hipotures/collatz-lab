@@ -12,7 +12,8 @@
 | [`mahler/evidence.json`](mahler/evidence.json) | generated Phase 3 machine-readable evidence (arbitrary-precision integers as decimal strings) |
 | [`lean-semantic-audit.md`](lean-semantic-audit.md) | Phase 5 Gate A: adversarial audit of the Lean formalization in PR #9 (statement semantics, dependency path, axioms, documentation defects with suggested patches) |
 | [`lean-audit/AuditChecks.lean`](lean-audit/AuditChecks.lean) | the audit's own kernel-checked statements; run against a checkout of PR #9 (not a Lake target on this branch) |
-| [`mahler-generalization.md`](mahler-generalization.md) | Phase 5 Gate B: the family `mu_L(1) = 1^(L-1) 0`, `mu_L(0) = 1^(L-2) 0 1`, written proof that no rational seed realizes `w_L` for every `L >= 4` (`L = 5` explicit), a sufficient criterion for uniform equal-weight morphisms, bounded Pade table, literature comparison; unformalized |
+| [`mahler-generalization.md`](mahler-generalization.md) | Phase 5 Gate B: the family `mu_L(1) = 1^(L-1) 0`, `mu_L(0) = 1^(L-2) 0 1`, written proof that no rational seed realizes `w_L` for every `L >= 4` (`L = 5` explicit), a sufficient criterion for uniform equal-weight morphisms, bounded Pade table, literature comparison; uniform irrationality and tails kernel-checked in Phase 6 |
+| [`lean-family-formalization.md`](lean-family-formalization.md) | Phase 6: all-`L >= 4` kernel proof, exact theorem signatures, tower cancellation, semantic correspondence, 44-declaration axiom audit, and validation |
 | [`mahler-family/summary.md`](mahler-family/summary.md) | generated Phase 5 finite checks: family table, `L = 5` checkpoints, Pade table (`1 <= m <= 16`), criterion counts |
 | [`mahler-family/evidence.json`](mahler-family/evidence.json) | generated Phase 5 machine-readable evidence |
 | [`example/summary.md`](example/summary.md) | generated summary of the reference experiment |
@@ -62,9 +63,11 @@ python3 research/mahler-family/verify_family.py
 cargo test --locked --test mahler_family
 ```
 
-They are finite checks. The all-`L` statements in
-[`mahler-generalization.md`](mahler-generalization.md) are written proofs that
-have not been formalized in Lean.
+They are finite checks. The uniform irrationality theorem and shifted-tail
+corollary are now kernel-checked for every `L >= 4`; see
+[`lean-family-formalization.md`](lean-family-formalization.md). The general
+symbolic survival and aperiodicity arguments and arbitrary-morphism criterion
+remain written proofs.
 
 ## Certificate families on record
 

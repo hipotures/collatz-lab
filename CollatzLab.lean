@@ -3,6 +3,8 @@ import CollatzLab.Prefix
 import CollatzLab.Tower
 import CollatzLab.Pade
 import CollatzLab.Shifted
+import CollatzLab.Family
+import CollatzLab.FamilyChecks
 
 /-!
 # CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word
@@ -22,4 +24,10 @@ Root module exporting the Lean 4 formalization of the paper
   realizing `w`).
 * `CollatzLab.Shifted`: Lemma 7.2 and Corollary 7.3 (backward preimage closure
   and impossibility of rational 2-adic seeds realizing any shifted word `w^{(t)}`).
+* `CollatzLab.Family`: Theorem 4.1 and Corollary 9.1 of
+  `research/mahler-generalization.md`, uniformly for every block length `L >= 4`:
+  exact finite Mahler congruences, cancelled integer towers, the periodic
+  approximant's exact valuation, and the archimedean height contradiction.
+* `CollatzLab.FamilyChecks`: literal block semantics, first disagreement with
+  the periodic approximant, and positive finite-prefix realization witnesses.
 -/

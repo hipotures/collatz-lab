@@ -1,0 +1,47 @@
+import CollatzLab
+
+/-! The exact 44-declaration audit consumed by the Lean CI job. -/
+#print axioms CollatzLab.all_prefixes_survive
+#print axioms CollatzLab.w_not_eventually_periodic
+#print axioms CollatzLab.iter4L_affine_identity
+#print axioms CollatzLab.uncancelled_d1_divisible_by_256
+#print axioms CollatzLab.dTower_pos_and_odd
+#print axioms CollatzLab.tower_congruence_all
+#print axioms CollatzLab.deltaTower_exact_div
+#print axioms CollatzLab.pade4_identity
+#print axioms CollatzLab.theorem_7_1_part1
+#print axioms CollatzLab.hTower_closed_bound
+#print axioms CollatzLab.eForm_upper_bound
+#print axioms CollatzLab.no_rational_seed_realizes_w
+#print axioms CollatzLab.no_int_seed_realizes_w
+#print axioms CollatzLab.realizes_shiftWord_pred
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_w
+#print axioms CollatzLab.no_eventually_shifted_w_itinerary
+#print axioms CollatzLab.familyWord_four
+#print axioms CollatzLab.familyWord_five_prefix
+#print axioms CollatzLab.Family.word_block
+#print axioms CollatzLab.Family.word_binary
+#print axioms CollatzLab.Family.word_unique
+#print axioms CollatzLab.Family.fixed_point
+#print axioms CollatzLab.Family.block_images
+#print axioms CollatzLab.Family.before_first_difference
+#print axioms CollatzLab.Family.first_difference
+#print axioms CollatzLab.Family.numIter_block
+#print axioms CollatzLab.Family.initial_divisibility
+#print axioms CollatzLab.Family.initial_normalization
+#print axioms CollatzLab.Family.prefix_mahler
+#print axioms CollatzLab.Family.denominator_props
+#print axioms CollatzLab.Family.tower_congruence
+#print axioms CollatzLab.Family.tower_exact
+#print axioms CollatzLab.Family.approximant_identity
+#print axioms CollatzLab.Family.valuation
+#print axioms CollatzLab.Family.height_step
+#print axioms CollatzLab.Family.form_upper
+#print axioms CollatzLab.Family.exponent_gap
+#print axioms CollatzLab.Family.base_gap
+#print axioms CollatzLab.no_rational_seed_realizes_family
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_family
+#print axioms CollatzLab.no_eventually_shifted_family_itinerary
+#print axioms CollatzLab.no_int_seed_realizes_shifted_family
+#print axioms CollatzLab.family_five_positive_prefix_witness
+#print axioms CollatzLab.realizes_all_zero
