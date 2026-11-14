@@ -6,11 +6,14 @@
 - Isolated clone: `/home/user/DEV/collatz-lab-phase12`.
 - Branch: `codex/phase12-novelty-frontier`; base
   `47f34bdff38d876c394dc7326e457f686d112c13` (live origin/main checked).
+- PR: <https://github.com/hipotures/collatz-lab/pull/25>, **open, unmerged**.
+- Pushed proof checkpoint:
+  [`7a43a585c70028d4d502fb68a97ecb5f5dbcd10d`](https://github.com/hipotures/collatz-lab/commit/7a43a585c70028d4d502fb68a97ecb5f5dbcd10d).
+  This final journal-only handoff follows it; `git log -1` gives that later
+  documentation SHA, which cannot contain its own hash.
 - First pushed gate checkpoint:
   [`a873a82afe36650c80e5b1b57122c6e34a432a9c`](https://github.com/hipotures/collatz-lab/commit/a873a82afe36650c80e5b1b57122c6e34a432a9c).
-  The compiling proof/report checkpoint follows it; the next journal-only
-  handoff will record that exact pushed SHA. Use `git log -1` in the meantime.
-- Minimum issue outputs complete locally: primary coverage matrix; rigorous
+- Minimum issue outputs complete and pushed: primary coverage matrix; rigorous
   findings; independent exact checker/evidence; three Lean modules; explicit
   audit/CI updates; signatures and complete reproducible validation script.
 - **Scientific result:** the candidate is already excluded by earlier
@@ -26,10 +29,14 @@
 - Clean rebuild and `bash research/phase12/validate.sh`: **exit 0**. Current
   exact audit count **593 = 564 + 29**, approved standard foundations only;
   all 94 Rust tests and inherited Python/static manuscript checks pass.
-- Next task: push the validated proof checkpoint, open the requested PR against
-  main, inspect its exact-head CI, then record a final durable handoff. Do not
-  merge or close the issue. Human review of the mathematics/attribution is next;
-  no unproved Lean obligation is hidden by the completed minimum output.
+- CI at proof checkpoint: **both `check` and `lean` completed/success**,
+  independently observed at 20:36:04 UTC on 14 November 2026:
+  [run 43637953311](https://github.com/hipotures/collatz-lab/actions/runs/43637953311).
+  This final documentation-only commit may trigger another run; inspect the
+  PR head for that later status. It changes no implementation or evidence.
+- Next task: owner review of PR #25 and its exact-head CI. Do not merge or close
+  the issue without owner review. No unproved Lean obligation is hidden by the
+  completed minimum output. If proofs change, rerun the full validation script.
 - Optional research obligation remains explicitly open: determine the optimal
   finite rational-reconstruction height exponent H_N (findings §5), after
   comparing the specified primary approximation sources. Not needed to finish
@@ -157,3 +164,33 @@ command matrix are committed, so these external logs are supplementary.
 No `paper/`, Phase 9 reports, Phase 11 referee report, existing proof body,
 authorship data, issue #15, main branch or other agent checkout was modified.
 No new agents, external messages, publication, merge or issue closure occurred.
+
+
+## Review handoff
+
+The full proof/report milestone was normally pushed as
+`7a43a585c70028d4d502fb68a97ecb5f5dbcd10d`; PR #25 was opened against main at
+that exact SHA. Main was freshly fetched after the clean commit and remained
+`47f34bdff38d876c394dc7326e457f686d112c13`. The PR was independently read
+open, unmerged and mergeable. Mergeability is not authorization to integrate.
+The original main checkout remains clean at its initial SHA.
+
+A separate saved pipeline checked all 593 audit entries and the exact
+foundation allowlist; `axioms.log` has SHA-256
+`d21b58b4544ffe1261730e366fd97a1e7fa79dbf22511f8bb3926c98c929e44e`.
+Final source/report formatting checks pass. The issue remains open, the
+manuscript is untouched, and no merge, publication or unsolicited message
+was performed. The owner decides whether to integrate after mathematical and
+attribution review; there is no pending request for permission needed to
+complete this PR handoff.
+
+**One-line resumption prompt:** Review issue #24 / PR #25 on
+`codex/phase12-novelty-frontier` at proof checkpoint `7a43a585c70028d4d502fb68a97ecb5f5dbcd10d`;
+read this Resume here section and both Phase 12 reports, inspect live CI, and
+preserve the known-result/no-go classification. Do not start another proof of
+this candidate's already covered irrationality. The optional next invariant
+is the precise H_N exponent in findings §5, with a fresh comparison to the
+listed approximation literature before any originality claim.
+
+Final proof-head CI observation: both jobs completed/success at 20:36:04 UTC.
+Only this journal changed after the validated proof checkpoint.
