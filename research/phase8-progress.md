@@ -29,12 +29,13 @@ A–D are complete. No main theorem proof obligation remains.
 **Pushed E2 checkpoint:** `4f54b3acbca6010b608a6a35bc92f59cdf9c52f6`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43582367746 — success.
 
-**Current additional result E3:** bounded integer rational series are eventually
-periodic, with a proved converse. Signed/singleton examples and an unbounded
-rational counterexample compile. Existing binary theorem signatures are
-preserved; their finite-state repetition core is now shared. Full checks are
-complete with an expanded 276-declaration audit, 94 Rust tests and all
-independent checkers.
+**Pushed E3 checkpoint:** `12e9e53c74c92a31492de9b0c83f06647de594eb`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43583179137 — success.
+
+**Current additional result E4:** the secondary degree-ten/coefficient-24 row
+has a real finite-prefix valuation obstruction at level zero: 68 instead of
+66. Level one gives the correct 192. `PrematureValuation.lean` and all full
+checks pass (284-declaration audit, 94 Rust tests, independent Python checks).
 
 | Milestone | Verified status |
 |---|---|
@@ -46,14 +47,17 @@ independent checkers.
 
 ## Exact next obligations
 
-1. Record E3's pushed SHA and CI. A–D and E2's sharpness result
-   are complete; do not repeat their proofs or finite catalogues.
-2. Further adversarial audit can inspect existing even-leading Padé rows for
-   concrete premature-level valuation failures. Do not extend the old degree
-   search or assume the finite-start condition is necessary for each pair.
-3. Improved height recurrences or other alphabets require new justified
-   scalar/vector transport; the new bounded-series bridge alone is not a
-   larger-alphabet Collatz exclusion.
+1. Record E4's pushed SHA and CI. A–D and E2's sharpness result are complete;
+   no main theorem proof obligation remains.
+2. Optional quantitative improvement: bound the integer null vector produced
+   by the existing division-free elimination. With matrix entries bounded by H,
+   the next matrix is bounded by `2*H^2`; reconstructing the vector multiplies
+   its bound by `m*H`. For six binary rows this suggests coefficient bound
+   `6!*2^57`, leading valuation below 70 and a uniform safe level 6.
+   This quantitative statement is **proposed**, not kernel-verified yet.
+3. Other alphabets or improved height recurrences still require proved
+   scalar/vector transport. Bounded generating-function coefficients alone
+   do not extend the Collatz exclusion's domain.
 
 ## Constraints and failed shortcuts to retain
 
@@ -71,14 +75,14 @@ independent checkers.
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 276
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 284
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 119 new exported declarations (276 total).
+The exact audit now includes all 127 new exported declarations (284 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -210,3 +214,16 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
   is unchanged. Full checkpoint validation passes.
 - Build, 276-declaration exact audit, 94 Rust tests, formatting, Clippy,
   both Python checkers, empty proof-escape scan and diff check all pass.
+
+## E4 checkpoint details
+
+- `PrematureValuation.lean` independently checks the old degree-ten secondary
+  pair with order 21/coefficient 24, its closing ledger and actual 256-symbol
+  rational prefix. No old search bound is extended.
+- Exact finite tower congruences at length 22 and form valuations 68 at
+  level zero, 192 at level one. The former contradicts the premature 66
+  predicted without strict leading-coefficient domination.
+- The finite seed is not an infinite realization. The refuted step is an
+  arithmetic deduction from finite congruence/residual data.
+- Full validation passes: build, 284-declaration exact audit, 94 Rust tests,
+  formatting, Clippy, both Python checkers, empty proof-escape scan, diff check.

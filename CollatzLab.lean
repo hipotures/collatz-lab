@@ -24,6 +24,7 @@ import CollatzLab.UniversalChecks
 import CollatzLab.DegreeTradeoff
 import CollatzLab.MinimalCertificate
 import CollatzLab.BoundedSeriesChecks
+import CollatzLab.PrematureValuation
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words

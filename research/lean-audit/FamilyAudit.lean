@@ -291,3 +291,13 @@ import CollatzLab
 #print axioms CollatzLab.RationalSeries.counting_identity
 #print axioms CollatzLab.RationalSeries.counting_not_eventually_periodic
 #print axioms CollatzLab.RationalSeries.counting_not_bounded
+
+/-! Actual finite-prefix failure of a premature non-unit valuation formula. -/
+#print axioms CollatzLab.PolynomialPair.secondaryTen_first
+#print axioms CollatzLab.PolynomialPair.secondaryTen_gap
+#print axioms CollatzLab.PolynomialPair.secondaryTen_spacing
+#print axioms CollatzLab.PolynomialPair.secondaryTen_actual_prefix
+#print axioms CollatzLab.PolynomialPair.secondaryTen_finite_congruences
+#print axioms CollatzLab.PolynomialPair.secondaryTen_forms
+#print axioms CollatzLab.PolynomialPair.secondaryTen_premature_failure
+#print axioms CollatzLab.no_rational_seed_realizes_secondary_nonunit

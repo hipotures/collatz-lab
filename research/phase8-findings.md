@@ -248,3 +248,27 @@ This is a standalone statement about generating functions, not the assertion
 that a rational Collatz seed has a rational generating function of its parity
 symbols. No extra Collatz alphabet or automatic-word class is covered by
 this extension alone.
+
+## E4: actual premature non-unit valuation failure
+
+**Lean-kernel-verified:** the already committed secondary Padé row at search
+degree 10 has residual order 21 and first coefficient 24 (`v2=3`). At tower
+level zero the spacing is also 3, so the strict domination hypothesis fails.
+For the exact 256-symbol Collatz prefix seed in the Phase 7 evidence, the
+integral form has valuation **68**, whereas the premature expression
+`21*3+3` would give **66**. At level one the spacing is 9 and the exact
+valuation is `21*9+3=192`.
+
+`PrematureValuation.lean` checks the coefficient identity, first residual,
+strict gap, actual 256-symbol prefix, both finite tower congruences at
+length 22, exact forms and both valuations. It also independently excludes
+the secondary word through the general non-unit polynomial theorem.
+
+The seed realizes a finite prefix, not the infinite word. The counterexample
+refutes the all-level **arithmetic inference from finite residual and tower
+congruence data**; it is not an infinite rational realization. It confirms
+that the strict spacing condition in `nonunit_leading_valuation` cannot be
+deleted. The coefficient-8 Thue–Morse example happened to retain the formula
+at level zero, so that example alone would not catch this stronger shortcut.
+No Padé search bound or existing artifact was extended or regenerated to
+obtain this regression; the degree-ten row was already in the verified table.

@@ -317,3 +317,14 @@ an arbitrary signed interval, and `radix_pair_injective` includes base one.
 The unbounded sequence n is a checked counterexample to deleting boundedness.
 The Collatz theorem's domain remains the binary equal-weight uniform class.
 The complete audit now has 276 declarations, including all 119 new exports.
+
+## E4: the finite starting level is arithmetically necessary
+
+`PrematureValuation.lean` reuses the existing secondary degree-ten row,
+`N=21`, `c=24`, `v=3`. An actual 256-symbol prefix seed satisfies the finite
+tower congruences at levels zero and one. The kernel computes exact form
+valuations 68 and 192. Level zero therefore violates the premature formula
+`N*3+v=66`; level one satisfies `N*9+v=192`. This demonstrates a failure of
+the finite arithmetic shortcut, without asserting an infinite realization.
+The old coefficient-8 regressions remain independent. All eight new exports
+are in the expanded exact audit (284 declarations total).

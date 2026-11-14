@@ -163,6 +163,32 @@ def main():
                    for n in range(32))
     print(f"{encoded_windows} signed-alphabet encodings; singleton, signed periodic and unbounded rational identities")
 
+    secondary_p0 = [13, 4, 17, 8, 21, 25, 18, 7, 20, -2, 9]
+    secondary_p1 = [-13, -4, -4, -4, -4, -4, 7, 9, -2, 9, 11]
+    secondary_seed = 24489870188561073689074139556808871213586148320332801509179590176121701984609
+    secondary_word = [1]
+    while len(secondary_word) < 256:
+        secondary_word = [c for letter in secondary_word for c in ([1, 0, 1] if letter else [0, 1, 1])]
+    actual = secondary_seed
+    for bit in secondary_word[:256]:
+        assert actual % 2 == bit
+        actual = actual // 2 if bit == 0 else (3 * actual + 1) // 2
+    assert [(secondary_p0[n] if n <= 10 else 0) + convolution(secondary_p1, secondary_word, n)
+            for n in range(22)] == [0] * 21 + [24]
+    a, b, denominator, u = 8, 9, 3, 9 * (secondary_seed + 10)
+    secondary_valuations = []
+    for k in range(2):
+        assert (b**21 * u - denominator * homogeneous(secondary_word, a, b, 22)) % a**22 == 0
+        form = denominator * homogeneous(secondary_p0, a, b, 11)
+        form += u * homogeneous(secondary_p1, a, b, 11)
+        secondary_valuations.append(v2(form))
+        delta = (b**3 - a**3) * u - denominator * b * (a * b + a*a)
+        denominator, u = denominator * (b - a) * (b**3 - a**3), b * delta
+        a, b = a**3, b**3
+    assert secondary_valuations == [68, 192]
+    assert 68 != 21 * 3 + v2(24) and 192 == 21 * 9 + v2(24)
+    print("Actual coefficient-24 premature valuation: 68 instead of 66; safe next level: 192")
+
     semantic_fixtures = [
         ([0, 1], [1, 0], 13, -15),
         ([0, 1, 1], [1, 0, 1], 353, -283),
