@@ -14,8 +14,10 @@ $N = L^2 - 2$ symbols. For $L = 5$ every constant is written out. A sufficient c
 arbitrary uniform equal-weight morphisms is proved in §8. At Phase 5 these were written proofs only. **Phase 6 now kernel-checks
 Theorem 4.1 (all `L >= 4`, including Theorem 5.1) and Corollary 9.1**, using
 finite integer identities; see [`lean-family-formalization.md`](lean-family-formalization.md).
-The general symbolic survival and aperiodicity arguments and the arbitrary-morphism
-criterion remain unformalized. None of these results says anything about general Collatz orbits.
+The arbitrary-morphism criterion is now kernel-checked in Phase 7; see
+[`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md).
+The general symbolic family properties remain written proofs. None of these
+results says anything about general Collatz orbits.
 
 Reproduce every finite check in this memo from the repository root:
 
@@ -42,12 +44,12 @@ Labels are the repository's: `proven-by-algebra`, `verified-for-finite-domain`,
 | Mahler equation for $F_L$ and seed identity $x(w_L) = -\frac{B - 2^{L-2}}{B-A} + \frac{2^{L-2}}{B}F_{L,2}(A/B)$ | `proven-by-algebra` | Lemma 3.1, Theorem 3.3 |
 | **$L = 5$: no rational with odd denominator realizes $w_5$** | `proven-by-algebra`, kernel-checked in Phase 6 | Theorem 5.1 |
 | **All $L \ge 4$: no rational with odd denominator realizes $w_L$** | `proven-by-algebra`, kernel-checked in Phase 6 | Theorem 4.1 |
-| Sufficient criterion (C) for uniform equal-weight morphisms | `proven-by-algebra`, unformalized | Theorem 8.1 |
+| Sufficient criterion (C) for uniform equal-weight morphisms | Lean-kernel-verified in Phase 7 | Theorem 8.1 |
 | Tails $\sigma^t(w_L)$ and words eventually equal to them | `proven-by-algebra`, kernel-checked in Phase 6 | Corollary 9.1 |
 | Identities of the proofs at tower levels $k \le 2$ ($L = 4, 5$), $k \le 1$ ($6 \le L \le 12$), and on all 144 admissible morphisms with $L \le 5$ | `verified-for-finite-domain` | §5.3, §8.3 |
 | Padé table for $L = 5$, degree bound $1 \le m \le 16$ | `verified-for-finite-domain` | §6 |
 | "`Odd D_k`" for the uncancelled tower | `refuted` ($v_2(D_1^{\mathrm{unc}}) = L(L-2)$) | §7 |
-| Uniform equal-weight morphisms that fail (C), e.g. $1 \mapsto 10,\ 0 \mapsto 01$ | open | §8.4 |
+| Uniform equal-weight morphisms that fail (C) | `10/01` excluded in Lean in Phase 7; other cases require separate certificates | §8.4; `mahler-uncovered-morphisms.md` |
 | Periodicity Conjecture, non-automatic survivor words, CST, Collatz | `conjectured`, untouched | §11 |
 
 Three statements that must not be merged:
@@ -454,7 +456,7 @@ By (H2) and (H3), $\mu(1) \ne 1^L$ and the images differ in at least two positio
 - $s = \min\{j : \mu(0)_j \ne \mu(1)_j\}$ and $e = \max\{j : \mu(0)_j \ne \mu(1)_j\}$, so $0 \le s < e \le L-1$;
 - $N = Lt + s$, $A = 2^L$, $B = 3^r$, $m = \max(A, B)$.
 
-### Theorem 8.1 (criterion; `proven-by-algebra`, unformalized)
+### Theorem 8.1 (criterion; Lean-kernel-verified in Phase 7)
 *Assume (H1)–(H3) and*
 $$\textbf{(C)}\qquad 2^{\,L(L-1)N} > m^{\,L^2 + e}.$$
 *Then no rational number with odd denominator has parity itinerary $w_\mu$.*
@@ -540,8 +542,10 @@ and the proof obligations change in three ways: (i) nonvanishing of $E_k$ needs
 $v_2(c) < v_2(z_k)$ for the leading coefficient $c$, or a zero estimate; (ii) the ledger becomes
 $2^{L(L-1)N} > m^{(L-1)M + L + e}$ up to constants; (iii) no closed form for the pair is known,
 so each morphism needs its own finite certificate. Whether a certificate exists for
-**every** admissible morphism is not settled here. The smallest open instance under this
-method is $L = 2$, $1 \mapsto 10$, $0 \mapsto 01$, at the point $z = 4/3$.
+**every** admissible morphism is not settled here. The smallest instance beyond this
+periodic-control criterion is $L = 2$, $1 \mapsto 10$, $0 \mapsto 01$, at $z = 4/3$.
+Phase 7 excludes it in Lean by contraction and records stronger Padé certificates;
+see `mahler-uncovered-morphisms.md`.
 
 Within the issue's family there is no remaining parameter: all $L \ge 4$ are covered by
 Theorem 4.1, and $L = 3$ by §8.2.
@@ -623,10 +627,14 @@ No originality is claimed for the method or for the results.
 
 1. **Formalization.** Phase 6 completes Theorems 4.1 and 5.1 and the family case of
    Corollary 9.1 for every $L \ge 4$, using the integer-congruence reformulation;
-   see [`lean-family-formalization.md`](lean-family-formalization.md). The arbitrary-morphism
-   criterion (Theorem 8.1), the family's general symbolic survival and aperiodicity proofs,
-   and standalone formal-series/2-adic analytic statements remain written proofs.
-2. **Morphisms failing (C)** (§8.4), starting with $1 \mapsto 10$, $0 \mapsto 01$.
+   see [`lean-family-formalization.md`](lean-family-formalization.md). Phase 7
+   now completes arbitrary-morphism Theorem 8.1 and all tails; see
+   `lean-equal-weight-formalization.md`. The family's general symbolic survival
+   and aperiodicity proofs and standalone formal-series/2-adic analytic
+   statements remain written proofs.
+2. **Morphisms failing (C)** (§8.4): Phase 7 excludes `10/01` in Lean and
+   records a complete written proof and improved certificate for `101/011`;
+   see `mahler-uncovered-morphisms.md`. General coverage remains open.
 3. **Non-uniform or unequal-weight morphisms.** If the images have different numbers of ones,
    the block multiplier is not constant and the reduction to a single-variable Mahler equation
    at one rational point breaks down. Not investigated.

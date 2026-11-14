@@ -166,4 +166,49 @@ theorem tower_exact {L : Nat} (hL : 2 ≤ L) (M : Images L)
   delta_exact hL M h1 (s M) (e M) (by have := se_bounds M hd; omega) (se_bounds M hd).2
     _ _ _ _ _ (gamma_factor M hd _ _) (tower_congruence hL M h1 hw hd hr k L (by omega))
 
+def positiveD {L : Nat} (M : Images L) (q : Int) (k : Nat) := absInt (D M q k)
+def positiveU {L : Nat} (M : Images L) (p q : Int) (k : Nat) :=
+  if 0 ≤ D M q k then u M p q k else -u M p q k
+
+theorem positive_denominator_props {L : Nat} (hL : 2 ≤ L) (M : Images L)
+    (hw : weight (image M false) L = weight (image M true) L)
+    (hd : M.zero ≠ M.one) (q : Int) (hq : q % 2 = 1) (k : Nat) :
+    0 < positiveD M q k ∧ positiveD M q k % 2 = 1 := by
+  have ho := denominator_odd hL M hw hd q hq k
+  have hn : D M q k ≠ 0 := by omega
+  have hh := absInt_pos_of_ne_zero hn
+  constructor
+  · exact hh
+  · unfold positiveD absInt
+    split <;> omega
+
+theorem positive_denominator_initial {L : Nat} (M : Images L) (q : Int) (hq : 0 ≤ q) :
+    positiveD M q 0 = absInt (B M - A L) * absInt (kappa M) * q := by
+  unfold positiveD D
+  rw [absInt_mul, absInt_mul, absInt_of_nonneg hq]
+
+theorem positive_denominator_step {L : Nat} (M : Images L) (q : Int) (k : Nat) :
+    positiveD M q (k + 1) = positiveD M q k * absInt (GammaStar M (a M k) (b M k)) *
+      absInt (b M k ^ L - a M k ^ L) := by
+  unfold positiveD
+  rw [D, absInt_mul, absInt_mul]
+
+theorem positive_tower_step {L : Nat} (hL : 2 ≤ L) (M : Images L)
+    (h1 : image M true 0 = true)
+    (hw : weight (image M false) L = weight (image M true) L)
+    (hd : M.zero ≠ M.one) {p q : Int} (hr : RealizesWord p q (parityWord M)) (k : Nat) :
+    ∃ sigma : Int, (sigma = 1 ∨ sigma = -1) ∧
+      a M k ^ s M * sigma * positiveU M p q (k + 1) =
+        b M k ^ e M * delta M (a M k) (b M k) (positiveU M p q k) (positiveD M q k) := by
+  have hsigned := (tower_exact hL M h1 hw hd hr k).2
+  let sigma : Int := (if 0 ≤ D M q k then 1 else -1) * (if 0 ≤ D M q (k + 1) then 1 else -1)
+  refine ⟨sigma, ?_, ?_⟩
+  · dsimp [sigma]
+    split <;> split <;> decide
+  · dsimp [sigma]
+    by_cases hk : 0 ≤ D M q k <;> by_cases hn : 0 ≤ D M q (k + 1)
+    all_goals simp only [positiveU, positiveD, absInt, hk, hn, if_true, if_false]
+    all_goals unfold delta at *
+    all_goals family_ring
+
 end CollatzLab.Morphism

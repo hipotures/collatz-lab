@@ -8,11 +8,9 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 - A: COMPLETE — `lean-family-semantic-audit.md`; no critical defect found.
   Eight new declarations in `CollatzLab/FamilySemanticChecks.lean`.
-- B: PARTIAL — arbitrary finite images, correct fixed point, affine blocks,
-  finite Mahler/base identities, exact signed offset valuation, first
-  disagreement, multiplier factorization and the exactly cancelled signed
-  tower and exact residual valuation kernel-check. The generic irrationality
-  theorem is NOT VERIFIED.
+- B: COMPLETE — generic Theorem 8.1 with exactly H1–H3 and (C), shifted
+  tails and eventual shifted matches kernel-check. No finite catalogue or
+  additional sign/height hypotheses. See `lean-equal-weight-formalization.md`.
 - C: PRIMARY TARGET PROVED in Lean — `10/01`, all shifts and eventual shifted
   matches. Both targets have degree 1–24 exact certificates; secondary
   `101/011` has a complete written proof, kernel work remains.
@@ -31,11 +29,12 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
 
 ## Next three proof obligations
 
-1. Prove the generic height bound under (C)'s exact exponent ledger.
-2. Prove the strict-gap contradiction under (C),
-   including the singly exponential factor `(2L)^k`.
-3. Kernel-check the secondary degree-2 certificate using the division-free
-   `s=0,e=1,L=3` tower described in the uncovered-morphism report.
+1. Kernel-check the secondary degree-2 certificate, ideally through a generic
+   periodic-control certificate interface reusing the completed height tower.
+2. State and test the improved sufficient inequality
+   `2^(L*(L-1)*N)>m^(P*(L-1)+L+e)` for control period `P`.
+3. Explore the remaining failing-certificate catalogue only after documenting
+   these exact results; avoid repeating degree-0 or aperiodicity-only arguments.
 
 ## Checkpoint A (2026-11-14 UTC)
 
@@ -105,11 +104,27 @@ Work directly on `main`; never force push. Starting HEAD (2026-11-14 UTC):
   `N*L^(k+1)`. Only heights and the strict-gap growth argument remain on the
   principal route. The audit now has 95 declarations; Rust tests remain 93.
 
+## Checkpoint B3 (2026-11-14 UTC)
+
+- B2 pushed as `ade482f541ab0d314cec860f12144bc450ea5f08`.
+  CI success: https://github.com/hipotures/collatz-lab/actions/runs/43554808926.
+- `MorphismHeight.lean` proves the general height chain retaining `(2L)^k`.
+  `ExponentialGap.lean` proves that any strict positive integer base gap
+  dominates that factor using homogeneous Bernoulli and a finite index.
+- `EqualWeight.lean` exports the single generic rational theorem and both
+  tail corollaries. Positive denominator/sign conversion is also kernel-checked.
+- `EqualWeightChecks.lean` specializes both `110/011` and `1100/1010`.
+  The second has `A>B`, `s=1`, and negative signed `D_0=-7` at `q=1`;
+  literal prefixes and actual integer witnesses 187 and 12947 verify semantics.
+- Current full audit: 118 declarations; expected Rust tests: 93.
+  A clean rebuild is used for this major checkpoint; no unproved theorem
+  or forbidden proof escape is introduced.
+
 ## Resume here
 
 Read this file and `git log -5 --oneline`, fetch/pull `origin/main`, then inspect
 the milestone documents and existing Lean modules. Starting commit is recorded
-above; A and the primary C target are complete. B remains incomplete. Follow
+above; A, B and the primary C target are complete. Follow
 the next three obligations above. Run the complete issue-required
 checks before each formal checkpoint:
 

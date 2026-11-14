@@ -9,6 +9,7 @@ import CollatzLab.FamilySemanticChecks
 import CollatzLab.MorphismOffset
 import CollatzLab.MorphismTower
 import CollatzLab.MorphismApprox
+import CollatzLab.EqualWeightChecks
 import CollatzLab.ThueMorse
 
 /-!
@@ -35,4 +36,9 @@ Root module exporting the Lean 4 formalization of the paper
   approximant's exact valuation, and the archimedean height contradiction.
 * `CollatzLab.FamilyChecks`: literal block semantics, first disagreement with
   the periodic approximant, and positive finite-prefix realization witnesses.
+* `CollatzLab.EqualWeight`: generic Theorem 8.1 under exactly H1--H3 and (C),
+  arbitrary rational seeds, shifts and eventual matches; signed cancellation,
+  positive denominator conversion, exact valuation and general height bounds.
+* `CollatzLab.ThueMorse`: rational exclusion of the `10/01` word and its tails
+  by a separate subcritical block contraction and aperiodicity proof.
 -/

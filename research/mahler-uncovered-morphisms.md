@@ -3,7 +3,7 @@
 2026-11-14 UTC. **Primary target resolved in Lean:** no rational number with
 positive odd denominator realizes the fixed point starting in `1` of
 `1 -> 10, 0 -> 01`, any shifted tail, or an eventual shifted tail. This is a
-contraction argument, separate from the still incomplete generic Theorem 8.1.
+contraction argument, separate from generic Theorem 8.1, now also kernel-checked.
 No claim about Collatz or the general Periodicity Conjecture follows.
 
 ## Status and reproducible evidence
@@ -16,7 +16,7 @@ No claim about Collatz or the general Periodicity Conjecture follows.
 | Both target Mahler equations and rational seed identities below | proven-by-algebra; finite integer identities are generic Lean theorems |
 | 48 exact Padé rows, degrees 1–24; 8 modular checkpoints; signed small rational falsification | verified-for-finite-domain |
 | `101/011` improved degree-2 pair and infinite contradiction below | proven-by-algebra, kernel formalization pending |
-| Generic Theorem 8.1 under exactly H1–H3 and (C) | NOT VERIFIED; see `lean-equal-weight-formalization.md` |
+| Generic Theorem 8.1 under exactly H1–H3 and (C) | Lean-kernel-verified; see `lean-equal-weight-formalization.md` |
 
 ```text
 python3 research/mahler-uncovered/verify_uncovered.py --check

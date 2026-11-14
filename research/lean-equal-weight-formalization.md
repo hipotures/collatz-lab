@@ -1,144 +1,182 @@
-# Generic equal-weight formalization: partial, Theorem 8.1 NOT VERIFIED
+# Generic equal-weight criterion — Lean-kernel-verified (Phase 7 B)
 
-Phase 7 B, 2026-11-14 UTC. The modules below are accepted by the Lean 4.18.0
-kernel. **The generic irrationality theorem is incomplete.** No finite
-catalogue or conditional helper is presented as Theorem 8.1.
+**Theorem 8.1 and its shifted-tail corollaries are accepted by Lean 4.18.0**,
+with exactly H1–H3 and criterion (C). Length and both images are arbitrary
+parameters: this is one generic theorem, not a finite catalogue. Existing
+family and original-word proofs remain independent.
 
-**B2 update:** `MorphismTransport`, `MorphismPolynomial`, and `MorphismTower`
-now discharge the polynomial factorization, odd unit, `s<e<L`, exact initial
-division, full signed tower transport and all-level odd denominators. The
-`MorphismApprox` now also checks the general residual valuation, including
-nonvanishing at every level. Remaining components are the height bound and
-strict-gap contradiction, followed by the exported rational theorem and tails.
-The current audit has 95 declarations; the counts below describe B1.
+No Collatz, CST, general Periodicity or arbitrary automatic-word theorem is
+claimed. Failure of (C) has no rational-realizability consequence.
 
-## Completed generic components
+## Exact public signatures
 
-`CollatzLab.Morphism.Images L` stores `zero, one : Fin L → Bool`.
-`image` extends each finite image by false outside its length; every theorem
-about a block uses offsets strictly below `L`. `word` is the fuelled fixed
-point starting at true, `parityWord` converts it to the original integer-valued
-parity interface. No numerator or denominator enters this definition.
-
-`MorphismWord.lean` proves, for every `L>=2` and `image M true 0=true`:
+These are exported by `import CollatzLab`:
 
 ```lean
-word_block ... (n j : Nat) (hj : j < L) :
-  word M (L*n+j) = image M (word M n) j
+theorem CollatzLab.no_rational_seed_realizes_equal_weight
+    {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+    (h1 : CollatzLab.Morphism.image M true 0 = true)
+    (hw : CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L)
+    (hd : M.zero ≠ M.one) (hC : CollatzLab.Morphism.Criterion M) (p q : Int) :
+    ¬ CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M)
 
-word_unique ... (v : Nat → Bool) (hv0 : v 0 = true)
-  (hv : ∀ n j, j < L → v (L*n+j) = image M (v n) j) : v = word M
+theorem CollatzLab.no_rational_seed_realizes_shifted_equal_weight
+    {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+    (h1 : CollatzLab.Morphism.image M true 0 = true)
+    (hw : CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L)
+    (hd : M.zero ≠ M.one) (hC : CollatzLab.Morphism.Criterion M) :
+    ∀ (t : Nat) (p q : Int),
+      ¬ CollatzLab.RealizesWord p q
+        (CollatzLab.shiftWord (CollatzLab.Morphism.parityWord M) t)
 
-literal_block ... (n : Nat) :
-  List.ofFn (fun j : Fin L => word M (L*n+j.val)) =
-  List.ofFn (fun j : Fin L => if word M n then M.one j else M.zero j)
+theorem CollatzLab.no_eventually_shifted_equal_weight_itinerary
+    {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+    (h1 : CollatzLab.Morphism.image M true 0 = true)
+    (hw : CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L)
+    (hd : M.zero ≠ M.one) (hC : CollatzLab.Morphism.Criterion M)
+    (s t : Nat) (p q : Int) (hq : 0 < q) (ho : q % 2 = 1) :
+    ¬ (∀ j : Nat, CollatzLab.seedParity q p (s+j) =
+      CollatzLab.Morphism.parityWord M (t+j))
 ```
 
-Starting-symbol uniqueness is essential: `10/01` also has a fixed point
-starting in zero. `weight_positive`, `one_has_zero`, `weight_lt_length` prove
-`1<=r<L` from exactly H1–H3. `affine_prefix` derives ordinary integer block
-arithmetic directly from signed `numStep`, for every positive or negative
-numerator and odd denominator.
+`RealizesWord` is unchanged: positive odd `q` and equality of **actual**
+accelerated Collatz parities at every index. There is no numerator sign,
+reducedness, height or search bound. The existing `numStep`, `numIter`,
+integer specialization and rational inverse branches are used directly.
 
-`MorphismPrefix.lean` defines homogeneous finite sums `pre`, the two image
-polynomials `Q M false`, `Q M true`, and their difference `Gamma`. It proves:
+## Parameters and word semantics
 
-```lean
-prefix_mahler ... (a b : Int) : ∀ n,
-  (b^L-a^L)*pre M a b (L*n) =
-    Q M false a b*(b^(L*n)-a^(L*n)) +
-    Gamma M a b*(b^L-a^L)*pre M (a^L) (b^L) n
-```
+`Morphism.Images L` stores `zero, one : Fin L → Bool`. `image` selects the
+finite image below `L` and is false beyond it. `word` is a fuelled fixed point
+starting in true, independent of any seed; `parityWord` converts Bool to 0,1.
+`word_block`, `literal_block`, `word_unique` prove the recurrence, equality
+with the selected literal finite image, and uniqueness among fixed points
+**starting at 1**. This qualification matters for `10/01`.
 
-This identity is unconditional in integer `a,b`; no real ordering or analytic
-convergence is assumed. The equal-weight affine block theorem and
-unnormalized all-length base identity are also proved from `RealizesWord`.
-With `c_b=offset(image M b) L`, `A=2^L`, `B=3^r` and
-`g_n=(B-A)*numIter q p (L*n)+c_0*q`, the latter is exactly
+`weight_positive`, `one_has_zero`, `weight_lt_length`, `t_bounds`, `se_bounds`,
+`s_lt_e` derive `1<=r<L`, `1<=t<L`, `0<=s<e<L` from H1–H3. Canonical `t,s`
+are finite first-index searches; `e` is a finite last-index search.
+`N=L*t+s`, `A=2^L`, `B=3^r`, `m=max(A,B)`, and `Criterion M` is literally
 
 ```text
-B^(n-1)*(B*g_0) - ((B-A)*(c_0-c_1)*q)*pre M A B n = A^n*g_n.
+2^(L*(L-1)*N) > max(A,B)^(L*L+e).
 ```
 
-`MorphismParameters.lean` defines computable canonical `t,s,e,N` and criterion
-(C). `t_bounds` proves `1<=t<L`. Concrete reductions verify the admissible
-`110/011` instance satisfies (C), `10/01` is admissible and fails (C), and
-`101/011` fails (C). Failing a sufficient condition has no irrationality
-conclusion.
+There is no `A<B` assumption and no rounded or logarithmic comparison.
 
-`MorphismOffset.lean` proves the exact signed offset assertion generically:
+## Dependency map
 
-```lean
-offsets_odd_multiple {L : Nat} (M : Images L)
-  (hw : weight (image M false) L = weight (image M true) L)
-  (hd : M.zero ≠ M.one) :
-  ∃ kappa : Int, kappa % 2 = 1 ∧
-    c M false - c M true = (2 : Int)^s M * kappa
-```
+Names without another qualifier have prefix `CollatzLab.Morphism`.
 
-It uses an independent concatenation formula for affine offsets: equal total
-weights cancel the shared-prefix contribution, leaving `2^s` times a tail
-offset difference whose parity is odd. Thus signs are handled without
-assuming `A<B` or `c_0>c_1`. `first_disagreement` proves, under exactly H1–H3,
-agreement with the periodic image of `1` at every index below `N=L*t+s` and
-disagreement at `N`.
+| Component | Kernel declarations | Module |
+|---|---|---|
+| Images, correct fixed point, literal blocks | `word_rec`, `word_block`, `word_unique`, `literal_block`, `parity_binary` | `MorphismWord` |
+| Actual Collatz affine offsets and all finite seed identities | `affine_prefix`, `numIter_block`, `g_step`, `base_identity` | `MorphismWord`, `MorphismPrefix` |
+| Finite homogeneous Mahler identity | `prefix_mahler` | `MorphismPrefix` |
+| Signed offset valuation and exact quotient | `offset_difference`, `offsets_odd_multiple`, `kappa_spec` | `MorphismOffset`, `MorphismTower` |
+| Multiplier support factor and odd unit | `gamma_factor`, `gammaStar_odd`, `s_lt_e` | `MorphismPolynomial` |
+| Exact cancelled tower, all levels and lengths | `delta_exact`, `congruence_step`, `initial_exact`, `initial_divisibility`, `normalized_base`, `tower_congruence`, `tower_exact` | `MorphismTransport`, `MorphismTower` |
+| Positive denominator model and signs | `positive_denominator_props`, `positive_denominator_initial`, `positive_denominator_step`, `positive_tower_step` | `MorphismTower` |
+| First disagreement, unit residual, exact valuation | `first_disagreement`, `residual_identity`, `residual_first`, `odd_multiple`, `valuation` | `MorphismOffset`, `MorphismApprox` |
+| General coefficient and height bounds | `sum_bound`, `Q_bound`, `GammaStar_bound`, `height_step`, `height_power_closed`, `form_power_bound` | `MorphismHeight` |
+| Strict gap dominates singly exponential factors | `CollatzLab.homogeneous_bernoulli`, `amplify_integer_gap`, `no_doubly_exponential_bound` | `ExponentialGap` |
+| Universal theorem and tails | public signatures above | `EqualWeight` |
+| Independent concrete semantics and specializations | `independent_prefix_witnesses`, `no_rational_seed_realizes_sigma`, `no_rational_seed_realizes_reverseOrder` | `EqualWeight`, `EqualWeightChecks` |
 
-## B1 obstruction and its B2 resolution
+## Exact division, signs and valuation
 
-At B1 the first unproved component was the **normalized generic tower**.
-The following targets are now proved in B2 using a signed denominator before
-converting to absolute heights:
+From actual Collatz blocks, put `g_n=(B-A)*numIter q p (L*n)+c0*q`. For every
+`n>=1` the raw finite identity is
 
 ```text
-Gamma_h(a,b) = a^s * b^(L-1-e) * GammaStar_h(a,b),
-GammaStar_h(a,b) odd and nonzero for even a, odd b.
-
-For every k,n>=1:
-a_k^n | b_k^(n-1)*u_k - D_k*pre M a_k b_k n,
-D_k>0 and D_k odd,
-a_k^s | delta_k,
-a_k^s * sigma_k*u_(k+1) = b_k^e*delta_k,
-sigma_k in {-1,1},
-D_(k+1)=D_k*abs(GammaStar_h(a_k,b_k))*abs(b_k^L-a_k^L).
+B^(n-1)*(B*g_0)-((B-A)*(c0-c1)*q)*pre(A,B,n)=A^n*g_n.
 ```
 
-The normalized initial step must prove `2^s | g_0`, choose the sign so that
-`D_0=abs(B-A)*abs(kappa)*q`, and transport the full congruence using an old
-length **larger than `L*n`** before dividing by `a^s`. The family proof's
-transport at `L*(n+1)` is the model, but its positive factors `(b-a)` and
-`(b^L-a^L)` cannot simply be reused: both signs are allowed here.
+The initial quotient is proved exact. Normalized base congruences use old
+length **`n+1`** before cancelling `2^s`, retaining the full modulus `A^n`.
+`initial_divisibility` also proves `2^s | g_0` by coprimality with `B`.
 
-After this come (1) homogenized residual with odd leading term and exact
-valuation `N*L^(k+1)`, (2) the general height bound including `(2L)^k`,
-(3) a kernel proof that the strict integer base gap in (C) dominates that
-factor for every initial height, and (4) the rational theorem and shift
-corollaries. The factor `(2L)^k` cannot be discarded without proof.
-`s<e<L` also still needs a symbolic theorem (equal weight rules out a single
-disagreement); the canonical positions and exact first disagreement already
-compile without that unused bound.
+The internal executable tower is signed:
 
-The signed executable tower uses `D_0=(B-A)*kappa*q` and
-`D_(k+1)=D_k*GammaStar_h*(b^L-a^L)`, with exact integer `u_k`.
-Oddness implies every `D_k` is nonzero. Taking its absolute value gives
-precisely the positive denominator recurrence in the paper; a numerator
-sign adjustment represents the same value. The generic congruence proof
-does not assume a sign for either base difference or polynomial factor.
-`initial_exact` proves the initial quotient before use; `normalized_base`
-uses the old length `n+1` to preserve the full modulus after removing `2^s`.
-`congruence_step` uses `L*(n+1)` and cancels `a^s`, then a coprime power of
-`b`. All statements are executable and accepted by the kernel.
+```text
+D_0=(B-A)*kappa*q, u_0=B*g_0/2^s,
+D_(k+1)=D_k*GammaStar_h(a_k,b_k)*(b_k^L-a_k^L),
+u_(k+1)=b_k^e*(delta_k/a_k^s).
+```
 
-The height and exponential contradiction described above remain open formal
-goals. The residual identity was proved uniformly by finite convolution and
-tail sums; its first nonzero coefficient is odd, so `valuation` gives exactly
-the requested divisibility, next-power nondivisibility and absolute lower
-bound, with arbitrary signed `D_k`. There are no incomplete imported proofs or new
-unproved assumptions. B remains incomplete until all are discharged.
+`delta_exact` proves `a_k^s | delta_k` before using the quotient. Transport
+uses old length **`L*(n+1)`**, cancels the positive `a^s`, then a coprime
+power of `b`. The entire new modulus survives. The exact multiplier factor
+is `Gamma_h=a^s*b^(L-1-e)*GammaStar_h`. Every signed denominator is odd and
+nonzero, with no assumed ordering of the bases or sign of `kappa`.
 
-## Validation
+The proved positive model is `positiveD=absInt D`,
+`positiveU=sign(D)*u`. Its initial denominator is exactly
+`abs(B-A)*abs(kappa)*q`; its recurrence multiplies absolute values, and
+`positive_tower_step` supplies an explicit sign in `{1,-1}`. Thus the paper's
+positive-odd convention is satisfied, including both signs at every level.
 
-Run `lake build` and `lake env lean research/lean-audit/FamilyAudit.lean`.
-The audit now includes 70 declarations (18 generic statements added to A's 52),
-with only standard foundational dependencies. The full Rust suite remains 90
-passing tests; formatting, Clippy and the forbidden-proof-escape scan pass.
-The campaign journal records commit and CI checkpoints.
+The periodic residual first differs at exactly `N=L*t+s`, with leading
+coefficient 1 or -1. A finite convolution identity makes its remaining tail
+an explicit multiple of `a^(N+1)`. The congruence at length `N+1` proves
+`E_k` is an odd multiple of `a_k^N`. `valuation` gives nonvanishing,
+divisibility by `2^(N*L^(k+1))`, nondivisibility by the next power, and the
+ordinary absolute lower bound, at every level and for either denominator sign.
+
+## Heights and strict-gap contradiction
+
+With `H_k=|u_k|+|D_k|`, the kernel checks
+
+```text
+H_(k+1) <= 2L*m_k^(L+e)*H_k, m_k=m^(L^k),
+H_k^(L-1) <= H_0^(L-1)*(2L)^(k*(L-1))*m^((L+e)*(L^k-1)),
+|E_k|^(L-1) <= K*Dbase^k*m^((L^2+e)*L^k),
+K=L^(L-1)*H_0^(L-1), Dbase=(2L)^(L-1).
+```
+
+General homogeneous sums are bounded by coefficient norms. The factor
+`(2L)^k` is retained. The lower bound would force
+`alpha^(L^k)<=K*Dbase^k*beta^(L^k)` for all `k`, where
+`alpha=2^(L*(L-1)*N)>beta=m^(L^2+e)`.
+
+`no_doubly_exponential_bound` handles **any** strict positive integer gap.
+Homogeneous Bernoulli inequalities amplify it at a finite index `J`;
+shifting to `J+t` forces `2^t<=K*Dbase^J` for all `t`. This contradicts
+`t<2^t` at `t=toNat(K*Dbase^J)`. No asymptotic claim or extra analytic axiom
+replaces this finite-index argument.
+
+## Non-vacuity, independent instances and validation
+
+- `sigma=110/011`, with `L=3,t=2,s=0,e=2,N=6,A=8,B=9`, satisfies (C).
+  The generic specialization compiles; actual integer 187 realizes the first
+  nine literal symbols. This is the non-original upstream example.
+- `reverseOrder=1100/1010`, with `L=4,t=2,s=1,e=2,N=9,A=16,B=9`, satisfies
+  (C). Here `A>B`, cancellation is required, and signed `D_0=-7` at `q=1`.
+  Its generic specialization compiles; actual integer 12947 realizes the
+  first sixteen literal symbols. This detects hidden base-order assumptions.
+- `thueMorse_fails_criterion` remains a checked statement. Its separate
+  rational exclusion uses the subcritical theorem.
+
+The expanded audit has **118 declarations**, permitting only subsets of
+`propext`, `Classical.choice`, `Quot.sound`, or no axioms. The three generic
+exports use exactly those three standard foundations. There are no extra
+unproved assumptions or proof escapes. Standalone infinite series and 2-adic
+analytic objects remain outside Lean: all needed finite congruences are
+derived directly from `RealizesWord`.
+
+```text
+lake clean
+lake build
+lake env lean research/lean-audit/FamilyAudit.lean
+cargo fmt --check
+cargo clippy --locked --all-targets --all-features -- -D warnings
+cargo test --locked --all-targets
+python3 research/mahler-uncovered/verify_uncovered.py --check
+```
+
+The clean build, audit, formatting, Clippy, all 93 Rust tests, and deterministic
+Python reproduction pass. CI enforces the exact audit count and dependency
+format. Pushed commits and CI runs are recorded in `phase7-progress.md`.

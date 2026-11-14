@@ -229,11 +229,13 @@ prove Collatz, CST, or the general Periodicity Conjecture.
 
 ## Phase 7: generic foundations and the Thue–Morse target (issue #13)
 
-The generic equal-weight theorem is **incomplete**; checked components and
-exact remaining obligations are in
+The generic equal-weight theorem (Theorem 8.1) is **kernel-verified**, under
+exactly H1–H3 and criterion (C). Full signatures and the dependency audit are in
 [`research/lean-equal-weight-formalization.md`](research/lean-equal-weight-formalization.md).
-These include arbitrary finite binary images, the correct fixed point, finite
-Mahler and seed identities, signed offset valuation and first disagreement.
+This includes arbitrary finite binary images, exact cancelled towers,
+nonvanishing, valuations, general heights, and the infinite contradiction.
+The export `no_rational_seed_realizes_equal_weight` and its shifted and eventual
+tail corollaries cover every length `L>=2` satisfying the stated hypotheses.
 
 The smallest target outside criterion (C), `1 -> 10, 0 -> 01`, is now excluded
 by a separate kernel-checked contraction argument:
@@ -246,7 +248,7 @@ theorem CollatzLab.no_rational_seed_realizes_thueMorse (p q : Int) :
 
 All shifts and eventual shifted matches are also excluded. A generic
 subcritical-block theorem makes aperiodicity an explicit hypothesis, proved
-for this instance. The current CI audit covers 95 declarations. The
+for this instance. The current CI audit covers 118 declarations. The
 [research report](research/mahler-uncovered-morphisms.md) distinguishes these
 proofs from 48 finite exact Padé certificates and the secondary target's
 written proof. See the [campaign journal](research/phase7-progress.md) to resume.

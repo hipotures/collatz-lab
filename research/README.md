@@ -16,7 +16,7 @@
 | [`lean-family-formalization.md`](lean-family-formalization.md) | Phase 6: all-`L >= 4` kernel proof, exact theorem signatures, tower cancellation, semantic correspondence, 44-declaration axiom audit, and validation |
 | [`lean-family-semantic-audit.md`](lean-family-semantic-audit.md) | Phase 7 A: independent semantic audit of the all-`L` theorem and signed, literal-substitution kernel checks |
 | [`phase7-progress.md`](phase7-progress.md) | durable campaign checkpoints and exact resumption instructions for issue #13 |
-| [`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md) | Phase 7 B: checked generic fixed-point, finite identities and signed offsets; exact remaining generic theorem obligations |
+| [`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md) | Phase 7 B: generic Theorem 8.1 and all tails kernel-verified under exactly H1–H3 and (C); full signatures and audit |
 | [`mahler-uncovered-morphisms.md`](mahler-uncovered-morphisms.md) | Phase 7 C–D: kernel-checked Thue–Morse rational exclusion and general subcritical criterion; secondary Padé proof and finite evidence |
 | [`mahler-uncovered/evidence.json`](mahler-uncovered/evidence.json) | 48 exact degree 1–24 Padé rows, 8 residue checkpoints, and bounded signed rational falsification |
 | [`mahler-family/summary.md`](mahler-family/summary.md) | generated Phase 5 finite checks: family table, `L = 5` checkpoints, Pade table (`1 <= m <= 16`), criterion counts |
@@ -71,8 +71,9 @@ cargo test --locked --test mahler_family
 They are finite checks. The uniform irrationality theorem and shifted-tail
 corollary are now kernel-checked for every `L >= 4`; see
 [`lean-family-formalization.md`](lean-family-formalization.md). The general
-symbolic survival and aperiodicity arguments and arbitrary-morphism criterion
-remain written proofs.
+symbolic survival and aperiodicity arguments remain written proofs. The
+arbitrary-morphism criterion is now kernel-checked in Phase 7; see
+[`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md).
 
 ## Certificate families on record
 

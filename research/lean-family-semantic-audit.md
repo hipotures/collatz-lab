@@ -5,6 +5,10 @@ Audited base: `d0ced40fd35af9b94fa6373c9f5e913a58018cc7`, Lean 4.18.0,
 sources, plus independent executable checks. It is not a second proof-assistant
 implementation or an independent implementation of the Lean kernel.
 
+This report records checkpoint A. Later Phase 7 checkpoints kernel-check the
+generic equal-weight criterion; see `lean-equal-weight-formalization.md` for
+the current theorem and expanded audit count.
+
 **Finding:** no critical semantic or mathematical defect found. The formal
 theorem excludes rational seeds for the intended family uniformly for every
 `L >= 4`. It does not exclude arbitrary automatic words or prove Collatz.

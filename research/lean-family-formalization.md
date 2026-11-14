@@ -2,7 +2,8 @@
 
 Phase 7 adds an [independent semantic audit](lean-family-semantic-audit.md)
 and eight kernel-checked regressions. The 44-declaration counts below describe
-the Phase 6 checkpoint; the current CI audit contains 52 declarations.
+the Phase 6 checkpoint; A's checkpoint had 52. The current count is documented
+in [`lean-equal-weight-formalization.md`](lean-equal-weight-formalization.md).
 
 Theorem 4.1 and Corollary 9.1 of
 [`mahler-generalization.md`](mahler-generalization.md) are now accepted by the
@@ -321,8 +322,9 @@ there are no remaining proof obligations for them.** The `L=4` names and
 statements remain exported. No mathematical gap in the candidate argument
 was needed as an extra assumption.
 
-The general equal-weight morphism criterion (Theorem 8.1) remains a written
-proof and is outside this implementation. The family's general symbolic
+The general equal-weight morphism criterion (Theorem 8.1) was subsequently
+kernel-checked in Phase 7; see `lean-equal-weight-formalization.md`.
+The family's general symbolic
 survival and aperiodicity proofs (Theorems 2.2 and 2.3) are also still written
 proofs; their `L=4` counterparts retain the earlier kernel formalization.
 The formal-series and 2-adic analytic identities are represented by the
