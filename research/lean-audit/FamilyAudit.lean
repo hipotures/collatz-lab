@@ -341,3 +341,37 @@ import CollatzLab
 #print axioms CollatzLab.Morphism.no_rational_seed_block_contraction
 #print axioms CollatzLab.no_rational_seed_shifts_of_exclusion
 #print axioms CollatzLab.no_eventually_shifted_itinerary_of_exclusion
+
+/-! Unequal 100/110 exclusion, all tails, and independent finite checks. -/
+#print axioms CollatzLab.Morphism.unequal100110_images
+#print axioms CollatzLab.Morphism.unequal100110_prolongable_distinct
+#print axioms CollatzLab.Morphism.unequal100110_weights
+#print axioms CollatzLab.Morphism.unequal100110_image_weight
+#print axioms CollatzLab.Morphism.unequal100110_word_first
+#print axioms CollatzLab.Morphism.unequal100110_word_middle
+#print axioms CollatzLab.Morphism.unequal100110_word_last
+#print axioms CollatzLab.Morphism.unequal100110_first
+#print axioms CollatzLab.Morphism.unequal100110_middle
+#print axioms CollatzLab.Morphism.unequal100110_last
+#print axioms CollatzLab.Morphism.unequal100110_not_periodic_from
+#print axioms CollatzLab.Morphism.unequal100110_not_eventually_periodic
+#print axioms CollatzLab.Morphism.unequal100110_no_000
+#print axioms CollatzLab.Morphism.unequal100110_three_image_weight
+#print axioms CollatzLab.Morphism.unequal100110_nine_weight
+#print axioms CollatzLab.Morphism.unequal100110_nine_gap
+#print axioms CollatzLab.Morphism.unequal100110_nine_offset
+#print axioms CollatzLab.Morphism.unequal100110_nine_recurrence
+#print axioms CollatzLab.no_rational_seed_realizes_unequal_100_110
+#print axioms CollatzLab.no_rational_seed_realizes_shifted_unequal_100_110
+#print axioms CollatzLab.no_eventually_shifted_unequal_100_110_itinerary
+#print axioms CollatzLab.no_int_seed_realizes_shifted_unequal_100_110
+#print axioms CollatzLab.no_int_orbit_enters_shifted_unequal_100_110
+#print axioms CollatzLab.no_int_eventually_shifted_unequal_100_110_itinerary
+#print axioms CollatzLab.UnequalContractionChecks.literal_first_three
+#print axioms CollatzLab.UnequalContractionChecks.indexed_matches_literal
+#print axioms CollatzLab.UnequalContractionChecks.positive_integer_prefix
+#print axioms CollatzLab.UnequalContractionChecks.signed_unreduced_prefixes
+#print axioms CollatzLab.UnequalContractionChecks.signed_unreduced_equiv
+#print axioms CollatzLab.UnequalContractionChecks.expanding_image_and_contracting_group
+#print axioms CollatzLab.UnequalContractionChecks.rational_control_preserved
+#print axioms CollatzLab.UnequalContractionChecks.rational_control_periodic

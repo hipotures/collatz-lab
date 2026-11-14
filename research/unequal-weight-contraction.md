@@ -83,5 +83,75 @@ satisfy the aperiodicity premise of the new criterion. In particular no
 blanket unequal-weight exclusion follows. Finite-prefix realization witnesses
 are compatible with exclusion of an infinite itinerary.
 
-The concrete `100/110` proof, exact finite-language certificates, signed prefix
-checks, and focused primary-literature comparisons are the next checkpoints.
+## Concrete aperiodic example: `1 -> 100`, `0 -> 110`
+
+The literal weights are respectively one and two. The zero image is locally
+expanding: `3^2=9>8=2^3`. Thus a per-image maximum does not prove contraction.
+The unchanged indexed fixed point agrees with literal list substitution and
+satisfies, including at index zero,
+
+```text
+w(3*n) = 1,  w(3*n+1) = 1-w(n),  w(3*n+2) = 0.
+```
+
+For an eventual period `p>=1` with any starting index, residue `p mod 3=1`
+compares a forced zero at `3*start+2` with a forced one. Residue two compares
+a forced one at `3*start` with a forced zero. Residue zero compares middle
+columns and cancels `1-x`, giving the smaller positive period `p/3` beyond
+the same starting index. Strong induction excludes every eventual period.
+This proof uses neither the equal-weight aperiodicity theorem nor a rational
+realization assumption.
+
+Every length-three source window contains a multiple of three and hence a
+one. This proves absence of `000`, across boundaries as well as inside images.
+The selected image weights in every three-source window sum to at most five.
+The generic source-weight identity therefore bounds every aligned nine-step
+chunk by five odd steps, and `243=3^5<2^9=512`. The exact actual recurrence is
+
+```text
+512*numIter q p (9*(n+1))
+  = 3^(weight (fun j => w(9*n+j)) 9)*numIter q p (9*n)
+    + offset (fun j => w(9*n+j)) 9*q.
+```
+
+The offset is in `[0,19171]`, since `3^9-2^9=19171`. Thus the signed integer
+states at every block boundary are bounded by `absInt p + 19171*q` under
+a hypothetical realization, contradicting the independent aperiodicity proof.
+
+`Unequal100110.lean` exports:
+
+```lean
+theorem no_rational_seed_realizes_unequal_100_110 (p q : Int) :
+    ¬ RealizesWord p q (Morphism.parityWord Morphism.unequal100110)
+```
+
+There are no hidden seed hypotheses. The positive odd denominator is part of
+the unchanged predicate. The same file proves every finite-shift exclusion,
+every eventual shifted-tail itinerary exclusion, and the corresponding integer
+seed and integer forward-orbit corollaries via verified inverse/forward branches.
+All are explicitly listed in the exact axiom audit.
+
+`UnequalContractionChecks.lean` compares four literal iterates (lengths
+3,9,27,81) to the indexed word, and kernel-checks these 81-bit witnesses:
+
+| Numerator | Denominator | State after 81 steps |
+|---|---:|---|
+| `2301021985950669302953629` | 1 | `34710635340769718209` |
+| `-584148266392945232293615` | 5 | `-8811805182005340970` |
+| `-1752444799178835696880845` | 15 | `-26435415546016022910` |
+
+The last pair is unreduced. Their itinerary equivalence is also proved for
+every index using `numIter_equiv`. These are finite realization witnesses;
+none is asserted to realize the infinite word. Each numerator was obtained by
+one modular inverse from the finite affine identity, without a seed search.
+
+The independent Python verifier `phase10/verify_unequal.py --check` reproduces
+`phase10/unequal-certificate.json`, with exact multiplier/offset rows for all
+seven three-source words except `000`. It verifies literal substitutions,
+boundary crossings, all signed 81-step affine recurrences, a negative-denominator
+sign-normalization check, and the rational `101/010` control. The finite table
+gives a sharper offset cap 761; the current infinite Lean proof only needs the
+universal cap 19171. Finite checks and kernel proofs are kept distinct.
+
+Focused primary-literature comparisons and further finite-language research
+follow after the principal validation checkpoint.
