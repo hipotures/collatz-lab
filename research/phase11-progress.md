@@ -7,9 +7,10 @@
 - Independent clone: `/home/user/DEV/collatz-lab-phase11`.
 - Branch: `codex/phase11-noncontracting`; base `origin/main`
   `2efdd2b531d511a8c6204e1f43179761585ab066`.
-- Latest pushed checkpoint: `e435412021a6701b3b7cfc306f859ec371d0c2bc`;
-  observed CI success: run **43618593015**. The validated D changes below
-  are being committed next; inspect `git log -1` for the current head.
+- Latest pushed proof checkpoint: **`ce21fdf78b055e2c798dd38d341491724fbba7b3`**;
+  observed CI **success**: [run 43619205907](https://github.com/hipotures/collatz-lab/actions/runs/43619205907).
+  The final checkpoint changes documentation only; inspect `git log -1` for
+  that head. All implementation files were validated at the proof checkpoint.
 - Completed: exact 110/111 semantics, aperiodicity, all-prefix frequency error,
   impossibility of every fixed-length contraction partition at every shift;
   general repeated-prefix rational exclusion and all shifts/tails; exact
@@ -24,8 +25,9 @@
   deliverables. Optional next work: the general spectral partial-return
   criterion, normalized H specialization/transcendence, or the length-five
   target in the findings. They are proposals, not proved exclusions here.
-- Next commands: commit/push D, inspect PR CI, update its final description.
-  For later reproduction run `bash research/phase11/validate.sh` and
+- PR #20 has the final scope and remains open and unmerged. The issue is open
+  for owner review; no required implementation remains. For reproduction run
+  `bash research/phase11/validate.sh` and
   `lake env lean research/phase11/Signatures.lean`.
 - Preserve the 101/010 control at 1/1 and the all-one control at -1/1.
   No edits to paper, Phase 9 reports, issue #15 or another checkout.
@@ -129,7 +131,7 @@ before the successful complete run. No mathematical check failed.
   failure of the same ledger, without calling it a rationality counterexample.
 - Full current audit count: 564 = 487 baseline + 70 new theorems + 7 new
   definitions. Every new public declaration is explicitly audited.
-- Final clean rebuild and complete validation running before the D push.
+- Final clean rebuild and complete validation passed before the D push.
 
 Final D local checks: clean Lean build and full validation script passed;
 separately piped the 564-entry Lean audit into `check_axioms.py`, and checked
@@ -137,3 +139,56 @@ all 21 interfaces in `research/phase11/Signatures.lean`. No forbidden proof
 escapes or diagnostics. Source-to-audit comparison retains all 487 original
 entries in exact order and covers every one of the 77 new declarations.
 Checkpoint C CI observed success: run 43618593015. Phase 9/paper diff is empty.
+
+## Final pushed milestones and review status
+
+| Checkpoint | Exact pushed SHA | Observed CI |
+|---|---|---|
+| A: 110/111 structural obstruction | `5d9a1053eb7461d5c26007a9a94068f04ff8e484` | full local matrix; PR created at B |
+| B: repeated-prefix exclusion | `2af12dd7092570d6d0fd375caf125f6e9ff5e819` | [43605243707 success](https://github.com/hipotures/collatz-lab/actions/runs/43605243707) |
+| C: exact spectral boundary / sharp returns | `e435412021a6701b3b7cfc306f859ec371d0c2bc` | [43618593015 success](https://github.com/hipotures/collatz-lab/actions/runs/43618593015) |
+| D: second noncontracting exclusion | `ce21fdf78b055e2c798dd38d341491724fbba7b3` | [43619205907 success](https://github.com/hipotures/collatz-lab/actions/runs/43619205907) |
+
+The final proof run was observed completed/success at 17:10 UTC on 2026-11-14.
+PR #20 was independently inspected open, unmerged and mergeable, based on
+`2efdd2b531d511a8c6204e1f43179761585ab066`. Mergeability is not merge approval.
+The issue remains open. No merge, issue closure, publication or manuscript edit
+was performed. Original parity/numerator semantics, Rust files and dependencies
+are unchanged. The isolated clone is clean after the final documentation push.
+
+### Exact final validation record
+
+All commands below were actually executed successfully at D; the script uses
+`set -euo pipefail` and reads the exact count from the current CI configuration.
+
+| Command / check | Verified outcome |
+|---|---|
+| `lake clean`, then `lake build` | fresh build succeeds, 82 jobs |
+| `lake env lean research/lean-audit/FamilyAudit.lean` piped to `python3 research/lean-audit/check_axioms.py --expected-count 564` | 564 exact entries; approved standard foundations only |
+| `python3 research/lean-audit/check_axioms.py --self-test` | 2 valid / 8 adversarial parser cases pass |
+| forbidden-proof scan and source/audit inventory | no matches; all 487 baseline entries preserved in order, all 77 additions audited |
+| `cargo fmt --check` | passes |
+| `cargo clippy --locked --all-targets --all-features -- -D warnings` | passes without warnings |
+| `cargo test --locked --all-targets` | 94 pass, zero failures |
+| `python3 research/phase8/verify_polynomial.py` | passes |
+| `python3 research/mahler-uncovered/verify_uncovered.py --check` | passes |
+| `python3 research/phase9/verify_independent.py` | passes |
+| `python3 paper/check_tex.py` and generated Lean names | static check passes; all 32 names compile |
+| `python3 research/phase10/verify_unequal.py --check` | passes |
+| `python3 research/phase10/search_unequal.py --check` | passes |
+| `python3 research/phase10/verify_spectral.py --check` | passes |
+| `python3 research/phase10/verify_sparse_family.py --check` | passes |
+| `python3 research/phase10/generate_catalogue.py --check` | passes |
+| all three Phase 11 verifiers | pass: literal, signed semantics, controls, counts, return/height and spectral checks |
+| `lake env lean research/phase11/Signatures.lean` | all 21 exact interfaces check |
+| `git diff --check` | passes |
+
+No unresolved validation failure remains. The primary pending owner decision is
+review/integration of PR #20. Originality is unverified; the analytic Mahler and
+wider partial-return proposals remain research tasks, not completion blockers.
+
+**One-line resumption prompt:** Resume issue #19 on
+`codex/phase11-noncontracting`: read this Resume here section and
+`research/phase11-findings.md`; review PR #20 without merging, or pursue the
+explicitly unfinished general partial-return / normalized H hypotheses while
+preserving both rational controls and Phase 9 isolation.

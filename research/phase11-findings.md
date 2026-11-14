@@ -214,7 +214,7 @@ beyond full squares; a finite return alone is not an infinite exclusion theorem.
 
 For nu=mu^2, `nu(0)=110110110`, `nu(1)=110110111`. For j<9 the common
 prefix-height vector is `(0,1,2,2,3,4,4,5,6)`. The new kernel theorem
-`nonContracting_nine_prefix_height` proves, for every n,j<9,
+`nonContracting_nine_prefix_height` proves, for every n>=0 and 0<=j<9,
 
 ```
 W(9n+j)=6n+W(n)+2*floor(j/3)+(j mod 3).
