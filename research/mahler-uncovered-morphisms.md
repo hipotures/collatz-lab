@@ -292,3 +292,42 @@ Next priorities: systematically test small periodic controls on the existing
 finite catalogue, then investigate generic aperiodicity before removing that
 explicit hypothesis from the subcritical theorem. General coverage of all
 admissible morphisms remains open.
+
+## 6. Complete small catalogue (D3)
+
+The control search is now complete on the old admissible domain `2<=L<=5`,
+with periods tested in increasing order from 1 through 24 and first-disagreement
+search restricted to 512 symbols. Every one of the 144 morphisms has a valid
+certificate; the largest chosen period is 15. The four cases requiring period
+beyond 12 all have `mu(1)=10011`, with `mu(0)` equal to `01101`, `10101`,
+`10110` or `11010`; period 15 closes each ledger. No Padé degree above 24 was
+searched.
+
+| L | admissible images | old (C) holds | new certificates | maximum chosen period | maximum chosen order |
+|---|---|---|---|---|---|
+| 2 | 1 | 0 | 1 | 6 | 10 |
+| 3 | 6 | 2 | 6 | 5 | 8 |
+| 4 | 27 | 11 | 27 | 12 | 18 |
+| 5 | 110 | 52 | 110 | 15 | 23 |
+
+`verify_uncovered.py` writes both the JSON and
+`CollatzLab/SmallCertificates.lean` deterministically. This module stores
+finite integer masks, with index-zero symbols in the low bit. The kernel
+checks all rows' image lengths/bounds, H1, equal weights, explicit disagreement,
+finite control validity and strict gap. `catalogue_valid` and
+`listed_no_rational_seed` therefore prove rational exclusion for **each listed
+word**, at arbitrary seed height and every positive odd denominator.
+
+The fourth Rust test independently enumerates every finite image pair by bit
+counts, compares the complete set of 144 keys, reconstructs words by digit
+recursion and checks every control and ledger. Thus completeness of the
+finite enumeration is independently verified; the Lean catalogue theorem's
+domain is its explicit list, rather than a separate Lean enumeration theorem
+over all finite functions. The generic Theorem 8.1 and certificate interface
+remain universally quantified and do not depend on this list.
+
+Compared with (C)'s 65 successes, this adds 79 rigorously certified words.
+It does not establish a bound of 15 or 24 for other lengths or guarantee the
+existence of any particular approximant outside the finite catalogue.
+CI now audits 140 declarations and runs 94 Rust tests, plus exact reproduction
+of both generated artifacts.

@@ -138,3 +138,6 @@ import CollatzLab
 #print axioms CollatzLab.Morphism.thueMorse_control_valid
 #print axioms CollatzLab.Morphism.thueMorse_control_gap
 #print axioms CollatzLab.no_rational_seed_realizes_thueMorse_mahler
+#print axioms CollatzLab.SmallCertificates.catalogue_valid
+#print axioms CollatzLab.SmallCertificates.catalogue_counts
+#print axioms CollatzLab.SmallCertificates.listed_no_rational_seed

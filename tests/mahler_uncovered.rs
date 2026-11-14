@@ -191,3 +191,76 @@ fn improved_unit_leading_pairs_have_exact_valuations_at_three_levels() {
         }
     }
 }
+
+fn morphism_symbol(l: u32, zero: u64, one: u64, n: u32) -> u64 {
+    if n == 0 {
+        return 1;
+    }
+    let mask = if morphism_symbol(l, zero, one, n / l) == 1 {
+        one
+    } else {
+        zero
+    };
+    (mask >> (n % l)) & 1
+}
+
+#[test]
+fn periodic_catalogue_is_complete_and_every_finite_control_closes_its_ledger() {
+    use std::collections::BTreeSet;
+    let data = evidence();
+    let mut expected = BTreeSet::new();
+    for l in 2..=5 {
+        for one in 0u64..(1 << l) {
+            if one & 1 == 0 {
+                continue;
+            }
+            for zero in 0u64..(1 << l) {
+                if zero != one && zero.count_ones() == one.count_ones() {
+                    expected.insert((l, zero, one));
+                }
+            }
+        }
+    }
+    let mut actual = BTreeSet::new();
+    let mut old_passes = 0;
+    let mut max_period = 0;
+    for row in data["small_catalogue"].as_array().unwrap() {
+        let l = row["L"].as_u64().unwrap() as u32;
+        let zero = row["zero_mask"].as_u64().unwrap();
+        let one = row["one_mask"].as_u64().unwrap();
+        let period = row["period"].as_u64().unwrap() as u32;
+        let control = row["control_mask"].as_u64().unwrap();
+        let order = row["order"].as_u64().unwrap() as u32;
+        assert!(actual.insert((l, zero, one)), "duplicate catalogue row");
+        assert!((1..=24).contains(&period) && period <= order);
+        assert!(control < 1 << period);
+        for n in 0..order {
+            assert_eq!(
+                morphism_symbol(l, zero, one, n),
+                (control >> (n % period)) & 1
+            );
+        }
+        assert_ne!(
+            morphism_symbol(l, zero, one, order),
+            (control >> (order % period)) & 1
+        );
+        let s = (0..l).find(|&j| (zero >> j) & 1 != (one >> j) & 1).unwrap();
+        let e = (0..l)
+            .rfind(|&j| (zero >> j) & 1 != (one >> j) & 1)
+            .unwrap();
+        let t = (0..l).find(|&j| (one >> j) & 1 == 0).unwrap();
+        let m = BigUint::from(2u32)
+            .pow(l)
+            .max(BigUint::from(3u32).pow(one.count_ones()));
+        assert_eq!(s as u64, row["first_difference"].as_u64().unwrap());
+        assert!(BigUint::from(2u32).pow(l * (l - 1) * order) > m.pow(period * (l - 1) + l + e));
+        let old = BigUint::from(2u32).pow(l * (l - 1) * (l * t + s)) > m.pow(l * l + e);
+        assert_eq!(old, row["original_criterion"].as_bool().unwrap());
+        old_passes += usize::from(old);
+        max_period = max_period.max(period);
+    }
+    assert_eq!(expected, actual);
+    assert_eq!(actual.len(), 144);
+    assert_eq!(old_passes, 65);
+    assert_eq!(max_period, 15);
+}

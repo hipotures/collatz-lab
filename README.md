@@ -250,7 +250,10 @@ All shifts and eventual shifted matches are also excluded. A generic
 subcritical-block theorem makes aperiodicity an explicit hypothesis, proved
 for this instance. A separate generic periodic-control certificate theorem
 also excludes `101/011`, and supplies an independent Mahler proof for `10/01`.
-The current CI audit covers 137 declarations. The
+All 144 listed admissible morphisms of lengths 2–5 have kernel-checked finite
+periodic-control certificates, independently reproduced in Rust. This adds
+79 words beyond criterion (C)'s finite coverage. The current CI audit covers
+140 declarations. The
 [research report](research/mahler-uncovered-morphisms.md) distinguishes these
 proofs from 48 finite exact Padé certificates. See the
 [campaign journal](research/phase7-progress.md) to resume.
