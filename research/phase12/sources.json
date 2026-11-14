@@ -1,0 +1,72 @@
+[
+  {
+    "source": "https://zenodo.org/api/records/21543841/files/README.md/content",
+    "file": "README.md",
+    "sha256": "e7f9cedbba4d2208839a32439cb4ae5ca8b19f885fd21c495777309552a6ea9a"
+  },
+  {
+    "source": "https://zenodo.org/api/records/21543841/files/paper.pdf/content",
+    "file": "paper.pdf",
+    "sha256": "51db68cad02a6e9ddebf405582bd669f79d9740478a8825f4f62d2969feece3e"
+  },
+  {
+    "source": "https://zenodo.org/api/records/21543841/files/verify_shadows.py/content",
+    "file": "verify_shadows.py",
+    "sha256": "eb2995a576a0e245b80a6a5cca6d9eb2ede36709b0fa0ed9dc5767764aa51faf"
+  },
+  {
+    "source": "https://zenodo.org/api/records/21543841/files/paper.tex/content",
+    "file": "paper.tex",
+    "sha256": "629e9de77b6ccb06a7dc27193fbee4f6bcaa97bad0e1a697a593fe53d805c522"
+  },
+  {
+    "source": "https://zenodo.org/api/records/23108370/files/sturmian_irrationality_v3.pdf/content",
+    "file": "sturmian_irrationality_v3.pdf",
+    "sha256": "aad0ea5bd88fc9158a46f5c7d61bc78d5f905e8fc16689dba2491f7c8bc4a6cc"
+  },
+  {
+    "source": "https://raw.githubusercontent.com/eliottcassidy2000/math/6b805eed1613edaedd87965e2b1986390fa84f0e/05-knowledge/results/collatz_procgen_20260922_transversality_foundry.md",
+    "file": "cassidy.md",
+    "sha256": "4018320b5675b56bf671e828d3eb322207fc3a29dbd15d621022f46ef7c8cce3"
+  },
+  {
+    "source": "https://raw.githubusercontent.com/benpham3206/an-atlas-of-the-collatz-conjecture/d4134391aef1fe53634bbd30d67fd1d9a12d0d7a/contribution/packets/2026-07-22-landmark-pointwise/COLLATZ_LANDMARK_STRATEGY_AND_POINTWISE_THEOREM.md",
+    "file": "pham.md",
+    "sha256": "517f1ecafb9f7b4bcb723688d7368026e51d59fead4327369a0667a736dd0d04"
+  },
+  {
+    "source": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/C40C0C07FEC20797475BB2899C436C9A/S0017089508004655a.pdf/on_integer_sequences_generated_by_linear_maps.pdf",
+    "file": "dubickas.pdf",
+    "sha256": "69d2adbc28a61873bfc95b15d57916329ac243da492ae166a454ddc63acb03bf"
+  },
+  {
+    "source": "https://monks.scranton.edu/files/pubs/AutoConjV13.pdf",
+    "file": "monks-yazinski.pdf",
+    "sha256": "3fcf49c2e0a24a65c6ed11cd25d34964e4949e26e6a381181c5e6d6ae31ed7e1"
+  },
+  {
+    "source": "https://websites.umich.edu/~lagarias/doc/bernstein.pdf",
+    "file": "bernstein-lagarias.pdf",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "source": "https://rstation.ai/api/v1/papers/collatz_16/versions/3/download",
+    "file": "rstation-v3.md",
+    "sha256": "e541e2a7be94a20a9880ecefdca4459a5c346579203b9222f4556f62cce561d9"
+  },
+  {
+    "source": "https://zenodo.org/api/records/23071770/files/Drift_Sensitive_Complexity_3x1_Conjugacy_Revision_1.pdf/content",
+    "file": "drift-Drift_Sensitive_Complexity_3x1_Conjugacy_Revision_1.pdf",
+    "sha256": "6bce09245a13fdf478ce834cbb80762a3a76c379b63b3555e83216aa23939362"
+  },
+  {
+    "source": "https://rstation.ai/api/v1/papers/collatz_84/versions/1/download",
+    "file": "rstation-84-v1.md",
+    "sha256": "8838fcfeff58dee0a48c8e64dec665ef846ed3bac6359b744ce589fac5dd5026"
+  },
+  {
+    "source": "https://rstation.ai/api/v1/papers/collatz_31/versions/1/download",
+    "file": "rstation-31-v1.md",
+    "sha256": "aed71cb6903f52bf62d7a1b027c59ea8a8addb4cac4cdf043ee4382e6bb06fff"
+  }
+]

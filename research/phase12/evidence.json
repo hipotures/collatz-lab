@@ -1,0 +1,186 @@
+{
+  "candidate": {
+    "best_shift": 3,
+    "best_weight_ratio": "4/3",
+    "eigenvalues": [
+      6,
+      -1
+    ],
+    "finite_81_bit_witnesses": [
+      {
+        "end": "119765852333396201932225031",
+        "p": "553314936599421495781373",
+        "q": 1
+      },
+      {
+        "end": "-447866004387740064765897887",
+        "p": "-2069128595461409219917839",
+        "q": 5
+      },
+      {
+        "end": "-1343598013163220194297693661",
+        "p": "-6207385786384227659753517",
+        "q": 15
+      }
+    ],
+    "incidence": [
+      [
+        1,
+        2
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "known_collision_gap": [
+      "35184372088832",
+      "2541865828329"
+    ],
+    "languages": [
+      {
+        "global_count": 4,
+        "length": 2,
+        "observed_60000": 4,
+        "sha256": "34361770ea4c68d05b11c7b33199e7a61fa7b7f10353c8e0ae02a919f350e4ee"
+      },
+      {
+        "global_count": 17,
+        "length": 6,
+        "observed_60000": 17,
+        "sha256": "0b71b69489879af790384c427963d9a5c6ffd020f2378822b5289bc0039ed3b2"
+      },
+      {
+        "global_count": 118,
+        "length": 36,
+        "observed_60000": 118,
+        "sha256": "2f6d9ebe9a3a91d3b6b5eca851612c6d6d912d297d6b13da3da024a017bf8707"
+      },
+      {
+        "global_count": 724,
+        "length": 216,
+        "observed_60000": 724,
+        "sha256": "39b8f172918dbac35609e63d6089821283c26f7c48089a8d8c981cf6728fd345"
+      },
+      {
+        "global_count": 2676,
+        "length": 864,
+        "observed_60000": 2676,
+        "sha256": "cf812c06bf2797a68d705dc5badd36b887690058063fca4efde811b823f46cd4"
+      }
+    ],
+    "largest_match": 1555,
+    "level_two_weights": [
+      25,
+      26
+    ],
+    "positive_returns": 5356,
+    "power_rows": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        1
+      ],
+      [
+        1,
+        0,
+        5
+      ],
+      [
+        1,
+        1,
+        4
+      ],
+      [
+        2,
+        0,
+        25
+      ],
+      [
+        2,
+        1,
+        26
+      ],
+      [
+        3,
+        0,
+        155
+      ],
+      [
+        3,
+        1,
+        154
+      ],
+      [
+        4,
+        0,
+        925
+      ],
+      [
+        4,
+        1,
+        926
+      ],
+      [
+        5,
+        0,
+        5555
+      ],
+      [
+        5,
+        1,
+        5554
+      ]
+    ],
+    "prefix_length": 60000,
+    "prefix_sha256": "f733328fb582e570e271a67dcb24510f955eda4b913665cffa4249f2a21de395",
+    "scale_returns": [
+      [
+        3,
+        1
+      ],
+      [
+        18,
+        7
+      ],
+      [
+        108,
+        43
+      ],
+      [
+        648,
+        259
+      ],
+      [
+        3888,
+        1555
+      ]
+    ],
+    "shifts_scanned": 7499,
+    "weights": [
+      4,
+      5
+    ]
+  },
+  "evidence_kind": "finite exact checks; see Lean/report for universal proofs",
+  "exhaustive": {
+    "even_denominator_counterexample": true,
+    "extra_precision_counterexamples": 85484,
+    "malformed_match_determinant": -2,
+    "nonzero": 149500,
+    "overlapping_pairs": 46390,
+    "return_pairs": 574327,
+    "words": 1023,
+    "zero": 424827
+  },
+  "signed": {
+    "controls": "101/010 at 1/1; all-one at -1/1; signed and unreduced",
+    "form_checks": 7168,
+    "signed_witnesses": 1016
+  }
+}
