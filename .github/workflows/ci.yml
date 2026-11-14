@@ -23,6 +23,9 @@ jobs:
       - name: Reproduce bounded Phase 7 certificates
         run: python3 research/mahler-uncovered/verify_uncovered.py --check
 
+      - name: Verify finite general-polynomial regressions
+        run: python3 research/phase8/verify_polynomial.py
+
   lean:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -50,4 +53,4 @@ jobs:
           # Exact source declaration order/count, approved foundations only; tolerate
           # Lean's wrapping only when continuation tokens name those foundations.
           python3 research/lean-audit/check_axioms.py --self-test
-          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 157
+          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 190

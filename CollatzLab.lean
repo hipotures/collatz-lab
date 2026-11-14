@@ -17,6 +17,7 @@ import CollatzLab.DegreeSix
 import CollatzLab.UnequalControl
 import CollatzLab.LeadingCoefficient
 import CollatzLab.ThueMorse
+import CollatzLab.PolynomialChecks
 
 /-!
 # CollatzLab: Lean 4 Formalization of the 4-Automatic Mahler Parity Word
@@ -49,6 +50,9 @@ Root module exporting the Lean 4 formalization of the paper
   by a separate subcritical block contraction and aperiodicity proof.
 * `CollatzLab.PeriodicCertificate`: arbitrary finite periodic controls, including
   the `101/011` exclusion, an independent Thue--Morse proof and 144 small cases.
+* `CollatzLab.PolynomialCertificate`: arbitrary signed integer polynomial pairs,
+  explicit finite residuals, non-unit valuations after a finite start, height
+  bounds and conditional rational exclusion with all tails.
 * `CollatzLab.MorphismAperiodic`: uniform word aperiodicity and all-subcritical
   rational exclusion. Degree-six numerical and non-unit coefficient lemmas
   support further research; they do not assert an approximant exists.

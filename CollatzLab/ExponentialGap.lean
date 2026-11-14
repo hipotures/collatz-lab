@@ -90,4 +90,38 @@ theorem no_doubly_exponential_bound (L : Nat) (hL : 2 ≤ L)
   have hh := hsmall T
   omega
 
+/-- Strict order of positive bases is retained at every positive integer exponent. -/
+theorem positive_pow_strict (A B : Int) (hB : 1 ≤ B) (hAB : B < A) :
+    ∀ n : Nat, 1 ≤ n → B ^ n < A ^ n
+  | 0, hn => by omega
+  | n + 1, _ => by
+    have hm := pow_le_pow_of_le (show 0 ≤ B by omega) (show B ≤ A by omega) n
+    have h0 := Int.mul_le_mul_of_nonneg_right hm (show 0 ≤ B by omega)
+    have h1 := Int.mul_lt_mul_of_pos_left hAB (pow_pos_of_pos (show 0 < A by omega) n)
+    rw [Int.pow_succ, Int.pow_succ]
+    exact Int.lt_of_le_of_lt h0 h1
+
+/-- Discarding any fixed finite initial segment does not weaken the contradiction. -/
+theorem no_eventual_doubly_exponential_bound (L : Nat) (hL : 2 ≤ L)
+    (A B K D : Int) (hB : 1 ≤ B) (hAB : B < A) (hK : 1 ≤ K) (hD : 1 ≤ D)
+    (k0 : Nat)
+    (hbound : ∀ k : Nat, k0 ≤ k → A ^ (L ^ k) ≤ K * D ^ k * B ^ (L ^ k)) : False := by
+  let A' := A ^ (L ^ k0)
+  let B' := B ^ (L ^ k0)
+  let K' := K * D ^ k0
+  have hn := nat_power_ge_one (show 1 ≤ L by omega) k0
+  have hB' : 1 ≤ B' := pow_ge_one hB _
+  have hAB' : B' < A' := positive_pow_strict A B hB hAB _ hn
+  have hK' : 1 ≤ K' := by
+    have hp := pow_ge_one hD k0
+    have hm := Int.mul_le_mul hK hp (by decide : (0 : Int) ≤ 1) (by omega : 0 ≤ K)
+    exact hm
+  apply no_doubly_exponential_bound L hL A' B' K' D hB' hAB' hK' hD
+  intro k
+  have hh := hbound (k0 + k) (by omega)
+  dsimp [A', B', K']
+  rw [Nat.pow_add, int_pow_add] at hh
+  rw [int_pow_mul, int_pow_mul]
+  simpa [Int.mul_assoc] using hh
+
 end CollatzLab
