@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Finite exact regressions for Phase 11; these computations are not infinite proofs."""
-from itertools import accumulate
+from itertools import accumulate, product
 
 
 def substitute(bits):
@@ -57,6 +57,29 @@ def main():
             maximum = max(sum(bits[t+k*n:t+k*(n+1)]) for n in range(3))
             assert 3 * maximum >= 2 * k
             assert 3**maximum > 2**k
+    # Independent all-small-block regression for the new congruence, not a proof.
+    square_count = 0
+    for m in range(1, 8):
+        for block in product((0, 1), repeat=m):
+            square = list(block) * 2
+            r, c = affine(block)
+            rr, cc = affine(square)
+            assert rr == 2*r and cc == (3**r + 2**m) * c
+            modulus = 2**(2*m)
+            for q in (1, 5, -5):
+                p = (-cc*q * pow(3**rr, -1, modulus)) % modulus
+                for p in (p, p - modulus):
+                    replay(p, q, square)
+                    form = (2**m - 3**r)*p - c*q
+                    assert form % modulus == 0
+                    assert abs(form) <= (abs(p) + abs(q)) * 3**m
+                    if form:
+                        assert 4**m <= (abs(p) + abs(q))*3**m
+            square_count += 1
+    # The concrete substitution has a square at every tested image power.
+    for k in range(8):
+        m = 3**k
+        assert bits[:m] == bits[m:2*m]
     # Actual signed, unreduced and sign-normalized rational finite itineraries.
     finite = bits[:81]
     r, c = affine(finite)
@@ -73,6 +96,7 @@ def main():
         assert p % 2 == 1 - n % 2
         p = (3 * p + 1) // 2 if p % 2 else p // 2
     assert replay(-1, 1, [1] * 100) == -1
+    print(f'{square_count} exhaustive small square blocks: signed congruence and height PASS')
     print('Phase 11 finite checks: literal levels 0..8, all prefix discrepancies,')
     print('windows/group obstruction, signed 81-bit witnesses and rational controls: PASS')
 

@@ -540,3 +540,19 @@ import CollatzLab
 #print axioms CollatzLab.Morphism.nonContracting_prefix_discrepancy
 #print axioms CollatzLab.NonContractingChecks.literal_semantics
 #print axioms CollatzLab.NonContractingChecks.rational_control_preserved
+
+/-! Phase 11: repeated-prefix rational exclusion, independently of contraction. -/
+#print axioms CollatzLab.square_prefix_divisibility
+#print axioms CollatzLab.prefixCycleForm_nonzero
+#print axioms CollatzLab.prefixCycleForm_height
+#print axioms CollatzLab.rational_square_prefix_bound
+#print axioms CollatzLab.no_rational_seed_unbounded_square_prefix
+#print axioms CollatzLab.Morphism.word_power_congr
+#print axioms CollatzLab.Morphism.initial_double_square
+#print axioms CollatzLab.no_rational_seed_morphism_initial_double
+#print axioms CollatzLab.nonContracting_square_prefix
+#print axioms CollatzLab.no_rational_seed_realizes_nonContracting110111
+#print axioms CollatzLab.no_rational_seed_shifted_nonContracting110111
+#print axioms CollatzLab.no_eventually_shifted_nonContracting110111
+#print axioms CollatzLab.no_eventually_shifted_nonContracting110111_signed
+#print axioms CollatzLab.NonContractingChecks.signed_finite_semantics

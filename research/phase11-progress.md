@@ -52,3 +52,24 @@ conjecture. Aperiodicity alone never proves rational-seed exclusion.
 - Gate C promising lead: initial 11 yields unbounded square prefixes. Working
   draft `RepeatedPrefix.lean` is deliberately excluded from this checkpoint
   until independently validated; it is not yet an exported exclusion result.
+
+## Checkpoint B — repeated-prefix exclusion
+
+- Checkpoint A pushed as `5d9a1053eb7461d5c26007a9a94068f04ff8e484`.
+  Reused the source repository's configured SSH identity in the isolated clone;
+  push succeeds without revealing credentials. No external messages sent.
+- `RepeatedPrefix.lean` now kernel-proves square-prefix divisibility by `4^m`,
+  the nonzero period-closing form, its universal `C*3^m` height bound, and the
+  general unbounded-square exclusion. No contraction assumption or real/2-adic
+  comparison occurs. Equal-parent image transport proves the general initial-11
+  morphism corollary.
+- `NonContractingExclusion.lean` applies it to 110/111, with all finite shifts,
+  all eventual shifted tails and either sign of odd denominator.
+- The 254-small-block independent checker tests exact signed square congruences
+  and heights. Lean and Python check positive, negative and unreduced 81-bit
+  actual rational prefixes. Both rational controls remain intact.
+- Current audit: 517 declarations. Gate B spectral boundary remains next.
+- Primary-source reading: Monks–Yazinski Theorem 2.7 and its proof; López–Stoll
+  Theorem 1 and its real/2-adic transfer; Molchanov theorem scan being checked.
+  A recent rStation manuscript was located; its analytic proof is not an input
+  to this elementary argument, and no novelty claim is made.

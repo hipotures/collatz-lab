@@ -25,3 +25,17 @@ theorem rational_control_preserved : RealizesWord 1 1 (parityWord unequalAlterna
   unequalAlternating_realized
 
 end CollatzLab.NonContractingChecks
+
+namespace CollatzLab.NonContractingChecks
+open Morphism
+
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 800000 in
+theorem signed_finite_semantics :
+    (List.range 81).map (seedParity 1 721013141537229946329339) = literalIter 4 ∧
+    numIter 1 721013141537229946329339 81 = 37923644741691456159576389081 ∧
+    (List.range 81).map (seedParity 5 (-1230637570772366967178009)) = literalIter 4 ∧
+    numIter 5 (-1230637570772366967178009) 81 = -64728725942839940287884653801 ∧
+    (List.range 81).map (seedParity 15 (-3691912712317100901534027)) = literalIter 4 := by decide
+
+end CollatzLab.NonContractingChecks

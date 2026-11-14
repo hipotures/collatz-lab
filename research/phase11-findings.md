@@ -45,3 +45,61 @@ The word begins with 11. Hence substitution should give square prefixes of
 length 2*3^k. A separate integer proof is being developed to test whether their
 congruence precision exceeds the height of periodic approximants. Until that
 proof and its semantic regressions are complete, no exclusion is claimed.
+
+## Gate C: a successful mechanism independent of contraction
+
+**Kernel theorem, `RepeatedPrefix.lean`:** if a Boolean word v is not eventually
+periodic and has arbitrarily long square prefixes UU, no rational seed realizes
+v. Both conditions are essential. There is no frequency premise.
+
+Here is an independent integer reconstruction. Let m=|U|>0, r the one-count,
+c the affine offset, A=2^m, B=3^r, and let x_j be numerator states with fixed
+positive odd denominator q. Actual realization of the two identical blocks gives
+
+```
+A*x_m = B*p + c*q,
+A*x_(2m) = B*x_m + c*q.
+```
+
+Subtracting shows `A | B*(x_m-p)`. Since A and B are coprime, `A | x_m-p`.
+Thus the integer `E=(A-B)*p-c*q=A*(p-x_m)` is divisible by `A^2=4^m`.
+If E=0, `x_m=p`, so determinism makes the full itinerary periodic. Independent
+non-eventual-periodicity implies E!=0, hence `4^m<=|E|`.
+
+For every length-m Boolean word, `0<=c<=3^m-2^m` and `r<=m`. Both A and B are
+in `[0,3^m]`, so `|A-B|<=3^m`. Therefore `|E|<=(|p|+q)*3^m`. The exact strict
+base gap 4>3 contradicts arbitrarily large m. The formal proof uses the existing
+integer Bernoulli bound to choose `m>=3*(|p|+q+1)`, not real limits or logarithms.
+This does not bound the actual orbit states, which can grow very rapidly.
+
+`word_power_congr` proves equal parent letters have identical iterated images
+at every level. A prolongable fixed word beginning with 11 therefore has square
+prefixes of length `2*L^k`. The new general theorem
+`no_rational_seed_morphism_initial_double` assumes exactly this initial double
+and independent non-eventual-periodicity; it assumes neither equal image weights
+nor a contracting chunk. It applies to the explicit 110/111 word.
+`NonContractingExclusion.lean` excludes every rational realization, every finite
+shift, and eventual agreement after arbitrary finite prefixes. The raw eventual
+itinerary theorem covers **either sign** of odd denominator using the existing
+normalization theorem. Negative numerators and unreduced fractions are included.
+
+The theorem strengthens the repository's available sufficient criteria: this
+concrete example provably satisfies no fixed-length uniform contraction premise.
+It does not prove exclusion for all supercritical words or all automatic words.
+It proves rational exclusion, not transcendence. Its originality is **unverified**;
+the periodic-approximation and integer-height principle is classical.
+
+### Independent adversarial checks
+
+- Python computes affine maps independently for all 254 binary blocks of
+  lengths 1..7 and their squares. Positive, negative and signed-denominator
+  finite witnesses satisfy the exact modulus and height bound.
+- Literal substitution, independently of both Lean indexing and the balance
+  formula, gives square prefixes at levels 0..7.
+- Actual positive, negative and unreduced 81-bit rational prefixes are checked
+  by Lean reduction and Python numerator iteration. They establish non-vacuous
+  finite semantics; none is an infinite rational realization.
+- `101/010` remains realized by 1/1. Its fixed point starts 10, so the initial
+  double premise fails. The all-one word at -1/1 has unbounded square prefixes
+  and density one but is periodic, so the aperiodicity premise fails.
+  Deleting either safeguard would make the theorem false.

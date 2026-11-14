@@ -34,6 +34,7 @@ import CollatzLab.SignedContraction
 import CollatzLab.SparseChecks
 import CollatzLab.FiniteContractionCatalogue
 import CollatzLab.NonContractingChecks
+import CollatzLab.NonContractingExclusion
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
