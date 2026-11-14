@@ -9,9 +9,9 @@
   branch `codex/phase11-noncontracting`, open and unmerged when inspected.
 - Detached validation clone: `/home/user/DEV/collatz-lab-phase11-audit`.
 - External evidence directory: `/home/user/DEV/collatz-lab-phase11-evidence`.
-- Last pushed checkpoint: `031e4a7bbf4ff29c4633b97e46d008e31a246747`
-  (initial journal). The next checkpoint adds the independently reconstructed
-  proofs and verified results; a commit cannot contain its own hash.
+- Last pushed checkpoint: `dd9ba1c6f6ffb28f3ae6cd6a147ae211a4278ba7`
+  (standalone proofs and initial prior-art finding). The complete report is
+  ready for the next push; a commit cannot contain its own hash.
 - Completed input reading: complete issues #21/#19, PR #20 metadata and empty
   discussion threads; root AGENTS.md; the six Phase 11 modules; all three
   Phase 11 Python verifiers, signatures and validation script; the specified
@@ -33,11 +33,13 @@
 - Documentation defect: findings line 105 incorrectly says deleting either
   safeguard makes the theorem false. Without repetition the remaining claim
   is the open Periodicity Conjecture, not falsified by the periodic controls.
-- Outstanding: finish exact Lean audit/signature matrix, literature matrix,
-  source checksums, independent checker appendix, final publication advice,
-  and separate review PR. Draft report already contains all elementary proofs.
-- Next: complete report sections 5–6 and appendices; verify source mapping,
-  refresh live refs without altering the audited SHA, commit and push.
+- Completed report: all 77 exact signatures, audit matrix, 18 primary-source
+  rows, two reproducible scripts/outputs and the broader counting deduction.
+  Verdict: mathematical PASS; merge CONDITIONAL on documentation/attribution;
+  separate new-theorem publication FAIL on present evidence.
+- Outstanding: push the completed reports and open the separate review PR.
+- Next: `git diff --check`, commit/push only this review branch, then open the
+  report PR against main. Do not modify or merge PR #20.
 - No source proof, manuscript, author metadata, issue #15, original checkout,
   or Codex branch has been changed. No PR has been merged and no issue closed.
 
@@ -98,3 +100,130 @@ discoveries are leads, not yet a priority conclusion.
   are not assumed as proved here. Read the original Cassidy note at pinned
   commit `6b805eed1613edaedd87965e2b1986390fa84f0e` after correcting a name
   spelling in the PDF reference (`eliottcassidy2000`, one l in Eliott).
+
+## Checkpoint C — complete review, broader known-method exclusion
+
+The final report contains all four standalone reconstructions, exact
+signatures for all 77 added declarations, the semantic audit matrix, hostile
+edge cases, 18 primary-source rows, explicit publication/integration decisions,
+and both independent scripts with their actual outputs.
+
+An additional independently reconstructed deduction (§2.4) applies the
+published Dubickas collision argument to fixed odd-denominator signed
+numerators. It bounds their lower factor-complexity ratio by
+`log(2)/log(3/2)`. For images `0->1^L`, `1->1^c 0 1^(L-c-1)`, L≥2 and
+1≤c<L, iterated images have one variable position. This gives
+`P(L^k)≤(L+1)L^(k-1)` and excludes the entire family, including both Phase 11
+examples and the length-six target whose partial-return ledger fails.
+The argument is mathematical deduction, not a new Lean export or a priority
+claim. De Jesús v3 §9 already states the general signed-rational liminf
+criterion. Pham's pinned July note was also read: its Corollary 4 literally
+uses limsup, so these statements have not been conflated.
+
+The exact factor-language closure check gave 4*3^(k-1) factors at lengths
+3^k, and 5*4^(k-1) at lengths 4^k, for k=1..6. Both scripts embedded in the
+report were extracted and rerun, exit 0, independently of their external
+copies. The factor proof is supplied on paper, not inferred from these counts.
+
+The documentation correction also applies to “Both conditions are essential”
+at findings line 53. The stale research paragraph is at lines 42–47. No
+modification of the Codex branch was made to fix either statement.
+
+### Commands actually executed against PR #20
+
+All commands in this table passed after the explicitly recorded initial
+signature sequencing failure. The validation script uses `set -euo pipefail`.
+Its output is in `validate.log`; the separate audit/signature outputs are in
+`axioms.log` / `signatures.log`.
+
+| Command/check | Actual result |
+|---|---|
+| `bash research/phase11/validate.sh` | Exit 0, complete matrix below on exact d270b446 head; no prior `.lake` cache |
+| `lake build` | 82-job fresh build completed successfully |
+| `lake env lean research/lean-audit/FamilyAudit.lean` piped through `python3 research/lean-audit/check_axioms.py --expected-count 564`, with pipefail | 564 exact records, approved foundations only; also run separately |
+| `python3 research/lean-audit/check_axioms.py --self-test` | 2 valid and 8 adversarial cases pass |
+| `rg` forbidden-proof scan in `CollatzLab/` and `CollatzLab.lean` | No matches; exit 1 is the expected empty-scan result |
+| Source-to-audit inventory | All 487 baseline names retained in order, all 70 theorems and 7 definitions added explicitly |
+| `lake env lean research/phase11/Signatures.lean` | 21 exact interfaces pass after build completed |
+| `lake env lean --version` | Lean 4.18.0, x86_64-unknown-linux-gnu, commit 11ccbced7964, Release |
+| `cargo fmt --check` | Pass |
+| `cargo clippy --locked --all-targets --all-features -- -D warnings` | Pass, no warnings |
+| `cargo test --locked --all-targets` | 94 tests pass, zero fail |
+| `python3 research/phase8/verify_polynomial.py` | Pass, 686 convolution identities and listed exact ledgers |
+| `python3 research/mahler-uncovered/verify_uncovered.py --check` | Pass: 48 Padé rows, 8 checkpoints, 32800 signed candidates, 144 controls |
+| `python3 research/phase9/verify_independent.py` | All independent checks pass |
+| `python3 paper/check_tex.py` | Pass: 49 labels, 46 distinct references, 21 bibliography entries, 32 Lean names |
+| Generated manuscript Lean-name file, checked by `lake env lean` | All names pass; no manuscript edit or PDF-readiness claim |
+| `python3 research/phase10/verify_unequal.py --check` | Pass |
+| `python3 research/phase10/search_unequal.py --check` | Pass, existing bounded catalogue reproduced |
+| `python3 research/phase10/verify_spectral.py --check` | Pass |
+| `python3 research/phase10/verify_sparse_family.py --check` | Pass |
+| `python3 research/phase10/generate_catalogue.py --check` | Pass |
+| `python3 research/phase11/verify_noncontracting.py` | Pass, 254 small square blocks and the signed/literal checks |
+| `python3 research/phase11/verify_spectral_boundary.py` | Pass, 715 parameter cases and effective witness fixtures |
+| `python3 research/phase11/verify_partial_return.py` | Pass, exact 8192>6561 ledger and signed witnesses |
+| `git diff --check` | Pass |
+
+These commands belong in the **detached PR-head clone**. The review branch
+intentionally contains only two reports atop main; it does not import or
+repackage the Phase 11 proof files. Its own CI will therefore audit the main
+baseline, not replace the separately executed 564-declaration PR-head audit.
+
+### Independent checks and review-document verification
+
+- `python3 .../adversarial.py`: exit 0, 2047 offsets, 36,800 signed returns,
+  680 literal substitutions, both controls and signed finite examples.
+- `python3 .../factor_check.py`: exit 0, exact closed languages at six levels
+  per target, all factor caps and numerical base gaps pass.
+- Report Appendix B extraction and both embedded script executions: exit 0.
+- Markdown structure check: 77 signature headers, two anchored script markers,
+  balanced fences and table columns, no unfinished sections. Initial checks
+  caught a marker counted inside the extractor and unescaped absolute-value
+  bars in one table cell; both formatting checks were corrected.
+  A final harness initially looked for nonexistent `# BEGIN` delimiters;
+  rerunning it against the actual HTML script markers passed, including
+  Python syntax compilation of both extracted scripts.
+- Original main checkout and detached audit checkout remain clean. Review diff
+  has only the two requested Markdown files. No proof/manuscript changes.
+
+### Source versions and local SHA-256 evidence
+
+The raw texts/logs remain in `/home/user/DEV/collatz-lab-phase11-evidence`.
+Their essential mathematical findings, exact signature inventory, independent
+scripts/outputs and reproducible commands are committed in the reports. Raw
+third-party PDFs are not redistributed in the repository.
+
+```text
+226cb4898202160dcf58178dc0a79234352b372d6857f2a963622be64997cbc7  validate.log
+6a7805933078487bbb068bfa1b039227b76962c69d853278fdaaf7a9f06f5795  axioms.log
+9d19eaf7a3dbb535dd5f1c69dbd051dab9bad0de53c69a572978c1d891d84b90  signatures.log
+bcf6661c98916d765c634057ff8f455506b80e14f07e8094aa04097fca45b3b8  adversarial.py
+cefa94e24b51354cdc353a8ee6a1abddbab94b73c1b698361c2f2c9a669ac523  adversarial.log
+014e7305f20bef784af3c0bb001baa5a82d7cfcf15d053de9557b56f838be80f  factor_check.py
+daa85a2fafb32abd3d7071dc29de57660ada0cff31d4928fd4b6a24461eebf49  factor_check.log
+6c6a98e37fb86bd0b6ad121d810e6575b12f36f74a2720f9a5366f51163eb56a  embedded-checks.log
+51db68cad02a6e9ddebf405582bd669f79d9740478a8825f4f62d2969feece3e  allikvere.pdf
+629e9de77b6ccb06a7dc27193fbee4f6bcaa97bad0e1a697a593fe53d805c522  allikvere.tex
+aad0ea5bd88fc9158a46f5c7d61bc78d5f905e8fc16689dba2491f7c8bc4a6cc  dejesus-irrationality-v3.pdf
+4018320b5675b56bf671e828d3eb322207fc3a29dbd15d621022f46ef7c8cce3  cassidy.md
+07da25ce1903f4da90038d77493270c4781b5d2ef87f7e03d3fa6d03545e07f5  rstation-v2.md
+e541e2a7be94a20a9880ecefdca4459a5c346579203b9222f4556f62cce561d9  rstation-v3.md
+d2366667b18ad5d58baf8be8675be5e20a7207f280be3223cee407f752dbb340  zenodo-21543841.json
+b09a8f1f89076c03720cf2fe54fe4b2e86adc81645933a0ebf3f9db4c1da12a3  zenodo-23108370.json
+```
+
+Other source versions are pinned by their DOI/arXiv version/Git SHA in the
+report. Monks–Yazinski's author PDF is dated July 10, 2002; its journal year
+is 2004. The Rozier–Terracol comparison uses arXiv v5, not a guessed journal
+version. The rStation v3 consumer is positive-rational and its platform
+acceptance is not called journal peer review. Molchanov OCR and inaccessible
+full-proof details remain explicitly limited in the report.
+
+### Live state recheck before the final report push
+
+Remote refs still give main `2efdd2b531d511a8c6204e1f43179761585ab066`,
+PR #20 `d270b4466794badc49da6feebefeda77f5793e16`. The GitHub connector
+independently confirms PR #20 open/unmerged at that SHA. Its run
+[43619826721](https://github.com/hipotures/collatz-lab/actions/runs/43619826721)
+is completed/success. This is separately observed CI, not the source of the
+mathematical verdict. The review does not authorize integration.
