@@ -8,6 +8,11 @@ No changes to the Phase 9 manuscript, reports, or Fable's research files.
 Do not merge this branch. Integration requires completion of issue #15 and
 explicit user approval. Never force-push.
 
+Latest validated proof commit: **`ee7b88a77b9c6adddfb32247ed21bc7966947b02`**.
+The final checkpoint commit after it changes documentation only; get the exact
+current branch head with `git log -1 --format='%H %s'`.
+Implementation and requested research are complete. Integration remains held.
+
 ## Milestone A: validated generic criterion
 
 - Read the complete issue and its specified Lean sources and Phase 8 scope.
@@ -198,7 +203,35 @@ explicit user approval. Never force-push.
 - Fetched `origin/main` at `da4f5b0` during final isolation review: no competing
   changes to the shared module index, audit, CI or `Subcritical.lean`; the actual
   dynamics, Rust APIs and Fable/manuscript paths have no feature-branch changes.
-- Checkpoint follows C4, commit message: "Kernel-check 222 finite unequal-weight contraction certificates".
+- Pushed commit: `ee7b88a77b9c6adddfb32247ed21bc7966947b02`.
+- GitHub CI observed **success** on retry:
+  <https://github.com/hipotures/collatz-lab/actions/runs/43591645534>.
+  The first attempt failed before proof compilation because the runner could
+  not resolve `release.lean-lang.org` while downloading the pinned toolchain.
+  Only failed jobs were retried; the fresh Lean build and audit then passed.
+
+## Final review and pushed history
+
+All implementation changes are confined to 37 task-specific paths, including
+the narrowly scoped module index, constant-lemma specialization, audit and CI
+wiring. No changes to the original parity dynamics, Rust source/tests, Cargo
+files, Phase 9 reports, manuscript or Fable research paths. Main's Phase 9 work
+continues independently; no PR merge or main integration was performed.
+
+| Milestone | Pushed full commit | Observed CI |
+|---|---|---|
+| A: generic variable contraction | `264f694d978e8756c1b59d01501626122affdbd2` | Local checks; PR not yet open |
+| B: 100/110 exclusion and all tails | `fc5bf15375bb8a3a00ed08508b9672c1045bb937` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43588037270) |
+| C1: finite windows and 110/100 | `f8723c835db8b033fc2c4c92c991b345ec53ebcc` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43588877158) |
+| C2: spectral identities and longer examples | `206bbd00e6c95cc24f87f362639082b9661c5d8a` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43589709561) |
+| C3: complete infinite sparse/dense family | `4ff05be682bbe996155cabb488a2b1a9b648961e` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43590396527) |
+| C4: finite columns and 1100/1110 | `ae09fc1889a7b80d0b2911b18445116829f3ea68` | [success](https://github.com/hipotures/collatz-lab/actions/runs/43590951718) |
+| C5: 222 fully checked finite certificates | `ee7b88a77b9c6adddfb32247ed21bc7966947b02` | [success after toolchain-download retry](https://github.com/hipotures/collatz-lab/actions/runs/43591645534) |
+
+PR: <https://github.com/hipotures/collatz-lab/pull/17>, **open and unmerged**.
+Its description reflects the final scope, 487-entry audit and seven verifiers.
+Issue #15 was observed open during this work. Its completion and explicit user
+approval are both prerequisites to integration. Issue #16 is left open for review.
 
 ## Failed routes / cautions
 
@@ -244,10 +277,15 @@ milestone to `origin/codex/unequal-weight-contraction`.
    `research/unequal-weight-contraction.md`.
 4. Milestones A/B/C1/C2/C3/C4/C5 meet the completion gate and research requirements;
    PR #17 stays unmerged, and the issue stays open for user review.
-5. Finish the review checkpoint: push C5, update PR #17 to the final scope and
-   count, observe its actual CI result, and record the exact pushed SHA here.
-   Do not merge or integrate while issue #15 remains unfinished or without
-   explicit user approval. Later optional research can reduce block sizes or
-   certify candidates beyond the forced-column sufficient condition.
-6. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
+5. No implementation requirement remains. Inspect PR #17 and issue #15, retain
+   the integration hold, and wait for user review. If later authorized to update
+   the branch, preserve both agents' shared-file changes and published history;
+   never force-push. Re-run the full validation after any proof or CI change.
+6. Optional later research: reduce block sizes, or extend finite aperiodicity
+   certification beyond the forced-column sufficient condition. This is not
+   needed for the completed issue deliverables.
+7. Commit/push each validated milestone. Do not merge, force-push, touch Fable's
    files, or infer completion from a context/token limit.
+
+One-line resume instruction:
+`Resume issue #16 on codex/unequal-weight-contraction; read research/phase10-progress.md; verify PR #17 and keep it unmerged pending issue #15 and explicit user approval.`
