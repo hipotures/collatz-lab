@@ -522,3 +522,21 @@ import CollatzLab
 #print axioms CollatzLab.Morphism.no_rational_seed_contractionCatalogue
 #print axioms CollatzLab.Morphism.no_rational_seed_shifted_contractionCatalogue
 #print axioms CollatzLab.Morphism.no_eventually_shifted_contractionCatalogue
+
+/-! Phase 11: aperiodic supercritical word and exact contraction obstruction. -/
+#print axioms CollatzLab.Morphism.nonContracting_images
+#print axioms CollatzLab.Morphism.nonContracting_columns
+#print axioms CollatzLab.Morphism.nonContracting_parity_columns
+#print axioms CollatzLab.Morphism.nonContracting_both_bits
+#print axioms CollatzLab.Morphism.nonContracting_not_periodic_from
+#print axioms CollatzLab.Morphism.nonContracting_not_eventually_periodic
+#print axioms CollatzLab.Morphism.nonContracting_group_weight
+#print axioms CollatzLab.Morphism.nonContracting_three_weight
+#print axioms CollatzLab.Morphism.nonContracting_window_lower
+#print axioms CollatzLab.Morphism.nonContracting_group_expands
+#print axioms CollatzLab.Morphism.nonContracting_no_uniform_chunks
+#print axioms CollatzLab.Morphism.nonContracting_power_count
+#print axioms CollatzLab.Morphism.nonContracting_prefix_step
+#print axioms CollatzLab.Morphism.nonContracting_prefix_discrepancy
+#print axioms CollatzLab.NonContractingChecks.literal_semantics
+#print axioms CollatzLab.NonContractingChecks.rational_control_preserved
