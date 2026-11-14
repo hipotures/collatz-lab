@@ -327,3 +327,17 @@ import CollatzLab
 #print axioms CollatzLab.PolynomialPair.first_pair_nonzero
 #print axioms CollatzLab.PolynomialPair.first_zero_denominator_order
 #print axioms CollatzLab.PolynomialPair.first_gap_denominator_nonzero
+
+/-! Variable-multiplier integer contraction and exact source-block semantics. -/
+#print axioms CollatzLab.variable_contracting_recurrence_bounded
+#print axioms CollatzLab.Morphism.offset_upper
+#print axioms CollatzLab.Morphism.offset_bounds
+#print axioms CollatzLab.Morphism.numIter_chunk
+#print axioms CollatzLab.Morphism.weight_source_blocks
+#print axioms CollatzLab.Morphism.numIter_variable_block
+#print axioms CollatzLab.Morphism.numIter_source_blocks
+#print axioms CollatzLab.uniformly_contracting_blocks_periodic
+#print axioms CollatzLab.no_rational_seed_uniform_block_contraction
+#print axioms CollatzLab.Morphism.no_rational_seed_block_contraction
+#print axioms CollatzLab.no_rational_seed_shifts_of_exclusion
+#print axioms CollatzLab.no_eventually_shifted_itinerary_of_exclusion
