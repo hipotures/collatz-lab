@@ -26,6 +26,7 @@ import CollatzLab.MinimalCertificate
 import CollatzLab.BoundedSeriesChecks
 import CollatzLab.PrematureValuation
 import CollatzLab.UniformStart
+import CollatzLab.CertificateSanity
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words

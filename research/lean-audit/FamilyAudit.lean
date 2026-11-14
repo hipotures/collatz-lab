@@ -320,3 +320,10 @@ import CollatzLab
 #print axioms CollatzLab.PolynomialPair.uniform_safe_level
 #print axioms CollatzLab.Morphism.universal_bounded_degree_six_certificate
 #print axioms CollatzLab.Morphism.universal_degree_six_valuation
+
+/-! Finite nonzero-pair and denominator semantics of the certificate conditions. -/
+#print axioms CollatzLab.PolynomialPair.convolution_zero_coefficients
+#print axioms CollatzLab.PolynomialPair.residual_of_zero_denominator
+#print axioms CollatzLab.PolynomialPair.first_pair_nonzero
+#print axioms CollatzLab.PolynomialPair.first_zero_denominator_order
+#print axioms CollatzLab.PolynomialPair.first_gap_denominator_nonzero

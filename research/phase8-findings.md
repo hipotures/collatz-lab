@@ -327,3 +327,32 @@ The independent exact Python implementation checks the vector bounds on its
 144 matrices, the constant `X`, both power caps, and the coefficient/height
 bounds of its explicit binary-word fixtures. No finite binary-prefix cache
 is used in the universal proof.
+
+## E6: finite nonzero conditions of the certificate interface
+
+**Lean-kernel-verified:** `PolynomialPair.first_pair_nonzero` derives a
+nonzero polynomial pair from the finite `First` condition alone.
+`first_gap_denominator_nonzero` derives a nonzero denominator from `First`
+and `Gap`, for every integer coefficient sequence and every image length.
+Neither result uses a rational realization, aperiodicity or any exclusion theorem.
+
+If all denominator coefficients are zero, convolution vanishes, so a nonzero
+first residual must be a numerator coefficient at index `N<=degree`.
+Since `m>=2^L`, monotonicity then gives
+
+```text
+2^(L*(L-1)*N) <= m^(degree*(L-1)+L+e),
+```
+
+contradicting `Gap`. The claimed nonzero data are therefore consequences of
+explicit finite arithmetic inputs, not a hidden rationality assumption.
+All constructed universal certificates also supply the nonzero denominator
+independently from linear algebra. Primitivity is unnecessary: the norm and
+leading-coefficient factorization already handle common integer content and
+common powers of `z`.
+
+The final local audit includes all **149** new Phase 8 theorem exports and
+retains every **157** baseline audit entry, for **306** declarations total.
+The actual Collatz definitions, `RealizesWord`, fixed-point definition,
+signed tower, Rust CLI, Rust tests and Cargo dependencies are unchanged from
+the starting commit. A clean rebuild and all full checks pass.

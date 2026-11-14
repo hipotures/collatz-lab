@@ -53,4 +53,4 @@ jobs:
           # Exact source declaration order/count, approved foundations only; tolerate
           # Lean's wrapping only when continuation tokens name those foundations.
           python3 research/lean-audit/check_axioms.py --self-test
-          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 301
+          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 306

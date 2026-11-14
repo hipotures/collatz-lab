@@ -35,11 +35,14 @@ A–D are complete. No main theorem proof obligation remains.
 **Pushed E4 checkpoint:** `50bdb4d3ad6916782b8283c875abe1dfd3466390`.
 **CI:** https://github.com/hipotures/collatz-lab/actions/runs/43583686517 — success.
 
-**Current additional result E5:** quantitative elimination and uniform starting
-level are kernel-verified. Every admissible morphism has a chosen certificate
-with first coefficient valuation below 70, height constant below `2^76`, and
-safe valuation at every `k>=6`. All full checks pass: 301 audited declarations,
-94 Rust tests, formatting, Clippy, both independent Python checkers.
+**Pushed E5 checkpoint:** `476cd2a0b3d2d099217745a06d8040bc622012a6`.
+**CI:** https://github.com/hipotures/collatz-lab/actions/runs/43584500897 — success.
+
+**Final local code checkpoint E6:** finite `First`/`Gap` conditions themselves
+force a nonzero denominator. All 149 new theorem exports are audited, every
+157 baseline audit entry is retained, and the complete count is 306.
+A fresh clean rebuild and all full checks pass before the final code push.
+No main or required milestone proof obligation remains.
 
 | Milestone | Verified status |
 |---|---|
@@ -51,14 +54,15 @@ safe valuation at every `k>=6`. All full checks pass: 301 audited declarations,
 
 ## Exact next obligations
 
-1. Record E5's pushed SHA and CI. A–D and all described E refinements are
-   complete. No main theorem proof obligation remains.
-2. Final interface audit: explicitly derive a nonzero denominator from the
-   finite first-residual and strict-gap conditions; it is already supplied
-   independently by every constructed universal certificate.
-3. Optional later research: sharper coefficient bounds through controlled
-   maximal minors/primitive vectors, or new scalar/vector transport for
-   broader substitution classes. No such improved statement is assumed.
+1. Record E6's pushed SHA and green CI, then finish the durable journal.
+   A–D and all described E refinements are complete. Do not repeat the
+   completed proof campaign or finite catalogues.
+2. Optional later work: sharpen the chosen coefficient bound and safe
+   starting level using controlled maximal minors or primitive null vectors.
+   The proved current values are `X=720*2^57`, valuation below 70, safe level 6.
+3. Optional new domains require a valid common block multiplier and new
+   scalar/vector transport. No general automatic-word, unequal-weight,
+   larger-alphabet Collatz or Periodicity Conjecture claim is proved.
 
 ## Constraints and failed shortcuts to retain
 
@@ -76,14 +80,14 @@ safe valuation at every `k>=6`. All full checks pass: 301 audited declarations,
 
 ```text
 lake build
-lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 301
+lake env lean research/lean-audit/FamilyAudit.lean | python3 research/lean-audit/check_axioms.py --expected-count 306
 cargo fmt --check
 cargo clippy --locked --all-targets --all-features -- -D warnings
 cargo test --locked --all-targets
 python3 research/mahler-uncovered/verify_uncovered.py --check
 ```
 
-The exact audit now includes all 144 new exported declarations (301 total).
+The exact audit now includes all 149 new exported declarations (306 total).
 Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
 
 ## A checkpoint details
@@ -243,3 +247,16 @@ Also run `python3 research/phase8/verify_polynomial.py`; CI runs it too.
   general exclusion and its hypotheses are unchanged.
 - Full checks pass: build, 301-declaration exact audit, 94 Rust tests,
   formatting, Clippy, both Python checkers, empty proof-escape scan, diff check.
+
+## E6 / final local validation
+
+- `CertificateSanity.lean` derives the pair/denominator nonzero conditions
+  from finite coefficient data and the strict gap, with no orbit assumptions.
+- `lake clean && lake build` succeeds from scratch. Exact audit: 306 entries,
+  all standard foundations only; parser self-tests pass (2 valid, 8 adversarial).
+- A source-to-audit comparison confirms every one of the 149 new theorem
+  exports is listed, and all 157 baseline entries remain.
+- 94 Rust tests, formatting, Clippy with `-D warnings`, both Python checkers,
+  empty proof-escape scan and full-baseline whitespace check pass.
+- The original `Word`, `MorphismWord`, `MorphismTower`, Rust source/test and
+  Cargo dependency files have no diff from the starting commit.

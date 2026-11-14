@@ -349,3 +349,19 @@ No bound on `N` or on the growth-contradiction index is asserted.
 The complete audit now contains 301 declarations, including all 144 new
 Phase 8 theorem exports. The old unbounded integer-elimination proof is
 retained as an independent existence proof.
+
+## E6: nonzero conditions and final trust audit
+
+`CertificateSanity.lean` derives the nonzero pair from `First`, and the
+nonzero denominator from `First` together with `Gap`. These proofs use only
+finite convolution and integer inequalities, with no realization or
+irrationality hypothesis. No primitive normalization is needed.
+
+The final exact audit has **306 declarations**: all 157 baseline entries and
+all 149 new Phase 8 theorem exports. The only permitted dependencies remain
+`propext`, `Classical.choice`, `Quot.sound` (or subsets/no axioms).
+A fresh `lake clean && lake build`, exact audit, parser adversarial tests,
+94 Rust tests, formatting, Clippy, both Python checkers, and the forbidden-token
+and whitespace scans all succeed. The original Collatz predicate, word and
+tower modules and the Rust sources/tests/dependencies are unchanged from the
+starting commit. Pushed code and CI are recorded in `phase8-progress.md`.
