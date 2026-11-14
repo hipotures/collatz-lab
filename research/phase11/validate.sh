@@ -35,6 +35,7 @@ python3 research/phase10/verify_sparse_family.py --check
 python3 research/phase10/generate_catalogue.py --check
 python3 research/phase11/verify_noncontracting.py
 python3 research/phase11/verify_spectral_boundary.py
+python3 research/phase11/verify_partial_return.py
 python3 paper/check_tex.py --lean-names > "$phase11_names_file"
 lake env lean "$phase11_names_file"
 git diff --check

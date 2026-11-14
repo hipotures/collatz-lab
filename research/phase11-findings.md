@@ -281,3 +281,83 @@ The contribution claimed here is a checked criterion and an application outside
 the repository's previous contraction scope. Whether either theorem statement
 or application is new in the wider literature remains **unverified**. No claim
 of publication, peer review, or general Periodicity Conjecture progress follows.
+
+## Second application: exclusion from a partial return
+
+`NonContractingPartialReturn.lean` defines exactly `1->1011`, `0->1111`.
+**All statements in this paragraph are kernel checked:** literal images and
+columns; both symbols; non-eventual-periodicity; a return of length S=4^k at
+position 2S for every level; `8S-3<=5W(2S)<=8S+3`; no fixed-length uniform
+contraction at any shift; and universal rational exclusion, every finite shift
+and all eventual shifted tails with either sign of odd denominator. Independent
+literal list evaluation through length 256 and signed/unreduced 81-bit numerator
+iteration are also kernel checked.
+
+The word begins with 10, so the initial-double hypothesis of the earlier morphism
+corollary is false. This does **not** assert that all possible square prefixes
+are absent. The new proof deliberately uses the shorter return inherited from
+the initial 101, not that corollary.
+
+For a purported eventual period, any nonzero residue modulo four sends a known
+zero at `4*(4*start)+1` into a forced-one column. Residue zero descends through
+the complement column at index one. This proves independent aperiodicity. Its
+parameters D=5,r0=4 satisfy `2^5=32<81=3^4`, so the generic spectral obstruction
+excludes every fixed chunk size.
+
+Put r=W(2S) and C=|p|+q for a hypothetical realization. The general sharp return
+bound gives `2^(S+r)<=C*3^r`. Raise to the fifth power and use the exact spectral
+transient `|5r-8S|<=3`:
+
+```
+2^(13S) <= 216*C^5*3^(8S).
+```
+
+Since `2^13=8192>6561=3^8`, the existing integer exponential-gap theorem
+contradicts this inequality along S=4^k. Actual orbit states need not be bounded.
+This proves the sharper return inequality has a concrete noncontracting
+application beyond the initial-double interface. No novelty claim is made.
+
+### Remaining hypotheses and next experiments
+
+1. **A wider partial-return criterion.** For a specified substitution and parent
+   return of period a and match length b, combine exact counts with the sharp
+   return inequality. A prospective sufficient strict margin is
+   `2^(D*b+r0*a)>3^(r0*a)`; spectral transients and rounding must be controlled
+   before exporting such a general theorem. The two examples here do not prove
+   this proposed general formulation.
+2. **Next concrete test:** `1->10111`, `0->11111`. The analogous period-two,
+   length-one return has prospective base margin `2^16>3^10`. Aperiodicity,
+   count transport, tails and signed semantics still need formal instantiation;
+   no exclusion theorem for this word is claimed here.
+3. **A ledger obstruction, not a counterexample to irrationality:** for
+   `1->101111`, `0->111111`, the same prospective margin fails:
+   `2^19=524288<531441=3^12`. Thus merely extending this partial-return ledger
+   to every length silently would be false. A sharper offset estimate or a
+   stronger return is needed; rational exclusion for that target is unresolved
+   by this development.
+4. **Normalized H specialization:** complete the analytic obligations above
+   only if the goal is transcendence or an exclusion beyond the return criteria.
+   Do not reuse the equal-weight scalar tower without actual seed transport.
+
+## Reproduction and proof-status inventory
+
+Run `bash research/phase11/validate.sh` from the isolated clone. It reads the
+exact audit count from current CI and runs the full issue #19 matrix, all three
+Phase 11 verifiers, the proof-escape scan, and the manuscript Lean-name check.
+The manuscript is read for checks only; no Phase 9 or paper file is modified.
+`research/phase11/Signatures.lean` prints the main formal interfaces for review.
+
+- **Kernel results:** the six Phase 11 Lean modules imported by `CollatzLab.lean`,
+  every new theorem and definition explicitly included in `FamilyAudit.lean`.
+- **Finite deterministic support:** three new Python verifiers, including
+  literal-index comparisons, 254 small square blocks, partial overlaps, 715
+  spectral parameter cases, effective witness levels, signed/unreduced prefixes
+  and both rational controls. These counts are not infinite proofs.
+- **Analytic deductions:** real-frequency limits interpreted from the explicit
+  integer estimates; no Lean real-analysis library or external theorem assumed.
+- **Unfinished routes:** the infinite formal H identities and their analytic
+  specialization/transcendence, the proposed general spectral return criterion,
+  and the length-five/six additional targets above. They are not required for
+  either proved concrete exclusion. General Collatz periodicity remains open.
+- **Priority:** unverified. This is a formalization and method/application
+  contribution within the repository, with no claim of first discovery.

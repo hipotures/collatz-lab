@@ -36,6 +36,7 @@ import CollatzLab.FiniteContractionCatalogue
 import CollatzLab.NonContractingChecks
 import CollatzLab.NonContractingExclusion
 import CollatzLab.SpectralThreshold
+import CollatzLab.NonContractingPartialReturn
 
 /-!
 # CollatzLab: Lean 4 proofs for Collatz parity words
@@ -99,6 +100,8 @@ Root module exporting the Lean 4 formalization of the paper
   impossibility of uniform contraction at every fixed chunk size and shift.
 * `CollatzLab.RepeatedPrefix` and `NonContractingExclusion`: rational exclusion
   from unbounded square prefixes, applied to the noncontracting 110/111 word.
+* `CollatzLab.NonContractingPartialReturn`: a second noncontracting exclusion,
+  for 1011/1111, using a partial return and exact prefix weight.
 * `CollatzLab.SpectralThreshold`: exact subcritical/supercritical classification
   of fixed-chunk contraction, including effective power-block witnesses.
 * `CollatzLab.FiniteContractionCatalogue`: 222 distinct finite column/window

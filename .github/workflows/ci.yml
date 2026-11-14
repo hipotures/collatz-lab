@@ -35,6 +35,7 @@ jobs:
         run: |
           python3 research/phase11/verify_noncontracting.py
           python3 research/phase11/verify_spectral_boundary.py
+          python3 research/phase11/verify_partial_return.py
 
       - name: Verify finite general-polynomial regressions
         run: python3 research/phase8/verify_polynomial.py
@@ -72,7 +73,7 @@ jobs:
           # Exact source declaration order/count, approved foundations only; tolerate
           # Lean's wrapping only when continuation tokens name those foundations.
           python3 research/lean-audit/check_axioms.py --self-test
-          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 545
+          printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 564
       - name: Check Lean declarations named in the manuscript
         run: |
           python3 paper/check_tex.py --lean-names > "$RUNNER_TEMP/NameCheck.lean"

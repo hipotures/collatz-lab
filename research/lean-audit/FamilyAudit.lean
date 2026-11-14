@@ -586,3 +586,24 @@ import CollatzLab
 #print axioms CollatzLab.offset_weight_upper
 #print axioms CollatzLab.prefixCycleForm_weight_height
 #print axioms CollatzLab.rational_matching_prefix_weight_bound
+
+/-! Phase 11: partial-return application and all new definition dependencies. -/
+#print axioms CollatzLab.Morphism.nonContracting110111
+#print axioms CollatzLab.NonContractingChecks.literalStep
+#print axioms CollatzLab.NonContractingChecks.literalIter
+#print axioms CollatzLab.prefixCycleForm
+#print axioms CollatzLab.Morphism.nonContracting1011
+#print axioms CollatzLab.Morphism.nonContracting1011_images
+#print axioms CollatzLab.Morphism.nonContracting1011_columns
+#print axioms CollatzLab.Morphism.nonContracting1011_not_periodic_from
+#print axioms CollatzLab.Morphism.nonContracting1011_not_eventually_periodic
+#print axioms CollatzLab.Morphism.nonContracting1011_partial_return
+#print axioms CollatzLab.Morphism.nonContracting1011_prefix_weight
+#print axioms CollatzLab.Morphism.nonContracting1011_no_uniform_chunks
+#print axioms CollatzLab.no_rational_seed_realizes_nonContracting1011
+#print axioms CollatzLab.no_rational_seed_shifted_nonContracting1011
+#print axioms CollatzLab.no_eventually_shifted_nonContracting1011_signed
+#print axioms CollatzLab.NonContractingPartialChecks.literalStep
+#print axioms CollatzLab.NonContractingPartialChecks.literalIter
+#print axioms CollatzLab.NonContractingPartialChecks.literal_semantics
+#print axioms CollatzLab.NonContractingPartialChecks.signed_finite_semantics

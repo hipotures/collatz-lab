@@ -2,24 +2,35 @@
 
 ## Resume here
 
-- Issue: <https://github.com/hipotures/collatz-lab/issues/19> (open).
+- Issue: <https://github.com/hipotures/collatz-lab/issues/19> (open for review).
+- PR: <https://github.com/hipotures/collatz-lab/pull/20> (**open, unmerged**).
 - Independent clone: `/home/user/DEV/collatz-lab-phase11`.
-- Branch: `codex/phase11-noncontracting`, based on fetched `origin/main`
-  `2efdd2b531d511a8c6204e1f43179761585ab066` (2026-11-14).
-- No Phase 11 milestone pushed yet. No PR yet. Never merge without approval.
-- First obligation: prove the literal `110/111` recurrences, eventual
-  aperiodicity and failure of contraction for every complete-image grouping.
-- Next: read the required Phase 8–10 implementations, then build the isolated
-  clone and implement `CollatzLab/NonContracting110111.lean`.
-- Gate B: reuse `Morphism.balance_power`; derive exact spectral statements
-  with explicit degeneracies. Gate C: rational exclusion is open; investigate
-  cocycles, congruences and actual seed transport without identifying real
-  and 2-adic limits.
-- Preserve `101/010` at `p=q=1` and all existing semantic controls. No changes
-  to `paper/`, Phase 9 reports, issue #15 or other checkouts.
-- Baseline CI configuration: 487 audited declarations. No local validations
-  run yet. Baseline run cited by issue: 43598836400 (not yet independently
-  inspected this session).
+- Branch: `codex/phase11-noncontracting`; base `origin/main`
+  `2efdd2b531d511a8c6204e1f43179761585ab066`.
+- Latest pushed checkpoint: `e435412021a6701b3b7cfc306f859ec371d0c2bc`;
+  observed CI success: run **43618593015**. The validated D changes below
+  are being committed next; inspect `git log -1` for the current head.
+- Completed: exact 110/111 semantics, aperiodicity, all-prefix frequency error,
+  impossibility of every fixed-length contraction partition at every shift;
+  general repeated-prefix rational exclusion and all shifts/tails; exact
+  subcritical iff classification, including effective witnesses and D=0;
+  sharp weight-dependent returns; second exclusion for 1011/1111.
+- Validation: final `lake clean` followed by the complete
+  `bash research/phase11/validate.sh` passes. **564 audited declarations**
+  (487 baseline + 70 new theorems + 7 definitions), standard foundations only;
+  **94 Rust tests**, all formatting/Clippy and required Python checks pass.
+  All 77 new declarations are independently matched to the audit inventory.
+- No required mathematical proof obligation remains for the implemented issue
+  deliverables. Optional next work: the general spectral partial-return
+  criterion, normalized H specialization/transcendence, or the length-five
+  target in the findings. They are proposals, not proved exclusions here.
+- Next commands: commit/push D, inspect PR CI, update its final description.
+  For later reproduction run `bash research/phase11/validate.sh` and
+  `lake env lean research/phase11/Signatures.lean`.
+- Preserve the 101/010 control at 1/1 and the all-one control at -1/1.
+  No edits to paper, Phase 9 reports, issue #15 or another checkout.
+- Owner decision: review PR #20 and authorize any eventual merge explicitly.
+  Do not merge or close the issue merely because this session ends.
 
 ## Initial repository checks
 
@@ -100,3 +111,29 @@ Checkpoint C full local validation passes: `bash research/phase11/validate.sh`
 verifiers, manuscript static check and all 32 Lean-name checks). The initial
 validation-script invocation had an incorrect relative root; it was corrected
 before the successful complete run. No mathematical check failed.
+
+## Checkpoint D — a second exclusion from partial repetitions
+
+- Checkpoint C pushed as `e435412021a6701b3b7cfc306f859ec371d0c2bc`.
+- `NonContractingPartialReturn.lean` compiles a second noncontracting target,
+  `1->1011,0->1111`. Independent aperiodicity, generic spectral noncontraction,
+  exact signed prefix counts and inherited partial returns imply universal
+  rational exclusion through the sharp height bound and `8192>6561`.
+- Every finite shift and eventual shifted tail is excluded, including either
+  sign of odd denominator. The word starts 10, so the first application via
+  the initial-double hypothesis does not directly cover it.
+- Literal list/index agreement through 256 bits and actual positive, negative
+  and unreduced 81-bit rational witnesses compile by ordinary reduction.
+  The third independent verifier reproduces the count/return/height ledger.
+- The findings record a prospective wider criterion and the precise length-six
+  failure of the same ledger, without calling it a rationality counterexample.
+- Full current audit count: 564 = 487 baseline + 70 new theorems + 7 new
+  definitions. Every new public declaration is explicitly audited.
+- Final clean rebuild and complete validation running before the D push.
+
+Final D local checks: clean Lean build and full validation script passed;
+separately piped the 564-entry Lean audit into `check_axioms.py`, and checked
+all 21 interfaces in `research/phase11/Signatures.lean`. No forbidden proof
+escapes or diagnostics. Source-to-audit comparison retains all 487 original
+entries in exact order and covers every one of the 77 new declarations.
+Checkpoint C CI observed success: run 43618593015. Phase 9/paper diff is empty.
