@@ -239,7 +239,7 @@ from a located failure with an existing target, byte-preserving completed
 reuse, and entry to a subsequent request. New scans and optimizer calls are
 forbidden in the fixture; the next request stops before its scan.
 
-Commands for one new obligation (read the journal before choosing parameters):
+Commands for the latest completed request (do not repeat its producer):
 
 ```bash
 ulimit -v 1048576
@@ -249,21 +249,24 @@ python3 -B research/phase13/overnight/summarize.py --write
 timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
-The new source above is intentional: transitions from `87092`, `87094`,
-`87096`, `87099`, `87100`, `87102`, `87103`, `87104`, `87109` and `87112` are certified,
+Transitions from `87092`, `87094`, `87096`, `87099`, `87100`, `87102`,
+`87103`, `87104`, `87109`, `87112` and `87113` are certified,
 with failures at indices `87093`, `87095`, `87098`, `87099`, `87101`, `87102`,
-`87103`, `87108`, `87111` and `87112`, and strict height increases at prefixes `87094`,
-`87096`, `87099`, `87100`, `87102`, `87103`, `87104`, `87109`, `87112` and `87113`.
+`87103`, `87108`, `87111`, `87112` and `87115`, and strict height increases at prefixes
+`87094`, `87096`, `87099`, `87100`, `87102`, `87103`, `87104`, `87109`, `87112`,
+`87113` and `87116`.
 All endpoint heights have 51,875 bits. The exact consecutive maximal plateaux
-have lengths 2, 2, 3, 1, 2, 1, 1, 5, 3, 1. The actual `87104` witness realizes
+have lengths 2, 2, 3, 1, 2, 1, 1, 5, 3, 1, 3. The actual `87104` witness realizes
 all five prefixes `87104..87108`, the longest plateau in this stored chain;
-the next witnesses realize `87109..87111` and the singleton `87112`.
-The new `87113` witness has not been scanned beyond its certified prefix;
+the next witnesses realize `87109..87111`, the singleton `87112`, and
+`87113..87115`.
+The new `87116` witness has not been scanned beyond its certified prefix;
 it differs from the stored `90000` witness and has smaller height.
 Check evidence headroom before further
-requests; remaining height and transition headroom is 1,116,916 and 86,641
-bytes. At the observed record sizes only one more transition fits the current
-transition file. Plan a separate bounded evidence segment before later work;
+requests; remaining height and transition headroom is 991,020 and 42,888
+bytes. Another transition of the latest size would exceed the current
+transition file cap. Implement and independently test a separate bounded
+evidence segment and its cross-segment references before another request;
 keep both fixed caps in force. No dense height profile or general
 plateau rule follows.
 
@@ -309,25 +312,27 @@ The third selected-basis update is `f'=8*f, g'=4*f+g`, the fourth is
 `f'=2*f, g'=g-f`, the fifth returns to `f'=4*f, g'=2*f+g`, the sixth is
 `f'=2*f, g'=f+g`, the seventh returns to `f'=2*f, g'=g-f`, and the eighth
 is `f'=32*f, g'=16*f+g`; the ninth returns to `f'=8*f, g'=4*f+g`, and
-the tenth returns to `f'=2*f, g'=f+g`.
+the tenth returns to `f'=2*f, g'=f+g`; the eleventh returns to
+`f'=8*f, g'=4*f+g`.
 A constant interval is classified as a maximal plateau only when certificates
 give strict height changes on both sides. This gives the finite lengths
-2, 2, 3, 1, 2, 1, 1, 5, 3, 1 and rejects the precise claim that each maximal plateau in this
-chain has length two. These fields are derived metadata, not an additional
+2, 2, 3, 1, 2, 1, 1, 5, 3, 1, 3 and rejects the precise claim that each
+maximal plateau in this chain has length two. These fields are derived metadata, not an additional
 minimum certificate.
 
 The derived `nondecreasing_width_test` compares adjacent intervals only when
-both have certified strict height changes on both sides. The nine adjacent
+both have certified strict height changes on both sides. The ten adjacent
 pairs include decreases from width 3 at 87096 to width 1 at 87099 and from
 width 2 at 87100 to width 1 at 87102, and from width 5 at 87104 to width 3
 at 87109, followed by width 3 at 87109 to width 1 at 87112. This
 falsifies the explicit finite claim that consecutive maximal plateau widths
 never decrease on this chain. A tied witness change or an unknown left
 boundary cannot establish a maximal plateau and is excluded from this test.
-No replacement rule or asymptotic behavior is inferred from ten widths.
+The new width-3 plateau adds a comparison, with no additional decrease.
+No replacement rule or asymptotic behavior is inferred from eleven widths.
 
 The `width_determines_basis_update_test` compares all equal-width pairs of
-certified maximal plateaux. Ten pairs are available on the current chain.
+certified maximal plateaux. Twelve pairs are available on the current chain.
 The singleton plateaux starting at 87099 and 87102 have different selected
 basis updates: respectively `[[2,0],[-1,1]]` and `[[2,0],[1,1]]`. This rejects
 the explicit finite claim that equal plateau widths determine equal selected
@@ -335,7 +340,9 @@ basis update matrices on this chain. The determinant remains 2 in each case;
 equal index growth does not fix the shear sign. The new singleton at 87103
 uses `[[2,0],[-1,1]]`, adding a second unequal-update pair with 87102.
 The singleton at 87112 uses `[[2,0],[1,1]]`, adding unequal-update pairs
-with 87099 and 87103, for four in total.
+with 87099 and 87103, for four in total. The new width-3 plateau at 87113
+has the same selected-basis update as the earlier width-3 plateaux at 87096
+and 87109, adding two comparisons and no new unequal-update pair.
 These are coordinates of
 the stored algorithm-selected bases, not an invariant of all possible bases.
 
@@ -351,5 +358,5 @@ The equal-width controls use those complete height runs for eligibility and
 raw vector multiplication to check unequal updates, independently of comparing
 coordinate rows. Tied witness changes and unknown left boundaries remain
 excluded. Smoke already invokes these controls and the probe.
-The new 87113 witness remains the next bounded research obligation; no
-extrapolation from these ten widths is justified.
+The new 87116 witness remains the next bounded research obligation after
+segmented evidence support; no extrapolation from these eleven widths is justified.
