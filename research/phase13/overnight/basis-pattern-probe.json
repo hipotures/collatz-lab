@@ -1,8 +1,8 @@
 {
   "format": "phase13-basis-pattern-probe-v1",
   "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
-  "height_source_sha256": "e6c9f50df7c16938f443c9e7a0ffb375b0e6904e91b321daa53d64af4dceddd6",
-  "transition_source_sha256": "efec67e776e65297cd0f2645357dbfd00f13f3ae98cb63e048e56a9912f894dc",
+  "height_source_sha256": "f164d02c9912d83252083aa40f8ccb67f75ab511714c01710b93478782031301",
+  "transition_source_sha256": "ae03bb42ab2ad046000d77cdef14da5f91e2e055641292720f8e06de92ad350e",
   "transition_sources": [
     {
       "path": "transitions.jsonl",
@@ -12,9 +12,9 @@
     },
     {
       "path": "transitions-0002.jsonl",
-      "bytes": 43853,
-      "records": 1,
-      "sha256": "49fd0fd72a893a544a4e08bc8e01c152f55ba1754dd9d44ee05c2798dcf54235"
+      "bytes": 87704,
+      "records": 2,
+      "sha256": "29e10c602a20ba4e28ece0e48c02c8bba25988d8fb5d8e9f670e62a1f11e1460"
     }
   ],
   "observed_links": [
@@ -265,6 +265,24 @@
             1
           ]
         ]
+      },
+      {
+        "source_N": 87118,
+        "constant_minimum_through_N": 87119,
+        "next_prefix_N": 87120,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
       }
     ],
     "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
@@ -281,7 +299,7 @@
     ],
     "nondecreasing_width_test": {
       "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-      "adjacent_maximal_plateau_pairs_checked": 11,
+      "adjacent_maximal_plateau_pairs_checked": 12,
       "hypothesis_falsified": true,
       "decreases": [
         {
@@ -318,7 +336,7 @@
     },
     "width_determines_basis_update_test": {
       "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
-      "equal_width_pairs_checked": 15,
+      "equal_width_pairs_checked": 19,
       "hypothesis_falsified": true,
       "counterexamples": [
         {
