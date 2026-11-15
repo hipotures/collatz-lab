@@ -9,6 +9,7 @@ EXPECTED_BRANCH="codex/phase13-overnight"
 PINNED_BASE="65b087dc62e4950e1c504fe34865acaacb9188c9"
 MAX_SECONDS=28800
 MAX_ROUNDS=64
+QUOTA_RETRY_SECONDS=600 # Retry five-hour usage limits every ten minutes.
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
@@ -177,14 +178,42 @@ while (( ROUND < MAX_ROUNDS )); do
     echo "Deadline timeout; stopping."
     break
   fi
-  if (( RESULT != 0 )); then
-    if grep -Eiq 'rate.?limit|usage.?limit|quota|429|authentication|invalid.?token|not logged in|login required' \
+  # Codex may report a failed turn through JSONL even with an unexpected
+  # zero exit status. Do not mistake a usage-window exhaustion for either a
+  # completed research turn or a fatal authentication failure.
+  ERROR_EVENT=0
+  if grep -Eq '"type"[[:space:]]*:[[:space:]]*"(error|turn\.failed)"' \
+      "$LOG_DIR/round-$TAG.jsonl"; then
+    ERROR_EVENT=1
+  fi
+  if (( RESULT != 0 || ERROR_EVENT != 0 )); then
+    if grep -Eiq 'authentication failed|unauthorized|invalid.?token|not logged in|login required|session expired|please run .*codex login' \
         "$LOG_DIR/round-$TAG.stderr" "$LOG_DIR/round-$TAG.jsonl"; then
-      echo "Authentication/quota error; stopping instead of looping."
+      echo "Authentication expired; unattended login is not possible. Stopping."
       break
     fi
+    if grep -Eiq 'rate[ _/-]*limit|usage[ _/-]*limit|quota|(^|[^0-9])429([^0-9]|$)|five.?hour|5.?hour|you have reached (your |the )?limit|limit reached|limit resets|resets at|too many requests|weekly limit|remaining usage' \
+        "$LOG_DIR/round-$TAG.stderr" "$LOG_DIR/round-$TAG.jsonl"; then
+      # The five-hour window can exhaust at any time. Poll rather than exit.
+      # Successful checkpointing and branch-only push above still happen.
+      FAILED=0
+      NO_PROGRESS=0
+      NOW="$(date +%s)"
+      REMAINING=$((DEADLINE - NOW))
+      if (( REMAINING < 180 )); then
+        echo "USAGE_LIMIT: overnight deadline reached; no more retries."
+        break
+      fi
+      WAIT=$QUOTA_RETRY_SECONDS
+      if (( WAIT > REMAINING )); then WAIT=$REMAINING; fi
+      echo "USAGE_LIMIT: Codex usage window exhausted at $(date -u -Is)."
+      echo "USAGE_LIMIT: retrying in ${WAIT}s at $(date -u -d "@$((NOW + WAIT))" -Is); total deadline unchanged."
+      echo "USAGE_LIMIT: no intervention needed unless login or the weekly quota requires it."
+      sleep "$WAIT"
+      continue
+    fi
     FAILED=$((FAILED + 1))
-    echo "Codex failed. Repeated failures will stop the driver."
+    echo "Codex failed without a recognized usage-window exhaustion."
   fi
   if (( FAILED >= 3 || NO_PROGRESS >= 3 )); then
     echo "Stopping after repeated failures or no useful versioned progress."
