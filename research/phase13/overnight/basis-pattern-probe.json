@@ -1,8 +1,8 @@
 {
   "format": "phase13-basis-pattern-probe-v1",
   "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
-  "height_source_sha256": "f164d02c9912d83252083aa40f8ccb67f75ab511714c01710b93478782031301",
-  "transition_source_sha256": "ae03bb42ab2ad046000d77cdef14da5f91e2e055641292720f8e06de92ad350e",
+  "height_source_sha256": "eae238301bbda84072afaeb016f8070ad388a349c21d3a2d535d30d033ab6f63",
+  "transition_source_sha256": "780ec5e5e8140eb012933c183d9054fd19ba36ea29e40f271e6de8d49e01045d",
   "transition_sources": [
     {
       "path": "transitions.jsonl",
@@ -12,9 +12,9 @@
     },
     {
       "path": "transitions-0002.jsonl",
-      "bytes": 87704,
-      "records": 2,
-      "sha256": "29e10c602a20ba4e28ece0e48c02c8bba25988d8fb5d8e9f670e62a1f11e1460"
+      "bytes": 131553,
+      "records": 3,
+      "sha256": "1e8fe5fb090b78f52159564ec3878b826aad707b09210543b5e778602dc0bf9d"
     }
   ],
   "observed_links": [
@@ -283,6 +283,24 @@
             1
           ]
         ]
+      },
+      {
+        "source_N": 87120,
+        "constant_minimum_through_N": 87120,
+        "next_prefix_N": 87121,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ]
       }
     ],
     "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
@@ -295,11 +313,12 @@
       87104,
       87109,
       87112,
-      87113
+      87113,
+      87120
     ],
     "nondecreasing_width_test": {
       "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-      "adjacent_maximal_plateau_pairs_checked": 12,
+      "adjacent_maximal_plateau_pairs_checked": 13,
       "hypothesis_falsified": true,
       "decreases": [
         {
@@ -331,12 +350,18 @@
           "to_source_N": 87116,
           "from_length": 3,
           "to_length": 2
+        },
+        {
+          "from_source_N": 87118,
+          "to_source_N": 87120,
+          "from_length": 2,
+          "to_length": 1
         }
       ]
     },
     "width_determines_basis_update_test": {
       "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
-      "equal_width_pairs_checked": 19,
+      "equal_width_pairs_checked": 23,
       "hypothesis_falsified": true,
       "counterexamples": [
         {
@@ -415,6 +440,31 @@
           ]
         },
         {
+          "from_source_N": 87102,
+          "to_source_N": 87120,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ]
+        },
+        {
           "from_source_N": 87103,
           "to_source_N": 87112,
           "interval_length": 1,
@@ -435,6 +485,31 @@
             ],
             [
               1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87112,
+          "to_source_N": 87120,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
               1
             ]
           ]
