@@ -81,6 +81,8 @@ All sign and reduction cases are material:
 - Simultaneous negation `(p,q)->(-p,-q)` preserves the itinerary. A negative
   odd q is allowed in the finite equivalence, but is excluded by
   `RealizesWord` until normalized positive.
+  Negating only q would be wrong: `(p,q)=(1,-1)` has next numerator 1,
+  whereas `(1,1)` has next numerator 2, so their next parities differ.
 - Cancelling a positive common divisor d of an admissible pair preserves
   precision because q odd implies d odd, so d is invertible modulo 2^n.
   Common **even** factors cannot be cancelled with n unchanged.
@@ -108,7 +110,9 @@ integer cross product has absolute value at least 2^n and at most 2hh'. Thus
 \]
 
 This proves strict bounded reconstruction uniqueness when `2B^2<2^n`; it
-does not prove existence in that box. The hostile A=2^(n-1) family has
+does not prove existence in that box. Strictness matters: at n=1, the
+distinct primitive rationals -1 and 1 both have height 1 and first parity 1,
+while `2B^2=2^n=2`. The hostile A=2^(n-1) family has
 H_n=2^(n-1): every odd q has centered numerator magnitude 2^(n-1).
 It disproves any uniform square-root existence bound for all cylinders.
 
@@ -353,7 +357,9 @@ T_{k+1}\le6\,3^6D(3^{R_k})^6\le D^6(3^{R_k})^6=T_k^6,
 
 because `6*3^6=4374<14^5<=D^5`. At k=2,
 `T_2=504*3^102`, `L_2=403`, and exact integer comparison gives
-`2*T_2^2<2^403`. If `2*T_k^2<2^L_k`, then
+`2*T_2^2<2^403`. A short separate arithmetic proof avoids any large-integer
+oracle: `3^204=(3^3)^68<2^340` and `2*504^2=508032<2^19`, so
+`2*T_2^2<2^359<2^403`. If `2*T_k^2<2^L_k`, then
 
 \[
 2T_{k+1}^2\le2T_k^{12}\le(2T_k^2)^6
@@ -369,7 +375,9 @@ rational value and of its primitive positive-denominator pair.
 
 The initial k=0,1 checks must use h_k, not T_k. Exactly,
 `2*3^2<2^11` and `2*297087259^2<2^67`. Both hold; `2*T_k^2<2^L_k`
-fails at those early levels. Therefore the claimed all-k formula is valid:
+fails at those early levels. The second check also follows immediately from
+`297087259<2^29`, giving `2*h_1^2<2^59<2^67`.
+Therefore the claimed all-k formula is valid:
 
 \[
 \boxed{H_{L_k}=\frac{\max(|P_k|,Q_k)}{\gcd(|P_k|,Q_k)}\quad(k\ge0).}\tag{14}
@@ -394,6 +402,8 @@ The valuation is finite for every such rational, and agrees with the exact
 length of common initial Collatz parities by (2). This definition counts
 distinct rational values; allowing arbitrary unreduced scalings or log H=0
 would require a different convention.
+Centered integer cylinder representatives have unbounded heights and precision
+at least N with log height at most N-1, so mu_2>=1 independently of Klapper.
 
 Here is the complete reciprocal argument. Irrationality implies H_N tends
 to infinity by the finite candidate argument. If `mu_2<infinity`, then for
@@ -505,6 +515,13 @@ normalization, odd scaling and nontrivial odd denominators. All 511 residues
 through 8 bits compare complete coefficient coverage to a centered-residue
 brute search. At N=11,12,13 a complete independent denominator search gives
 respectively `(-3,1), (509,513), (509,513)` and heights 3,513,513.
+There are elementary written lower certificates as well. At N=11 the
+residue is -3 mod 2048; height <=2 permits only q=1 and |p|<=2, so no
+solution exists. At N=12 the residue is 2045 mod 4096. For odd q,
+`p+3q=2048 mod 4096`. Height <=512 forces `1<=q<=511` and
+`-512<=p<=512`, hence `-2048<p+3q<2048`, a contradiction. The primitive
+pair (509,513) satisfies `509+3*513=2048` and has height 513.
+This independently explains the sharp jump, in addition to the brute scan.
 
 The main full run verified all **1,691 baseline records in ten families**,
 all **24 overnight records**, and all **16 intermediate transitions**.
@@ -593,7 +610,7 @@ for the stated proposition**, with limitations explicitly retained.
 | `height` | `max p.natAbs q.natAbs` | Correct symmetric signed norm; equals issue norm for q>0. |
 | `odd_cancel` | Odd integer d and `2^n \| d*x` imply `2^n \| x` | Includes negative d; excludes even cancellation. |
 | `parity_cross_iff` | Odd q,s: `p%2=r%2` iff `2 \| ps-rq` | Actual first parity, both signs. |
-| `cross_step` | Odd q,s and equal first parity: some odd c satisfies `2*D_next=c*D` | c is 1 or 3; exact integer identity. |
+| `cross_step` | Odd q,s and equal first parity: some odd c satisfies `2*D_next=c*D` | Proof chooses witness 1 or 3; exact integer identity. |
 | `cross_step_dvd` | Same hypotheses: divisibility of D by `2^(n+1)` iff next D by `2^n` | Correct one-bit loss and odd cancellation. |
 | `prefix_cross_iff` | All n,p,q,r,s; odd q,s: equal n parities iff `2^n \| ps-rq` | Genuine finite isometry; no positive denominator assumption. |
 | `cylinder_iff` | A actually realizes v for n bits with denominator 1; q odd | `Prefix q p v n` iff `InLattice A n p q`. |
@@ -874,6 +891,14 @@ first referee fixture used the reserved word `prefix` as a local hypothesis
 name. These were corrected and rerun. None was hidden as a passing test or
 fixed by strengthening a theorem premise. No theorem proof attempt failed
 with an unresolved mathematical obligation.
+
+A further fresh-reproduction attempt ran out of home-filesystem space during
+Rust compilation (exit 101); its log is preserved and the retry uses `/tmp`.
+The next run passed all mathematical checks but exposed a reviewer JSON-key
+ordering mismatch at its final byte comparison (exit 1). Parsed values were
+identical; explicit string keys now make serialization stable after reloading.
+These failures and their successful narrow corrections are retained in the
+validation record; the final whole-script completion is recorded separately.
 
 The author's cancelled 4,096-bit reference search is not rerun or called a
 success. Large minima here are certified independently rather than obtained

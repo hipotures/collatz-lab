@@ -534,7 +534,8 @@ def modular_cycles():
         need(evidence[first] == evidence[first+period], "claimed modular state repetition is false")
         need(evidence[identity][1] == (0, 1), "claimed identity map is false")
         output.append({"modulus": modulus, "cycle_start": first, "period": period,
-                       "identity_level": identity, "states_by_values_at_0_and_1": evidence})
+                       "identity_level": identity,
+                       "states_by_values_at_0_and_1": {str(k): value for k, value in evidence.items()}})
     return output
 
 

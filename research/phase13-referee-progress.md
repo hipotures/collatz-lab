@@ -66,12 +66,12 @@
 - **Next actions:** finish the clean reproduction, update exact log hashes,
   commit/push the source/verdict checkpoint, inspect reviewer-only PR diff,
   and open the separate unmerged review PR. Current reproduction session
-  uses `/tmp/collatz-phase13-final-reproduction`; inspect `reproduce-final.log`
+  uses `/tmp/collatz-phase13-final-reproduction-2`; inspect `reproduce-canonical.log`
   and actual exit before recording PASS. Do not repeat completed large
   computations if the completed script/JSON comparison already passes.
-- Before publishing the first checkpoint, preserve a detached, pinned source
-  checkout for reproduction, then transplant only new referee-owned commits
-  onto the unchanged base main **locally before any push**. This reconciles
+- Checkout isolation was completed before the first push: preserve a detached,
+  pinned source checkout for reproduction, then transplant only new
+  referee-owned commits onto unchanged base main locally. This reconciles
   the issue's required initial PR-head checkout with its required reviewer PR
   containing only new files relative to main. Never rewrite a pushed branch
   or move either implementation branch. Final standalone checker will accept
@@ -82,6 +82,9 @@
 - **First pushed checkpoint:**
   [`b5ece650e78eaef81c8cd70c81bd618745cfb7a6`](https://github.com/hipotures/collatz-lab/commit/b5ece650e78eaef81c8cd70c81bd618745cfb7a6).
   Remote branch was read back; no pushed history was rewritten.
+- **Second pushed checkpoint:**
+  [`3d828cfcd8b40ff480a03ef5e111c54811f485f3`](https://github.com/hipotures/collatz-lab/commit/3d828cfcd8b40ff480a03ef5e111c54811f485f3),
+  primary-source matrix, explicit verdicts and source/provenance findings.
 
 ## Startup and actual failures
 
@@ -138,3 +141,27 @@ has exact pinned head and is open/unmerged. CI run 43663195328 was read
 in detail: both `lean` and `check`, with every listed step, succeeded.
 Actual tools: Lean 4.18.0 (commit 11ccbced7964), rustc 1.100.0
 (0ef1bc386, 2026-11-09), Python 3.14.4.
+
+## Deterministic-output correction and final reproduction
+
+The first `/tmp` fresh reproduction passed the entire clean Lean/Rust/Python
+matrix and the independent full mathematical checks (193.758 seconds), then
+exited **1** at bytewise JSON comparison. The discrepancy was only key order
+in the modular-state metadata: integer dictionary keys sorted numerically,
+whereas reloading and re-saving the fixture had sorted string keys lexically.
+Parsed JSON values were checked equal before any correction.
+
+The reviewer checker now converts state-level keys to strings explicitly.
+A complete JSON round-trip comparison verifies that the new canonical
+serializer produces exactly the committed fixture, without changing any
+mathematical data. Self-tests and cycle identities pass. The report also
+adds short written arithmetic proofs of the strict uniqueness base and the
+two small exact minima. No implementation fix was made or required.
+
+The final whole reproduction is running in
+`/tmp/collatz-phase13-final-reproduction-2`; log:
+`/home/user/DEV/collatz-lab-phase13-referee-evidence/reproduce-canonical.log`.
+Do not assume the process survives a session. Read the actual log/status and
+the final deterministic comparison before claiming success. No mathematical
+proof/source/certificate obligation remains; this final validation and the
+unmerged reviewer PR handoff remain to finish.

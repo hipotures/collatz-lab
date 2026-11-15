@@ -82,6 +82,13 @@
       "cause": "Rust build failed: No space left on device (os error 28)",
       "log_sha256": "71988ce0f8c4d511385f696c4ecb8ab0deadbb59b7bc73310d675b0c0aa80c8b",
       "resolution": "removed only reviewer-created disposable target directories; retrying in /tmp"
+    },
+    {
+      "command": "fresh /tmp full reproduce.sh final byte comparison",
+      "exit_code": 1,
+      "cause": "numeric versus string sorting of JSON modular-state keys after fixture round trip",
+      "mathematical_outputs_equal_after_JSON_parsing": true,
+      "resolution": "explicit string state-level keys; full round-trip and self/cycle controls passed"
     }
   ],
   "environment": {
@@ -98,5 +105,5 @@
       "check": "completed/success; every step checked"
     }
   },
-  "reproduction_status": "Final fresh /tmp run in progress; no PASS inferred yet."
+  "reproduction_status": "Final canonical fresh run in /tmp/collatz-phase13-final-reproduction-2 is in progress; two prior full mathematical runs passed, whole-script comparison pending."
 }
