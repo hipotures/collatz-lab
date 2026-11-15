@@ -1,8 +1,8 @@
 {
   "format": "phase13-basis-pattern-probe-v1",
   "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
-  "height_source_sha256": "d4c62516b401401821ce9af362094d62bf64eaf82dffe3a8f8cd7e3e87f4cd75",
-  "transition_source_sha256": "31ba1052a41468caf48be9966ae50380b1818db248d75abb658d5f8d29396c9f",
+  "height_source_sha256": "81a21156f7cf355ae01cefa2d9cc73ca8275ccda3a0d01fce45db461b96fa07a",
+  "transition_source_sha256": "d76b54b836637868a2b68bd0e738b2f5d0186e70449691dc6f8b1f63d1c06b66",
   "observed_links": [
     {
       "from_N": 87092,
@@ -143,6 +143,24 @@
             1
           ]
         ]
+      },
+      {
+        "source_N": 87103,
+        "constant_minimum_through_N": 87103,
+        "next_prefix_N": 87104,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ]
       }
     ],
     "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
@@ -150,11 +168,12 @@
     "counterexample_source_N": [
       87096,
       87099,
-      87102
+      87102,
+      87103
     ],
     "nondecreasing_width_test": {
       "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-      "adjacent_maximal_plateau_pairs_checked": 5,
+      "adjacent_maximal_plateau_pairs_checked": 6,
       "hypothesis_falsified": true,
       "decreases": [
         {
@@ -173,7 +192,7 @@
     },
     "width_determines_basis_update_test": {
       "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
-      "equal_width_pairs_checked": 4,
+      "equal_width_pairs_checked": 6,
       "hypothesis_falsified": true,
       "counterexamples": [
         {
@@ -197,6 +216,31 @@
             ],
             [
               1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87102,
+          "to_source_N": 87103,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
               1
             ]
           ]
