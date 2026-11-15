@@ -53,6 +53,25 @@ def chain_controls(records, hashes, links, replayed):
         assert tied, "missing equal-height witness change control"
         assert all(row["source_N"] not in result["counterexample_source_N"] for row in tied)
 
+        # Independently enumerate every constant-height run in the tiny profile.
+        # Compare the reported decreases with these full-height runs, including
+        # the strict boundaries; witness changes alone must not count as edges.
+        direct, lo, last = {}, 0, max(records)
+        while lo <= last:
+            hi = lo
+            while hi < last and records[hi + 1]["H"] == records[lo]["H"]:
+                hi += 1
+            if lo > 0 and hi < last:
+                direct[lo] = hi - lo + 1
+            lo = hi + 1
+        width_test = result["nondecreasing_width_test"]
+        assert width_test["hypothesis_falsified"] and width_test["decreases"]
+        for decrease in width_test["decreases"]:
+            left, right = decrease["from_source_N"], decrease["to_source_N"]
+            assert decrease["from_length"] == direct[left] > direct[right] == decrease["to_length"]
+            assert right == left + direct[left]
+            assert all(row["source_N"] not in (left, right) for row in tied)
+
         # A strict right boundary alone cannot establish a maximal plateau.
         row = next(row for row in result["intervals"]
                    if row["strict_height_increase_at_next_prefix"])
@@ -61,6 +80,8 @@ def chain_controls(records, hashes, links, replayed):
                                            {source: chain[source]}, {"results": [replayed[source]]})
         assert not isolated["intervals"][0]["strict_height_increase_at_source"]
         assert not isolated["hypothesis_falsified"]
+        assert not isolated["nondecreasing_width_test"]["hypothesis_falsified"]
+        assert isolated["nondecreasing_width_test"]["adjacent_maximal_plateau_pairs_checked"] == 0
 
         bad_replay = deepcopy(replay)
         bad_replay["results"][0]["constant_minimum_through_N"] += 1
@@ -247,6 +268,7 @@ def main():
           f"{checked} small transition certificates ({tied} ties, {strict} strict increases); "
           f"{len(mutations)} rejected corruptions; {resume} publication/resumption controls; H_11=3, H_12=513")
     print(f"PASS: {chain_count} independently certified small chain links ({chain_ties} ties); "
+          f"width decreases agree with direct complete height runs; "
           f"unknown left boundary stays unclassified; {chain_bad} malformed chains rejected")
 
 

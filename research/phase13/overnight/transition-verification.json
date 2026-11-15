@@ -1,9 +1,9 @@
 {
   "format": "phase13-transition-replay-v1",
   "classification": "independent finite certificate; no asymptotic inference",
-  "source_sha256": "e83434b2e508be7859bb5af54e87c54c36ff22f3b2c949f705ac6bec5307781e",
-  "source_bytes": 131315,
-  "height_source_sha256": "6850209b82258f5fa86f933369141fa8390dd8f05b3da9723ed9a819ecde0865",
+  "source_sha256": "0cfdbc285eed7ccd825b5e002e0807890eae66667dad6d4ff1eca707bb4410be",
+  "source_bytes": 175082,
+  "height_source_sha256": "080fc8f26a3b54d6a93dfdf39d28bde7d8ac5022a71040b86ae35bd85d22661d",
   "results": [
     {
       "source_N": 87092,
@@ -28,6 +28,15 @@
       "first_failure_index": 87098,
       "target_N": 87099,
       "constant_minimum_through_N": 87098,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87099,
+      "first_failure_index": 87099,
+      "target_N": 87100,
+      "constant_minimum_through_N": 87099,
       "strict_height_increase_at_target": true,
       "source_height_bits": 51875,
       "target_height_bits": 51875

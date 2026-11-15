@@ -100,11 +100,28 @@ def certified_chain(heights, hashes, transitions, replay):
     counterexamples = [row for row in chain if row["interval_length"] != 2
                       and row["strict_height_increase_at_source"]
                       and row["strict_height_increase_at_next_prefix"]]
+    # Compare adjacent intervals only when BOTH are certified maximal plateaux.
+    # A tied witness change or unknown left boundary cannot support this test.
+    comparisons, decreases = 0, []
+    for left, right in zip(chain, chain[1:]):
+        if not all(row["strict_height_increase_at_source"]
+                   and row["strict_height_increase_at_next_prefix"] for row in (left, right)):
+            continue
+        comparisons += 1
+        if right["interval_length"] < left["interval_length"]:
+            decreases.append({"from_source_N": left["source_N"],
+                              "to_source_N": right["source_N"],
+                              "from_length": left["interval_length"],
+                              "to_length": right["interval_length"]})
     return {"classification": "derived exact finite metadata from separately replayed certificates",
             "intervals": chain,
             "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
             "hypothesis_falsified": bool(counterexamples),
-            "counterexample_source_N": [row["source_N"] for row in counterexamples]}
+            "counterexample_source_N": [row["source_N"] for row in counterexamples],
+            "nondecreasing_width_test": {
+                "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
+                "adjacent_maximal_plateau_pairs_checked": comparisons,
+                "hypothesis_falsified": bool(decreases), "decreases": decreases}}
 
 
 def probe():
@@ -234,6 +251,9 @@ def main():
     chain = result["certified_transition_chain"]
     print(f"PASS: {len(chain['intervals'])} certified chain intervals; "
           f"two-prefix plateau claim falsified={chain['hypothesis_falsified']}")
+    width_test = chain["nondecreasing_width_test"]
+    print(f"PASS: {width_test['adjacent_maximal_plateau_pairs_checked']} adjacent maximal plateau pairs; "
+          f"nondecreasing widths falsified={width_test['hypothesis_falsified']}")
 
 
 if __name__ == "__main__":
