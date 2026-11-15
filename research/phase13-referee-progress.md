@@ -11,8 +11,8 @@
   overnight: `76bf6136c334c1db9e52e399fcc33fd4c20b9c24`.
   All live refs matched at startup. PR #29 is open/unmerged; issues #28/30/31
   are open. CI run 43663195328 at the pinned PR head was read as success.
-- Mathematical/source review is complete; the final fresh reproduction and
-  separate review PR handoff are in progress. Main theorem verdict **PASS**;
+- Mathematical/source review and final fresh reproduction are complete;
+  the separate review PR handoff is in progress. Main theorem verdict **PASS**;
   see report section 13 for separate provenance/priority/integration decisions.
   A new empty build directory successfully rebuilt all 87 Lean targets.
   `bash research/phase13/validate.sh` completed, exit 0: 94 Rust tests,
@@ -63,12 +63,13 @@
   counterexample (-1,1/3); Chen–Winterhof's unqualified Roth sentence needs
   algebraicity, with an independent Liouville counterexample. These do not
   invalidate the scoped Phase 13 proof or their corrected useful mechanisms.
-- **Next actions:** finish the clean reproduction, update exact log hashes,
-  commit/push the source/verdict checkpoint, inspect reviewer-only PR diff,
-  and open the separate unmerged review PR. Current reproduction session
-  uses `/tmp/collatz-phase13-final-reproduction-2`; inspect `reproduce-canonical.log`
-  and actual exit before recording PASS. Do not repeat completed large
-  computations if the completed script/JSON comparison already passes.
+- **Next actions:** commit/push final validation metadata, inspect reviewer-only
+  PR diff, open the separate unmerged review PR, read its state/CI and record
+  that final handoff. No mathematical obligation remains. The clean whole
+  reproduction in `/tmp/collatz-phase13-final-reproduction-2` completed,
+  **exit 0**, including both bytewise JSON comparisons. `reproduce-canonical.log`
+  and `phase13/referee/validation.json` preserve its results/hashes. Do not
+  repeat completed large computations without a new failure or source change.
 - Checkout isolation was completed before the first push: preserve a detached,
   pinned source checkout for reproduction, then transplant only new
   referee-owned commits onto unchanged base main locally. This reconciles
@@ -85,6 +86,9 @@
 - **Second pushed checkpoint:**
   [`3d828cfcd8b40ff480a03ef5e111c54811f485f3`](https://github.com/hipotures/collatz-lab/commit/3d828cfcd8b40ff480a03ef5e111c54811f485f3),
   primary-source matrix, explicit verdicts and source/provenance findings.
+- **Canonical checker checkpoint:**
+  [`deac930476c000b8aa8bfb1bb27201dcbcabcafc`](https://github.com/hipotures/collatz-lab/commit/deac930476c000b8aa8bfb1bb27201dcbcabcafc).
+  The final fresh whole reproduction validated this exact code and fixtures.
 
 ## Startup and actual failures
 
@@ -158,10 +162,10 @@ mathematical data. Self-tests and cycle identities pass. The report also
 adds short written arithmetic proofs of the strict uniqueness base and the
 two small exact minima. No implementation fix was made or required.
 
-The final whole reproduction is running in
+The final whole reproduction completed in
 `/tmp/collatz-phase13-final-reproduction-2`; log:
 `/home/user/DEV/collatz-lab-phase13-referee-evidence/reproduce-canonical.log`.
-Do not assume the process survives a session. Read the actual log/status and
-the final deterministic comparison before claiming success. No mathematical
-proof/source/certificate obligation remains; this final validation and the
-unmerged reviewer PR handoff remain to finish.
+It passed **exit 0**, with byte-identical statement and independent-result
+JSON. The full arithmetic stage took 193.793 seconds. No computation remains
+running and no mathematical proof/source/certificate obligation remains.
+The unmerged reviewer PR handoff remains to finish.

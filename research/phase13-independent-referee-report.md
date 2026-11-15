@@ -6,8 +6,9 @@ finite certificates support the claim. The analytic deduction is written
 mathematics, not a Lean real-limit theorem. The supplementary final-head
 provenance snapshot fails, and mathematical priority remains unverified.
 Integration and publication are separate conditional decisions in section 13;
-no merge or publication is authorized. Final reproduction status and pushed
-checkpoints are recorded in the resume journal.
+no merge or publication is authorized. The final fresh whole reproduction
+passed, exit 0, including both deterministic evidence comparisons. Pushed
+checkpoints and the separate reviewer PR are recorded in the resume journal.
 
 Task: [#31](https://github.com/hipotures/collatz-lab/issues/31).
 Implementation: [PR #29](https://github.com/hipotures/collatz-lab/pull/29),
@@ -737,6 +738,12 @@ criterion and not a separate Lean theorem.
 
 The conditional two-shadow refinement also survives scrutiny. Suppose
 `log h_k/L_k -> c_*`, which is not proved by raw gcd samples. On
+the raw side this exponent is established: `Q_k=3^R_k*(1-2^S/3^r_V)`,
+and `2^S/3^r_V=2^(-g*S+O(1))` tends to zero because
+`g=(5/7)log2(3)-1>0` (indeed `3^5>2^7`). The raw height is squeezed
+between Q_k and T_k, so its normalized log tends to c_*. Thus the still
+unproved condition `log2 gcd(|P_k|,Q_k)=o(S)` would imply the reduced-height
+premise. On
 `L_(k-1)<N<=L_k`, a minimum either equals y_k, in which case its normalized
 height is at least c_*-o(1), or is distinct. The latter case has both
 `log H_N >= ((1-c_*)/6-o(1))*L_k` from y_(k-1), and
@@ -898,7 +905,15 @@ The next run passed all mathematical checks but exposed a reviewer JSON-key
 ordering mismatch at its final byte comparison (exit 1). Parsed values were
 identical; explicit string keys now make serialization stable after reloading.
 These failures and their successful narrow corrections are retained in the
-validation record; the final whole-script completion is recorded separately.
+validation record. The final fresh whole-script reproduction **passed,
+exit 0**, including the clean build, complete inherited matrix, independent
+signatures/axioms, all exact certificates and both bytewise JSON comparisons.
+The independent arithmetic stage took 193.793 seconds in that run; this is
+a local timing observation, not a complexity guarantee.
+
+The reviewer PR contains only new research files against main; its ordinary
+CI therefore checks main's baseline. That CI is not substituted for the
+separate pinned-implementation reproduction with all 653 audited records.
 
 The author's cancelled 4,096-bit reference search is not rerun or called a
 success. Large minima here are certified independently rather than obtained

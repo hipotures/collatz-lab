@@ -81,14 +81,14 @@
       "exit_code": 101,
       "cause": "Rust build failed: No space left on device (os error 28)",
       "log_sha256": "71988ce0f8c4d511385f696c4ecb8ab0deadbb59b7bc73310d675b0c0aa80c8b",
-      "resolution": "removed only reviewer-created disposable target directories; retrying in /tmp"
+      "resolution": "Removed only reviewer-created disposable target directories; full fresh /tmp reproduction passed, exit 0."
     },
     {
       "command": "fresh /tmp full reproduce.sh final byte comparison",
       "exit_code": 1,
       "cause": "numeric versus string sorting of JSON modular-state keys after fixture round trip",
       "mathematical_outputs_equal_after_JSON_parsing": true,
-      "resolution": "explicit string state-level keys; full round-trip and self/cycle controls passed"
+      "resolution": "Explicit string keys; round-trip check and final fresh whole reproduction passed, exit 0."
     }
   ],
   "environment": {
@@ -105,5 +105,56 @@
       "check": "completed/success; every step checked"
     }
   },
-  "reproduction_status": "Final canonical fresh run in /tmp/collatz-phase13-final-reproduction-2 is in progress; two prior full mathematical runs passed, whole-script comparison pending."
+  "reproduction_status": "PASS: whole fresh canonical reproduce.sh, exit 0; both deterministic JSON comparisons passed.",
+  "final_fresh_reproduction": {
+    "command": "bash research/phase13/referee/reproduce.sh /tmp/collatz-phase13-final-reproduction-2",
+    "exit_code": 0,
+    "referee_code_commit": "deac930476c000b8aa8bfb1bb27201dcbcabcafc",
+    "referee_checks_sha256": "92fdb9adb69ddcc507630be0af9b93287ddb2d1b3d0cd9f3f5b7ad79ceca1888",
+    "outer_log_sha256": "aea9761a298a4e72aca4e0e7e54a01d2edeb227dc68a83c2e46455b2631e6e6c",
+    "independent_arithmetic_seconds": 193.793,
+    "results": [
+      {
+        "file": "clean-lake-build.log",
+        "bytes": 3840,
+        "sha256": "108c95ba880c81c0d206e2c6864df323b2cf9cb632ae6b851e34970f0aa99cdd"
+      },
+      {
+        "file": "full-validation.log",
+        "bytes": 39675,
+        "sha256": "c984846b054f6e167df7e93e7c62d7b9a6dc8423981c9e6ca45d220244fe6635"
+      },
+      {
+        "file": "axioms.log",
+        "bytes": 59616,
+        "sha256": "f96445e541b3068b67e596f6e9fe8941ef739a238f67933a5849c5be15e2a926"
+      },
+      {
+        "file": "signatures.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "types.log",
+        "bytes": 13409,
+        "sha256": "d6e423f38834b97e69d5796cefcd31840dba2c538611c1236f7a9da446c0c581"
+      },
+      {
+        "file": "independent.log",
+        "bytes": 4644,
+        "sha256": "e73985b853a04eb84e29972511d6410fb41f685e66a0030b598af4b6d34c9126"
+      },
+      {
+        "file": "independent-results.json",
+        "bytes": 16273,
+        "sha256": "332ec670f4dfef43f714dfff59c721e909be7587e2314d25b5f89290b2240360"
+      },
+      {
+        "file": "lean-statements.json",
+        "bytes": 34650,
+        "sha256": "664caee01ad7f3d5b972e7d15b077e6485b7b6842926a80b30faacfdfdcf9f8c"
+      }
+    ],
+    "limits": "Timings are local observations. No large optimizer rerun; full exact certificates re-proved by signed coefficient coverage."
+  }
 }
