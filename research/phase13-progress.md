@@ -11,10 +11,16 @@
   [`282b3715c95c26bac1077fecd0df457bd277cb57`](https://github.com/hipotures/collatz-lab/commit/282b3715c95c26bac1077fecd0df457bd277cb57).
 - Checkpoint C/D pushed normally:
   [`2684bc31f434ea988f60ac6687345cd18ab8474f`](https://github.com/hipotures/collatz-lab/commit/2684bc31f434ea988f60ac6687345cd18ab8474f).
-- Checkpoint E: all-level explicit rational shadows and finite height bounds
-  now Lean verified; full clean validation passes. This commit's proof SHA is
-  recorded in the final metadata handoff. Ten families through 16,384 bits
-  have 1,691 independently verified optimality certificates.
+- Checkpoint E pushed normally:
+  [`aa446dad0c1e096ec82e44c5ae93f0fe93eff7ca`](https://github.com/hipotures/collatz-lab/commit/aa446dad0c1e096ec82e44c5ae93f0fe93eff7ca).
+  All-level explicit rational shadows and finite height bounds are Lean
+  verified; full clean validation passes. Ten families through 16,384 bits
+  have 1,691 independently verified optimality certificates. This journal-only
+  handoff follows that immutable proof checkpoint; `git log -1` identifies
+  the handoff's own SHA.
+- Review [PR #29](https://github.com/hipotures/collatz-lab/pull/29) is open,
+  unmerged, against unchanged main `93647176a526eb8660b4dbf2ac428b0053117659`.
+  Issue #28 remains open; issue #15 and the manuscript are untouched.
 - Main checkout `/home/user/DEV/collatz-lab` and the manuscript worktree are
   untouched. No agents were spawned. Do not switch those checkouts.
 - Gate 0 found direct prior coverage: Klapper–Goresky 1997 minimizes exactly
@@ -40,10 +46,10 @@
 - **Next command after fetching/checking status:** `bash research/phase13/validate.sh`.
   It reproduces all inherited checks and bounded new evidence. The audit has
   **653** exact entries (60 new, 593 baseline preserved), wired to CI.
-- Issue #28 remains open. All gates have a reviewable milestone; open the
-  requested PR after pushing this validated proof checkpoint. Integration,
-  issue closure and any publication remain owner decisions. The final
-  handoff below records PR/head CI without merging anything.
+- All gates have a reviewable conclusion at PR #29. Integration, issue closure
+  and any publication remain owner decisions. The final handoff below records
+  PR/head CI without merging anything. Check live PR head/CI before continuing;
+  no process or agent is assumed to remain active after this session.
 
 ## Source-gate record
 
@@ -226,3 +232,37 @@ search or raw-gcd observation is treated as an originality proof.
 No paper/, Phase 9 report, historical referee report, author/contact metadata,
 main checkout, other branch or issue state was modified. No agents were
 spawned, and no merge, publication or unsolicited message was performed.
+
+## Review handoff and CI
+
+The complete proof/evidence checkpoint was pushed as
+`aa446dad0c1e096ec82e44c5ae93f0fe93eff7ca`. [PR #29](https://github.com/hipotures/collatz-lab/pull/29)
+was opened against live main `93647176a526eb8660b4dbf2ac428b0053117659`.
+The PR was independently read back open, unmerged and mergeable; mergeability
+is not integration authorization. Issue #28 remains open. The original main
+checkout was rechecked and remains clean on its original branch.
+
+Proof-head [GitHub Actions run 43662662430](https://github.com/hipotures/collatz-lab/actions/runs/43662662430)
+was actually read **completed/success** at 01:26:44 UTC on 15 November 2026.
+Both `check` and `lean`, including every listed step, completed successfully.
+The local clean build and full matrix are independently recorded above. This
+final handoff commit changes only this journal; its own SHA is given by
+`git log -1 --format=%H`. Check the live PR for any subsequent head and CI.
+
+The reviewable program has passed Gates 0–5: primary-source comparison and
+well-posed definitions; exact signed formal bridge/minima; independent exact
+engines and certificates; bounded multi-family data; two serious analytical
+routes, exact subsequence shadows and a falsified coprimality shortcut; scoped
+kernel verification and independent replication. It does **not** determine
+the exact B or claim a novel general theorem. Owner decisions are mathematical
+review/integration and any separate publication assessment. No owner input is
+needed to finish this handoff, and no background continuation is assumed.
+
+**One-line resumption prompt:** Continue issue #28 / PR #29 on
+`codex/phase13-rational-height`, proof checkpoint `aa446dad0c1e096ec82e44c5ae93f0fe93eff7ca`;
+read this Resume here section and theory Sections 6–9, inspect live head/CI,
+then investigate asymptotic odd-gcd cancellation and intermediate best
+approximants. Preserve nonconvergence, the known-method attribution, 653-name
+audit, 1,691 exact certificates, and the 347 / 347^2 cycle counterexamples.
+Do not repeat the completed algorithm, claim a limit exists, remove gcds,
+change paper/, merge the PR or close the issue without owner authorization.
