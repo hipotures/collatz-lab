@@ -11,8 +11,10 @@
   overnight: `76bf6136c334c1db9e52e399fcc33fd4c20b9c24`.
   All live refs matched at startup. PR #29 is open/unmerged; issues #28/30/31
   are open. CI run 43663195328 at the pinned PR head was read as success.
-- Mathematical/source review and final fresh reproduction are complete;
-  the separate review PR handoff is in progress. Main theorem verdict **PASS**;
+- **Review complete.** Separate [review PR #32](https://github.com/hipotures/collatz-lab/pull/32)
+  is open and unmerged against unchanged main, with only 11 new research files.
+  Mathematical/source review and final fresh reproduction are complete.
+  Main theorem verdict **PASS**;
   see report section 13 for separate provenance/priority/integration decisions.
   A new empty build directory successfully rebuilt all 87 Lean targets.
   `bash research/phase13/validate.sh` completed, exit 0: 94 Rust tests,
@@ -63,9 +65,13 @@
   counterexample (-1,1/3); Chen–Winterhof's unqualified Roth sentence needs
   algebraicity, with an independent Liouville counterexample. These do not
   invalidate the scoped Phase 13 proof or their corrected useful mechanisms.
-- **Next actions:** commit/push final validation metadata, inspect reviewer-only
-  PR diff, open the separate unmerged review PR, read its state/CI and record
-  that final handoff. No mathematical obligation remains. The clean whole
+- **No remaining issue #31 review obligation.** Owner decisions are whether
+  to consider PR #29 alone as scoped research/formalization, and whether to
+  authorize a separate overnight-provenance repair. Do not merge, publish or
+  close an issue. A changed implementation head needs a new incremental audit.
+  Check PR #32's current CI before any later integration proposal; its ordinary
+  CI tests main's baseline and does not replace the pinned-source reproduction.
+  The clean whole
   reproduction in `/tmp/collatz-phase13-final-reproduction-2` completed,
   **exit 0**, including both bytewise JSON comparisons. `reproduce-canonical.log`
   and `phase13/referee/validation.json` preserve its results/hashes. Do not
@@ -89,6 +95,10 @@
 - **Canonical checker checkpoint:**
   [`deac930476c000b8aa8bfb1bb27201dcbcabcafc`](https://github.com/hipotures/collatz-lab/commit/deac930476c000b8aa8bfb1bb27201dcbcabcafc).
   The final fresh whole reproduction validated this exact code and fixtures.
+- **Final validated report/evidence checkpoint:**
+  [`4002044218b64f819feb4a9679a4c8555bb42ed7`](https://github.com/hipotures/collatz-lab/commit/4002044218b64f819feb4a9679a4c8555bb42ed7).
+  Pushed and used to open PR #32. A final journal-only handoff follows;
+  `git log -1 --format=%H` / PR #32 identify that delivery commit.
 
 ## Startup and actual failures
 
@@ -168,4 +178,30 @@ The final whole reproduction completed in
 It passed **exit 0**, with byte-identical statement and independent-result
 JSON. The full arithmetic stage took 193.793 seconds. No computation remains
 running and no mathematical proof/source/certificate obligation remains.
-The unmerged reviewer PR handoff remains to finish.
+The separate reviewer PR was then opened and read back open/unmerged.
+Its remote changed-file list agrees exactly with the 11 added local paths;
+no implementation, CI, existing research or paper file is changed.
+
+## Completed review handoff
+
+- [PR #32](https://github.com/hipotures/collatz-lab/pull/32), branch
+  `review/phase13-independent-referee`, is the reviewer-only deliverable.
+- Scientific verdict: the written nonconvergence theorem and the exact scoped
+  finite statements **PASS**. Neither analytic limits nor modular infinite
+  deductions are mislabeled as separate Lean theorems.
+- Adverse finding: supplementary `overnight-summary.md` and
+  `checkpoint-audit.json` fail as final-head provenance (23/15 versus 24/16).
+  The mathematical certificates themselves pass independent verification.
+- Historical-method attribution passes; exact priority remains unverified.
+  Publication is not ready. The corrected-source sign/algebraicity limits
+  and all genuine access limitations are in report section 11.
+- The final clean reproduction passed in full, exit 0, with two byte-identical
+  JSON outputs. The validation manifest preserves exact hashes, 94 passing
+  Rust tests, 653-record audit, all 1,691/24 minima, 16 transitions and gcds
+  k=0..8, plus failed attempts and their resolutions.
+- No background work remains, no other agents were used, no PR was merged,
+  and issues #28/#30/#31 remain open. Exact B and asymptotic gcd cancellation
+  are original research questions, not uncompleted referee obligations.
+- Resume only if the owner requests an incremental source review, an
+  overnight metadata repair, or an explicit integration/publication action.
+  The complete evidence and reports are pushed; no active process is needed.
