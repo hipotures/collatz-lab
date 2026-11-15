@@ -5,9 +5,10 @@
 - Isolated clone: `/home/user/DEV/collatz-lab-phase13`.
 - Branch: `codex/phase13-rational-height`, based on live origin/main
   `93647176a526eb8660b4dbf2ac428b0053117659` (checked 2026-11-15).
-- Checkpoint A: source gate and independent mathematical definitions ready.
-  Its exact commit SHA is `git log -1 --format=%H` when checking out this
-  checkpoint; the next journal update records the pushed immutable SHA.
+- Checkpoint A pushed normally:
+  [`25eaf8e992108bf4bc3aeccfd4b020551951d2a7`](https://github.com/hipotures/collatz-lab/commit/25eaf8e992108bf4bc3aeccfd4b020551951d2a7).
+- Checkpoint B: two independent exact engines and first 1,024-bit datasets.
+  Its SHA is recorded in the next immutable journal update.
 - Main checkout `/home/user/DEV/collatz-lab` and the manuscript worktree are
   untouched. No agents were spawned. Do not switch those checkouts.
 - Gate 0 found direct prior coverage: Klapper–Goresky 1997 minimizes exactly
@@ -16,11 +17,15 @@
 - Read `phase13-prior-art.md` and `phase13-theory.md` first. Source cache and
   supplementary evidence: `/home/user/DEV/collatz-lab-phase13-evidence/`.
   Third-party texts are not committed; source hashes are reproducible metadata.
-- Next obligation: implement **independent** floor-sum bounded-box search and
-  adaptive odd-denominator lattice search, certify minimality, exhaust all
-  small residues, and reproduce H_11=3 / H_12=513. Then pursue both analytic
-  routes and a small Lean development. A preliminary known lemma is not the
-  conclusion of this program.
+- Engine obligation completed: reference floor-sum search, adaptive odd-coset
+  search, independent minimality verifier, all small residues and signed parity
+  cylinders. H_11=3 / H_12=513 reproduced by actual numerator scans.
+- Next: extend experiments, saving both sides of large jumps. The dense
+  4,096-bit exploratory scan has systematic frontierSix jumps at
+  N=12,68,404,2420, obeying `n_next=6*n-4`. Investigate substituted rational
+  shadows from `100111...` (seed -3), and pursue finite drift lower bounds.
+  Then formalize a selected meaningful subset in Lean. A preliminary known
+  lemma is not the conclusion of this program.
 - Current CI expected audit count is 593, read from live CI. No Lean/source
   changes or proof checks at this documentation checkpoint. No remote branch
   CI is triggered by pushes under the present workflow (PRs trigger it).
@@ -54,3 +59,25 @@ names/count together. Before the final handoff, clean-build Lean and read
 remote PR CI at the exact head. Store durable failed approaches, counterexamples,
 open proof obligations and next commands here; do not assume a background
 agent or process survives a session.
+
+## Checkpoint B actual validation and failures
+
+- `python3 research/phase13/test_height.py`: pass, 25,432 signed floor sums,
+  all 4,095 residues through 11 bits, 31,750 signed cylinder controls,
+  262,400 actual numerator exclusions below H_12, seven hostile certificates.
+- `python3 research/phase13/experiments.py --write --max-bits 1024`: complete,
+  ten word/control families, 1,340 certificates. Independent certificate
+  command passes for every witness, parity prefix and minimality transcript.
+- Reference/optimized comparisons also pass at 64,127,256,511 bits and on
+  separate residues `7^n mod 2^n` at 1,024 and 2,048 bits. Reference runtimes
+  in this environment were 0.995s / 11.488s (not a complexity theorem).
+- Large-integer intermediate states initially made certificates 14 MB at
+  1,024 bits. Quotient-only transcripts preserve every checked identity and
+  reduce the same dataset to 2.8 MB. Full states are reconstructed by the
+  independent verifier. No floating-point height decisions occur.
+- Initial HTTPS push failed without a credential helper. Changing only this
+  clone's origin to the repository's existing SSH destination and reusing its
+  existing SSH setting enabled an ordinary push. No force push or credential
+  exposure occurred. Automatic local Git committer metadata was used; no
+  manuscript identity/contact details were selected.
+- No Lean changes yet; inherited validation is due at the theorem checkpoint.

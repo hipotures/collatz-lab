@@ -103,3 +103,49 @@ The two planned analytic routes are (A) finite drift/confinement and actual
 distinct-state bounds, and (B) exact inverse-branch products under the literal
 unequal-weight substitution. Status and obstructions will be updated after
 certified experiments. No numerical exponent is assumed.
+
+## 4. Exact algorithms and independently checkable minimality
+
+The optimized route replicates the published odd-denominator adaptive method.
+Its basis has one even-coordinate vector f and one odd-denominator vector g.
+The reference route instead counts a rectangle and binary searches its size.
+Neither algorithm imports the other.
+
+For `B>=0`, put `t=(B+1)//2` and define
+`S(t,m,a,b)=sum_(i=0)^(t-1) floor((a*i+b)/m)`. The number of pairs in the
+height-B box with positive odd q is exactly
+
+```
+C(B) = S(t,M,2*A,A+B) - S(t,M,2*A,A-B-1).
+```
+
+Indeed q=2i+1 and the number of integers k with `-B<=A*q-M*k<=B`
+is the difference of those two floors. This counts all admissible vectors,
+including nonprimitive ones, so zero is a valid no-smaller-height certificate.
+It never relies on reconstruction uniqueness or an unconstrained shortest
+vector.
+
+For signed a,b, write `a=q_a*m+r_a`, `b=q_b*m+r_b`, with remainders in
+`[0,m)`. Their contributions are `q_a*t*(t-1)/2+q_b*t`. For normalized
+a,b, put `y=a*t+b`, `u=y//m`, `v=y mod m`. If y<m the residual sum is zero;
+otherwise
+
+```
+S(t,m,a,b) = S(u,a,m,v).
+```
+
+To prove this identity, count integer points `(i,j)` with `0<=i<t` and
+`1<=j`, `m*j<=a*i+b`. For `1<=j<=u` the number of i is
+`t-ceil((m*j-b)/a)=floor((m*(u-j)+v)/a)`. Summing proves the formula;
+the possible last zero contribution is harmless. The modulus strictly
+decreases. Signed normalization and this identity telescope to an exact sum.
+
+A certificate records the quotient pairs in this finite Euclidean chain for
+each floor sum at B=H-1. The independent verifier reconstructs all states,
+checks remainder inequalities, the final stopping condition and both totals.
+Together with an actual odd primitive witness at height H and its numerator
+iteration, equality of the two totals proves exact minimality. The verifier
+imports neither reconstruction implementation and reconstructs A by **reverse
+rational inverse branches**, whereas the producer uses forward affine offsets.
+This computational certificate proof is written mathematics/Python exact
+arithmetic, not a claim that the whole solver is Lean verified.
