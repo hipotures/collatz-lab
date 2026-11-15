@@ -1,9 +1,13 @@
 # Independent adversarial referee report: Phase 13 / issue #31
 
-**Checkpoint draft: the mathematical derivation below and computational
-checks are complete; the final source matrix, declaration-by-declaration
-assessment and integration verdict are being assembled. This checkpoint is
-not a final approval.**
+**Mathematical verdict: PASS for the pinned nonconvergence theorem and its
+stated bounds.** The independent derivation, exact Lean statement audit and
+finite certificates support the claim. The analytic deduction is written
+mathematics, not a Lean real-limit theorem. The supplementary final-head
+provenance snapshot fails, and mathematical priority remains unverified.
+Integration and publication are separate conditional decisions in section 13;
+no merge or publication is authorized. Final reproduction status and pushed
+checkpoints are recorded in the resume journal.
 
 Task: [#31](https://github.com/hipotures/collatz-lab/issues/31).
 Implementation: [PR #29](https://github.com/hipotures/collatz-lab/pull/29),
@@ -160,6 +164,12 @@ R_k=r_U+r_V=(20S-6e)/7.\tag{5}
 
 The divisibility is not a rational exponent convention: 6=-1 mod 7,
 so these numerators are divisible by 7, and the counts are nonnegative.
+For arbitrary prefixes the same incidence calculation gives
+`r_(6n+s)=5n-r_n+tau(n,s)` for 0<=s<6. Thus
+`D(6n+s)=-D(n)+7*tau(n,s)-5s`, where D(n)=7r_n-5n and the six-column
+residual has magnitude at most 10. Descent in base 6 proves
+`D(n)=O(log n)` and hence the full ones-frequency is 5/7, rather than
+merely a frequency along power lengths.
 
 Write `a=3^r_U`, `b=3^r_V`, `c=C_U`, `d=C_V`, `m=2^S`.
 Closing the period in (1) gives tail seed `-d/(b-m)`. Prepending U gives
@@ -581,11 +591,11 @@ for the stated proposition**, with limitations explicitly retained.
 | `Prefix` | For all j<n, `seedParity q p j=bit(v j)` | Finite predicate; does not itself assert q odd or positive. |
 | `InLattice` | `2^n` divides `p-A*q` | No parity, primitive or positivity restriction in the lattice itself. |
 | `height` | `max p.natAbs q.natAbs` | Correct symmetric signed norm; equals issue norm for q>0. |
-| `odd_cancel` | Odd integer d and `2^n | d*x` imply `2^n | x` | Includes negative d; excludes even cancellation. |
-| `parity_cross_iff` | Odd q,s: `p%2=r%2` iff `2 | ps-rq` | Actual first parity, both signs. |
+| `odd_cancel` | Odd integer d and `2^n \| d*x` imply `2^n \| x` | Includes negative d; excludes even cancellation. |
+| `parity_cross_iff` | Odd q,s: `p%2=r%2` iff `2 \| ps-rq` | Actual first parity, both signs. |
 | `cross_step` | Odd q,s and equal first parity: some odd c satisfies `2*D_next=c*D` | c is 1 or 3; exact integer identity. |
 | `cross_step_dvd` | Same hypotheses: divisibility of D by `2^(n+1)` iff next D by `2^n` | Correct one-bit loss and odd cancellation. |
-| `prefix_cross_iff` | All n,p,q,r,s; odd q,s: equal n parities iff `2^n | ps-rq` | Genuine finite isometry; no positive denominator assumption. |
+| `prefix_cross_iff` | All n,p,q,r,s; odd q,s: equal n parities iff `2^n \| ps-rq` | Genuine finite isometry; no positive denominator assumption. |
 | `cylinder_iff` | A actually realizes v for n bits with denominator 1; q odd | `Prefix q p v n` iff `InLattice A n p q`. |
 | `lattice_representation` | All A,n,p,q: membership iff `p=2^n*k+A*q` for some integer k | Full lattice, unrestricted q. |
 | `lattice_determinant` | `2^n*1-0*A=2^n` | Exact basis determinant identity, not a general abstract lattice theorem. |
@@ -688,7 +698,10 @@ gives `max_(i<=J)|p_i|<=H*(1+J/2)*2^Omega_J`. Take J=4S, N=152S,
 S=6^k. All length-S factors in these positions occur inside the matched
 prefix. If the states fit in `[-2^(S-1),2^(S-1))`, their distinctness and
 the finite parity equivalence make S-factor complexity at least 4S+1,
-contradicting the known global upper bound P_w(S)<=4S. Therefore
+contradicting the global upper bound P_w(S)<=4S. Independently, every
+length-S factor lies in two consecutive S-letter substituted blocks and
+has one of S starting offsets and at most four ordered parent-letter pairs;
+this proves that upper bound over the entire infinite word. Therefore
 
 \[
 \log_2 H_{152S}\ge S-1-\log_2(1+2S)-\Omega_{4S}.
@@ -714,4 +727,190 @@ height is at least c_*-o(1), or is distinct. The latter case has both
 `max(a/x,1-c_*/x)`, with `a=(1-c_*)/6`. The crossing x=a+c_* lies in
 (1/6,1), and yields `B>=(1-c_*)/(1+5c_*)`. This remains **CONDITIONAL on
 the stated shadow-height limit**, not an unconditional improvement. Gcd
-control alone would still not determine the exact global B.
+control alone would still not determine the exact global B. The equal-shadow
+case is harmless: `9>8` gives c_*>75/196>3/8, for which the displayed
+conditional lower bound is strictly less than c_*.
+
+## 11. Primary-source and priority gate
+
+The originals were obtained independently, rather than accepting the author's
+source matrix as verification. Pinned file hashes and access provenance are
+in [source-provenance.json](phase13/referee/source-provenance.json).
+Author manuscripts are identified as such; reading one is not a claim to
+have checked every later journal change. No primary text is copied into
+the review PR. Formulae below summarize exact hypotheses and conclusions;
+the last column specifies the actual overlap and what does **not** follow.
+
+| Original and passages actually read | Exact original result and assumptions | Verified reduction / consequence here | Exclusion and originality classification |
+|---|---|---|---|
+| Klapper–Goresky, J. Cryptology 10 (1997), 111–147, [DOI](https://doi.org/10.1007/s001459900024); [author manuscript](https://www.cs.engr.uky.edu/~klapper/pdf/fcsr.pdf), pp. 25–29, algorithm, Theorem 10.1 and Lemmas 10.3–10.4 with optimality proof | For T ordinary binary digits of alpha, the algorithm's odd-second-coordinate pair is congruent to alpha modulo 2^T and minimizes `max(\|p\|,\|q\|)` among all such pairs. Lemma 10.3 characterizes a full basis by absolute determinant 2^T. | Normalize q positive and remove any common odd divisor; the minimum is exactly H_T for **digits of Phi(w)**. No automaticity hypothesis is needed. | The general invariant, odd-denominator engine and index lemma are **known**. No particular c_*, shadow gcd, or all-k mismatch is supplied. Repository implementation is replication; its witnesses were independently re-proved here. |
+| Klapper, Adv. Math. Commun. 1(3) (2007), 307–319, [DOI](https://doi.org/10.3934/amc.2007.1.307); [author manuscript](https://www.cs.uky.edu/~klapper/pdf/asymptotic.pdf), definitions pp. 3–4, Lemma 2.1 pp. 5–7, Lemma 3.1/Theorem 3.3/Corollary 3.4 pp. 8–10, proofs read | For a not-eventually-periodic base-N digit sequence with N=2,3,4, normalized log minimum height has accumulation set `[B,1-B]`. | Use base 2 and the ordinary digits d of irrational Phi(w), with irrationality established in section 4. This gives limsup=1-B and mu_2>=2 through (15). | The complementary interval is **known**, not a Phase 13 discovery. It does not determine B or make the same assertion for the parity letters w used as digits. |
+| Bernstein, Proc. AMS 121 (1994), 405–408, [DOI](https://doi.org/10.1090/S0002-9939-1994-1186982-9); owner's original PDF, all four pages read | The one-position series `-sum 2^d_j/3^(j+1)` defines a bijection of Z_2. Theorem 1 uses an unsqueezed odd branch and removal-of-one shift; Corollary 1 sends eventually periodic digit inputs to rational outputs. | The same series gives (1); grouping an odd branch with its following division yields the accelerated convention. Finite modular permutations agree. | **Known inverse parity map**. Rational output implying periodic parity is not established by Corollary 1. |
+| Bernstein–Lagarias, Canad. J. Math. 48 (1996), 1154–1169, [publisher original](https://doi.org/10.4153/CJM-1996-060-x), equations (1.5)–(1.6) p. 1155 and Appendix A pp. 1166–1167, especially Corollary A.3 and proof; Appendix B lifting argument inspected | Phi and its inverse are solenoidal bijections; such bijections are exactly 2-adic isometries. Reductions modulo 2^n are permutations. | Signed odd-denominator fractions are in Z_2, so isometry gives precisely (2). Independent actual-iteration proof removes any convention uncertainty. | **Known bridge; repository formalization**. No archimedean height exponent or automaticity transfer follows from isometry alone. |
+| Allikvere, *Periodic shadows, drift pressure, and transcendence of the 3x+1 conjugacy map*, [Zenodo 21543841](https://doi.org/10.5281/zenodo.21543841), deposited TeX; sections 2–4, `thm:shadow`, `lem:drift`, `thm:density`, lines 128–459; height/shadow proofs checked | For prefixes U followed by V in a word of existing ones-density delta, the rational shadow satisfies `log2 H(Phi(UV^infinity)) <= max(1,delta*log2 3)*(\|U\|+\|V\|)+o(\|U\|+\|V\|)`. A nonzero rational cross product bounds shared precision by shadow height and the fixed seed height. | Here delta=5/7, total shadow length=4S, match length=(56S-1)/5. The asymptotic height bound specializes directly to c_*=(25/98)log2 3. | **Known method and immediate quantitative specialization** once the particular matches are proved. The exact finite constant 14, strict minima and gcd cycles require additional work. Full external transcendence/subspace chains were not audited or adopted. Zenodo labels this a preprint, not verified journal publication. |
+| Cassidy, [pinned note](https://github.com/eliottcassidy2000/math/blob/6b805eed1613edaedd87965e2b1986390fa84f0e/05-knowledge/results/collatz_procgen_20260922_transversality_foundry.md), 22 September 2026, section 4.3, periodic approximants, Lemma G and Theorem R with proofs | For distinct rational seed and periodic-extension approximation, inverse parity isometry plus a nonzero cross product bounds shared precision by `log2(H(seed)*(\|P\|+\|Q\|))`. | With positive denominator normalization its elementary mechanism is exactly the retained-height separation used here. | **Known written mechanism**, not human peer review. Literal signed-denominator wording of Lemma G needs correction; see below. It supplies neither this all-k mismatch nor exact minimum/gcd computation. |
+| De Jesús, [Zenodo 23071770](https://doi.org/10.5281/zenodo.23071770), technical note, revision-1 draft dated 30 September 2026; pp. 2–5, Lemmas 1–8, Theorem 9/Proposition 10/Corollary 15 and elementary proofs read | A signed rational odd-denominator orbit has excursion-controlled numerators. If its infinite parity is aperiodic, all states are distinct and for every epsilon>0, eventually `P_v(L)>L/(g*+epsilon)`. Existing frequency d gives `g*=max(0,d log2 3-1)`. | Frequency 5/7 and P_w(S)<=4S already contradict rationality, since g*<1/4. Finite height use additionally needs section 10's finite distinctness proof. | **Known qualitative exclusion and counting mechanism**. Its infinite-orbit premise is not licensed for a finite shadow. No optimal H_N exponent is given. Zenodo publication date is 1 October; draft date differs. |
+| Dubickas, *On integer sequences generated by linear maps*, Glasgow Math. J. 51 (2009), 243–252, [DOI](https://doi.org/10.1017/S0017089508004655), Theorem 5 p. 246, proof pp. 249–250 read | A positive-integer accelerated Collatz trajectory tending to infinity has parity factor complexity greater than 1.70951129 n for all sufficiently large n; proof uses equal blocks, dyadic divisibility and numerator growth. | Confirms the earlier counting mechanism's provenance. Signed rational and drift-sensitive extensions need their own checked arguments, supplied by De Jesús / section 10. | **Known ancestor**, not a theorem stated for every finite signed rational approximant. It does not imply a universal H_N exponent. |
+| de Weger, J. Number Theory 24 (1986), 70–88, [DOI](https://doi.org/10.1016/0022-314X(86)90059-4); [author scan](https://math.deweger.net/papers/%5B1%5DdW-ApprLatt-JNumTh%5B1986%5D.pdf), lattice definitions/lemma pp. 71–72, Theorems 4.1 and 4.2 pp. 78,82–83; 4.1(i)–(ii) and 4.2(i) proofs checked | Norm-controlled p-adic approximation lattices; a strict determinant criterion ensures a primitive approximation is nearly norm-best. | The square norm supplies the familiar factor 2 in separation. The full lattice includes p-divisible denominators. | **Known foundation**. A whole-lattice small vector is not automatically in the positive odd-denominator coset. The periodic lattice-sequence theorem concerns every level, not substitution-power samples. |
+| Wang–Guy–Davenport, SIGSAM Bulletin 16(2) (1982), 2–3, [DOI](https://doi.org/10.1145/1089292.1089293), [author scan](https://www.cecm.sfu.ca/personal/mmonagan/teaching/TopicsinCA13/GuyDavenWang.pdf), both pages and convergent argument read | RATCONVERT finds the bounded representation when it exists in the strict balanced reconstruction range; uniqueness is conditional on existence. | Supports the interpretation of (3), not unconditional square-root existence. | **Known reconstruction**, explicitly including empty reconstruction regions. Exact minimax computation outside that region needs a complete certificate such as section 8. |
+| Zhiru Chen, Zhixiong Chen, Obrovsky, Winterhof, *Maximum-order complexity and 2-adic complexity*, [arXiv:2309.12769v1](https://arxiv.org/abs/2309.12769v1), 22 September 2023; definitions and Theorem 1/proof pp. 2–5 read | Every binary sequence S and N>=1 satisfy `M(S,N)<=ceil(Phi_2(S,N))+1`, where Phi_2 is ordinary-digit log minimum height. | If one proved a maximum-order lower bound for **d**, it would lower-bound log H_N. | **Known related quantitative theorem**. A maximum-order bound for w is insufficient because d is a different word; no verified d premise or the constant c_* is supplied. Version pinned; later journal textual changes were not compared. |
+| Zhixiong Chen–Winterhof, *On the Nth 2-adic complexity of binary sequences identified with algebraic 2-adic integers*, [arXiv:2504.09933v1](https://arxiv.org/abs/2504.09933v1); journal [DOI](https://doi.org/10.1016/j.dam.2025.05.024); Theorem 1/proof pp. 4–5 and section 4 pp. 12–14 read | If the ordinary digit value is a zero of degree-d integer polynomial h without rational roots, with K the sum of absolute coefficients, then `(N-log2 K)/d <= lambda(N) <= (d-1)N/d+log2 K/d+1.3`. | This is the same height invariant, but no such polynomial for Phi(w) is established. | **Known conditional bounds**, not a subsumption of this unconditional specialization. The source was obtained despite the author's access limitation. Its unqualified Roth wording needs its algebraic context restored; see below. |
+| Capuano–Checcoli–Mula–Terracini, Math. Z. 314, article 2 (2026), [publisher original](https://doi.org/10.1007/s00209-026-04096-3), [arXiv:2503.16330v2](https://arxiv.org/abs/2503.16330v2); Definition 1.2, Theorem 1.4/Corollary 1.6 and explicit hypotheses in section 4 inspected | Odd prime p, specified p-adic continued-fraction floor function, repeated partial-quotient words, growth and valuation hypotheses imply rational/quadratic/transcendental alternatives. | No continued-fraction description of Phi(w), and p=2 differs from the stated odd-prime domain. | **Different invariant/domain**, with hypotheses unverified here. Statements screened; long subspace-theorem proof not independently audited. No bound c_* follows. |
+| Monks–Yazinski, *The autoconjugacy of the 3x+1 function*, Discrete Math. 275 (2004), 219–236, [author original](https://monks.scranton.edu/files/pubs/AutoConjV13.pdf), Theorem 2.7(b), section 4.1 Lemmas 4.1–4.3 and three-sign-case proof read | A divergent rational odd-denominator orbit has lower one-density at least log_3 2. | The density 5/7 is above that threshold, so this theorem alone does not exclude the selected word. | **Known lower bound**, not the stronger density equality and not a finite rational-height estimate. |
+| López–Stoll, [arXiv:2101.12747v1](https://arxiv.org/abs/2101.12747v1), 29 January 2021, Theorem 1 pp. 5–6 and real/inverse-limit discussion pp. 6–8 read | Claims equality of divergent rational lower one-density with log_3 2 and exclusion above that threshold. | Such an equality would exclude this word, but the read real-to-2-adic inference has an unresolved gap. | **Not adopted as a verified theorem**. No conclusion in this review depends on it; no journal/referee status is inferred from an arXiv record. |
+| Molchanov (1983), Vestnik Moskov. Univ. Ser. 1, no. 2, 31–37, [primary record](https://www.mathnet.ru/eng/vmumm3467) | Metadata describes transcendence measures for analytic functions satisfying Mahler-type functional equations at suitable algebraic points. Exact technical hypotheses are not reconstructed from the abstract. | No applicable scalar Mahler equation for this unequal-weight inverse-parity value was established. | **U: full original not obtained**; the full-text link redirected to the record. No equal-weight priority claim or broader nonapplicability theorem is made. This is a disclosed source limit, not evidence of novelty. |
+
+### Adversarial checks on source wording
+
+Cassidy's printed Lemma G uses `|a||Q|+|P|b` while requiring b odd,
+without spelling out b>0 at that point. Literally take `a=1,b=-1,P=1,Q=3`.
+The actual 2-adic distance is `|-1-1/3|_2=1/4`, while that expression gives
+the proposed lower bound 1/2. **FAIL for the unrestricted signed wording**;
+correct it to `|a||Q|+|P||b|` or normalize b>0. The intended elementary
+criterion is then valid. PR #29 uses absolute cross heights and positive
+minimizer denominators; it does not inherit this sign defect.
+
+In Chen–Winterhof v1 section 4.3, a broad sentence states a Roth lower
+bound for any nonperiodic digit sequence. That wording must be restricted
+to **algebraic irrational digit values**. For an exact hostile construction,
+let `xi=sum_(j>=1) 2^(j!)`. Its ordinary digits are not eventually periodic.
+The integer partial sum through m! has log height less than m!+1 and
+precision (m+1)!, giving liminf normalized height zero. It contradicts
+the unrestricted reading, not the correctly qualified numbered Theorem 1.
+We make no claim about corrections in the journal version.
+
+The López–Stoll passage identifies an irrational real limit with a
+2-adic irrational via inverse residues of its rational partial sums. Such
+an implication needs additional proof: for any positive irrational alpha,
+the odd-denominator rationals
+`s_n=2^n*floor((3/2)^n*alpha)/3^n` converge to alpha in R, but tend to the
+rational 0 in Q_2 since v_2(s_n)>=n. Real and 2-adic limits cannot be
+identified by their notation. This does not disprove their final density
+claim; it explains why that claim is not an accepted dependency here.
+
+### Priority classification
+
+The density-sensitive shadow height bound already yields the asymptotic
+c_* after substituting the independently checked lengths and frequency.
+The reconstruction uniqueness/crossing mechanism and the complementary
+accumulation theorem are also prior work. The proper classification is
+**an explicit specialization of known methods, a repository formalization,
+and exact case-specific computational certificates**. The all-k exact
+mismatch, finite constant, exact minimum formula and particular modular
+identities were independently checked; priority for their exact formulation
+has not been established by comparison with all literature.
+
+Fresh searches covered the literal images, 25/98, Collatz height
+nonconvergence, 2-adic complexity/irrationality exponents and recent
+automatic/p-adic results. An unsuccessful exact-constant search proves no
+novelty. The newly inspected 2025 and 2026 originals narrow applicability
+by actual hypotheses rather than by title. None licenses replacing the
+digits of Phi(w) with w, imposing algebraicity, or using a p-adic continued
+fraction that has not been constructed. No new general irrationality,
+transcendence or Collatz/Periodicity theorem is being certified, and no
+publication or human peer-review claim is made for this repository.
+
+| Current claim | Prior theorem actually compared | What remains case-specific | Classification |
+|---|---|---|---|
+| Signed cylinder equivalence, H well-posedness | Bernstein series / Bernstein–Lagarias isometry; Klapper–Goresky odd-denominator minimum | Exact repository definitions, signed proof and explicit audit | Known mathematics; formalization independently checked. |
+| Exact all-k mismatch at L_k and finite bound T_k | Allikvere `lem:drift` gives the asymptotic shadow height, not exact columns or the constant 14 | Literal substitution induction and elementary exact pressure estimate | Quantitative case specialization; priority unverified. |
+| Nonconvergence and interval inequalities | Allikvere height specialization plus classical determinant crossing; Klapper Corollary 3.4 for the complementary interval | Exact c_* and independent all-N scale interpolation | Known-method deduction; no new general convergence theorem. |
+| Exact infinite minimum formula with gcd | WGD strict uniqueness / de Weger Theorem 4.2(i) | All-level entrance into the strict region and two early checks | Classical uniqueness applied to explicit shadows; priority unverified. |
+| Reciprocal exponent formula | Elementary duality between precision minima and infinitely good rational approximations; independently proved in section 6 | Odd-q and height conventions stated exactly | Not advertised as new. |
+| Modular progressions for 347 and 347^2 | Deterministic finite-state periodicity and inverse-branch algebra | The two exact state repetitions and identity levels | Finite certificates with written induction; no general gcd-growth result. |
+| Finite-state height lower route | De Jesús finite confinement and Dubickas counting | Finite match bound `<37m` before using distinctness | Attributed weaker refinement with an extra word-specific lemma. |
+| Exact 16,384-bit / overnight data | Klapper–Goresky minimum and full lattice index criterion | These particular integers, failures and a different certificate proof | Finite evidence and independent replication; no new asymptotic result. |
+
+## 12. Actual validation, reproduction and trust limits
+
+The pinned implementation was built from an initially absent `.lake`
+directory. All 87 targets completed. The full inherited
+`bash research/phase13/validate.sh` exited 0. Its executed matrix includes:
+
+| Actual command/check | Verified outcome |
+|---|---|
+| `lake build` | Pass, pinned Phase 13 source, including both new modules. |
+| `lake env lean research/lean-audit/FamilyAudit.lean` piped with pipefail into `check_axioms.py --expected-count 653` | Pass, exact list/order and allowed foundations; parser self-tests also pass. |
+| Phase 11, 12 and 13 `Signatures.lean` | All pass. |
+| `cargo fmt --check` | Pass. |
+| `cargo clippy --locked --all-targets --all-features -- -D warnings` | Pass. |
+| `cargo test --locked --all-targets` | 94 pass, 0 failures. |
+| `python3 research/phase8/verify_polynomial.py` | Pass. |
+| `python3 research/mahler-uncovered/verify_uncovered.py --check` | Pass. |
+| All five current Phase 10 checkers; all three Phase 11 checkers | Pass. |
+| `research/phase12/verify_returns.py --check` and inherited source inventory | Pass. |
+| Phase 9 independent mathematical cross-check; `paper/check_tex.py` and generated Lean-name fixture | Pass; static manuscript consistency only. |
+| Phase 13 `test_height.py`, `experiments.py --check`, all `verify_certificates.py` records | Pass, all ten profiles and 1,691 certificates. |
+| `verify_analytics.py --check`, `verify_modular.py --check` | Pass, exact finite shadow and modular data. |
+| Reviewer `Signatures.lean`, all-name `Declarations.lean`, independent axiom parser and escape scan | Pass, all 60 public interfaces and 85 trusted source files. |
+| Reviewer complete coefficient cover, actual parity scans, split gcds and hostile cases | Pass; full deterministic results in the committed JSON. |
+| `git diff --check`, reproduction-script shell syntax | Pass. |
+
+Command exit codes and output hashes are preserved in
+[validation.json](phase13/referee/validation.json). The independent
+[results](phase13/referee/independent-results.json) are compact; large author
+datasets are fetched by their pinned commits, not copied into this PR.
+
+Run the whole review validation in a **new** directory:
+
+```bash
+bash research/phase13/referee/reproduce.sh /tmp/phase13-referee-reproduction
+```
+
+The script rejects an existing destination, fetches the exact two source
+commits, checks out the pinned PR source detached, extracts the pinned
+overnight files, clean-builds the source, runs its full current CI matrix,
+compiles the independent fixtures, independently audits all axiom records,
+checks every selected baseline/overnight certificate and raw gcd through k=8,
+and compares deterministic results to the committed review artifacts. It
+does not push, merge or change either implementation branch. Lean 4.18.0,
+the repository Rust toolchain and Python with standard-library BigInts are
+required. There is no dependency on another agent continuing to run.
+
+Actual preliminary failures were retained: SSH authentication failed in the
+fresh clone before its existing per-repository SSH command was safely reused;
+an exploratory JSON load hit Python's finite decimal-digit limit; and the
+first referee fixture used the reserved word `prefix` as a local hypothesis
+name. These were corrected and rerun. None was hidden as a passing test or
+fixed by strengthening a theorem premise. No theorem proof attempt failed
+with an unresolved mathematical obligation.
+
+The author's cancelled 4,096-bit reference search is not rerun or called a
+success. Large minima here are certified independently rather than obtained
+by repeating that optimizer. The stored overnight smoke log is identified
+as historical author output, not our own CI run; its exact certificates have
+the separate referee proof. No PDF was built or visually inspected for this
+review, because no manuscript was changed and no external-review-ready PDF
+is claimed. Static `check_tex.py` success is not publication readiness.
+
+## 13. Explicit decisions and outstanding owner action
+
+| Major mathematical claim or decision | Verdict | Scope and evidence |
+|---|---|---|
+| 1. Finite signed parity/lattice equivalence and H_N well-posedness | **PASS** | W+K+F: actual signed iteration, both denominator signs before normalization, primitive minimizers, existence, monotonicity, bounded iff rational. |
+| 2. Exact all-k shadow construction and finite integer inequalities | **PASS** | W+K, independently derived inverse branches/expanded offsets, exact mismatch and pressure, positive odd raw denominator. |
+| 3. Written nonconvergence, both subsequence bounds and uniform lower liminf bound | **PASS** | W from the precise K endpoints; equation (13), correct N=L_k and L_k+1, no external irrationality assumption or numerical fit. The analytic limit theorem is not kernel-formalized. |
+| 4. Exact infinite shadow minimum formula, retaining gcd | **PASS** | W plus exact early/base checks; equation (14). No claim that the normalized reduced shadow height tends to c_*. |
+| 5. Modular infinite-divisibility progressions | **PASS** | F state identities plus W deterministic induction. Fixed divisors 347 and 347^2 do not imply increasing gcd exponent. |
+| 6. Baseline certificates and selected overnight large-N certificates | **PASS** | F: all 1,691 baseline and 24 overnight minima, 16 transitions, raw gcds through k=8 independently checked. No dense all-N computation beyond the reported samples. |
+| 6a. Supplementary summary/audit as a final-head provenance snapshot | **FAIL** | Exact 23/15 versus 24/16 and stale hashes. Correct by regenerating or explicitly labeling historical snapshots; preserve original data. Does not negate row 6. |
+| 7. Historical attribution of the general invariant, algorithm, shadow method and complementary interval | **PASS** | S+W: primary theorem statements compared under actual hypotheses; scope/source defects recorded. Known-method specialization/formalization is the appropriate description. |
+| 7a. Priority for the exact specialization or a novel mathematical headline | **CONDITIONAL** | Not established. No positive novelty verdict; inaccessible/unread proof chains and negative searches cannot establish originality. |
+| 8. PR #29 integration readiness as scoped research/formalization | **CONDITIONAL** | No mathematical repair required at the pinned source. Suitable for owner consideration after checking the actual final integration tree/CI. This review authorizes no merge. |
+| 8a. Overnight integration readiness | **CONDITIONAL** | Mathematical certificates pass; reconcile the stale summary/checkpoint audit/final journal status in an authorized follow-up first. |
+| 8b. Publication readiness | **CONDITIONAL — not ready** | No priority claim certified, no Phase 13 manuscript/PDF reviewed, no human author responsibility/disclosure or venue decision supplied. Separate human review and publication work are required. |
+
+There is no blocking defect in the central finite or asymptotic mathematical
+argument at the pinned PR head. The concrete adverse finding is the
+supplementary provenance mismatch; the two source-wording counterexamples
+also prevent overbroad reuse of external statements. They do not infect the
+signed absolute-height proof actually implemented in PR #29.
+
+The smallest owner decision is whether to consider **PR #29 alone as
+attributed research and formalization**. Integrating the overnight material
+also needs its own provenance repair, followed by a review of that resulting
+tree. If any implementation head changes, this pinned review is not an
+incremental audit of those changes. Main, PR #29, the overnight branch and
+all issues remain unmodified by this review. The separate reviewer PR stays
+unmerged; its exact URL and pushed checkpoints are recorded in the
+[resume journal](phase13-referee-progress.md).

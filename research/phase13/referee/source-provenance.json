@@ -1,0 +1,135 @@
+{
+  "format": "phase13-referee-sources-v1",
+  "access_date_utc": "2026-11-15",
+  "primary_sources": [
+    {
+      "file_label": "paper.tex",
+      "source": "https://zenodo.org/api/records/21543841/files/paper.tex/content",
+      "sha256": "629e9de77b6ccb06a7dc27193fbee4f6bcaa97bad0e1a697a593fe53d805c522",
+      "bytes": 53859,
+      "actually_read": "Sections 2\u20134; thm:shadow, lem:drift, thm:density; TeX lines 128\u2013459. Elementary height and rational-shadow proofs checked; later transcendence/subspace chains not audited."
+    },
+    {
+      "file_label": "cassidy.md",
+      "source": "https://raw.githubusercontent.com/eliottcassidy2000/math/6b805eed1613edaedd87965e2b1986390fa84f0e/05-knowledge/results/collatz_procgen_20260922_transversality_foundry.md",
+      "sha256": "4018320b5675b56bf671e828d3eb322207fc3a29dbd15d621022f46ef7c8cce3",
+      "bytes": 51761,
+      "actually_read": "Pinned section 4.3, periodic approximants, Lemma G/Theorem R and proofs. Signed-denominator wording tested adversarially."
+    },
+    {
+      "file_label": "dubickas.pdf",
+      "source": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/C40C0C07FEC20797475BB2899C436C9A/S0017089508004655a.pdf/on_integer_sequences_generated_by_linear_maps.pdf",
+      "sha256": "69d2adbc28a61873bfc95b15d57916329ac243da492ae166a454ddc63acb03bf",
+      "bytes": 121002,
+      "actually_read": "Theorem 5 p. 246; proof pp. 249\u2013250; scope is positive integer trajectories tending to infinity."
+    },
+    {
+      "file_label": "monks-yazinski.pdf",
+      "source": "https://monks.scranton.edu/files/pubs/AutoConjV13.pdf",
+      "sha256": "3fcf49c2e0a24a65c6ed11cd25d34964e4949e26e6a381181c5e6d6ae31ed7e1",
+      "bytes": 172339,
+      "actually_read": "Theorem 2.7(b), section 4.1 Lemmas 4.1\u20134.3 and proof; preprint pages 6,8\u201311."
+    },
+    {
+      "file_label": "drift-Drift_Sensitive_Complexity_3x1_Conjugacy_Revision_1.pdf",
+      "source": "https://zenodo.org/api/records/23071770/files/Drift_Sensitive_Complexity_3x1_Conjugacy_Revision_1.pdf/content",
+      "sha256": "6bce09245a13fdf478ce834cbb80762a3a76c379b63b3555e83216aa23939362",
+      "bytes": 344342,
+      "actually_read": "Revision 1 draft, 30 September 2026; pp. 2\u20135, Lemmas 1\u20138, Theorem 9, Proposition 10, Corollary 15 and proofs. Zenodo metadata publication date 1 October 2026, technical note."
+    },
+    {
+      "file_label": "fcsr.pdf",
+      "source": "https://www.cs.engr.uky.edu/~klapper/pdf/fcsr.pdf",
+      "sha256": "4eb8a930417c035c82c0b288d26b5e44f157769dcae7ebece47beaf6aa950ad1",
+      "bytes": 310858,
+      "actually_read": "Author manuscript pp. 25\u201329; Theorem 10.1, Lemmas 10.3\u201310.4, algorithm and full optimality induction."
+    },
+    {
+      "file_label": "deweger.pdf",
+      "source": "https://math.deweger.net/papers/%5B1%5DdW-ApprLatt-JNumTh%5B1986%5D.pdf",
+      "sha256": "2115f0ffb6ee7c7988e4b904ee324e829f6abbad3560ad6dc6fa901958dc211b",
+      "bytes": 921703,
+      "actually_read": "Definitions and lattice lemma pp. 71\u201372; Theorems 4.1 and 4.2 pp. 78,82\u201383. Proofs 4.1(i)\u2013(ii), 4.2(i) checked. Full quadratic periodicity converse not audited."
+    },
+    {
+      "file_label": "wgd.pdf",
+      "source": "https://www.cecm.sfu.ca/personal/mmonagan/teaching/TopicsinCA13/GuyDavenWang.pdf",
+      "sha256": "ff6228d62dafb578e726089245ab0916124335cc698945dc67b18ea91940e76e",
+      "bytes": 116774,
+      "actually_read": "Both original pages, bounded reconstruction statement, RATCONVERT and continued-fraction proof."
+    },
+    {
+      "file_label": "asymptotic.pdf",
+      "source": "https://www.cs.uky.edu/~klapper/pdf/asymptotic.pdf",
+      "sha256": "3c8bf4fa64468fb25195c47b9984fa11f34af21942af8a3b5a6a8571908ada47",
+      "bytes": 167483,
+      "actually_read": "Author manuscript definitions pp. 3\u20134, Lemma 2.1 pp. 5\u20137, Lemma 3.1/Theorem 3.3/Corollary 3.4 pp. 8\u201310, proofs."
+    },
+    {
+      "file_label": "bernstein-lagarias-publisher.pdf",
+      "source": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/6975BB4A8C46CF6842217043AAF9EC13/S0008414X0004606Xa.pdf/3x_1_conjugacy_map.pdf",
+      "sha256": "a009d726310dc54fd6845ec27b06fd9396e4f50695970b95b710681a04e11077",
+      "bytes": 1268076,
+      "actually_read": "Equations (1.5)\u2013(1.6) p. 1155; Appendix A and Corollary A.3 pp. 1166\u20131167; Appendix B lifting argument inspected."
+    },
+    {
+      "file_label": "chen-winterhof-2504.09933v1.pdf",
+      "source": "https://arxiv.org/pdf/2504.09933v1",
+      "sha256": "09701b75cd45f5865f3067849c24607ad06ddd36fe7467296c1fc3ed753ee8f3",
+      "bytes": 1081331,
+      "actually_read": "Theorem 1 and proof pp. 4\u20135, section 4 pp. 12\u201314; journal textual differences not checked."
+    },
+    {
+      "file_label": "bernstein1994.pdf",
+      "source": "https://doi.org/10.1090/S0002-9939-1994-1186982-9",
+      "sha256": "6b17ddffb41416fb04dc0cba487a9c042a1186f40ae1a5d330b83f96770a3562",
+      "bytes": 338805,
+      "actually_read": "Entire original pp. 405\u2013408; owner-supplied copy independently hashed."
+    },
+    {
+      "file_label": "maximum-order-2309.12769v1.pdf",
+      "source": "https://arxiv.org/pdf/2309.12769v1",
+      "sha256": "1498e957c7745f288ed916099fa49db1d18be1bf817ecdcacf30b30a9be03db7",
+      "bytes": 209197,
+      "actually_read": "Definitions and Theorem 1/proof pp. 2\u20135; later journal textual differences not compared."
+    },
+    {
+      "file_label": "lopez-stoll-2101.12747v1.pdf",
+      "source": "https://arxiv.org/pdf/2101.12747v1",
+      "sha256": "e4c5bccec262d8fdb001d7970dee56c347c03d789796c165e79a18dc2d584b9a",
+      "bytes": 3711557,
+      "actually_read": "Theorem 1 pp. 5\u20136, real/inverse-limit discussion pp. 6\u20138; remaining proof chain not certified."
+    },
+    {
+      "file_label": "capuano-2503.16330v2.pdf",
+      "source": "https://arxiv.org/pdf/2503.16330v2",
+      "sha256": "0017220eab5bac692098bee608f87c3700ae0df35fad6f232f75ac0ed1403b1b",
+      "bytes": 545074,
+      "actually_read": "Definition 1.2, Theorem 1.4/Corollary 1.6 and section 4 explicit hypotheses screened in author v2 and publisher HTML. Long proof not independently audited."
+    }
+  ],
+  "access_limits": [
+    {
+      "source": "https://www.mathnet.ru/eng/vmumm3467",
+      "scope": "Primary bibliographic record and abstract read; full-text link redirected to record. Exact theorem hypotheses/proof not obtained or relied upon."
+    }
+  ],
+  "additional_verified_metadata": [
+    {
+      "source": "https://zenodo.org/api/records/21543841",
+      "publication_date": "2026-07-25",
+      "resource_type": "preprint"
+    },
+    {
+      "source": "https://zenodo.org/api/records/23071770",
+      "publication_date": "2026-10-01",
+      "resource_type": "technical note"
+    },
+    {
+      "source": "https://link.springer.com/article/10.1007/s00209-026-04096-3",
+      "publication_date": "2026-08-10",
+      "version": "journal article, Theorem 1.4 hypotheses screened"
+    }
+  ],
+  "priority_verdict": "Unverified; known-method specialization and formalization. Negative search is not a novelty certificate."
+}

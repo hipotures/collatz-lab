@@ -179,7 +179,7 @@
       "modulus": 120409,
       "period": 14878,
       "states_by_values_at_0_and_1": {
-        "62": [
+        "14940": [
           [
             79025,
             36253
@@ -199,7 +199,7 @@
             1
           ]
         ],
-        "14940": [
+        "62": [
           [
             79025,
             36253
@@ -631,6 +631,14 @@
         "q": 513
       }
     },
+    "external_signed_gap_counterexample": {
+      "P": 1,
+      "Q": 3,
+      "a": 1,
+      "actual_2_adic_distance": "1/4",
+      "b": -1,
+      "printed_lower_bound": "1/2"
+    },
     "false_square_root_claim": {
       "A": 128,
       "H": 128,
@@ -640,6 +648,33 @@
         2
       ]
     },
+    "liouville_partial_height_bits_and_next_precision": [
+      [
+        3,
+        7,
+        24
+      ],
+      [
+        4,
+        25,
+        120
+      ],
+      [
+        5,
+        121,
+        720
+      ],
+      [
+        6,
+        721,
+        5040
+      ],
+      [
+        7,
+        5041,
+        40320
+      ]
+    ],
     "rejected_corruptions": [
       "wrong numerator",
       "wrong residue",

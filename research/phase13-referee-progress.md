@@ -11,7 +11,9 @@
   overnight: `76bf6136c334c1db9e52e399fcc33fd4c20b9c24`.
   All live refs matched at startup. PR #29 is open/unmerged; issues #28/30/31
   are open. CI run 43663195328 at the pinned PR head was read as success.
-- Work is in progress; **no final integration recommendation yet**.
+- Mathematical/source review is complete; the final fresh reproduction and
+  separate review PR handoff are in progress. Main theorem verdict **PASS**;
+  see report section 13 for separate provenance/priority/integration decisions.
   A new empty build directory successfully rebuilt all 87 Lean targets.
   `bash research/phase13/validate.sh` completed, exit 0: 94 Rust tests,
   all inherited/current CI checks, 653 audited records, 1,691 certificates.
@@ -21,7 +23,8 @@
   inverse branches, expanded one-position sum, all-prefix pressure and
   determinant separation. Both subsequence bounds, all-N interpolation,
   all-k exact minima, modular cycles and finite-state distinctness check out.
-  The source matrix and final verdicts remain to finish.
+  The source matrix, all-k/conditional refinements and final verdict table
+  are now complete. No blocking central mathematical defect was found.
 - Independent certificate route completed: validate lattice index
   and membership, bound **both** Cramer coefficients, enumerate the shorter
   signed coefficient range and solve the other coordinate interval with
@@ -54,10 +57,18 @@
   the Klapper/Klapper–Goresky originals, Allikvere's density-height proof,
   Cassidy G/R, De Jesús's finite lemmas and Dubickas's counting proof.
   Fresh maximum-order arXiv:2309.12769v1 was obtained and its theorem read.
-  Finish comparing/access-labeling the remaining originals and late sources.
-- **Next actions:** finish the primary-source matrix and final verdicts,
-  read back pinned refs and CI, inspect reviewer-only PR diff, and open a
-  separate unmerged review PR. Do not repeat completed large computations.
+  Fifteen exact primary versions and actual read scopes are recorded in
+  `phase13/referee/source-provenance.json`. Molchanov full text remains
+  unavailable and is not used. Cassidy's literal signed-b gap formula has
+  counterexample (-1,1/3); Chen–Winterhof's unqualified Roth sentence needs
+  algebraicity, with an independent Liouville counterexample. These do not
+  invalidate the scoped Phase 13 proof or their corrected useful mechanisms.
+- **Next actions:** finish the clean reproduction, update exact log hashes,
+  commit/push the source/verdict checkpoint, inspect reviewer-only PR diff,
+  and open the separate unmerged review PR. Current reproduction session
+  uses `/tmp/collatz-phase13-final-reproduction`; inspect `reproduce-final.log`
+  and actual exit before recording PASS. Do not repeat completed large
+  computations if the completed script/JSON comparison already passes.
 - Before publishing the first checkpoint, preserve a detached, pinned source
   checkout for reproduction, then transplant only new referee-owned commits
   onto the unchanged base main **locally before any push**. This reconciles
@@ -65,7 +76,12 @@
   containing only new files relative to main. Never rewrite a pushed branch
   or move either implementation branch. Final standalone checker will accept
   an explicit pinned `--source` path. Record the first pushed SHA here in the
-  next checkpoint; the first push is being prepared now.
+  next checkpoint. This local transplant was performed before publication;
+  only new referee-owned files differ from main. The detached pinned source
+  clone is `/home/user/DEV/collatz-lab-phase13-referee-source`.
+- **First pushed checkpoint:**
+  [`b5ece650e78eaef81c8cd70c81bd618745cfb7a6`](https://github.com/hipotures/collatz-lab/commit/b5ece650e78eaef81c8cd70c81bd618745cfb7a6).
+  Remote branch was read back; no pushed history was rewritten.
 
 ## Startup and actual failures
 
@@ -93,9 +109,32 @@ remains untouched. No sub-agents were spawned.
 
 The report contains the full independent main proof, exact-subsequence and
 modular proofs, all 60 declaration assessments, finite-state route and
-certificate/provenance audit. The primary-source table and final decision
-are still pending. This is a durable intermediate checkpoint, not completion
+certificate/provenance audit. The first checkpoint left the primary-source
+table and final decision pending; those are now added in the next checkpoint.
+This was a durable intermediate checkpoint, not completion
 of issue #31. Validation commands, verified exit codes and output hashes
 are in `phase13/referee/validation.json`. The reproduction script requires a
 new directory and clones the pinned implementation separately, so the final
 review PR can contain only new research files against main.
+
+## Final source gate and environment failure
+
+The fresh `reproduce.sh` attempt in
+`/home/user/DEV/collatz-lab-phase13-referee-reproduction` rebuilt Lean cleanly
+and passed clippy, but `cargo test` compilation failed with **exit 101**:
+`No space left on device (os error 28)`. The 9.8 GiB home filesystem was
+full. This does not supersede the earlier passing complete matrix, and this
+fresh attempt is not called PASS. Logs are preserved in the reproduction
+directory and `phase13-referee-evidence/reproduce.log`.
+
+Only the disposable Rust `target/` directories generated by this review
+were removed: 598 MiB from the reviewer clone and 202 MiB from the failed
+reproduction. No preexisting checkout or evidence was cleaned. The final
+fresh reproduction uses the available `/tmp` filesystem; no host setting
+or dependency was changed. Its completion remains to be read before handoff.
+
+Live refs were read back unchanged after the source gate, and PR #29 still
+has exact pinned head and is open/unmerged. CI run 43663195328 was read
+in detail: both `lean` and `check`, with every listed step, succeeded.
+Actual tools: Lean 4.18.0 (commit 11ccbced7964), rustc 1.100.0
+(0ef1bc386, 2026-11-09), Python 3.14.4.

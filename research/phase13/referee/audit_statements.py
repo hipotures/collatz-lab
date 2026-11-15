@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 
 
 ALLOWED = {"propext", "Classical.choice", "Quot.sound"}
@@ -64,6 +65,13 @@ def main():
     manifest = (args.source / "research/lean-audit/FamilyAudit.lean").read_text()
     expected = re.findall(r"^#print axioms (\S+)$", manifest, re.M)
     need(len(expected) == len(set(expected)) == 653, "pinned manifest count")
+    ci_counts = re.findall(r"--expected-count (\d+)", (args.source / ".github/workflows/ci.yml").read_text())
+    need(ci_counts == [str(len(expected))], "CI and declaration manifest disagree")
+    baseline = subprocess.check_output(["git", "-C", str(args.source), "show",
+                                       "93647176a526eb8660b4dbf2ac428b0053117659:research/lean-audit/FamilyAudit.lean"],
+                                      text=True)
+    old_names = re.findall(r"^#print axioms (\S+)$", baseline, re.M)
+    need(len(old_names) == 593 and expected[:len(old_names)] == old_names, "baseline name/order changed")
     audit = records_from_stdout(args.axioms.read_text())
     need([name for name, _ in audit] == expected, "not the exact full declaration list/order")
     declarations = []
@@ -86,7 +94,7 @@ def main():
                                  "axioms": dict(audit)[name], "source_sha256": hashlib.sha256(raw).hexdigest(),
                                  "semantic_verdict": "PASS; see the per-declaration table in the report"})
     need(len(declarations) == 60, "pinned new-declaration count")
-    forbidden = re.compile(r"\b(?:sorry|admit|axiom|opaque|unsafe|native_decide|implemented_by|extern)\b")
+    forbidden = re.compile(r"\b(?:sorry|admit|axiom|opaque|unsafe|native_decide|implemented_by|extern|trustLevel)\b|skipKernel")
     source_paths = [args.source / "CollatzLab.lean", *sorted((args.source / "CollatzLab").rglob("*.lean"))]
     for path in source_paths:
         need(forbidden.search(path.read_text()) is None, "forbidden escape: "+str(path))

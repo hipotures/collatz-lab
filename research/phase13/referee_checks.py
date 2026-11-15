@@ -240,6 +240,8 @@ def self_tests():
         need(numerator_scan(p, q, bits)[0] == 9, "Fraction/numStep semantic disagreement")
         need(bits == rational_parities(-p, -q, 9) == rational_parities(3*p, 3*q, 9),
              "sign or odd scaling changed the itinerary")
+        need(numerator_scan(-p, -q, bits)[0] == 9 and numerator_scan(3*p, 3*q, bits)[0] == 9,
+             "raw numerator iteration changed under sign normalization or odd gcd scaling")
         itineraries[(p, q)] = bits
         for n in range(10):
             modulus = 1 << n
@@ -284,8 +286,28 @@ def self_tests():
         damaged = deepcopy(corrupt_record)
         mutate(damaged)
         controls.append(rejection(lambda: verify_minimum(damaged, primary, inverse_residue(primary[:12])), label))
+    # Literal signed-denominator wording of Cassidy's printed Lemma G.
+    # a/b=-1 and P/Q=1/3: |difference|_2=1/4, printed RHS=1/2.
+    need(Fraction(1, 4) < Fraction(1, abs(1)*abs(3)+abs(1)*(-1)),
+         "external signed-denominator counterexample")
+    # A nonperiodic ordinary-digit Liouville word defeats an unqualified
+    # Roth bound. These finite partial sums support the independent infinite
+    # construction in the report, not an inference from finitely many cases.
+    factorial, partial = 1, 0
+    liouville_controls = []
+    for k in range(1, 8):
+        factorial *= k
+        partial += 1 << factorial
+        next_precision = factorial * (k+1)
+        need(partial.bit_length() <= factorial+1, "Liouville partial height")
+        if k >= 3:
+            need(3*(partial.bit_length()) < next_precision, "Liouville precision/height control")
+            liouville_controls.append([k, partial.bit_length(), next_precision])
     return {"counts": counts, "exact_small_minima": small,
             "rejected_corruptions": controls,
+            "external_signed_gap_counterexample": {"a": 1, "b": -1, "P": 1, "Q": 3,
+                                                   "actual_2_adic_distance": "1/4", "printed_lower_bound": "1/2"},
+            "liouville_partial_height_bits_and_next_precision": liouville_controls,
             "false_square_root_claim": {"N": 8, "A": 128, "H": h, "even_vector": [0, 2]}}
 
 

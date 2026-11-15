@@ -75,6 +75,28 @@
       "command": "first referee Signatures.lean compilation",
       "exit_code": 1,
       "resolution": "renamed reserved Lean token prefix used as a local hypothesis; recompiled successfully"
+    },
+    {
+      "command": "first fresh full reproduce.sh in home filesystem",
+      "exit_code": 101,
+      "cause": "Rust build failed: No space left on device (os error 28)",
+      "log_sha256": "71988ce0f8c4d511385f696c4ecb8ab0deadbb59b7bc73310d675b0c0aa80c8b",
+      "resolution": "removed only reviewer-created disposable target directories; retrying in /tmp"
     }
-  ]
+  ],
+  "environment": {
+    "Lean": "4.18.0, commit 11ccbced7964",
+    "rustc": "1.100.0 (0ef1bc386 2026-11-09)",
+    "Python": "3.14.4"
+  },
+  "implementation_ci": {
+    "run_id": 43663195328,
+    "url": "https://github.com/hipotures/collatz-lab/actions/runs/43663195328",
+    "head": "65b087dc62e4950e1c504fe34865acaacb9188c9",
+    "jobs": {
+      "lean": "completed/success; every step checked",
+      "check": "completed/success; every step checked"
+    }
+  },
+  "reproduction_status": "Final fresh /tmp run in progress; no PASS inferred yet."
 }
