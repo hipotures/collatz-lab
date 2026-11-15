@@ -1,0 +1,19 @@
+{
+  "format": "phase13-transition-replay-v1",
+  "classification": "independent finite certificate; no asymptotic inference",
+  "source_sha256": "385efdbd09c8c3f33392f2e40fda6bacd1d6d89c47f61ee2ec0928c1429cd63e",
+  "source_bytes": 43773,
+  "height_source_sha256": "00422d5cb5884ad1b0f015ff1b7969b8e31f1db2063bffa5ab4d2c6d477e9f80",
+  "results": [
+    {
+      "source_N": 87092,
+      "first_failure_index": 87093,
+      "target_N": 87094,
+      "constant_minimum_through_N": 87093,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    }
+  ],
+  "failure_method": "reverse inverse branches and exact 2-adic cylinder valuation"
+}

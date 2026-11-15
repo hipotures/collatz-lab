@@ -1,0 +1,14 @@
+{
+  "format": "phase13-transition-checkpoint-v1",
+  "stage": "complete",
+  "source_N": 87092,
+  "search_end_N": 90000,
+  "source_record_sha256": "7a4ed615c911068065d68c1e7a2c558ccdb3930934f77625369f57971ff598ed",
+  "first_failure_index": 87093,
+  "failure_numerator_sign": 1,
+  "failure_numerator_bits": 63383,
+  "failure_numerator_abs_sha256": "02462aa713d9a48368530a5cdd03fe82f93a4bfe9fac87c5f9b95afc699e55ae",
+  "search_parity_sha256": "a33ad9285b9d77d677cee417919a46cf6445d5aa9c1c5cd5c15d35928a599bbd",
+  "target_N": 87094,
+  "transition_record_sha256": "385efdbd09c8c3f33392f2e40fda6bacd1d6d89c47f61ee2ec0928c1429cd63e"
+}

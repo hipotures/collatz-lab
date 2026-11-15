@@ -181,3 +181,75 @@ the matrix producer. The JSONL is exact computation and the replay is an
 independent finite certificate. The inherited all-level shadow-minimum
 argument remains written mathematics. These records do not constitute new
 large-prefix parity/minimality certificates or any asymptotic gcd conclusion.
+
+## A bounded witness transition
+
+`witness_transition.py` scans one stored primitive witness against a literal
+fixed-word prefix, using its actual numerator recurrence with fixed positive
+odd denominator. The scan window beyond the source prefix is capped at 8192
+symbols, the total prefix at 600,000 symbols, and the complete calculation
+at 180 seconds. It saves a `located` checkpoint before requesting a minimum
+at the first failing prefix. It computes and independently checks that one
+minimum only if absent from `heights.jsonl`; existing samples are preserved.
+An interrupted run can reuse the located failure and any published minimum.
+A repeated completed request skips calculation. After completion a different
+request may replace the small checkpoint while preserving all evidence lines.
+
+If the first mismatch is at zero-based index `t`, the old witness realizes
+prefixes through length `t`, and fails at prefix length `t+1`. A minimum at
+source length `n` therefore remains a minimum throughout `n..t`, by
+monotonicity and the same witness's upper bound. A witness failure alone does
+not prove the next height increases: another witness might have equal height.
+The independently certified minimum at `t+1` resolves that question exactly.
+
+`transitions.jsonl` stores the first failure, orbit-numerator hash, exact height
+comparisons and compact box certificates for both referenced minima. Hashes
+bind the references to their exact height-record lines, including newlines.
+The height file retains its 8 MiB cap; transition evidence and its checkpoint
+each have a separate 512 KiB cap. Temporary-file replacement publishes new
+lines atomically. The full witness integers remain in the height file.
+
+`verify_transitions.py` imports only the independent height checker. It
+constructs the word by indexed substitution rather than the producer's literal
+expansion. Reverse rational branches give `u/v=F_prefix(0)` with odd `v`.
+For a source witness `p/q`, the exact valuation
+
+```
+v_2(p*v-u*q) = t < length(prefix)
+```
+
+certifies its first failure index `t`, by the inherited finite parity/cylinder
+equivalence. This replaces the producer's forward scan with a different exact
+calculation. Reverse branches through `t` also reconstruct its failing orbit
+numerator by division by `2^t`; the verifier checks divisibility, actual
+failure parity, sign, bit length and hash. Both minima receive independently
+checked primitive positive odd-denominator witnesses, all actual parities and
+compact no-smaller-height proofs. The replay manifest binds this verification
+to the evidence files. It is an independent finite certificate using Python
+exact arithmetic and the written cylinder/basis arguments, not a new Lean
+proof or an asymptotic result.
+
+`test_transitions.py` compares scans and reverse-branch valuations with exact
+`Fraction` iteration on 5404 signed controls, including 1364 no-failure cases.
+Its 68 small transition certificates include two equal-height witness changes
+and 66 strict increases; eighteen corrupted records are rejected. Smoke runs
+these controls and the separate transition replay. Once the first large
+transition is published, three temporary-fixture controls check resumption
+from a located failure with an existing target, byte-preserving completed
+reuse, and entry to a subsequent request. New scans and optimizer calls are
+forbidden in the fixture; the next request stops before its scan.
+
+Commands for one new obligation (read the journal before choosing parameters):
+
+```bash
+ulimit -v 1048576
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87094 --through 90000 --seconds 180 --write
+timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
+python3 -B research/phase13/overnight/summarize.py --write
+```
+
+The new source above is intentional: the transition from `87092` has already
+been certified, with first failure at index `87093` and a strict height
+increase at prefix length `87094`. Both endpoint heights have 51,875 bits.
+The next witness has not been scanned; it differs from the stored `90000`
+witness. No dense height profile or predictable plateau rule follows.
