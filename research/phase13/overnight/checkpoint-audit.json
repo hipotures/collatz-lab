@@ -2,9 +2,9 @@
   "format": "phase13-overnight-checkpoint-audit-v2",
   "classification": "local preservation and finite-evidence metadata audit; independent mathematics is checked by smoke",
   "branch": "codex/phase13-overnight",
-  "entry_head": "68b38cf31ba28c4c8a8a1d6611473204fd08c05f",
-  "head_after_validation": "68b38cf31ba28c4c8a8a1d6611473204fd08c05f",
-  "cached_origin_ref": "68b38cf31ba28c4c8a8a1d6611473204fd08c05f",
+  "entry_head": "bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10",
+  "head_after_validation": "bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10",
+  "cached_origin_ref": "bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10",
   "issue_url": "https://github.com/hipotures/collatz-lab/issues/30",
   "pr_url": "https://github.com/hipotures/collatz-lab/pull/29",
   "remote_status": "not queried or changed; user forbids remote access",
@@ -12,15 +12,15 @@
     "research/phase13/overnight-progress.md",
     "research/phase13/overnight-summary.md",
     "research/phase13/overnight/README.md",
-    "research/phase13/overnight/basis-87120-chain.log",
+    "research/phase13/overnight/basis-87121-chain.log",
     "research/phase13/overnight/basis-pattern-probe.json",
     "research/phase13/overnight/checkpoint-audit.json",
     "research/phase13/overnight/height-inventory.json",
     "research/phase13/overnight/heights.jsonl",
     "research/phase13/overnight/smoke.log",
-    "research/phase13/overnight/transition-87120-compute.log",
-    "research/phase13/overnight/transition-87120-preflight.json",
-    "research/phase13/overnight/transition-87120-replay.log",
+    "research/phase13/overnight/transition-87121-compute.log",
+    "research/phase13/overnight/transition-87121-preflight.json",
+    "research/phase13/overnight/transition-87121-replay.log",
     "research/phase13/overnight/transition-checkpoint.json",
     "research/phase13/overnight/transition-verification.json",
     "research/phase13/overnight/transitions-0002.jsonl"
@@ -28,15 +28,15 @@
   "all_changed_paths_authorized": true,
   "append_only_evidence": {
     "heights.jsonl": {
-      "old_bytes_preserved": 7649382,
-      "old_records_preserved": 21,
+      "old_bytes_preserved": 7775280,
+      "old_records_preserved": 22,
       "new_bytes": 125898,
       "new_records": 1,
-      "total_bytes": 7775280,
-      "total_records": 22,
-      "sha256": "eae238301bbda84072afaeb016f8070ad388a349c21d3a2d535d30d033ab6f63",
+      "total_bytes": 7901178,
+      "total_records": 23,
+      "sha256": "49b40df14814fa054a292c1d196324c3d301d3f1d2d3801557d8b2990fd9c026",
       "cap_bytes": 8388608,
-      "remaining_bytes": 613328
+      "remaining_bytes": 487430
     },
     "transitions.jsonl": {
       "old_bytes_preserved": 481400,
@@ -50,31 +50,32 @@
       "remaining_bytes": 42888
     },
     "transitions-0002.jsonl": {
-      "old_bytes_preserved": 87704,
-      "old_records_preserved": 2,
-      "new_bytes": 43849,
+      "old_bytes_preserved": 131553,
+      "old_records_preserved": 3,
+      "new_bytes": 43848,
       "new_records": 1,
-      "total_bytes": 131553,
-      "total_records": 3,
-      "sha256": "1e8fe5fb090b78f52159564ec3878b826aad707b09210543b5e778602dc0bf9d",
+      "total_bytes": 175401,
+      "total_records": 4,
+      "sha256": "419f2b217ee31ada351742cf6a1b2c4d2f04f5cafda79ba31b362d66c8bc8be5",
       "cap_bytes": 524288,
-      "remaining_bytes": 392735
+      "remaining_bytes": 348887
     }
   },
-  "transition_stream_sha256": "780ec5e5e8140eb012933c183d9054fd19ba36ea29e40f271e6de8d49e01045d",
-  "transition_stream_bytes": 612953,
+  "transition_stream_sha256": "348e96a2dc3806e736261717bfe026246e79564689aa76987920284ebf876e47",
+  "transition_stream_bytes": 656801,
   "source_and_target_height_line_references_match": true,
   "all_predecessor_line_hashes_match": true,
   "checkpoint_complete": true,
-  "previous_independent_replay_results_preserved": 13,
-  "previous_basis_chain_intervals_preserved": 13,
+  "previous_independent_replay_results_preserved": 14,
+  "previous_basis_chain_intervals_preserved": 14,
   "previous_extrapolation_fields_preserved": true,
-  "previous_inventory_sample_entries_preserved": 21,
+  "previous_inventory_sample_entries_preserved": 22,
   "historical_journal_sections_preserved": true,
-  "preceding_command_logs_preserved": 60,
+  "preceding_command_logs_preserved": 63,
   "unchanged_protected_paths": [
     ".github/workflows/ci.yml",
     "AGENTS.md",
+    "research/phase13-theory.md",
     "research/phase13/.gitignore",
     "research/phase13/README.md",
     "research/phase13/Signatures.lean",
@@ -95,6 +96,7 @@
     "research/phase13/overnight/basis-87113-chain.log",
     "research/phase13/overnight/basis-87116-chain.log",
     "research/phase13/overnight/basis-87118-chain.log",
+    "research/phase13/overnight/basis-87120-chain.log",
     "research/phase13/overnight/basis-chain-controls.log",
     "research/phase13/overnight/basis-chain-probe.log",
     "research/phase13/overnight/basis-equal-width-probe.log",
@@ -158,6 +160,9 @@
     "research/phase13/overnight/transition-87118-compute.log",
     "research/phase13/overnight/transition-87118-preflight.json",
     "research/phase13/overnight/transition-87118-replay.log",
+    "research/phase13/overnight/transition-87120-compute.log",
+    "research/phase13/overnight/transition-87120-preflight.json",
+    "research/phase13/overnight/transition-87120-replay.log",
     "research/phase13/overnight/transition-compute.log",
     "research/phase13/overnight/transition-replay.log",
     "research/phase13/overnight/transition-resume-tests.log",
@@ -174,23 +179,22 @@
     "research/phase13/validate.sh",
     "research/phase13/verify_analytics.py",
     "research/phase13/verify_certificates.py",
-    "research/phase13/verify_modular.py",
-    "research/phase13-theory.md"
+    "research/phase13/verify_modular.py"
   ],
   "new_finite_result": {
-    "source_N": 87120,
-    "first_failure_index": 87120,
-    "target_N": 87121,
-    "height_relation": "H_87118 = H_87119 < H_87120 < H_87121 < H_90000",
+    "source_N": 87121,
+    "first_failure_index": 87121,
+    "target_N": 87122,
+    "height_relation": "H_87120 < H_87121 < H_87122 < H_90000",
     "maximal_plateau_N": [
-      87120,
-      87120
+      87121,
+      87121
     ],
     "height_bits": 51875,
     "positive_height_difference_bits": 35243,
-    "strict_ratio_bound": "1 < H_87121/H_87120 < 2",
+    "strict_ratio_bound": "1 < H_87122/H_87121 < 2",
     "failure_numerator_bits": 63386,
-    "failure_numerator_abs_sha256": "a475e4f17a713773a0ad9791fb436b0c39f416d741ca489378103f4792fa9a7b",
+    "failure_numerator_abs_sha256": "8695e637548448cef5fb72cb4990878965a4bf3bdebb208e095f0276fb500f38",
     "new_coefficient_bound": 1,
     "exhaustive_positive_odd_rows": 1,
     "basis_update_rows": [
@@ -199,7 +203,7 @@
         0
       ],
       [
-        -1,
+        1,
         1
       ]
     ],
@@ -217,43 +221,44 @@
       3,
       2,
       2,
+      1,
       1
     ],
-    "adjacent_maximal_pairs": 13,
+    "adjacent_maximal_pairs": 14,
     "width_decreases": 6,
-    "equal_width_pairs": 23,
-    "unequal_update_pairs": 6
+    "equal_width_pairs": 28,
+    "unequal_update_pairs": 9
   },
   "validation_resources": {
-    "transition-87120-compute.log": {
+    "transition-87121-compute.log": {
       "exit_status": 0,
-      "wall_seconds": "7.77",
-      "peak_resident_KiB": 116608,
-      "sha256": "0041b3e7402b10586c3ad217b20a650470834d7a80564a400dcac696394b280a"
+      "wall_seconds": "7.70",
+      "peak_resident_KiB": 117416,
+      "sha256": "6c954377c32d2ea81ff8642b486370eb2d5d48571983245a22bcb05d73b7b2c5"
     },
-    "transition-87120-replay.log": {
+    "transition-87121-replay.log": {
       "exit_status": 0,
-      "wall_seconds": "45.52",
-      "peak_resident_KiB": 70692,
-      "sha256": "7ace91f527de8a08f570350e775d6f47d43eb9bc2e14af63fb13eb45d8d91779"
+      "wall_seconds": "48.62",
+      "peak_resident_KiB": 71120,
+      "sha256": "06d66c1c86c0d54d4d52901fb6b9e3f48f7633252199710e934f829f5c982460"
     },
-    "basis-87120-chain.log": {
+    "basis-87121-chain.log": {
       "exit_status": 0,
-      "wall_seconds": "2.00",
-      "peak_resident_KiB": 71116,
-      "sha256": "e6a359ab062902a865891fa337c944fee73bcd7e9c51ed5739778893dc5d03a0"
+      "wall_seconds": "2.05",
+      "peak_resident_KiB": 71524,
+      "sha256": "b7f613debab77ae1fe393f1902da583894c2c7f950443b5d1502bbef5bebae2a"
     },
     "smoke.log": {
       "exit_status": 0,
-      "wall_seconds": "453.96",
-      "peak_resident_KiB": 102376,
-      "sha256": "3c5149a4d9f08b59d978aa52aeec715b9c427e9eeb81858ab554cec0dbf2cb6a"
+      "wall_seconds": "457.37",
+      "peak_resident_KiB": 102176,
+      "sha256": "65adf183505002f76c9e844b9d5844d273a7a5fc0c460874bb7662c928a0cc2c"
     }
   },
   "smoke_exit_status": 0,
   "smoke_certificate_counts": {
-    "heights": 22,
-    "transitions": 14,
+    "heights": 23,
+    "transitions": 15,
     "raw_shadow_levels": 9
   },
   "child_address_space_cap_KiB": 1048576,
@@ -263,36 +268,34 @@
   "probe_outer_timeout_seconds": 35,
   "smoke_outer_timeout_seconds": 750,
   "python_and_shell_sources_unchanged": true,
-  "failures": [
-    "Initial read-only git show-ref --heads --remotes returned exit 129 because --remotes is unsupported; relevant cached refs were verified with git for-each-ref."
-  ],
+  "failures": [],
   "research_or_certificate_failures": [],
   "complete_marker_present": false,
   "computation_left_running": false,
   "no_git_mutation_or_remote_action": true,
   "evidence_levels": {
-    "exact_computation": "one actual witness scan and the sole missing minimum at N=87121",
-    "independent_certificate": "reverse-branch discrepancy valuation; primitive odd witnesses, actual parity and no-smaller-height certificates",
+    "exact_computation": "one actual witness scan and the sole missing minimum at N=87122",
+    "independent_certificate": "reverse-branch discrepancy valuation; primitive odd witnesses, actual parities and no-smaller-height certificates",
     "derived_metadata": "exact selected-basis coordinates and finite plateau comparisons",
     "written_proof": "inherited parity/cylinder, persistence and monotonicity arguments; no new all-level proof",
     "lean": "no new Lean proposition or Lean/Rust validation claimed",
     "open": "B=c, asymptotic raw-shadow cancellation and remaining intermediate minima"
   },
-  "next_obligation": "Reread files and capacities; locate the stored N=87121 witness first failure through 90000; certify only its first missing failing prefix, independently replay, refresh inventory/probe and run smoke.",
+  "next_obligation": "Reread files and capacities; locate the stored N=87122 witness first failure through 90000; certify only its first missing failing prefix, independently replay, refresh inventory/probe and run smoke.",
   "evidence_sha256": {
-    "research/phase13/overnight-progress.md": "0e11732f1a5d9ff0b028aa61d4a48ee15e61857b7a5d86730e0ddab5b61340a2",
-    "research/phase13/overnight-summary.md": "34ffd92172589107974d6eec84835c4bad5ad1a85d47e25ff10338fb29f4ac30",
-    "research/phase13/overnight/README.md": "2ccf07aa691435a6d7c852452e3058082b887536926b54ca35c410e500ca44f0",
-    "research/phase13/overnight/basis-87120-chain.log": "e6a359ab062902a865891fa337c944fee73bcd7e9c51ed5739778893dc5d03a0",
-    "research/phase13/overnight/basis-pattern-probe.json": "822aa043cb6b231fc235dcdf02f2efed8c66141a039341cf641b0d15b8685853",
-    "research/phase13/overnight/height-inventory.json": "c5bf7f47210e82597ee4f6699ef6b84f604adc65e9db0fdb5fe2e75ede646acf",
-    "research/phase13/overnight/heights.jsonl": "eae238301bbda84072afaeb016f8070ad388a349c21d3a2d535d30d033ab6f63",
-    "research/phase13/overnight/smoke.log": "3c5149a4d9f08b59d978aa52aeec715b9c427e9eeb81858ab554cec0dbf2cb6a",
-    "research/phase13/overnight/transition-87120-compute.log": "0041b3e7402b10586c3ad217b20a650470834d7a80564a400dcac696394b280a",
-    "research/phase13/overnight/transition-87120-preflight.json": "5846552b61e61c622b8b7d0ba470816a0deed1c13c68aa03db5b0c00b16cd7db",
-    "research/phase13/overnight/transition-87120-replay.log": "7ace91f527de8a08f570350e775d6f47d43eb9bc2e14af63fb13eb45d8d91779",
-    "research/phase13/overnight/transition-checkpoint.json": "b2c54dceed4d9438e98cdc823b0b1e6d90d0cd168798c448d2246586b0fc0eba",
-    "research/phase13/overnight/transition-verification.json": "4bd85ecf3bc0e7312fc83c2a81179f0a5140fa2b0b936f4d97a00cd3862e5da2",
-    "research/phase13/overnight/transitions-0002.jsonl": "1e8fe5fb090b78f52159564ec3878b826aad707b09210543b5e778602dc0bf9d"
+    "research/phase13/overnight-progress.md": "523c2b7caf738bee2dc5daa329b8ef36f80807f41cec41e218880b6f1d30f397",
+    "research/phase13/overnight-summary.md": "d711adbcb9c3790ef14a589dcf8c6931bf9a5ae2400831ceb2b9e7b6f091779f",
+    "research/phase13/overnight/README.md": "1917ff0880faf6d0a6e345ce751cd97da653571f641d837660bccd245d60f954",
+    "research/phase13/overnight/basis-87121-chain.log": "b7f613debab77ae1fe393f1902da583894c2c7f950443b5d1502bbef5bebae2a",
+    "research/phase13/overnight/basis-pattern-probe.json": "287e5a0b61d47bac6ba46de769f8a20d5975f219ac489b721354aa5d90badc23",
+    "research/phase13/overnight/height-inventory.json": "2ad9bebe391e0655dd43e655a7854840ed42e58c0bfd8de4fccd915fca932c0a",
+    "research/phase13/overnight/heights.jsonl": "49b40df14814fa054a292c1d196324c3d301d3f1d2d3801557d8b2990fd9c026",
+    "research/phase13/overnight/smoke.log": "65adf183505002f76c9e844b9d5844d273a7a5fc0c460874bb7662c928a0cc2c",
+    "research/phase13/overnight/transition-87121-compute.log": "6c954377c32d2ea81ff8642b486370eb2d5d48571983245a22bcb05d73b7b2c5",
+    "research/phase13/overnight/transition-87121-preflight.json": "8e2e95fc245a3233509aec009018221b479fe23a9cda24a711aa6ceef36b7431",
+    "research/phase13/overnight/transition-87121-replay.log": "06d66c1c86c0d54d4d52901fb6b9e3f48f7633252199710e934f829f5c982460",
+    "research/phase13/overnight/transition-checkpoint.json": "20200e1b84c20192d588c96ae057d2b4f3f44a24e7b0c8de8f304fb88ee2057e",
+    "research/phase13/overnight/transition-verification.json": "f3e5d126b1427d128d1a88b730d2ad7b76f100421c379940d1154bf7c1d74917",
+    "research/phase13/overnight/transitions-0002.jsonl": "419f2b217ee31ada351742cf6a1b2c4d2f04f5cafda79ba31b362d66c8bc8be5"
   }
 }

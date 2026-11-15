@@ -1,0 +1,39 @@
+{"constant_minimum_through_N": 87093, "first_failure_index": 87093, "source_N": 87092, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87094, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87095, "first_failure_index": 87095, "source_N": 87094, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87096, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87098, "first_failure_index": 87098, "source_N": 87096, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87099, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87099, "first_failure_index": 87099, "source_N": 87099, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87100, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87101, "first_failure_index": 87101, "source_N": 87100, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87102, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87102, "first_failure_index": 87102, "source_N": 87102, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87103, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87103, "first_failure_index": 87103, "source_N": 87103, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87104, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87108, "first_failure_index": 87108, "source_N": 87104, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87109, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87111, "first_failure_index": 87111, "source_N": 87109, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87112, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87112, "first_failure_index": 87112, "source_N": 87112, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87113, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87115, "first_failure_index": 87115, "source_N": 87113, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87116, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87117, "first_failure_index": 87117, "source_N": 87116, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87118, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87119, "first_failure_index": 87119, "source_N": 87118, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87120, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87120, "first_failure_index": 87120, "source_N": 87120, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87121, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87121, "first_failure_index": 87121, "source_N": 87121, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87122, "target_height_bits": 51875}
+PASS: 15 independently verified witness failures and exact height comparisons
+	Command being timed: "python3 -B -u research/phase13/overnight/verify_transitions.py --write"
+	User time (seconds): 48.58
+	System time (seconds): 0.03
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:48.62
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 71120
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 15966
+	Voluntary context switches: 1
+	Involuntary context switches: 315
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
