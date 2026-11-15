@@ -1,8 +1,8 @@
 {
   "format": "phase13-basis-pattern-probe-v1",
   "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
-  "height_source_sha256": "328ad4fca68e27a84edd2f0cf1e9f3212f4ef4cc9a399a525c9b8aa372c628f1",
-  "transition_source_sha256": "5d923526de3f5c9287e9a7dfd82dd38f96711e1016c9bf66bfb41e55d88766c8",
+  "height_source_sha256": "6850209b82258f5fa86f933369141fa8390dd8f05b3da9723ed9a819ecde0865",
+  "transition_source_sha256": "e83434b2e508be7859bb5af54e87c54c36ff22f3b2c949f705ac6bec5307781e",
   "observed_links": [
     {
       "from_N": 87092,
@@ -33,6 +33,70 @@
       ]
     }
   ],
+  "certified_transition_chain": {
+    "classification": "derived exact finite metadata from separately replayed certificates",
+    "intervals": [
+      {
+        "source_N": 87092,
+        "constant_minimum_through_N": 87093,
+        "next_prefix_N": 87094,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87094,
+        "constant_minimum_through_N": 87095,
+        "next_prefix_N": 87096,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87096,
+        "constant_minimum_through_N": 87098,
+        "next_prefix_N": 87099,
+        "interval_length": 3,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            8,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      }
+    ],
+    "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
+    "hypothesis_falsified": true,
+    "counterexample_source_N": [
+      87096
+    ]
+  },
   "second_height_increment_is_four_times_first": false,
   "hypothesis_tested": "repeat f'=4*f, g'=2*f+g every two bits from N=87092 through N=90000",
   "prediction_start_N": 87092,

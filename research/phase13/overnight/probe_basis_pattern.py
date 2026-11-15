@@ -2,8 +2,9 @@
 """Bounded falsification of a specific two-bit basis-update extrapolation.
 
 The two certified links starting at 87092 and 87094 have the same update.
-Test its literal repetition at the already stored N=90000 cylinder. No
-optimization or new minimum is computed. Forward actual parity and reverse
+Test its literal repetition at the already stored N=90000 cylinder. Also
+derive basis changes and plateau widths from the separately replayed chain.
+No optimization or new minimum is computed. Forward actual parity and reverse
 integer branches independently check the predicted witness's first failure.
 """
 
@@ -55,12 +56,64 @@ def coordinates(old, vector):
     return [alpha, beta]
 
 
+def certified_chain(heights, hashes, transitions, replay):
+    """Derived finite metadata; smoke independently replays its certificates.
+
+    A first failure only gives an interval of constant minimum. Call it a
+    maximal plateau only when certificates also give strict changes on both
+    sides. Selected-basis coordinates are checked by direct multiplication.
+    """
+    verified = {row["source_N"]: row for row in replay["results"]}
+    assert len(verified) == len(transitions) == len(replay["results"])
+    chain = []
+    for start, row in sorted(transitions.items()):
+        end, failure = row["target_N"], row["first_failure_index"]
+        assert row["source_N"] == start and row["search_end_N"] == END
+        assert start <= failure and end == failure + 1
+        assert row["source_record_sha256"] == hashes[start]
+        assert row["target_record_sha256"] == hashes[end]
+        if chain:
+            assert chain[-1]["next_prefix_N"] == start, "not a contiguous chain"
+        old_h, new_h = (int(heights[n]["H"], 16) for n in (start, end))
+        assert new_h >= old_h
+        assert verified[start] == {
+            "source_N": start, "first_failure_index": failure, "target_N": end,
+            "constant_minimum_through_N": failure,
+            "strict_height_increase_at_target": new_h > old_h,
+            "source_height_bits": old_h.bit_length(), "target_height_bits": new_h.bit_length()}
+        old, new = basis(heights[start]), basis(heights[end])
+        update = [coordinates(old, vector) for vector in new]
+        assert abs(update[0][0] * update[1][1] - update[0][1] * update[1][0]) == 1 << (end - start)
+        for n, (f, g) in ((start, old), (end, new)):
+            assert abs(f[0] * g[1] - f[1] * g[0]) == 1 << n
+            assert f[1] % 2 == 0 and g[1] % 2 == 1
+            a = int(heights[n]["A"], 16)
+            assert all((p - a * q) % (1 << n) == 0 for p, q in (f, g))
+        left_strict = (int(heights[start - 1]["H"], 16) < old_h
+                       if start - 1 in heights else
+                       bool(chain and chain[-1]["strict_height_increase_at_next_prefix"]))
+        chain.append({"source_N": start, "constant_minimum_through_N": failure,
+                      "next_prefix_N": end, "interval_length": end - start,
+                      "strict_height_increase_at_source": left_strict,
+                      "strict_height_increase_at_next_prefix": new_h > old_h,
+                      "basis_update_rows": update})
+    counterexamples = [row for row in chain if row["interval_length"] != 2
+                      and row["strict_height_increase_at_source"]
+                      and row["strict_height_increase_at_next_prefix"]]
+    return {"classification": "derived exact finite metadata from separately replayed certificates",
+            "intervals": chain,
+            "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
+            "hypothesis_falsified": bool(counterexamples),
+            "counterexample_source_N": [row["source_N"] for row in counterexamples]}
+
+
 def probe():
     height_raw, heights, hashes = load(ROOT / "heights.jsonl", 8 * 1024 * 1024, "N")
     transition_raw, transitions, _ = load(ROOT / "transitions.jsonl", 512 * 1024, "source_N")
     replay = json.loads((ROOT / "transition-verification.json").read_bytes())
     assert replay["source_sha256"] == hashlib.sha256(transition_raw).hexdigest()
     assert replay["height_source_sha256"] == hashlib.sha256(height_raw).hexdigest()
+    chain = certified_chain(heights, hashes, transitions, replay)
     links, increments = [], []
     for start in SOURCES:
         row = transitions[start]
@@ -133,6 +186,7 @@ def probe():
             "height_source_sha256": hashlib.sha256(height_raw).hexdigest(),
             "transition_source_sha256": hashlib.sha256(transition_raw).hexdigest(),
             "observed_links": links,
+            "certified_transition_chain": chain,
             "second_height_increment_is_four_times_first": increments[1] == 4 * increments[0],
             "hypothesis_tested": "repeat f'=4*f, g'=2*f+g every two bits from N=87092 through N=90000",
             "prediction_start_N": start, "prediction_end_N": END, "prediction_steps": steps,
@@ -177,6 +231,9 @@ def main():
     print(f"PASS: two exact basis links; 1454 proposed updates checked by two routes; "
           f"prediction_falsified={result['prediction_falsified_by_actual_parity']} "
           f"first_failure_index={result['first_failure_index']}")
+    chain = result["certified_transition_chain"]
+    print(f"PASS: {len(chain['intervals'])} certified chain intervals; "
+          f"two-prefix plateau claim falsified={chain['hypothesis_falsified']}")
 
 
 if __name__ == "__main__":

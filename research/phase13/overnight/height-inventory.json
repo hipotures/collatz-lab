@@ -2,8 +2,8 @@
   "format": "phase13-overnight-inventory-v1",
   "classification": "derived exact finite metadata; not an asymptotic result",
   "source": "heights.jsonl",
-  "source_bytes": 6264543,
-  "source_sha256": "328ad4fca68e27a84edd2f0cf1e9f3212f4ef4cc9a399a525c9b8aa372c628f1",
+  "source_bytes": 6390436,
+  "source_sha256": "6850209b82258f5fa86f933369141fa8390dd8f05b3da9723ed9a819ecde0865",
   "samples": [
     {
       "N": 80000,
@@ -88,6 +88,20 @@
       "denominator_sha256": "0cec7e37f9a77ef6e4f62cbaf7f44dce32520a2ed727d9e8826d3f75261ae96c",
       "parity_sha256": "e2921e13c1f8041594194ce88ae70cdbd0448285b28f13327663b8b5d6cd237a",
       "nonhold_updates": 33595,
+      "strict_witness_separation": false,
+      "even_basis_denominator": true,
+      "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-basis-interval-v1",
+      "coefficient_rows": 1
+    },
+    {
+      "N": 87099,
+      "height_bits": 51875,
+      "numerator_sign": 1,
+      "numerator_abs_sha256": "7a61d16567fa1e7c23b83cb403b27788f7e99c2e580ccb558d35f66166f2ba6a",
+      "denominator_sha256": "39ca30a94a7de1a7a35f44c2869e365f778be5237f412e4c89b074fc0299f9ec",
+      "parity_sha256": "80391d5d3ccdc98aa36547c103716cc3447dba727ca35f27b9832513e467cc8e",
+      "nonhold_updates": 33596,
       "strict_witness_separation": false,
       "even_basis_denominator": true,
       "box_basis_coefficient_bound": "0x1",
@@ -191,6 +205,13 @@
     },
     {
       "from_N": 87096,
+      "to_N": 87099,
+      "same_primitive_witness": false,
+      "same_height": false,
+      "height_ratio_floor_log2": 0
+    },
+    {
+      "from_N": 87099,
       "to_N": 90000,
       "same_primitive_witness": false,
       "same_height": false,

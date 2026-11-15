@@ -1,30 +1,30 @@
 {
-  "format": "phase13-overnight-checkpoint-audit-v4",
+  "format": "phase13-overnight-checkpoint-audit-v5",
   "branch": "codex/phase13-overnight",
-  "head": "a51c4fe0819a2ce5d6c6b18b21d679f414fbdb1f",
-  "cached_origin_ref": "a51c4fe0819a2ce5d6c6b18b21d679f414fbdb1f",
+  "head": "05700214437a42e570128968356724bb7856622d",
+  "cached_origin_ref": "05700214437a42e570128968356724bb7856622d",
   "head_unchanged": true,
   "all_changed_paths_authorized": true,
   "changed_paths": [
     "research/phase13/overnight-progress.md",
     "research/phase13/overnight-summary.md",
     "research/phase13/overnight/README.md",
-    "research/phase13/overnight/basis-pattern-final.log",
+    "research/phase13/overnight/basis-chain-controls.log",
+    "research/phase13/overnight/basis-chain-probe.log",
     "research/phase13/overnight/basis-pattern-probe.json",
-    "research/phase13/overnight/basis-pattern-probe.log",
     "research/phase13/overnight/checkpoint-audit.json",
     "research/phase13/overnight/height-inventory.json",
     "research/phase13/overnight/heights.jsonl",
     "research/phase13/overnight/probe_basis_pattern.py",
     "research/phase13/overnight/smoke.log",
-    "research/phase13/overnight/smoke.sh",
-    "research/phase13/overnight/transition-87094-compute.log",
-    "research/phase13/overnight/transition-87094-replay.log",
+    "research/phase13/overnight/test_transitions.py",
+    "research/phase13/overnight/transition-87096-compute.log",
+    "research/phase13/overnight/transition-87096-replay.log",
     "research/phase13/overnight/transition-checkpoint.json",
     "research/phase13/overnight/transition-verification.json",
     "research/phase13/overnight/transitions.jsonl"
   ],
-  "height_records": 10,
+  "height_records": 11,
   "sample_ids": [
     80000,
     87090,
@@ -32,34 +32,43 @@
     87092,
     87094,
     87096,
+    87099,
     90000,
     522546,
     522547,
     522548
   ],
-  "previous_nine_height_record_bytes_unchanged": true,
-  "previous_height_bytes": 6138652,
+  "previous_ten_height_record_bytes_unchanged": true,
+  "previous_height_bytes": 6264543,
   "appended_prefix_ids": [
-    87096
+    87099
   ],
-  "appended_height_bytes": 125891,
-  "height_evidence_bytes": 6264543,
-  "previous_transition_record_bytes_unchanged": true,
-  "previous_transition_bytes": 43773,
-  "transition_records": 2,
-  "transition_evidence_bytes": 87545,
-  "appended_transition_bytes": 43772,
+  "appended_height_bytes": 125893,
+  "height_evidence_bytes": 6390436,
+  "previous_two_transition_record_bytes_unchanged": true,
+  "previous_transition_bytes": 87545,
+  "transition_records": 3,
+  "transition_evidence_bytes": 131315,
+  "appended_transition_bytes": 43770,
   "transition_references_and_completed_checkpoint_match": true,
   "preserved_artifacts": [
     "raw-shadows.jsonl",
     "raw-shadow-verification.json",
     "raw-shadow-checkpoint.json",
+    "raw-shadows-tests.log",
+    "raw-shadows-compute.log",
+    "raw-shadows-replay.log",
     "transition-compute.log",
     "transition-replay.log",
     "transition-skip.log",
+    "transition-87094-compute.log",
+    "transition-87094-replay.log",
     "transition-resume-tests.log",
-    "transitions-tests.log"
+    "transitions-tests.log",
+    "basis-pattern-probe.log",
+    "basis-pattern-final.log"
   ],
+  "previous_extrapolation_result_fields_unchanged": true,
   "raw_shadow_records": 9,
   "raw_gcds": [
     3,
@@ -72,39 +81,101 @@
     347,
     1
   ],
-  "finite_result": "H_87096 > H_87095 = H_87094; actual source first failure index 87095",
-  "basis_pattern_result": "Specific repeated selected-basis update through 90000 rejected at index 87097; predicted vector differs from the actual N=87096 witness.",
+  "finite_result": "H_87099 > H_87098 = H_87097 = H_87096; actual source first failure index 87098",
+  "maximal_plateau_lengths": [
+    2,
+    2,
+    3
+  ],
+  "latest_selected_basis_update_rows": [
+    [
+      8,
+      0
+    ],
+    [
+      4,
+      1
+    ]
+  ],
+  "new_height_below_H90000": true,
+  "new_primitive_witness_differs_from_N90000": true,
+  "new_minimality_coefficient_bound": 1,
+  "new_minimality_odd_coefficient_rows": 1,
   "evidence_levels": {
-    "minimum": "independent actual-parity and no-smaller-height certificate",
-    "basis_pattern": "exact finite two-route rejection; no new minimum",
-    "written_proofs": "inherited parity, monotonicity and basis-exclusion arguments",
-    "open": "asymptotic gcd cancellation, exact B and remaining intermediate minima"
+    "minimum": "exact computation and independent finite actual-parity/no-smaller-height certificate",
+    "basis_and_widths": "exact derived finite metadata from separately replayed certificates",
+    "written_proofs": "inherited finite parity, monotonicity and basis-exclusion arguments; no new Lean theorem",
+    "open": "exact B, asymptotic gcd cancellation and remaining intermediate minima"
   },
-  "next_obligation": "Locate the actual N=87096 witness first failure through 90000; certify only a missing target prefix; refresh replay, inventory and probe source hashes.",
+  "next_obligation": "Locate actual N=87099 witness first failure through 90000; certify only a missing target prefix; refresh replay, inventory and probe hashes.",
+  "resource_observations": {
+    "transition-87096-compute.log": {
+      "exit_status": 0,
+      "wall_seconds_observed": "7.93",
+      "peak_resident_kib_observed": 108244
+    },
+    "transition-87096-replay.log": {
+      "exit_status": 0,
+      "wall_seconds_observed": "10.13",
+      "peak_resident_kib_observed": 66908
+    },
+    "basis-chain-controls.log": {
+      "exit_status": 0,
+      "wall_seconds_observed": "3.47",
+      "peak_resident_kib_observed": 42164
+    },
+    "basis-chain-probe.log": {
+      "exit_status": 0,
+      "wall_seconds_observed": "1.85",
+      "peak_resident_kib_observed": 67160
+    },
+    "smoke.log": {
+      "exit_status": 0,
+      "wall_seconds_observed": "410.70",
+      "peak_resident_kib_observed": 99568
+    }
+  },
   "smoke_exit_status": 0,
-  "smoke_wall_seconds_observed": 404.91,
-  "smoke_peak_resident_kib_observed": 99312,
+  "smoke_wall_seconds_observed": 410.7,
+  "smoke_peak_resident_kib_observed": 99568,
   "complete_marker": false,
   "no_git_mutation_or_remote_access": true,
+  "no_agents_or_detached_processes": true,
+  "inspection_note": "Unsupported git show-ref --remotes was corrected using local git for-each-ref; no remote request.",
   "artifact_sha256": {
-    "heights.jsonl": "328ad4fca68e27a84edd2f0cf1e9f3212f4ef4cc9a399a525c9b8aa372c628f1",
-    "height-inventory.json": "0afc8c67e0efd49d5e0a71811c7d3ffb4e372030033499e47a18ea55ade28ce7",
-    "transitions.jsonl": "5d923526de3f5c9287e9a7dfd82dd38f96711e1016c9bf66bfb41e55d88766c8",
-    "transition-verification.json": "e61de5fa0b851b54fd619d8f670b52f96e33c7cde0ca494f1c7cdbc600569f5d",
-    "transition-checkpoint.json": "7e1486b04a47271389f583a67beaa8cc62343d6f718a08765b8d357bb4e57e44",
+    "README.md": "18056b4937cf409f3af84b3b7970d3a659db8cc57388e2cc965448291f0e2aaa",
+    "basis-chain-controls.log": "5334ea4743e63e6fe2c6ea0c75150b0cd3ed83e01124a3e3455b2913f7d3fac9",
+    "basis-chain-probe.log": "b1e71b8cdecaddd333f230f57902a7559efeec5dbd31d3f824098ed1581d9cfa",
+    "basis-pattern-final.log": "af44770323a29b607dc8bd1c460c33202e04c20b70e6314123c975e3ca7d37c5",
+    "basis-pattern-probe.json": "4aaf657dde135f13014773212b75d94a2800d91b2aa10d4652e8d247971ad4b0",
+    "basis-pattern-probe.log": "ed58ffd2a2ba2de50f7338cbf32a564fed3c32b8f017df8d8b75a3b541bd309d",
+    "height-inventory.json": "3ed289dfc777b40d978ccc3c6f06cea336b65181a742174e43c9a6732a8b593c",
+    "heights.jsonl": "6850209b82258f5fa86f933369141fa8390dd8f05b3da9723ed9a819ecde0865",
+    "probe_basis_pattern.py": "752b2e8dfa6d171efce36ed93cf744a08ddcd44dd37763259198792bf5a21f92",
+    "raw-shadow-checkpoint.json": "877de9acd3d93e16e15fe5ae13761cfcfcf615b5980adf8322f6dad3857b6194",
+    "raw-shadow-verification.json": "e04997eafdcb8915c338e3b2779566bf48617b42cfa5c74b48091630771f8aa8",
+    "raw-shadows-compute.log": "a373c28ccd884c3b6c357301b7798a8f52a3be9ae6fb3d0826024d9f72854818",
+    "raw-shadows-replay.log": "0a9ddcfc7f8db0a246e46733575e2917bfa4c9556feb1d41a8f4cb2b6a50f1c7",
+    "raw-shadows-tests.log": "f4398582ba5c92e350c5852cc48682fa6399a408bfacfdbb61f0ce10dcb6d10d",
+    "raw-shadows.jsonl": "72088c34e8e8ac6666da741466fd8c244168350de12c124be38b086d849acad7",
+    "smoke.log": "5d3f48a81ec6ebfa5b725a741531ea6a724d31115c8c2f4021ccc5f688d14018",
+    "smoke.sh": "20cc67c2bb6e92836b8b2cbf25d88ec8c6cee4802ea518c96e05e2a0145a6dfe",
+    "test_transitions.py": "fd9da5e842f50536210f5b08d3d4c4a32d7657a2f1be6a0efe5f4c62c1538424",
     "transition-87094-compute.log": "e0edf0d7c88d10eb3211f638bc3a75e511010c755b9df0ef5b45047f5ef33e71",
     "transition-87094-replay.log": "651e346961b9bc73cc087ea0a33f3a5ed439e6c1d71039f68d32225edbf6a3c6",
-    "probe_basis_pattern.py": "7878792aabb1ed5e1ce31eec34bf1570baffb55654461bb814079034a2dad005",
-    "basis-pattern-probe.json": "520af9e418aabf0e5fbc5af44d31bbb1ac1a010521d5250adf899bc85ba03a8a",
-    "basis-pattern-probe.log": "ed58ffd2a2ba2de50f7338cbf32a564fed3c32b8f017df8d8b75a3b541bd309d",
-    "basis-pattern-final.log": "af44770323a29b607dc8bd1c460c33202e04c20b70e6314123c975e3ca7d37c5",
-    "raw-shadows.jsonl": "72088c34e8e8ac6666da741466fd8c244168350de12c124be38b086d849acad7",
-    "raw-shadow-verification.json": "e04997eafdcb8915c338e3b2779566bf48617b42cfa5c74b48091630771f8aa8",
-    "raw-shadow-checkpoint.json": "877de9acd3d93e16e15fe5ae13761cfcfcf615b5980adf8322f6dad3857b6194",
-    "smoke.sh": "20cc67c2bb6e92836b8b2cbf25d88ec8c6cee4802ea518c96e05e2a0145a6dfe",
-    "smoke.log": "ddbf0096159a071c92f8a6c77198ef40cdc11aa71610e3fa4c8fca7ec3839c30",
-    "README.md": "c3c26a6339839b4062e6f8e1a609cbc66cc42020882bb74086241dc05eadcb72"
+    "transition-87096-compute.log": "d1ab7d11fbb24ffe87fab5a30497c62a2290a5828799e960bb7ef4fc1221af72",
+    "transition-87096-replay.log": "eab5f584746cb0349bc1f31c0ce03f00eead8ac1911a75a7151b98e23e71c359",
+    "transition-checkpoint.json": "d57ecd37dfe188370472b8da1b0eadf8094d2605db055a3c3f4601d92c2ae256",
+    "transition-compute.log": "0f1c6387fba4a9ff491113108252651dd3a4d4cbf8b09f7c3d5a2b4120fac645",
+    "transition-replay.log": "2279cc31275e7cfa3d1de4456778aaf08d4508ba3714303f0c6900b1de3a1f7c",
+    "transition-resume-tests.log": "e4aae2773b1bee874e380a6682844564c4da1ca4d1ffefe2c4d39cc73205bc59",
+    "transition-skip.log": "7bc37c0ea00fa966cce05169f8b7b982e2bd4f070c329b2a03be53d97d0a484d",
+    "transition-verification.json": "e98f63091dcde6e729d956fd53e69dd43fe35f556386f031884b7a49d0fedc09",
+    "transitions-tests.log": "1b62a29cc5f18785801e26e1cc06444967c97dc3ea5c344391a1f828fa4a672e",
+    "transitions.jsonl": "e83434b2e508be7859bb5af54e87c54c36ff22f3b2c949f705ac6bec5307781e"
   },
-  "journal_sha256": "19cdb5062bdf8acf6f02e6ab281ac7ea258e63a38d3f225aa83f1a60168627cb",
-  "summary_sha256": "b69d98e2dfc67301447e3925b39b3fa833012bdf6f94d9e20cff88c8b0775dea"
+  "journal_sha256": "2919a21fbdae4aee381acd42864cdbd9d0aaed2808b0b331478b490bff3d57cb",
+  "summary_sha256": "4c3484d02750c5b207e0bfdf37a30edffbb294d353c2c52bce500a077a9e51f2",
+  "reporting_check_note": "Initial substring search for pending matched historical appending; corrected placeholder/whole-word check passed. No experiment or evidence rerun.",
+  "final_metadata_consistency_check_passed": true
 }

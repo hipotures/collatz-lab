@@ -16,6 +16,7 @@ from unittest.mock import patch
 
 from extended_height import candidates, certify, residue
 from verify_transitions import indexed_prefix, reverse_pair, verify_transition
+import probe_basis_pattern as pattern
 import witness_transition as producer
 from witness_transition import digest, first_failure, literal_word, transition_record
 
@@ -36,6 +37,52 @@ def accepted(row, records, hashes):
     except (AssertionError, KeyError, ValueError):
         return False
     return True
+
+
+def chain_controls(records, hashes, links, replayed):
+    """Witness failures at tied heights must not certify plateau boundaries."""
+    chain, start = {}, 0
+    while start in links:
+        chain[start] = links[start]
+        start = links[start]["target_N"]
+    replay = {"results": [replayed[n] for n in chain]}
+    with patch.object(pattern, "END", 68):
+        result = pattern.certified_chain(records, hashes, chain, replay)
+        tied = [row for row in result["intervals"]
+                if not row["strict_height_increase_at_next_prefix"]]
+        assert tied, "missing equal-height witness change control"
+        assert all(row["source_N"] not in result["counterexample_source_N"] for row in tied)
+
+        # A strict right boundary alone cannot establish a maximal plateau.
+        row = next(row for row in result["intervals"]
+                   if row["strict_height_increase_at_next_prefix"])
+        source, target = row["source_N"], row["next_prefix_N"]
+        isolated = pattern.certified_chain({n: records[n] for n in (source, target)}, hashes,
+                                           {source: chain[source]}, {"results": [replayed[source]]})
+        assert not isolated["intervals"][0]["strict_height_increase_at_source"]
+        assert not isolated["hypothesis_falsified"]
+
+        bad_replay = deepcopy(replay)
+        bad_replay["results"][0]["constant_minimum_through_N"] += 1
+        bad_links = deepcopy(chain)
+        bad_links[0]["target_record_sha256"] = "0" * 64
+        bad_basis = deepcopy(records)
+        bad_basis[target]["basis"][0][0] = hex(int(bad_basis[target]["basis"][0][0], 16) + 1)
+        disconnected = dict(chain)
+        del disconnected[list(disconnected)[1]]
+        mutations = ((records, hashes, chain, bad_replay),
+                     (records, hashes, bad_links, replay),
+                     (bad_basis, hashes, chain, replay),
+                     (records, hashes, disconnected,
+                      {"results": [replayed[n] for n in disconnected]}))
+        for args in mutations:
+            try:
+                pattern.certified_chain(*args)
+            except (AssertionError, KeyError, ValueError):
+                pass
+            else:
+                raise AssertionError("malformed finite chain accepted")
+    return len(chain), len(tied), len(mutations)
 
 
 def resume_controls():
@@ -144,6 +191,7 @@ def main():
     hashes = {n: hashlib.sha256((json.dumps(row, sort_keys=True) + "\n").encode()).hexdigest()
               for n, row in records.items()}
     checked = tied = strict = 0
+    links, replayed = {}, {}
     good = None
     for n in range(68):
         source = records[n]
@@ -158,6 +206,7 @@ def main():
                    "search_parity_sha256": hashlib.sha256(bytes(bits)).hexdigest()}
         row = transition_record(source, records[index + 1], hashes[n], hashes[index + 1], located)
         result = verify_transition(row, records, hashes)
+        links[n], replayed[n] = row, result
         assert result["constant_minimum_through_N"] == index
         checked += 1
         tied += row["same_height"]
@@ -192,10 +241,13 @@ def main():
         mutations.append(bad)
     for bad in mutations:
         assert not accepted(bad, records, hashes), "corrupt transition accepted"
+    chain_count, chain_ties, chain_bad = chain_controls(records, hashes, links, replayed)
     resume = resume_controls()
     print(f"PASS: {controls} signed Fraction/valuation controls ({no_failure} no-failure cases); "
           f"{checked} small transition certificates ({tied} ties, {strict} strict increases); "
           f"{len(mutations)} rejected corruptions; {resume} publication/resumption controls; H_11=3, H_12=513")
+    print(f"PASS: {chain_count} independently certified small chain links ({chain_ties} ties); "
+          f"unknown left boundary stays unclassified; {chain_bad} malformed chains rejected")
 
 
 if __name__ == "__main__":

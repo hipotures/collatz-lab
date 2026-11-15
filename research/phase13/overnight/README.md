@@ -243,18 +243,19 @@ Commands for one new obligation (read the journal before choosing parameters):
 
 ```bash
 ulimit -v 1048576
-timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87096 --through 90000 --seconds 180 --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87099 --through 90000 --seconds 180 --write
 timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
 python3 -B research/phase13/overnight/summarize.py --write
 timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
-The new source above is intentional: transitions from `87092` and `87094`
-have already been certified, with failures at indices `87093` and `87095`
-and strict height increases at prefix lengths `87094` and `87096`.
-All endpoint heights have 51,875 bits. The actual `87096` witness has not
-been scanned beyond its certified prefix; it differs from the stored `90000`
-witness and has smaller height. No dense height profile follows.
+The new source above is intentional: transitions from `87092`, `87094` and
+`87096` have been certified, with failures at indices `87093`, `87095` and
+`87098`, and strict height increases at prefixes `87094`, `87096` and `87099`.
+All endpoint heights have 51,875 bits. The exact consecutive maximal plateaux
+have lengths 2, 2, 3. The actual `87099` witness has not been scanned beyond
+its certified prefix; it differs from the stored `90000` witness and has
+smaller height. No dense height profile or general plateau rule follows.
 
 ## A specific basis-pattern falsification
 
@@ -273,8 +274,11 @@ than the stored minimum at 90000, but fails actual parity first at index
 agree; a second reverse calculation reconstructs the exact failing numerator.
 The endpoint parity hash and reverse residue also match the stored certificate.
 This is an exact finite counterexample to this particular selected-basis
-extrapolation. It is not the actual 87096 witness and does not locate that
-witness's next failure, prove a plateau-width law, or certify a new minimum.
+extrapolation. It is not the actual 87096 witness, whose separately certified
+first failure is at index 87098 (prefix length 87099). No separate minimum at
+87098 was calculated: monotonicity and the persistent actual witness give
+`H_87096=H_87097=H_87098`. The extrapolation probe itself certifies no minimum
+or general plateau law.
 The two observed height increments also fail the exact scalar ratio four;
 a repeated basis update alone does not imply that height relation.
 
@@ -286,3 +290,22 @@ replays both arithmetic routes and compares the report. Refresh it after
 appending height or transition evidence, because its source hashes cover the
 whole files. Its trust boundary is Python exact arithmetic and the written
 finite parity equivalence, with no optimizer or new Lean theorem.
+
+The probe also derives `certified_transition_chain` from the separately
+replayed transition certificates. It checks source hashes, replay fields,
+contiguous intervals, lattice membership, denominator parity and basis
+determinants. Cramer's coordinates are checked by direct vector multiplication.
+The third selected-basis update is `f'=8*f, g'=4*f+g`. A constant interval is
+classified as a maximal plateau only when certificates give strict height
+changes on both sides. This gives the finite lengths 2, 2, 3 and rejects the
+precise claim that each maximal plateau in this chain has length two. These
+fields are derived metadata, not an additional minimum certificate.
+
+`test_transitions.py`, already called by smoke, checks a 31-link small chain
+from independently verified minima and first failures. Two equal-height
+witness changes do not falsely establish right plateau boundaries; omitting
+a left boundary leaves maximality unclassified. Four malformed-chain controls
+reject changed replay intervals, source references, basis coordinates and a
+missing connecting link. The real certificates are independently replayed
+before the probe in smoke. The new 87099 witness remains the next bounded
+research obligation; no extrapolation from these three widths is justified.
