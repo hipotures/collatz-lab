@@ -17,6 +17,14 @@
 - Local execution: start `drive_codex.sh` in `tmux` in a dedicated clone
   after confirming Codex CLI is installed/authenticated. It stops after
   eight hours at most; local machine must remain on.
+- **Usage-window reset handling:** an exhausted Codex 5-hour quota is
+  detected from CLI error output and retried every 600 seconds, without
+  resetting the 8-hour deadline or counting quota polls as failed research.
+  Genuine authentication failures still stop the loop. A weekly usage
+  limit might not reset during the overnight deadline.
+- If this script was cloned **before** the retry fix, fast-forward the
+  dedicated clone before starting; an already running shell cannot acquire
+  the new loop semantics merely by a later Git fetch.
 - Logs are written outside the checkout, under
   `~/DEV/collatz-lab-phase13-night-logs/latest/`.
 - The driver is allowed to commit/push only to this dedicated branch after
