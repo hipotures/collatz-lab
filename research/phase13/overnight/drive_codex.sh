@@ -28,6 +28,12 @@ fi
 for cmd in codex timeout git python3 tee; do
   command -v "$cmd" >/dev/null || { echo "ERROR: missing $cmd" >&2; exit 2; }
 done
+# Cap virtual memory for this driver and its child processes at 24 GiB.
+# The host remains untouched; this limit is local to this shell's children.
+if ! ulimit -v 25165824; then
+  echo "ERROR: unable to enforce the 24 GiB process memory cap" >&2
+  exit 2
+fi
 
 LOG_PARENT="${HOME}/DEV/collatz-lab-phase13-night-logs"
 RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
