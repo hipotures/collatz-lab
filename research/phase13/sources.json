@@ -1,0 +1,88 @@
+[
+  {
+    "file": "paper.tex",
+    "source": "https://zenodo.org/api/records/21543841/files/paper.tex/content",
+    "sha256": "629e9de77b6ccb06a7dc27193fbee4f6bcaa97bad0e1a697a593fe53d805c522"
+  },
+  {
+    "file": "cassidy.md",
+    "source": "https://raw.githubusercontent.com/eliottcassidy2000/math/6b805eed1613edaedd87965e2b1986390fa84f0e/05-knowledge/results/collatz_procgen_20260922_transversality_foundry.md",
+    "sha256": "4018320b5675b56bf671e828d3eb322207fc3a29dbd15d621022f46ef7c8cce3"
+  },
+  {
+    "file": "dubickas.pdf",
+    "source": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/C40C0C07FEC20797475BB2899C436C9A/S0017089508004655a.pdf/on_integer_sequences_generated_by_linear_maps.pdf",
+    "sha256": "69d2adbc28a61873bfc95b15d57916329ac243da492ae166a454ddc63acb03bf"
+  },
+  {
+    "file": "monks-yazinski.pdf",
+    "source": "https://monks.scranton.edu/files/pubs/AutoConjV13.pdf",
+    "sha256": "3fcf49c2e0a24a65c6ed11cd25d34964e4949e26e6a381181c5e6d6ae31ed7e1"
+  },
+  {
+    "file": "bernstein-lagarias.pdf",
+    "source": "https://websites.umich.edu/~lagarias/doc/bernstein.pdf",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "drift-Drift_Sensitive_Complexity_3x1_Conjugacy_Revision_1.pdf",
+    "source": "https://zenodo.org/api/records/23071770/files/Drift_Sensitive_Complexity_3x1_Conjugacy_Revision_1.pdf/content",
+    "sha256": "6bce09245a13fdf478ce834cbb80762a3a76c379b63b3555e83216aa23939362"
+  },
+  {
+    "file": "counting.pdf",
+    "source": "https://arxiv.org/pdf/2102.09070v2",
+    "sha256": "958da95a8a295c634930bac3ca79754c1f2b4f6394849d1a1e8f3ab1f149d11f"
+  },
+  {
+    "file": "fcsr.pdf",
+    "source": "https://www.cs.engr.uky.edu/~klapper/pdf/fcsr.pdf",
+    "sha256": "4eb8a930417c035c82c0b288d26b5e44f157769dcae7ebece47beaf6aa950ad1"
+  },
+  {
+    "file": "algebraic.pdf",
+    "source": "https://www.math.ias.edu/~goresky/pdf/algebraic0.pdf",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "deweger.pdf",
+    "source": "https://math.deweger.net/papers/%5B1%5DdW-ApprLatt-JNumTh%5B1986%5D.pdf",
+    "sha256": "2115f0ffb6ee7c7988e4b904ee324e829f6abbad3560ad6dc6fa901958dc211b"
+  },
+  {
+    "file": "wgd.pdf",
+    "source": "https://www.cecm.sfu.ca/personal/mmonagan/teaching/TopicsinCA13/GuyDavenWang.pdf",
+    "sha256": "ff6228d62dafb578e726089245ab0916124335cc698945dc67b18ea91940e76e"
+  },
+  {
+    "file": "flint.txt",
+    "source": "https://flintlib.org/doc/fmpq/reconstruct.html",
+    "sha256": "7532566a0acae3e9413db5c544b397ab3802e3c4d0e7125717e164ae1453ca7a"
+  },
+  {
+    "file": "flint-source.txt",
+    "source": "https://raw.githubusercontent.com/flintlib/flint/master/src/fmpq/reconstruct_fmpz_2.c",
+    "sha256": "c694024ced64340c266799859c41b49477518cf1e44ae160222333373377c9e4"
+  },
+  {
+    "file": "romeo.pdf",
+    "source": "https://arxiv.org/pdf/2306.14837v1",
+    "sha256": "c4402a55ebdd001fd31f34cafe6ceb5dc28c8886686b563cf0f04e56ecc3678a"
+  },
+  {
+    "file": "asymptotic.pdf",
+    "source": "https://www.cs.uky.edu/~klapper/pdf/asymptotic.pdf",
+    "sha256": "3c8bf4fa64468fb25195c47b9984fa11f34af21942af8a3b5a6a8571908ada47"
+  },
+  {
+    "file": "bernstein-lagarias-publisher.pdf",
+    "source": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/6975BB4A8C46CF6842217043AAF9EC13/S0008414X0004606Xa.pdf/3x_1_conjugacy_map.pdf",
+    "sha256": "a009d726310dc54fd6845ec27b06fd9396e4f50695970b95b710681a04e11077"
+  },
+  {
+    "file": "bernstein1994.pdf",
+    "source": "https://doi.org/10.1090/S0002-9939-1994-1186982-9",
+    "access": "owner-supplied local original",
+    "sha256": "6b17ddffb41416fb04dc0cba487a9c042a1186f40ae1a5d330b83f96770a3562"
+  }
+]

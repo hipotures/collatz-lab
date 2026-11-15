@@ -14,6 +14,15 @@ The aim is mathematical discovery toward a proof, not brute-force search.
 completeness or counterexample claim.** Every output is labelled with what
 kind of statement it is.
 
+Phase 13 adds [exact signed rational reconstruction heights](research/phase13-theory.md)
+for finite parity prefixes, with [independently certified 16,384-bit data](research/phase13-experiments.md).
+Lean verifies the finite lattice bridge and all-level rational-shadow integer
+bounds. Written deductions show that the normalized height profile of
+`1->100111,0->111110` does not converge; the exact liminf remains open.
+The [source audit](research/phase13-prior-art.md) attributes the general
+reconstruction and approximation methods to earlier work; no novelty claim
+is made. Start from the [resume journal](research/phase13-progress.md).
+
 ## What is here
 
 | module | purpose |
@@ -29,8 +38,10 @@ kind of statement it is.
 | `hypothesis` | a bounded generate-and-falsify workflow writing a JSONL research ledger |
 | `report` | the human-readable summary of an experiment |
 
-The library (`src/lib.rs`) holds all mathematics; the CLI (`src/main.rs`) is a
-thin front end. Rust only, stable toolchain, `Cargo.lock` committed.
+The Rust library (`src/lib.rs`) holds the lab computations; the CLI
+(`src/main.rs`) is a thin front end. It uses the stable toolchain with
+`Cargo.lock` committed. Lean proofs and exact Python research checkers are
+indexed in the [research notes](research/README.md).
 
 ## Quick start
 
