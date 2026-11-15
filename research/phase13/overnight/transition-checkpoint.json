@@ -1,14 +1,14 @@
 {
   "format": "phase13-transition-checkpoint-v1",
   "stage": "complete",
-  "source_N": 87104,
+  "source_N": 87109,
   "search_end_N": 90000,
-  "source_record_sha256": "4ca53bc5fad7b4c254162a825e5a5cb634efd77b9d225012f0bd2c6eb3ebd114",
-  "first_failure_index": 87108,
+  "source_record_sha256": "17f04f8e84241490021a186c950561a154ad189e4054a8060f45365fb358d373",
+  "first_failure_index": 87111,
   "failure_numerator_sign": 1,
-  "failure_numerator_bits": 63385,
-  "failure_numerator_abs_sha256": "1fb1791b4d0accb13b56b08a66e82c5dad463c437125a9980d100cf61e8848bc",
+  "failure_numerator_bits": 63384,
+  "failure_numerator_abs_sha256": "80b4f02234fba60be3ea1f1fb9d8c365a8bbd5f21fcb84a80d8141e69895a0a6",
   "search_parity_sha256": "a33ad9285b9d77d677cee417919a46cf6445d5aa9c1c5cd5c15d35928a599bbd",
-  "target_N": 87109,
-  "transition_record_sha256": "71c0497cd6d2791e646cbc6fbbdba785e273139e2e3fd1a8c82c0aae28314728"
+  "target_N": 87112,
+  "transition_record_sha256": "8687ce70285692e57ce111ad104303f685e1044683a81784e57b3e9fcaffe503"
 }
