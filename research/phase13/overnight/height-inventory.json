@@ -2,8 +2,8 @@
   "format": "phase13-overnight-inventory-v1",
   "classification": "derived exact finite metadata; not an asymptotic result",
   "source": "heights.jsonl",
-  "source_bytes": 7901178,
-  "source_sha256": "49b40df14814fa054a292c1d196324c3d301d3f1d2d3801557d8b2990fd9c026",
+  "source_bytes": 8027076,
+  "source_sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3",
   "samples": [
     {
       "N": 80000,
@@ -277,6 +277,20 @@
       "coefficient_rows": 1
     },
     {
+      "N": 87124,
+      "height_bits": 51875,
+      "numerator_sign": 1,
+      "numerator_abs_sha256": "0e470384028300a5467586be797cc6bc457a2f13c75b4eb1d4d038130d97ebba",
+      "denominator_sha256": "aa0f488829041ba4d8227d58e01cf96623a426d7295495aa96a24484c4553f47",
+      "parity_sha256": "b2fdf4aa25c648e37facb961e2baa30b0cdcc517e1ebe10cae695d7613d0265c",
+      "nonhold_updates": 33609,
+      "strict_witness_separation": false,
+      "even_basis_denominator": true,
+      "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-basis-interval-v1",
+      "coefficient_rows": 1
+    },
+    {
       "N": 90000,
       "height_bits": 51875,
       "numerator_sign": 1,
@@ -464,6 +478,13 @@
     },
     {
       "from_N": 87122,
+      "to_N": 87124,
+      "same_primitive_witness": false,
+      "same_height": false,
+      "height_ratio_floor_log2": 0
+    },
+    {
+      "from_N": 87124,
       "to_N": 90000,
       "same_primitive_witness": false,
       "same_height": false,

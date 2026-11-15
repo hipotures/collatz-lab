@@ -248,28 +248,29 @@ Commands for the latest completed request (do not repeat its producer):
 
 ```bash
 ulimit -v 1048576
-timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87121 --through 90000 --seconds 180 --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87122 --through 90000 --seconds 180 --write
 timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
 python3 -B research/phase13/overnight/summarize.py --write
 timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
 Transitions from `87092`, `87094`, `87096`, `87099`, `87100`, `87102`,
-`87103`, `87104`, `87109`, `87112`, `87113`, `87116`, `87118`, `87120` and `87121` are certified,
+`87103`, `87104`, `87109`, `87112`, `87113`, `87116`, `87118`, `87120`, `87121` and `87122` are certified,
 with failures at indices `87093`, `87095`, `87098`, `87099`, `87101`, `87102`,
-`87103`, `87108`, `87111`, `87112`, `87115`, `87117`, `87119`, `87120` and `87121`,
+`87103`, `87108`, `87111`, `87112`, `87115`, `87117`, `87119`, `87120`, `87121` and `87123`,
 and strict height increases at prefixes
 `87094`, `87096`, `87099`, `87100`, `87102`, `87103`, `87104`, `87109`, `87112`,
-`87113`, `87116`, `87118`, `87120`, `87121` and `87122`.
+`87113`, `87116`, `87118`, `87120`, `87121`, `87122` and `87124`.
 All endpoint heights have 51,875 bits. The exact consecutive maximal plateaux
-have lengths 2, 2, 3, 1, 2, 1, 1, 5, 3, 1, 3, 2, 2, 1, 1. The actual `87104` witness realizes
+have lengths 2, 2, 3, 1, 2, 1, 1, 5, 3, 1, 3, 2, 2, 1, 1, 2. The actual `87104` witness realizes
 all five prefixes `87104..87108`, the longest plateau in this stored chain;
 the next witnesses realize `87109..87111`, the singleton `87112`, and
-`87113..87115`, `87116..87117`, `87118..87119` and the singletons `87120`, `87121`.
-The new `87122` witness has not been scanned beyond its certified prefix;
+`87113..87115`, `87116..87117`, `87118..87119`, the singletons `87120`, `87121`,
+and `87122..87123`.
+The new `87124` witness has not been scanned beyond its certified prefix;
 it differs from the stored `90000` witness and has smaller height.
 Check evidence headroom before further requests; remaining height and
-second-segment headroom is 487,430 and 348,887 bytes. The sealed base
+second-segment headroom is 361,532 and 305,040 bytes. The sealed base
 segment must stay unchanged. Keep both fixed caps in force. No dense height
 profile or general plateau rule follows.
 
@@ -366,20 +367,20 @@ segmented evidence support; no extrapolation from these eleven widths is justifi
 
 ## Two-segment continuation
 
-The fifteenth transition is now independently certified. The actual `N=87121`
-witness first fails at index 87121, giving the maximal singleton plateau `87121`
-and `H_87120 < H_87121 < H_87122 < H_90000`. The new height has
-51,875 bits and its positive increase has 35,243 bits, with exact comparison
-`1 < H_87122/H_87121 < 2`. Only the missing minimum at 87122 was computed.
-The selected basis update is `[[2,0],[1,1]]`. The consecutive maximal widths
-are now `2,2,3,1,2,1,1,5,3,1,3,2,2,1,1`; fourteen adjacent pairs include six
-decreases. Twenty-eight equal-width comparisons include nine unequal updates.
+The sixteenth transition is now independently certified. The actual `N=87122`
+witness first fails at index 87123, giving the maximal plateau `87122..87123`
+and `H_87121 < H_87122 = H_87123 < H_87124 < H_90000`. The new height has
+51,875 bits and its positive increase has 35,247 bits, with exact comparison
+`1 < H_87124/H_87122 < 2`. Only the missing minimum at 87124 was computed.
+The selected basis update is `[[4,0],[2,1]]`. The consecutive maximal widths
+are now `2,2,3,1,2,1,1,5,3,1,3,2,2,1,1,2`; fifteen adjacent pairs include six
+decreases. Thirty-three equal-width comparisons include nine unequal updates.
 These finite observations do not determine an asymptotic law.
 
 `transitions.jsonl` is sealed at 481,400 bytes and eleven records, unchanged
 from entry commit `dbefca3041ead2a7fb98624cf579170ba5a4fe1e`.
-`transitions-0002.jsonl` has four records totaling 175,401 bytes, preserving
-the first 131,553 bytes. The latest line adds 43,848 bytes. Each segment keeps
+`transitions-0002.jsonl` has five records totaling 219,248 bytes, preserving
+the first 175,401 bytes. The latest line adds 43,847 bytes. Each segment keeps
 the fixed 512 KiB cap, and only these two fixed filenames are supported.
 Every new link includes `previous_transition_record_sha256`, the SHA-256 of
 the exact preceding JSONL line including its newline. At the segment boundary
@@ -393,7 +394,7 @@ of the producer.
 The independent replay now writes `phase13-transition-replay-v2`: `sources`
 binds each filename, byte count, record count and hash; `source_sha256` hashes
 the concatenation in fixed segment order. The probe binds the same partition
-and concatenation, as well as the height file. All fourteen earlier replay
+and concatenation, as well as the height file. All fifteen earlier replay
 results, chain intervals and extrapolation fields are preserved. Height
 record and mathematical transition formats remain v1.
 
@@ -435,12 +436,14 @@ timeout 750s bash research/phase13/overnight/smoke.sh
 The first replay above validates the new reader against the eleven historical
 links before research; the second validates the new twelve-link stream.
 See the command logs and journal for actual outcomes and resource observations.
-The current fifteenth-link command is listed above under the bounded witness
-transition; its logs are `transition-87121-compute.log`,
-`transition-87121-replay.log` and `basis-87121-chain.log`.
-The 8 MiB height cap is unchanged: twenty-three records use 7,901,178 bytes,
-leaving 487,430 bytes. The second transition segment leaves 348,887 bytes.
-Next scan only the stored `N=87122` witness through 90000, after checking
+The current sixteenth-link command is listed above under the bounded witness
+transition; its logs are `transition-87122-compute.log`,
+`transition-87122-replay.log` and `basis-87122-chain.log`.
+The 8 MiB height cap is unchanged: twenty-four records use 8,027,076 bytes,
+leaving 361,532 bytes. The second transition segment leaves 305,040 bytes.
+At the latest line size, only two more height records fit; check exact sizes
+before publication and preserve the cap.
+Next scan only the stored `N=87124` witness through 90000, after checking
 current local evidence and capacity, and certify only its first missing
 failing prefix. Its next failure remains unresolved. Raw-shadow level 8 is
 unchanged; level 9 still needs separately bounded resumable arithmetic.

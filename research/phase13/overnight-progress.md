@@ -3,68 +3,66 @@
 ## Resume here
 
 - Branch: `codex/phase13-overnight`. Entry HEAD and cached origin ref:
-  `bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10`. PR #29 source:
+  `caaa37cf68e399b48dae0fa975a45f9cc2447d9f`. PR #29 source:
   `65b087dc62e4950e1c504fe34865acaacb9188c9`. Entry was clean. No Git
   mutation or remote access occurred; the host driver owns commit/push.
-- **Completed this iteration:** the actual `N=87121` witness first fails at
-  zero-based index **87121**. Only the missing minimum at **87122** was
-  computed. Exact finite results give **`H_87120 < H_87121 < H_87122 < H_90000`**.
-  The maximal plateau at 87121 is a singleton, following the singleton at
-  87120. The new height has 51,875 bits, its positive increase has 35,243
-  bits, and `1 < H_87122/H_87121 < 2` by exact integer comparisons.
+- **Completed this iteration:** the actual `N=87122` witness first fails at
+  zero-based index **87123**. Only the missing minimum at **87124** was
+  computed. Exact finite results give
+  **`H_87121 < H_87122 = H_87123 < H_87124 < H_90000`**.
+  The maximal plateau is 87122..87123, width two, following two singletons.
+  The new height has 51,875 bits, its positive increase has 35,247 bits,
+  and `1 < H_87124/H_87122 < 2` by exact integer comparisons.
 - Literal forward iteration and independent indexed substitution/reverse
   branches agree on the failure. Both endpoint minima have checked primitive
   positive odd-denominator witnesses, actual parities and no-smaller-height
-  certificates. The positive failing numerator has 63,386 bits, SHA-256
-  `8695e637548448cef5fb72cb4990878965a4bf3bdebb208e095f0276fb500f38`.
+  certificates. The positive failing numerator has 63,384 bits, SHA-256
+  `4d36741dd00f16fa4a60d6f5c237bb03626c26401313dd2094ccea8ae8018324`.
   The new exclusion has coefficient bound 1 and one exhaustive odd row.
-- Producer and fifteen-link replay passed, exit 0, in 7.70s and 48.62s,
-  peak 117,416 and 71,120 KiB. Evidence: `overnight/transition-87121-compute.log`,
-  `transition-87121-replay.log`, `transition-verification.json`,
-  `transition-87121-preflight.json` and the completed `transition-checkpoint.json`.
+- Producer and sixteen-link replay passed, exit 0, in 7.75s and 52.30s,
+  peak 118,088 and 71,520 KiB. Evidence: `overnight/transition-87122-compute.log`,
+  `transition-87122-replay.log`, `transition-verification.json`,
+  `transition-87122-preflight.json` and completed `transition-checkpoint.json`.
   Producer signal/outer budgets were 180/185 seconds; replay had a 180-second
   outer timeout. Both used a 1 GiB child address-space cap.
-- Twenty-three height records use 7,901,178 bytes, SHA-256
-  `49b40df14814fa054a292c1d196324c3d301d3f1d2d3801557d8b2990fd9c026`.
-  All 7,775,280 previous bytes are preserved; one 125,898-byte line was appended.
-  The unchanged 8 MiB cap leaves **487,430 bytes**.
+- Twenty-four height records use 8,027,076 bytes, SHA-256
+  `08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3`.
+  All 7,901,178 previous bytes are preserved; one 125,898-byte line was appended.
+  The unchanged 8 MiB cap leaves **361,532 bytes**. At the latest line size,
+  only two more height records fit. Check exact sizes; do not raise the cap.
 - The sealed eleven-record base remains 481,400 bytes, SHA-256
   `24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7`.
-  Segment 2 has four records and 175,401 bytes, SHA-256
-  `419f2b217ee31ada351742cf6a1b2c4d2f04f5cafda79ba31b362d66c8bc8be5`.
-  All 131,553 old bytes are preserved; the new line is 43,848 bytes. The
-  unchanged 512 KiB cap leaves **348,887 bytes**. Exact proposed sizes were
+  Segment 2 has five records and 219,248 bytes, SHA-256
+  `786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e`.
+  All 175,401 old bytes are preserved; the new line is 43,847 bytes. The
+  unchanged 512 KiB cap leaves **305,040 bytes**. Exact proposed sizes were
   checked before publication. Do not append to the base, add a third segment
   or raise either cap.
-- Fifteen maximal widths are **2,2,3,1,2,1,1,5,3,1,3,2,2,1,1**. The newest
-  selected-basis update is `[[2,0],[1,1]]`. The probe passed in 2.05s, peak
-  71,524 KiB (`overnight/basis-87121-chain.log`): fourteen adjacent maximal
-  pairs retain six decreases; twenty-eight equal-width pairs include nine
-  unequal updates. All earlier falsifications remain intact.
-- **Validation passed:** `timeout 750s /usr/bin/time -v bash
-  research/phase13/overnight/smoke.sh`, under a 1 GiB child cap, exit 0,
-  **457.37s** wall time, peak **102,176 KiB**. All twenty-three heights,
-  fifteen transitions, nine raw-shadow levels and existing regressions passed.
-  Shell syntax, overnight Python compilation and `git diff --check` passed.
-  Evidence: `overnight/smoke.log`, `overnight/checkpoint-audit.json`. All 63
-  historical command logs, earlier replay results, basis intervals and journal
-  sections are preserved. No computation remains running.
+- Sixteen maximal widths are **2,2,3,1,2,1,1,5,3,1,3,2,2,1,1,2**. The newest
+  selected-basis update is `[[4,0],[2,1]]`. The probe passed in 2.07s, peak
+  71,896 KiB (`overnight/basis-87122-chain.log`): fifteen adjacent maximal
+  pairs retain six decreases; thirty-three equal-width pairs retain nine
+  unequal updates. No new falsification follows; earlier results are intact.
+- **Validation in progress:** `timeout 750s /usr/bin/time -v bash
+  research/phase13/overnight/smoke.sh`, under a 1 GiB child cap, is running.
+  Its final exit status and resource observations must be recorded before
+  handoff. Evidence: `overnight/smoke.log`. All 23 prior height lines,
+  15 replay results/basis intervals and 66 historical command logs have
+  already passed preservation checks. Python/shell implementations are unchanged.
 - `L_5` and `L_6` triplets and raw-shadow levels 0..8 remain complete;
-  gcds stay `[3,1,1,1,1,1,1,347,1]`. Level 9 is unattempted. No Python/shell
-  implementation, original Phase 13 code, Lean/Rust, CI, paper or other
-  worktree was edited.
+  gcds stay `[3,1,1,1,1,1,1,347,1]`. Level 9 is unattempted.
 - **Evidence levels:** new minimum and failure are exact computation plus
   independent finite certificates. Basis comparisons are derived integer
   metadata. Maximality uses inherited written parity and monotonicity
   arguments; no new all-level written proof or Lean theorem was added.
   Exact `B`, asymptotic gcd cancellation and remaining intermediate minima
-  remain open. Fifteen intervals establish no asymptotic law.
-- **Next bounded obligation:** reread local files and capacity, then scan
-  only the stored `N=87122` witness through 90000. Certify only its first
-  missing failing prefix and independently replay it. Its next failure is
-  unresolved; `H_87122 < H_90000` with distinct primitive witnesses. Do not
-  repeat the 87121 producer or infer failure from widths or basis updates.
-  Useful bounded work remains; no `COMPLETE` marker is justified.
+  remain open. Sixteen intervals establish no asymptotic law.
+- **Next bounded obligation:** finish smoke and the final audit, then reread
+  local files and capacity and scan only the stored `N=87124` witness through
+  90000. Certify only its first missing failing prefix and independently
+  replay it. Its next failure is unresolved; `H_87124 < H_90000` with distinct
+  primitive witnesses. Do not repeat the 87122 producer or infer failure from
+  widths/basis updates. Useful bounded work remains; no `COMPLETE` is justified.
 
 ## Scope and evidence levels
 
@@ -1504,23 +1502,99 @@ intermediate minima stay open. Fifteen intervals do not determine asymptotic
 behavior; no novelty claim is made. Useful bounded work remains; no `COMPLETE`
 marker is justified. The host driver owns commit/push.
 
+## Sixteenth transition and return to a width-two plateau
+
+Entry HEAD/cached origin ref is `caaa37cf68e399b48dae0fa975a45f9cc2447d9f`.
+Current local instructions, plan, complete journal, theory Sections 5–9 and
+existing Phase 13/overnight experiment and verifier modules were read before
+research. The supplied issue #30 prompt and local plan provide scope; remote
+access is prohibited, so current remote issue/PR state was not queried.
+Every timed command below used `ulimit -v 1048576` in its child shell.
+
+- The bounded preflight reread current certificates, inventory, replay and
+  checkpoint, verified the clean isolated branch/cached ref and confirmed no
+  transition from 87122. Twenty-three heights and fifteen connected links
+  were present; the preceding checkpoint was complete. Source/predecessor
+  hashes and both fixed segment names matched. Reserves of 128 KiB for one
+  height and 48 KiB for one transition fit the unchanged caps. Entry file
+  hashes and exact capacities are in `overnight/transition-87122-preflight.json`.
+  The inline preflight ran under `timeout 25s`, exit 0.
+- `timeout 185s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/witness_transition.py --start 87122 --through 90000
+  --seconds 180 --write` passed, exit 0, 7.75s wall time, peak 118,088 KiB.
+  It checkpointed the actual failure at index 87123 after 1.527s and published
+  only the missing minimum at 87124 after 7.715s. Both exact proposed sizes
+  and independent endpoint/transition checks passed before publication.
+  Evidence: `overnight/transition-87122-compute.log`. No earlier producer
+  was repeated. No separate minimum at 87123 was computed.
+- `timeout 180s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/verify_transitions.py --write` passed, exit 0,
+  52.30s wall time, peak 71,520 KiB. All sixteen links received independent
+  actual-parity and no-smaller-height checks for both endpoints. Indexed
+  substitution and reverse-branch discrepancy valuation agree with the
+  literal forward scan at failure index 87123; the independently reconstructed
+  failing numerator is positive, has 63,384 bits and magnitude SHA-256
+  `4d36741dd00f16fa4a60d6f5c237bb03626c26401313dd2094ccea8ae8018324`.
+  The new exclusion has coefficient bound 1 and one exhaustive odd row.
+  Evidence: `overnight/transition-87122-replay.log`, `transition-verification.json`.
+- Exact comparisons and inherited persistence/monotonicity give
+  `H_87121 < H_87122 = H_87123 < H_87124 < H_90000` and
+  `1 < H_87124/H_87122 < 2`. Thus 87122..87123 is a maximal width-two
+  plateau, following the two singletons at 87120 and 87121. The new height
+  has 51,875 bits and the positive increase 35,247 bits. The new witness
+  differs from the stored 90000 witness; its next failure has not been scanned.
+- One appended height line adds 125,898 bytes, preserving all 7,901,178 old
+  bytes. Total 8,027,076 bytes leaves 361,532 under the unchanged 8 MiB cap.
+  Only two more height records of this latest size fit; exact capacity must
+  be checked before later publication. The eleven-link base is sealed and
+  unchanged at 481,400 bytes. One new 43,847-byte segment-2 line preserves
+  all 175,401 old bytes; total 219,248 bytes leaves 305,040 under its unchanged
+  512 KiB cap. Exact references bind both endpoint height lines and the
+  preceding transition. The checkpoint is complete. No third segment was added.
+- `timeout 25s python3 -B research/phase13/overnight/summarize.py --write`
+  passed for all twenty-four height records. This derives integer metadata
+  without recomputing a minimum. Separate bounded inline exact comparisons
+  and byte-preservation checks also passed, exit 0.
+- `timeout 35s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/probe_basis_pattern.py --write` passed, exit 0,
+  2.07s wall time, peak 71,896 KiB. Determinants and direct vector multiplication
+  give the new selected-basis update `[[4,0],[2,1]]`. Sixteen maximal widths
+  are 2,2,3,1,2,1,1,5,3,1,3,2,2,1,1,2. Fifteen adjacent pairs retain six
+  decreases; thirty-three equal-width pairs retain nine unequal updates.
+  The new width-two interval adds five equal-update comparisons; no new
+  falsification follows. All fifteen earlier intervals and extrapolation
+  fields remain intact. Evidence: `overnight/basis-87122-chain.log`,
+  `basis-pattern-probe.json`. No implementation change was needed.
+- Validation status: full smoke is running. Final exit/resource observations
+  and the final scope/reference audit must be recorded before handoff.
+
+**Evidence levels:** the new minimum and failure are exact computation plus
+independent finite actual-parity/no-smaller-height certificates. Basis changes
+are derived exact integer metadata. Plateau maximality uses inherited written
+parity and monotonicity arguments. No new all-level written proof or Lean
+proposition was added. Exact `B`, asymptotic raw-gcd cancellation and remaining
+intermediate minima stay open. Sixteen intervals do not determine asymptotic
+behavior; no novelty claim is made. Useful bounded work remains; no `COMPLETE`
+marker is justified. The host driver owns commit/push.
+
 ## Concrete continuation
 
-Reread current local instructions, plan, journal, code, evidence and Git state
-before each step; another iteration may already have progressed. Twenty-three
-sparse height records, fifteen post-`L_5` transitions and raw-shadow levels
-0..8 are complete. Do not repeat their producers; smoke replays certificates
-as validation.
+First confirm the current smoke completion and final audit. Reread local
+instructions, plan, journal, code, evidence and Git state before each step;
+another iteration may already have progressed. Twenty-four sparse height
+records, sixteen post-`L_5` transitions and raw-shadow levels 0..8 are complete.
+Do not repeat their producers; smoke replays certificates as validation.
 
 Keep `transitions.jsonl` sealed byte for byte and both fixed 512 KiB segment
 caps. Append only to `transitions-0002.jsonl`; no third segment is supported.
 The replay/probe bind both partitions and the cross-segment predecessor;
 the completed checkpoint names the exact segment and line hash. Exact output
 sizes are checked before publishing a new height. Current headroom is
-**487,430 height bytes** and **348,887 second-segment bytes**. Check it before
-another request; do not increase caps to fit records.
+**361,532 height bytes** and **305,040 second-segment bytes**. At the latest
+height line size only two more height records fit. Check exact capacities
+before another request; do not increase caps to fit records.
 
-Next locate the actual first parity mismatch of the stored `N=87122` witness
+Next locate the actual first parity mismatch of the stored `N=87124` witness
 through 90000. Use a 180-second signal budget, outer timeout and 1 GiB child
 cap. If its transition is absent, certify only its first missing failing
 prefix `t+1`, independently replay, refresh inventory/probe and run smoke.
@@ -1528,11 +1602,11 @@ After checking current state, the producer command is:
 
 ```bash
 ulimit -v 1048576
-timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87122 --through 90000 --seconds 180 --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87124 --through 90000 --seconds 180 --write
 ```
 
-Exact comparisons give `H_87122 < H_90000` with distinct primitive witnesses;
-the next failure is unresolved. The actual 87121 witness failed at 87121.
+Exact comparisons give `H_87124 < H_90000` with distinct primitive witnesses;
+the next failure is unresolved. The actual 87122 witness failed at 87123.
 Earlier widths and basis shears do not locate the next failure. Constant
 width two, nondecreasing maximal widths and equal-width determination of
 selected-basis updates remain falsified on this finite chain. No replacement

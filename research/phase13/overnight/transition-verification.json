@@ -1,8 +1,8 @@
 {
   "format": "phase13-transition-replay-v2",
   "classification": "independent finite certificate; no asymptotic inference",
-  "source_sha256": "348e96a2dc3806e736261717bfe026246e79564689aa76987920284ebf876e47",
-  "source_bytes": 656801,
+  "source_sha256": "ddc4f5e45e338ef708cd3cf84b5920064e202165e8becaaa0b9ed2a0ca908f93",
+  "source_bytes": 700648,
   "sources": [
     {
       "path": "transitions.jsonl",
@@ -12,12 +12,12 @@
     },
     {
       "path": "transitions-0002.jsonl",
-      "bytes": 175401,
-      "records": 4,
-      "sha256": "419f2b217ee31ada351742cf6a1b2c4d2f04f5cafda79ba31b362d66c8bc8be5"
+      "bytes": 219248,
+      "records": 5,
+      "sha256": "786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e"
     }
   ],
-  "height_source_sha256": "49b40df14814fa054a292c1d196324c3d301d3f1d2d3801557d8b2990fd9c026",
+  "height_source_sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3",
   "results": [
     {
       "source_N": 87092,
@@ -150,6 +150,15 @@
       "first_failure_index": 87121,
       "target_N": 87122,
       "constant_minimum_through_N": 87121,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87122,
+      "first_failure_index": 87123,
+      "target_N": 87124,
+      "constant_minimum_through_N": 87123,
       "strict_height_increase_at_target": true,
       "source_height_bits": 51875,
       "target_height_bits": 51875
