@@ -1,63 +1,96 @@
 {
-  "format": "phase13-overnight-checkpoint-audit-v1",
-  "classification": "local scope, evidence-reference and preservation audit; finite computations only",
+  "format": "phase13-overnight-checkpoint-audit-v2",
+  "classification": "local scope, segmented evidence references and preservation audit; finite computations only",
   "branch": "codex/phase13-overnight",
-  "entry_head": "1b2161ccc62cf4d7a183ae676f71a1a083b2e8d5",
-  "head_after_validation": "1b2161ccc62cf4d7a183ae676f71a1a083b2e8d5",
-  "cached_origin_ref": "1b2161ccc62cf4d7a183ae676f71a1a083b2e8d5",
+  "entry_head": "dbefca3041ead2a7fb98624cf579170ba5a4fe1e",
+  "head_after_validation": "dbefca3041ead2a7fb98624cf579170ba5a4fe1e",
+  "cached_origin_ref": "dbefca3041ead2a7fb98624cf579170ba5a4fe1e",
   "issue_url": "https://github.com/hipotures/collatz-lab/issues/30",
   "pr_url": "https://github.com/hipotures/collatz-lab/pull/29",
-  "remote_status": "not queried; no remote access or issue/PR mutation",
+  "remote_status": "not queried or changed; user forbids remote access; host driver owns commit/push",
   "changed_paths": [
     "research/phase13/overnight-progress.md",
     "research/phase13/overnight-summary.md",
     "research/phase13/overnight/README.md",
-    "research/phase13/overnight/basis-87113-chain.log",
+    "research/phase13/overnight/basis-87116-chain.log",
     "research/phase13/overnight/basis-pattern-probe.json",
     "research/phase13/overnight/checkpoint-audit.json",
     "research/phase13/overnight/height-inventory.json",
     "research/phase13/overnight/heights.jsonl",
+    "research/phase13/overnight/probe_basis_pattern.py",
+    "research/phase13/overnight/segment-controls.log",
+    "research/phase13/overnight/segment-legacy-controls.log",
+    "research/phase13/overnight/segment-legacy-replay.log",
     "research/phase13/overnight/smoke.log",
-    "research/phase13/overnight/transition-87113-compute.log",
-    "research/phase13/overnight/transition-87113-preflight.json",
-    "research/phase13/overnight/transition-87113-replay.log",
+    "research/phase13/overnight/smoke.sh",
+    "research/phase13/overnight/test_transition_segments.py",
+    "research/phase13/overnight/transition-87116-compute.log",
+    "research/phase13/overnight/transition-87116-preflight.json",
+    "research/phase13/overnight/transition-87116-replay.log",
     "research/phase13/overnight/transition-checkpoint.json",
     "research/phase13/overnight/transition-verification.json",
-    "research/phase13/overnight/transitions.jsonl"
+    "research/phase13/overnight/transitions-0002.jsonl",
+    "research/phase13/overnight/verify_transitions.py",
+    "research/phase13/overnight/witness_transition.py"
   ],
   "all_changed_paths_authorized": true,
   "append_only_evidence": {
     "heights.jsonl": {
-      "previous_bytes_preserved": 7271692,
-      "appended_bytes": 125896,
-      "source_bytes": 7397588,
-      "sha256": "4d250b23e27b8cd5b916a5cc8464fa9de3ddc7e9f0019866743cf6d1a4bf4102",
+      "previous_bytes_preserved": 7397588,
+      "appended_bytes": 125897,
+      "source_bytes": 7523485,
+      "records": 20,
+      "sha256": "e6c9f50df7c16938f443c9e7a0ffb375b0e6904e91b321daa53d64af4dceddd6",
       "fixed_cap_bytes": 8388608,
-      "remaining_bytes": 991020
+      "remaining_bytes": 865123
     },
     "transitions.jsonl": {
-      "previous_bytes_preserved": 437647,
-      "appended_bytes": 43753,
-      "source_bytes": 481400,
+      "path": "transitions.jsonl",
+      "bytes": 481400,
+      "records": 11,
       "sha256": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7",
+      "sealed": true,
+      "previous_bytes_preserved": 481400,
+      "appended_bytes": 0,
       "fixed_cap_bytes": 524288,
       "remaining_bytes": 42888
+    },
+    "transitions-0002.jsonl": {
+      "path": "transitions-0002.jsonl",
+      "bytes": 43853,
+      "records": 1,
+      "sha256": "49fd0fd72a893a544a4e08bc8e01c152f55ba1754dd9d44ee05c2798dcf54235",
+      "new_segment": true,
+      "fixed_cap_bytes": 524288,
+      "remaining_bytes": 480435,
+      "previous_transition_record_sha256": "87a7e44b8897c108d2d24461a21a4fb5fd778fa332cfb8c207bec7a70956eff0"
     }
   },
-  "height_records": 19,
-  "transition_records": 11,
-  "transition_references_and_completed_checkpoint_match": true,
-  "previous_extrapolation_result_fields_unchanged": true,
-  "previous_ten_chain_links_unchanged": true,
-  "preserved_old_command_logs": 48,
-  "preserved_artifacts": [
-    "research/phase13/overnight/PLAN.md",
+  "transition_stream_sha256": "efec67e776e65297cd0f2645357dbfd00f13f3ae98cb63e048e56a9912f894dc",
+  "transition_stream_bytes": 525253,
+  "source_and_target_height_line_references_match": true,
+  "checkpoint_complete": true,
+  "exact_both_output_sizes_checked_before_height_publication": true,
+  "segment_controls": {
+    "independent_readers": 3,
+    "malformed_reader_rejections": 36,
+    "publication_resumption_capacity_controls": 9,
+    "three_interruption_boundaries_checked": true,
+    "no_repeated_scan_or_published_minimum_on_resume": true
+  },
+  "previous_independent_replay_results_preserved": 11,
+  "previous_basis_chain_intervals_preserved": 11,
+  "previous_extrapolation_fields_preserved": true,
+  "historical_journal_sections_preserved": true,
+  "preceding_command_logs_preserved": 51,
+  "unchanged_protected_paths": [
     "research/phase13/overnight/basis-87100-chain.log",
     "research/phase13/overnight/basis-87102-chain.log",
     "research/phase13/overnight/basis-87103-chain.log",
     "research/phase13/overnight/basis-87104-chain.log",
     "research/phase13/overnight/basis-87109-chain.log",
     "research/phase13/overnight/basis-87112-chain.log",
+    "research/phase13/overnight/basis-87113-chain.log",
     "research/phase13/overnight/basis-chain-controls.log",
     "research/phase13/overnight/basis-chain-probe.log",
     "research/phase13/overnight/basis-equal-width-probe.log",
@@ -73,7 +106,6 @@
     "research/phase13/overnight/l5-sparse.log",
     "research/phase13/overnight/l5-triplet.log",
     "research/phase13/overnight/l6-triplet.log",
-    "research/phase13/overnight/probe_basis_pattern.py",
     "research/phase13/overnight/raw-shadow-checkpoint.json",
     "research/phase13/overnight/raw-shadow-verification.json",
     "research/phase13/overnight/raw-shadows-compute.log",
@@ -83,7 +115,6 @@
     "research/phase13/overnight/raw_shadows.py",
     "research/phase13/overnight/regression-checked.log",
     "research/phase13/overnight/regression.log",
-    "research/phase13/overnight/smoke.sh",
     "research/phase13/overnight/summarize.py",
     "research/phase13/overnight/test_basis.py",
     "research/phase13/overnight/test_extended.py",
@@ -107,6 +138,8 @@
     "research/phase13/overnight/transition-87109-replay.log",
     "research/phase13/overnight/transition-87112-compute.log",
     "research/phase13/overnight/transition-87112-replay.log",
+    "research/phase13/overnight/transition-87113-compute.log",
+    "research/phase13/overnight/transition-87113-replay.log",
     "research/phase13/overnight/transition-compute.log",
     "research/phase13/overnight/transition-replay.log",
     "research/phase13/overnight/transition-resume-tests.log",
@@ -114,19 +147,23 @@
     "research/phase13/overnight/transitions-tests.log",
     "research/phase13/overnight/verify_raw_shadows.py",
     "research/phase13/overnight/verify_results.py",
+    "research/phase13/overnight/width-decrease-controls.log"
+  ],
+  "changed_overnight_python_shell_sources": [
+    "research/phase13/overnight/probe_basis_pattern.py",
+    "research/phase13/overnight/smoke.sh",
+    "research/phase13/overnight/test_transition_segments.py",
     "research/phase13/overnight/verify_transitions.py",
-    "research/phase13/overnight/width-decrease-controls.log",
     "research/phase13/overnight/witness_transition.py"
   ],
-  "all_python_shell_sources_and_raw_shadow_artifacts_unchanged": true,
-  "historical_journal_sections_preserved": true,
   "raw_shadow_records": 9,
-  "finite_result": "H_87112 < H_87113 = H_87114 = H_87115 < H_87116 < H_90000; actual N=87113 first failure index 87115; maximal plateau 87113..87115",
+  "raw_shadow_artifacts_and_sources_unchanged": true,
+  "finite_result": "H_87115 < H_87116 = H_87117 < H_87118 < H_90000; actual N=87116 first failure 87117; maximal plateau 87116..87117",
   "new_height_bits": 51875,
-  "height_increase_bits": 35239,
+  "height_increase_bits": 35241,
   "failure_numerator_sign": 1,
-  "failure_numerator_bits": 63386,
-  "failure_numerator_abs_sha256": "96bea349e80e184c8a641f8eebc16c4e492ac4cf08e925ae83c1c10ab9b0fd44",
+  "failure_numerator_bits": 63384,
+  "failure_numerator_abs_sha256": "a44351a81ff4ef83f98b83747acbe985ee431bfce004573ef5007b0d2552f326",
   "maximal_plateau_lengths": [
     2,
     2,
@@ -138,21 +175,22 @@
     5,
     3,
     1,
-    3
+    3,
+    2
   ],
   "latest_selected_basis_update_rows": [
     [
-      8,
+      4,
       0
     ],
     [
-      4,
+      2,
       1
     ]
   ],
   "nondecreasing_width_test": {
     "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-    "adjacent_maximal_plateau_pairs_checked": 10,
+    "adjacent_maximal_plateau_pairs_checked": 11,
     "hypothesis_falsified": true,
     "decreases": [
       {
@@ -178,12 +216,18 @@
         "to_source_N": 87112,
         "from_length": 3,
         "to_length": 1
+      },
+      {
+        "from_source_N": 87113,
+        "to_source_N": 87116,
+        "from_length": 3,
+        "to_length": 2
       }
     ]
   },
   "width_determines_basis_update_test": {
     "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
-    "equal_width_pairs_checked": 12,
+    "equal_width_pairs_checked": 15,
     "hypothesis_falsified": true,
     "counterexamples": [
       {
@@ -294,33 +338,55 @@
   "new_minimality_coefficient_bound": 1,
   "new_minimality_odd_coefficient_rows": 1,
   "evidence_levels": {
-    "minimum": "exact computation and independent finite actual-parity/no-smaller-height certificate",
-    "basis_data": "derived exact integer metadata; no optimizer in the probe",
-    "written_proofs": "inherited finite parity, monotonicity and basis-exclusion arguments; no new all-level or Lean theorem",
+    "exact_computation": "one actual witness failure and missing endpoint minimum",
+    "independent_certificate": "actual parity, primitive positive odd denominator, no smaller height and reverse-valuation first failure",
+    "written_proof": "inherited finite parity, monotonicity and basis-exclusion arguments; no new all-level or Lean theorem",
+    "derived_metadata": "segment and line hashes, selected-basis coordinates and finite plateau comparisons",
     "open": "exact B, asymptotic gcd cancellation and remaining intermediate minima"
   },
-  "next_obligation": "Implement and independently test a second 512 KiB transition segment, cross-segment references, capacity and interrupted-publication controls without changing historical evidence or caps; then locate actual N=87116 witness first failure through 90000 and certify only a missing target prefix.",
-  "current_single_segment_next_request_must_wait_for_segment_support": true,
+  "next_obligation": "Read current local files and capacities, then locate actual N=87118 witness first failure through 90000; certify only a missing target, append to segment 2 and independently replay. Do not repeat N=87116 producer.",
   "resource_observations": {
-    "transition-87113-compute.log": {
+    "segment-controls.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "7.68",
-      "peak_resident_kib_observed": 113428
+      "wall_clock_observed": "0:00.07",
+      "wall_seconds_observed": "0.07",
+      "peak_resident_kib_observed": 29132
     },
-    "transition-87113-replay.log": {
+    "segment-legacy-controls.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "35.78",
-      "peak_resident_kib_observed": 69388
+      "wall_clock_observed": "0:06.66",
+      "wall_seconds_observed": "6.66",
+      "peak_resident_kib_observed": 43908
     },
-    "basis-87113-chain.log": {
+    "segment-legacy-replay.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "1.99",
-      "peak_resident_kib_observed": 70016
+      "wall_clock_observed": "0:36.23",
+      "wall_seconds_observed": "36.23",
+      "peak_resident_kib_observed": 69564
+    },
+    "transition-87116-compute.log": {
+      "exit_status": 0,
+      "wall_clock_observed": "0:07.59",
+      "wall_seconds_observed": "7.59",
+      "peak_resident_kib_observed": 114796
+    },
+    "transition-87116-replay.log": {
+      "exit_status": 0,
+      "wall_clock_observed": "0:38.94",
+      "wall_seconds_observed": "38.94",
+      "peak_resident_kib_observed": 70056
+    },
+    "basis-87116-chain.log": {
+      "exit_status": 0,
+      "wall_clock_observed": "0:01.97",
+      "wall_seconds_observed": "1.97",
+      "peak_resident_kib_observed": 70492
     },
     "smoke.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "435.96",
-      "peak_resident_kib_observed": 101660
+      "wall_clock_observed": "7:23.77",
+      "wall_seconds_observed": "443.77",
+      "peak_resident_kib_observed": 101740
     }
   },
   "smoke_exit_status": 0,
@@ -328,11 +394,12 @@
   "no_git_mutation_or_remote_access": true,
   "no_agents_or_detached_processes": true,
   "no_calculation_remains_running": true,
+  "no_lean_rust_or_remote_ci_result_claimed": true,
   "artifact_sha256": {
-    "research/phase13/overnight-progress.md": "31e279a78a95b9e4803e527ae572b017d1766ce772306e98c58058b684dded67",
-    "research/phase13/overnight-summary.md": "fff386a90e5be098446ee1b8d8566ed7e1884ce0c51415312bc81630c58605c8",
+    "research/phase13/overnight-progress.md": "d3a49113a7f98c70b49599ae6d2185b72dd70caa14def454d1008963f2c836a4",
+    "research/phase13/overnight-summary.md": "1d73b700764764425c167f9f3547b4153fd9ca49267dc60f817977e10dae1711",
     "research/phase13/overnight/PLAN.md": "06745ed38390243812854ceaec86e32a71b30cf86ada0bc03571024209e1cb25",
-    "research/phase13/overnight/README.md": "0fbe4d75a39bed6618ffafaf94d7d8fa69b2646b023869add6e06087bdd05020",
+    "research/phase13/overnight/README.md": "335446c937902e02fd39973fec045eb106618072af1588d901b274cfb0d36ff1",
     "research/phase13/overnight/basis-87100-chain.log": "9c4d3880312456f5531c720b463085697357df16dc6053b91d603d94bf0df4c2",
     "research/phase13/overnight/basis-87102-chain.log": "3a9dffd848f4f854a0ddb38a92f1074de8308a3f18225d21ba6d4381091cbae6",
     "research/phase13/overnight/basis-87103-chain.log": "647f66c98eaa4d90bd0e75bd6036aa3c0f6828e879404f43ed2c6b5f7a003ef6",
@@ -340,12 +407,13 @@
     "research/phase13/overnight/basis-87109-chain.log": "f25b4cffcc0412d15e3286b17373891c439261a738dc433983c059668ccd7014",
     "research/phase13/overnight/basis-87112-chain.log": "7d11735e6693d014d79c374a5b9113141f8383403bca8aac315a94266e25d123",
     "research/phase13/overnight/basis-87113-chain.log": "d53ce0b2d45483aeabfd0fe9f60d8de4694d25f09e350a98325c251ce5c01c18",
+    "research/phase13/overnight/basis-87116-chain.log": "ed1a6c3b74e0dbb05830ea996bde00704c8c8201b0c27677c90c0bf87f899100",
     "research/phase13/overnight/basis-chain-controls.log": "5334ea4743e63e6fe2c6ea0c75150b0cd3ed83e01124a3e3455b2913f7d3fac9",
     "research/phase13/overnight/basis-chain-probe.log": "b1e71b8cdecaddd333f230f57902a7559efeec5dbd31d3f824098ed1581d9cfa",
     "research/phase13/overnight/basis-equal-width-probe.log": "13d757862e1ca01e056cabb9bd86529ed0acb7e8e5fd615435a28e968289418f",
     "research/phase13/overnight/basis-final.log": "882214a3fdfe41a1cd2d1aaea5d0603d7764a1c129929e25da2ce51e99dc289e",
     "research/phase13/overnight/basis-pattern-final.log": "af44770323a29b607dc8bd1c460c33202e04c20b70e6314123c975e3ca7d37c5",
-    "research/phase13/overnight/basis-pattern-probe.json": "0193171e4bab75c656a41b05d396ed5983607d5990537b70a9ea667834043694",
+    "research/phase13/overnight/basis-pattern-probe.json": "97836f6120172dd975ace9c7c9679fc7be034134b676d2e1b926b842df68f14b",
     "research/phase13/overnight/basis-pattern-probe.log": "ed58ffd2a2ba2de50f7338cbf32a564fed3c32b8f017df8d8b75a3b541bd309d",
     "research/phase13/overnight/basis-validation.json": "b39ed4041556503f20bf586804a90be96a60f49a2f7d2f51fa6b18403e5c6993",
     "research/phase13/overnight/basis-validation.log": "118feaa375c1c9bc573a93ae5bb534a48e3e76e05d2963b1664fa498e05dcd0d",
@@ -354,12 +422,12 @@
     "research/phase13/overnight/drive_codex.sh": "409ed60cff75143e5a75d3ee00fc2a2f84b6e8e5fd6c3d0e087cac49f730488b",
     "research/phase13/overnight/equal-width-update-controls.log": "2bfaaacee4b804ce90523a21fa097484fb46cf82577f4bef17943c6dedf3f7c0",
     "research/phase13/overnight/extended_height.py": "2166fcb0a6e3ce03850a56666c8c33b288a4b9930c564a2bb12ac73315cf81fe",
-    "research/phase13/overnight/height-inventory.json": "6c0c82f0fc35751b9824a4778b212a104ee4ec0eb5ee0bfd8df93da4f29349fb",
-    "research/phase13/overnight/heights.jsonl": "4d250b23e27b8cd5b916a5cc8464fa9de3ddc7e9f0019866743cf6d1a4bf4102",
+    "research/phase13/overnight/height-inventory.json": "dd403fa1b318c120534c157dd070ea803acdc82d913f4b910a409eb1770b75da",
+    "research/phase13/overnight/heights.jsonl": "e6c9f50df7c16938f443c9e7a0ffb375b0e6904e91b321daa53d64af4dceddd6",
     "research/phase13/overnight/l5-sparse.log": "88650cd7d28af495d41fd5ea6066cc2d710b6be3263ad9ebc42c1ff3c7fb2c26",
     "research/phase13/overnight/l5-triplet.log": "a21c1dea203a382701089b4c209ffc962d3f0c273a55a38b8964f7ec60ab1ceb",
     "research/phase13/overnight/l6-triplet.log": "3fc4947ae98e9542484f8a27a173bf7b2680a08069ce7c0431ea8ebd749f6472",
-    "research/phase13/overnight/probe_basis_pattern.py": "fbe79a69897085b1683cfb163e1d0d1e3ed6502864360a2373894bf5a051ada6",
+    "research/phase13/overnight/probe_basis_pattern.py": "56aa4ce82dd47b82d8925bb0e28ca3f33b7460300e802735b2e5b528986a9bfd",
     "research/phase13/overnight/raw-shadow-checkpoint.json": "877de9acd3d93e16e15fe5ae13761cfcfcf615b5980adf8322f6dad3857b6194",
     "research/phase13/overnight/raw-shadow-verification.json": "e04997eafdcb8915c338e3b2779566bf48617b42cfa5c74b48091630771f8aa8",
     "research/phase13/overnight/raw-shadows-compute.log": "a373c28ccd884c3b6c357301b7798a8f52a3be9ae6fb3d0826024d9f72854818",
@@ -369,12 +437,16 @@
     "research/phase13/overnight/raw_shadows.py": "ec6cdec9436fea73824c6c63588b58e6d2c0f907d62079156e0b13ea5c95985e",
     "research/phase13/overnight/regression-checked.log": "5ef1d914f59fff4a92a88ba5ada25b2744e4f51dce6cf0bf68fbedb97f62e609",
     "research/phase13/overnight/regression.log": "f5ecb2d746f5ad99c3536a9e60343ce6c869a3e25d2ec388e006df0986b2f7f1",
-    "research/phase13/overnight/smoke.log": "7615fc30a2a5f11ae55d3801e762d9335b63de5745d62fd75c32ea17ac26236e",
-    "research/phase13/overnight/smoke.sh": "20cc67c2bb6e92836b8b2cbf25d88ec8c6cee4802ea518c96e05e2a0145a6dfe",
+    "research/phase13/overnight/segment-controls.log": "256e4b21a60c073c438953ba6489d71b0ad21edb555363fc3a58baef730688bb",
+    "research/phase13/overnight/segment-legacy-controls.log": "812190794a96437ae4bd7653d13d9df49e5c3f8c7cab0462f2b3d4b7cce6655f",
+    "research/phase13/overnight/segment-legacy-replay.log": "f7eca44a291510cb85a8adba683eebf2b48caa2608dd93c10fb12c6482911375",
+    "research/phase13/overnight/smoke.log": "4d39353831552b8d7833c5590cca6bb43dce13b4029095c6373d090c21df7b92",
+    "research/phase13/overnight/smoke.sh": "13f0cf41f17e5c3c1e7c2d0fe3fcbd6446ae48df5781091f9e2c7a34619b22d7",
     "research/phase13/overnight/summarize.py": "f7d81418ff8233f8c5f339fc7dfacb653396296cf1a478d4ec263b7a5eca25c7",
     "research/phase13/overnight/test_basis.py": "9f054bbaba61f98e0cbc69dc92f352315bef25be414c6187b0661d51e614c20b",
     "research/phase13/overnight/test_extended.py": "8612857f99ffc55ac30bbf4cdc96f9e6330ea3b4a00fdfb3c49ee319a877855c",
     "research/phase13/overnight/test_raw_shadows.py": "52d4ebc6e02b16894290dc85a40e88556389ec29c35d44b0d3b436a85d0ac658",
+    "research/phase13/overnight/test_transition_segments.py": "d4fc39e195eee2f6e57d47e5fbf0cc24f39760890362a74c9fb9f3a91849cc60",
     "research/phase13/overnight/test_transitions.py": "875e25f1ea0f987f4abc941da26b5a995fba5d344d0df7ed92fea10a5bb0dc4b",
     "research/phase13/overnight/transition-87094-compute.log": "e0edf0d7c88d10eb3211f638bc3a75e511010c755b9df0ef5b45047f5ef33e71",
     "research/phase13/overnight/transition-87094-replay.log": "651e346961b9bc73cc087ea0a33f3a5ed439e6c1d71039f68d32225edbf6a3c6",
@@ -397,18 +469,22 @@
     "research/phase13/overnight/transition-87113-compute.log": "4c613098b9e8da8b10647dab142e50ef7eb363a82d287302a6a306ab2442d79d",
     "research/phase13/overnight/transition-87113-preflight.json": "98330a16570d15a889d6c431fe7c89af578297ee26d8b085d5b9d2c639152263",
     "research/phase13/overnight/transition-87113-replay.log": "af69c86b71509ccfb4758be3feee15e979e91885bc199ce7e28afa81fe53dd5d",
-    "research/phase13/overnight/transition-checkpoint.json": "f45bf7ed0d4f22e055790fbfc1b9df6d2638a3bceae04833539703db1167c25c",
+    "research/phase13/overnight/transition-87116-compute.log": "28ac6d0286e4cee500783027fac7f4d865961113d8463390a63b0f1ff312180d",
+    "research/phase13/overnight/transition-87116-preflight.json": "42e98763ff8933b56d67c4dcefc2a8952f86feaa6dc05639e3ec77274a244ae8",
+    "research/phase13/overnight/transition-87116-replay.log": "d9407ca8e18995210ab47c0f4e679b68e3f2a16865f2697f9033c45318236f4c",
+    "research/phase13/overnight/transition-checkpoint.json": "c432887ac17a4dc1ea55054d453a303d0f5053dbffdac72693cd46df6f94977e",
     "research/phase13/overnight/transition-compute.log": "0f1c6387fba4a9ff491113108252651dd3a4d4cbf8b09f7c3d5a2b4120fac645",
     "research/phase13/overnight/transition-replay.log": "2279cc31275e7cfa3d1de4456778aaf08d4508ba3714303f0c6900b1de3a1f7c",
     "research/phase13/overnight/transition-resume-tests.log": "e4aae2773b1bee874e380a6682844564c4da1ca4d1ffefe2c4d39cc73205bc59",
     "research/phase13/overnight/transition-skip.log": "7bc37c0ea00fa966cce05169f8b7b982e2bd4f070c329b2a03be53d97d0a484d",
-    "research/phase13/overnight/transition-verification.json": "5d012795516480f1148f7416c26be621fe8b4cc13178a993dbc910d1cba24586",
+    "research/phase13/overnight/transition-verification.json": "1a5f53b70e3c3ad85630cef1f1de0d1c7cc19117e93c762e2361e0b4eb2bbe73",
+    "research/phase13/overnight/transitions-0002.jsonl": "49fd0fd72a893a544a4e08bc8e01c152f55ba1754dd9d44ee05c2798dcf54235",
     "research/phase13/overnight/transitions-tests.log": "1b62a29cc5f18785801e26e1cc06444967c97dc3ea5c344391a1f828fa4a672e",
     "research/phase13/overnight/transitions.jsonl": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7",
     "research/phase13/overnight/verify_raw_shadows.py": "7a29bbd619f84d78b40a6904d2626166365b52e7d26ecbe8b395a49300358e97",
     "research/phase13/overnight/verify_results.py": "115a801427596254e9c1379eec15d8301fa919f44747616153a9c910b0c3cffa",
-    "research/phase13/overnight/verify_transitions.py": "c5f02626de303ba943e92883ce5d300798bdcadaf7793e6f079a734c6f50f996",
+    "research/phase13/overnight/verify_transitions.py": "69985fb846c7b81ed047d55124f9ff06bc8a18e26987a5a5214dcf3fdb5c2434",
     "research/phase13/overnight/width-decrease-controls.log": "a7a31a79adf30856cdfa7f40022376beef8f8439b938902f711d3473ec859c6e",
-    "research/phase13/overnight/witness_transition.py": "299d9f333783964c21655cb40395fb1509e78b2b489820004f363ab908f7e11a"
+    "research/phase13/overnight/witness_transition.py": "27d632d1393d69415eaecd6a50bf7c7af72eb35be92cb56944e783b0a66849a0"
   }
 }

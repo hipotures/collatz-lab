@@ -24,6 +24,11 @@ TARGET = ROOT / "transitions.jsonl"
 CHECKPOINT = ROOT / "transition-checkpoint.json"
 MAX_TRANSITION_BYTES = 512 * 1024
 MAX_SCAN_SPAN = 8192
+SECOND_SEGMENT = "transitions-0002.jsonl"
+LOCATED_FIELDS = ("source_N", "search_end_N", "source_record_sha256",
+                  "first_failure_index", "failure_numerator_sign",
+                  "failure_numerator_bits", "failure_numerator_abs_sha256",
+                  "search_parity_sha256")
 
 
 def digest(value):
@@ -72,6 +77,57 @@ def load_heights():
     return rows, hashes
 
 
+def encoded(row):
+    return (json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n").encode()
+
+
+def load_transitions():
+    """Two bounded segments; an existing base segment stays sealed.
+
+    Every new link binds its predecessor's exact line, including across the
+    segment boundary. The independent replay implements its own reader.
+    """
+    assert set(ROOT.glob("transitions-*.jsonl")) <= {ROOT / SECOND_SEGMENT}
+    segments, links, seen = [], [], set()
+    for number, path in enumerate((TARGET, ROOT / SECOND_SEGMENT)):
+        if not path.exists():
+            continue
+        assert number == len(segments), "missing preceding transition segment"
+        assert 0 < path.stat().st_size <= MAX_TRANSITION_BYTES
+        raw = path.read_bytes()
+        assert raw.endswith(b"\n"), "incomplete transition segment"
+        for line in raw.splitlines(keepends=True):
+            row = json.loads(line)
+            assert row["source_N"] not in seen, "duplicate transition source"
+            if links:
+                previous = links[-1][0]
+                assert row["source_N"] == previous["target_N"], "disconnected transition chain"
+                assert row["search_end_N"] == previous["search_end_N"]
+                assert row["source_record_sha256"] == previous["target_record_sha256"]
+            if number or "previous_transition_record_sha256" in row:
+                assert links and row["previous_transition_record_sha256"] == links[-1][1]
+            seen.add(row["source_N"])
+            links.append((row, hashlib.sha256(line).hexdigest(), path.name))
+        segments.append((path, raw))
+    return segments, links
+
+
+def publication_target(segments, line):
+    # Existing first-segment bytes are historical evidence, never extended by
+    # this version. No third segment is created implicitly.
+    path = ROOT / SECOND_SEGMENT if segments else TARGET
+    previous = segments[-1][1] if segments and segments[-1][0] == path else b""
+    assert len(previous) + len(line) <= MAX_TRANSITION_BYTES, "transition segment capacity exhausted"
+    return path, previous
+
+
+def finish_checkpoint(row, line_hash, segment):
+    completed = {"format": "phase13-transition-checkpoint-v1", "stage": "complete",
+                 **{k: row[k] for k in LOCATED_FIELDS}, "target_N": row["target_N"],
+                 "transition_record_sha256": line_hash, "transition_segment": segment}
+    atomic(CHECKPOINT, (json.dumps(completed, indent=2) + "\n").encode())
+
+
 def transition_record(source, target, source_hash, target_hash, located):
     old_h, new_h = int(source["H"], 16), int(target["H"], 16)
     assert new_h >= old_h
@@ -102,6 +158,92 @@ def expired(_signum, _frame):
     raise TimeoutError("bounded transition budget exceeded; published records/checkpoint survive")
 
 
+def run_request(start, through):
+    """Publish at most one link; small fixtures exercise the same transaction."""
+    started = time.perf_counter()
+    rows, hashes = load_heights()
+    source = rows[start]
+    segments, links = load_transitions()
+    located = None
+    if CHECKPOINT.exists():
+        assert CHECKPOINT.stat().st_size <= MAX_TRANSITION_BYTES
+        checkpoint = json.loads(CHECKPOINT.read_bytes())
+        assert checkpoint["format"] == "phase13-transition-checkpoint-v1"
+        if checkpoint["stage"] == "located":
+            assert checkpoint["source_N"] == start and checkpoint["search_end_N"] == through
+            assert checkpoint["source_record_sha256"] == hashes[start]
+            located = checkpoint
+        else:
+            assert checkpoint["stage"] == "complete"
+            matches = [(row, segment) for row, sha, segment in links
+                       if sha == checkpoint["transition_record_sha256"]]
+            assert len(matches) == 1, "completed transition is missing"
+            saved, segment = matches[0]
+            assert all(checkpoint[k] == saved[k] for k in (*LOCATED_FIELDS, "target_N"))
+            assert checkpoint.get("transition_segment", segment) == segment
+    # The independent checker imports no producer or optimization code.
+    from verify_transitions import verify_transition
+    for saved, sha, segment in links:
+        if (saved["source_N"], saved["search_end_N"]) == (start, through):
+            verify_transition(saved, rows, hashes)
+            if located is not None:
+                assert all(located[k] == saved[k] for k in LOCATED_FIELDS)
+                finish_checkpoint(saved, sha, segment)
+                print("RECOVER: transition published before checkpoint completion", flush=True)
+            print("SKIP: transition already published and independently rechecked", flush=True)
+            return
+    if links:
+        assert links[-1][0]["target_N"] == start, "request must extend the stored chain"
+        assert links[-1][0]["search_end_N"] == through
+    if located is not None:
+        print("RESUME: located first failure; no new witness scan", flush=True)
+    else:
+        bits = literal_word(through)
+        result = first_failure(int(source["p"], 16), int(source["q"], 16), bits)
+        assert result is not None, "no failure in bounded window; no minimum requested"
+        index, value = result
+        assert index >= start, "source witness fails its certified prefix"
+        located = {"format": "phase13-transition-checkpoint-v1", "stage": "located",
+                   "source_N": start, "search_end_N": through,
+                   "source_record_sha256": hashes[start],
+                   "first_failure_index": index,
+                   "failure_numerator_sign": (value > 0) - (value < 0),
+                   "failure_numerator_bits": abs(value).bit_length(),
+                   "failure_numerator_abs_sha256": digest(value),
+                   "search_parity_sha256": hashlib.sha256(bytes(bits)).hexdigest()}
+        atomic(CHECKPOINT, (json.dumps(located, indent=2) + "\n").encode())
+        print(f"LOCATED first_failure_index={index} target_N={index + 1} "
+              f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
+    target_n = located["first_failure_index"] + 1
+    assert start < target_n <= through
+    new_height = None
+    if target_n not in rows:
+        bits = frontier_prefix(target_n)
+        candidate = next(candidates(residue(bits), target_n, [target_n]))
+        new_height = certify(candidate, bits, method="basis")
+        verify_record(new_height)
+        height_line = encoded(new_height)
+        assert (ROOT / "heights.jsonl").stat().st_size + len(height_line) <= MAX_FILE_BYTES, "height capacity exhausted"
+        rows[target_n], hashes[target_n] = new_height, hashlib.sha256(height_line).hexdigest()
+    record = transition_record(source, rows[target_n], hashes[start], hashes[target_n], located)
+    if links:
+        record["previous_transition_record_sha256"] = links[-1][1]
+    verify_transition(record, rows, hashes)
+    line = encoded(record)
+    destination, previous = publication_target(segments, line)
+    # BOTH exact sizes are checked before either evidence file is changed.
+    # A stop after either atomic publication resumes from the located checkpoint.
+    if new_height is not None:
+        append_atomic(new_height)
+        print(f"CERTIFIED new_N={target_n} height_bits={int(new_height['H'], 16).bit_length()} "
+              f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
+    atomic(destination, previous + line)
+    finish_checkpoint(record, hashlib.sha256(line).hexdigest(), destination.name)
+    print(f"PASS: first witness failure and exact minimum independently verified; "
+          f"same_height={record['same_height']} ratio_floor_log2={record['height_ratio_floor_log2']} "
+          f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--start", type=int, default=87092)
@@ -114,72 +256,10 @@ def main():
         parser.error("require 16384 < start < through <= 600000, span <= 8192, seconds in 1..180")
     signal.signal(signal.SIGALRM, expired)
     signal.alarm(args.seconds)
-    started = time.perf_counter()
-    rows, hashes = load_heights()
-    source = rows[args.start]
-    previous = TARGET.read_bytes() if TARGET.exists() else b""
-    assert len(previous) <= MAX_TRANSITION_BYTES and (not previous or previous.endswith(b"\n"))
-    for line in previous.splitlines():
-        saved = json.loads(line)
-        if (saved["source_N"], saved["search_end_N"]) == (args.start, args.through):
-            print("SKIP: transition already published; run verify_transitions.py --check")
-            return
-    located = None
-    if CHECKPOINT.exists():
-        assert CHECKPOINT.stat().st_size <= MAX_TRANSITION_BYTES
-        checkpoint = json.loads(CHECKPOINT.read_bytes())
-        assert checkpoint["format"] == "phase13-transition-checkpoint-v1"
-        if checkpoint["stage"] == "located":
-            assert checkpoint["source_N"] == args.start and checkpoint["search_end_N"] == args.through
-            assert checkpoint["source_record_sha256"] == hashes[args.start]
-            located = checkpoint
-        else:
-            assert checkpoint["stage"] == "complete"
-            assert any(hashlib.sha256(line).hexdigest() == checkpoint["transition_record_sha256"]
-                       for line in previous.splitlines(keepends=True)), "completed transition is missing"
-    if located is not None:
-        print("RESUME: located first failure; no new witness scan", flush=True)
-    else:
-        bits = literal_word(args.through)
-        result = first_failure(int(source["p"], 16), int(source["q"], 16), bits)
-        assert result is not None, "no failure in bounded window; no minimum requested"
-        index, value = result
-        assert index >= args.start, "source witness fails its certified prefix"
-        located = {"format": "phase13-transition-checkpoint-v1", "stage": "located",
-                   "source_N": args.start, "search_end_N": args.through,
-                   "source_record_sha256": hashes[args.start],
-                   "first_failure_index": index,
-                   "failure_numerator_sign": (value > 0) - (value < 0),
-                   "failure_numerator_bits": abs(value).bit_length(),
-                   "failure_numerator_abs_sha256": digest(value),
-                   "search_parity_sha256": hashlib.sha256(bytes(bits)).hexdigest()}
-        atomic(CHECKPOINT, (json.dumps(located, indent=2) + "\n").encode())
-        print(f"LOCATED first_failure_index={index} target_N={index + 1} "
-              f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
-    target_n = located["first_failure_index"] + 1
-    assert args.start < target_n <= args.through
-    if target_n not in rows:
-        bits = frontier_prefix(target_n)
-        candidate = next(candidates(residue(bits), target_n, [target_n]))
-        record = certify(candidate, bits, method="basis")
-        verify_record(record)
-        append_atomic(record)
-        print(f"CERTIFIED new_N={target_n} height_bits={candidate['H'].bit_length()} "
-              f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
-        rows, hashes = load_heights()
-    record = transition_record(source, rows[target_n], hashes[args.start], hashes[target_n], located)
-    # The independent checker imports no producer or optimization code.
-    from verify_transitions import verify_transition
-    verify_transition(record, rows, hashes)
-    line = (json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n").encode()
-    atomic(TARGET, previous + line)
-    completed = {**located, "stage": "complete", "target_N": target_n,
-                 "transition_record_sha256": hashlib.sha256(line).hexdigest()}
-    atomic(CHECKPOINT, (json.dumps(completed, indent=2) + "\n").encode())
-    signal.alarm(0)
-    print(f"PASS: first witness failure and exact minimum independently verified; "
-          f"same_height={record['same_height']} ratio_floor_log2={record['height_ratio_floor_log2']} "
-          f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
+    try:
+        run_request(args.start, args.through)
+    finally:
+        signal.alarm(0)
 
 
 if __name__ == "__main__":

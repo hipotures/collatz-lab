@@ -42,6 +42,36 @@ def load(path, cap, key):
     return raw, records, hashes
 
 
+def load_transition_segments(root):
+    """Read both fixed segments without importing either research engine."""
+    names = ("transitions.jsonl", "transitions-0002.jsonl")
+    assert {p.name for p in root.glob("transitions-*.jsonl")} <= {names[1]}
+    chunks, sources, records = [], [], {}
+    predecessor = predecessor_hash = None
+    for number, name in enumerate(names):
+        path = root / name
+        if not path.exists():
+            assert number == 1, "missing base transition segment"
+            continue
+        assert number == len(chunks)
+        raw, part, hashes = load(path, 512 * 1024, "source_N")
+        for start, row in part.items():
+            assert start not in records, "duplicate transition source"
+            if predecessor is not None:
+                assert start == predecessor["target_N"], "disconnected transition chain"
+                assert row["search_end_N"] == predecessor["search_end_N"]
+                assert row["source_record_sha256"] == predecessor["target_record_sha256"]
+            if number or "previous_transition_record_sha256" in row:
+                assert predecessor_hash is not None
+                assert row["previous_transition_record_sha256"] == predecessor_hash
+            records[start] = row
+            predecessor, predecessor_hash = row, hashes[start]
+        chunks.append(raw)
+        sources.append({"path": name, "bytes": len(raw), "records": len(part),
+                        "sha256": hashlib.sha256(raw).hexdigest()})
+    return b"".join(chunks), sources, records
+
+
 def basis(row):
     return [[int(x, 16) for x in v] for v in row["basis"]]
 
@@ -147,9 +177,11 @@ def certified_chain(heights, hashes, transitions, replay):
 
 def probe():
     height_raw, heights, hashes = load(ROOT / "heights.jsonl", 8 * 1024 * 1024, "N")
-    transition_raw, transitions, _ = load(ROOT / "transitions.jsonl", 512 * 1024, "source_N")
+    transition_raw, sources, transitions = load_transition_segments(ROOT)
     replay = json.loads((ROOT / "transition-verification.json").read_bytes())
+    assert replay["format"] == "phase13-transition-replay-v2" and replay["sources"] == sources
     assert replay["source_sha256"] == hashlib.sha256(transition_raw).hexdigest()
+    assert replay["source_bytes"] == len(transition_raw)
     assert replay["height_source_sha256"] == hashlib.sha256(height_raw).hexdigest()
     chain = certified_chain(heights, hashes, transitions, replay)
     links, increments = [], []
@@ -223,6 +255,7 @@ def probe():
             "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
             "height_source_sha256": hashlib.sha256(height_raw).hexdigest(),
             "transition_source_sha256": hashlib.sha256(transition_raw).hexdigest(),
+            "transition_sources": sources,
             "observed_links": links,
             "certified_transition_chain": chain,
             "second_height_increment_is_four_times_first": increments[1] == 4 * increments[0],

@@ -1,0 +1,34 @@
+{
+  "format": "phase13-transition-preflight-v2",
+  "entry_branch": "codex/phase13-overnight",
+  "entry_head": "dbefca3041ead2a7fb98624cf579170ba5a4fe1e",
+  "cached_origin_ref": "dbefca3041ead2a7fb98624cf579170ba5a4fe1e",
+  "remote_access": false,
+  "requested_source_N": 87116,
+  "search_end_N": 90000,
+  "source_record_sha256": "b701982624b420bbf0b614337d00c074d07b64ed17f7472b66fc0bf1dc0502a6",
+  "source_already_certified": true,
+  "transition_already_certified": false,
+  "previous_checkpoint_complete": true,
+  "sealed_base_segment": "transitions.jsonl",
+  "new_destination": "transitions-0002.jsonl",
+  "new_segment_cap_bytes": 524288,
+  "exact_both_file_sizes_checked_before_publication": true,
+  "files": {
+    "heights.jsonl": {
+      "bytes": 7397588,
+      "sha256": "4d250b23e27b8cd5b916a5cc8464fa9de3ddc7e9f0019866743cf6d1a4bf4102",
+      "records": 19,
+      "cap_bytes": 8388608,
+      "remaining_bytes": 991020
+    },
+    "transitions.jsonl": {
+      "bytes": 481400,
+      "sha256": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7",
+      "records": 11,
+      "cap_bytes": 524288,
+      "remaining_bytes": 42888
+    }
+  },
+  "scope": "three user-authorized overnight paths only; host driver owns Git checkpoints"
+}

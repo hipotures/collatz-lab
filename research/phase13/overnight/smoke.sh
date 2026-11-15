@@ -28,6 +28,9 @@ fi
 if [[ -f research/phase13/overnight/test_transitions.py ]]; then
   timeout 60s python3 research/phase13/overnight/test_transitions.py
 fi
+if [[ -f research/phase13/overnight/test_transition_segments.py ]]; then
+  timeout 60s python3 research/phase13/overnight/test_transition_segments.py
+fi
 if [[ -f research/phase13/overnight/transitions.jsonl ]]; then
   timeout 180s python3 research/phase13/overnight/verify_transitions.py --check
 fi

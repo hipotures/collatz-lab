@@ -21,6 +21,46 @@ ROOT = Path(__file__).resolve().parent
 MAX_BYTES = 512 * 1024
 
 
+def read_segments(root):
+    """Independent bounded storage replay, with exact cross-segment links.
+
+    This reads at most two fixed names. Partition hashes in the manifest bind
+    the segment boundary as well as the concatenated evidence stream.
+    """
+    names = ("transitions.jsonl", "transitions-0002.jsonl")
+    assert {p.name for p in root.glob("transitions-*.jsonl")} <= {names[1]}
+    chunks, sources, records, seen = [], [], [], set()
+    last = None
+    for number, name in enumerate(names):
+        path = root / name
+        if not path.exists():
+            assert number == 1, "missing base transition segment"
+            continue
+        assert number == len(chunks), "missing preceding transition segment"
+        assert 0 < path.stat().st_size <= MAX_BYTES
+        raw = path.read_bytes()
+        assert raw.endswith(b"\n"), "incomplete transition segment"
+        lines = raw.splitlines(keepends=True)
+        for line in lines:
+            row = json.loads(line)
+            start = row["source_N"]
+            assert type(start) is int and start not in seen, "duplicate transition source"
+            if records:
+                preceding = records[-1]
+                assert start == preceding["target_N"], "disconnected transition chain"
+                assert row["search_end_N"] == preceding["search_end_N"]
+                assert row["source_record_sha256"] == preceding["target_record_sha256"]
+            if number == 1 or "previous_transition_record_sha256" in row:
+                assert last is not None and row["previous_transition_record_sha256"] == last
+            seen.add(start)
+            records.append(row)
+            last = hashlib.sha256(line).hexdigest()
+        chunks.append(raw)
+        sources.append({"path": name, "bytes": len(raw), "records": len(lines),
+                        "sha256": hashlib.sha256(raw).hexdigest()})
+    return b"".join(chunks), sources, records
+
+
 def magnitude_hash(value):
     size = (abs(value).bit_length() + 7) // 8
     return hashlib.sha256(abs(value).to_bytes(size, "big")).hexdigest()
@@ -119,15 +159,11 @@ def main():
         assert record["N"] not in heights
         heights[record["N"]] = record
         hashes[record["N"]] = hashlib.sha256(line).hexdigest()
-    path = ROOT / "transitions.jsonl"
-    assert path.stat().st_size <= MAX_BYTES
-    raw = path.read_bytes()
-    assert raw and raw.endswith(b"\n")
+    raw, sources, records = read_segments(ROOT)
     signal.signal(signal.SIGALRM, expired)
     results, seen = [], set()
-    for line in raw.splitlines():
+    for row in records:
         signal.alarm(180)
-        row = json.loads(line)
         assert row["source_N"] > 16384
         key = row["source_N"], row["search_end_N"]
         assert key not in seen
@@ -135,9 +171,10 @@ def main():
         results.append(verify_transition(row, heights, hashes))
         signal.alarm(0)
         print(json.dumps(results[-1], sort_keys=True), flush=True)
-    manifest = {"format": "phase13-transition-replay-v1",
+    manifest = {"format": "phase13-transition-replay-v2",
                 "classification": "independent finite certificate; no asymptotic inference",
                 "source_sha256": hashlib.sha256(raw).hexdigest(), "source_bytes": len(raw),
+                "sources": sources,
                 "height_source_sha256": hashlib.sha256(height_raw).hexdigest(),
                 "results": results,
                 "failure_method": "reverse inverse branches and exact 2-adic cylinder valuation"}

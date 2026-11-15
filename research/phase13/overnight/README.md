@@ -5,6 +5,11 @@ engines. They use the fixed word `1 -> 100111`, `0 -> 111110`. New samples
 are bounded by 600,000 bits; `heights.jsonl` is bounded by 8 MiB. There is no
 network access or Git mutation in the experiment or checker.
 
+See [the current two-segment continuation](#two-segment-continuation) for
+storage and the next request. Earlier transition notes below describe the
+sealed first segment through the eleventh transition; their next-step
+sentences are historical.
+
 `extended_height.py` constructs the word by an indexed substitution automaton
 and the seed residue by balanced forward affine composition. Its odd-coset
 optimizer maintains exact discrepancies and skips consecutive hold steps.
@@ -360,3 +365,80 @@ coordinate rows. Tied witness changes and unknown left boundaries remain
 excluded. Smoke already invokes these controls and the probe.
 The new 87116 witness remains the next bounded research obligation after
 segmented evidence support; no extrapolation from these eleven widths is justified.
+
+## Two-segment continuation
+
+The twelfth transition is now independently certified. The actual `N=87116`
+witness first fails at index 87117, giving the maximal plateau `87116..87117`
+and `H_87115 < H_87116 = H_87117 < H_87118 < H_90000`. The new height has
+51,875 bits and its positive increase has 35,241 bits, with exact comparison
+`1 < H_87118/H_87116 < 2`. No minimum at 87117 was recomputed. The selected
+basis update is `[[4,0],[2,1]]`. The consecutive maximal widths are now
+`2,2,3,1,2,1,1,5,3,1,3,2`; the last pair gives another decrease, from 3 to 2.
+Fifteen equal-width comparisons retain the four earlier unequal updates.
+These finite observations do not determine an asymptotic law.
+
+`transitions.jsonl` is sealed at 481,400 bytes and eleven records, unchanged
+from entry commit `dbefca3041ead2a7fb98624cf579170ba5a4fe1e`.
+`transitions-0002.jsonl` has the new 43,853-byte record. Each segment keeps
+the fixed 512 KiB cap, and only these two fixed filenames are supported.
+Every new link includes `previous_transition_record_sha256`, the SHA-256 of
+the exact preceding JSONL line including its newline. At the segment boundary
+it binds the new record to the last historical line. The producer,
+independent checker and derived probe have separately implemented readers;
+all reject duplicate sources, disconnected intervals, mismatched height
+references, missing or incorrect predecessor hashes, incomplete files and
+unexpected additional segments. Mathematical checking remains independent
+of the producer.
+
+The independent replay now writes `phase13-transition-replay-v2`: `sources`
+binds each filename, byte count, record count and hash; `source_sha256` hashes
+the concatenation in fixed segment order. The probe binds the same partition
+and concatenation, as well as the height file. All eleven earlier replay
+results, chain intervals and extrapolation fields are preserved. Height
+record and mathematical transition formats remain v1.
+
+Before publishing a new height the producer verifies both endpoint minima,
+the failure and the **exact sizes of both proposed output files**. It then
+atomically appends the height, atomically appends the transition, and marks
+the checkpoint complete. These are separate atomic replacements, with a
+durable located checkpoint covering the intervening boundaries. Resuming
+after height publication uses that certified target without another scan or
+optimization. Resuming after transition publication independently rechecks
+it and completes the checkpoint without appending a duplicate. A completed
+request is independently rechecked and leaves all files unchanged. Capacity
+failure leaves evidence unchanged and a resumable located checkpoint.
+
+`test_transition_segments.py`, now called by smoke, uses only 68-bit exact
+temporary fixtures. Its three readers reject 36 malformed-reader cases.
+Nine controls cover normal second-segment publication, interruption after
+the located checkpoint, height publication and transition publication,
+completed reuse, and both file-capacity failures before height publication.
+Resume controls explicitly forbid another scan and, once the target is
+published, another optimizer call. The original Fraction, certificate,
+plateau-chain and legacy resumption controls remain in `test_transitions.py`.
+
+Commands actually run for the new request (do not repeat its producer):
+
+```bash
+ulimit -v 1048576
+timeout 60s python3 -B research/phase13/overnight/test_transition_segments.py
+timeout 60s python3 -B research/phase13/overnight/test_transitions.py
+timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87116 --through 90000 --seconds 180 --write
+timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
+timeout 25s python3 -B research/phase13/overnight/summarize.py --write
+timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
+timeout 750s bash research/phase13/overnight/smoke.sh
+```
+
+The first replay above validates the new reader against the eleven historical
+links before research; the second validates the new twelve-link stream.
+See the command logs and journal for actual outcomes and resource observations.
+The 8 MiB height cap is unchanged: twenty records use 7,523,485 bytes,
+leaving 865,123 bytes. The new transition segment leaves 480,435 bytes.
+Next scan only the stored `N=87118` witness through 90000, after checking
+current local evidence and capacity, and certify only its first missing
+failing prefix. Its next failure remains unresolved. Raw-shadow level 8 is
+unchanged; level 9 still needs separately bounded resumable arithmetic.
+Useful research remains, so no `COMPLETE` marker is justified.
