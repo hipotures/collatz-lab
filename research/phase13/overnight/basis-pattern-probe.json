@@ -1,8 +1,8 @@
 {
   "format": "phase13-basis-pattern-probe-v1",
   "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
-  "height_source_sha256": "81a21156f7cf355ae01cefa2d9cc73ca8275ccda3a0d01fce45db461b96fa07a",
-  "transition_source_sha256": "d76b54b836637868a2b68bd0e738b2f5d0186e70449691dc6f8b1f63d1c06b66",
+  "height_source_sha256": "be564aa1375690825fb6c1a2ee734fe6553f444b6135f2c5e2e7d20acafe1e8b",
+  "transition_source_sha256": "50926247a16da71dda6c0df55675240e46fc594767a18f9f600692b5120f8f4c",
   "observed_links": [
     {
       "from_N": 87092,
@@ -161,6 +161,24 @@
             1
           ]
         ]
+      },
+      {
+        "source_N": 87104,
+        "constant_minimum_through_N": 87108,
+        "next_prefix_N": 87109,
+        "interval_length": 5,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            32,
+            0
+          ],
+          [
+            16,
+            1
+          ]
+        ]
       }
     ],
     "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
@@ -169,11 +187,12 @@
       87096,
       87099,
       87102,
-      87103
+      87103,
+      87104
     ],
     "nondecreasing_width_test": {
       "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-      "adjacent_maximal_plateau_pairs_checked": 6,
+      "adjacent_maximal_plateau_pairs_checked": 7,
       "hypothesis_falsified": true,
       "decreases": [
         {

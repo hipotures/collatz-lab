@@ -243,20 +243,23 @@ Commands for one new obligation (read the journal before choosing parameters):
 
 ```bash
 ulimit -v 1048576
-timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87104 --through 90000 --seconds 180 --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87109 --through 90000 --seconds 180 --write
 timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
 python3 -B research/phase13/overnight/summarize.py --write
 timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
 The new source above is intentional: transitions from `87092`, `87094`,
-`87096`, `87099`, `87100`, `87102` and `87103` have been certified, with failures at
-indices `87093`, `87095`, `87098`, `87099`, `87101`, `87102` and `87103`, and strict
-height increases at prefixes `87094`, `87096`, `87099`, `87100`, `87102`, `87103` and `87104`.
+`87096`, `87099`, `87100`, `87102`, `87103` and `87104` have been certified,
+with failures at indices `87093`, `87095`, `87098`, `87099`, `87101`, `87102`,
+`87103` and `87108`, and strict height increases at prefixes `87094`, `87096`,
+`87099`, `87100`, `87102`, `87103`, `87104` and `87109`.
 All endpoint heights have 51,875 bits. The exact consecutive maximal plateaux
-have lengths 2, 2, 3, 1, 2, 1, 1. The actual `87104` witness has not been scanned beyond
-its certified prefix; it differs from the stored `90000` witness and has
-smaller height. No dense height profile or general plateau rule follows.
+have lengths 2, 2, 3, 1, 2, 1, 1, 5. The actual `87104` witness realizes
+all five prefixes `87104..87108`, the longest plateau in this stored chain.
+The new `87109` witness has not been scanned beyond its certified prefix;
+it differs from the stored `90000` witness and has smaller height.
+No dense height profile or general plateau rule follows.
 
 ## A specific basis-pattern falsification
 
@@ -298,21 +301,22 @@ contiguous intervals, lattice membership, denominator parity and basis
 determinants. Cramer's coordinates are checked by direct vector multiplication.
 The third selected-basis update is `f'=8*f, g'=4*f+g`, the fourth is
 `f'=2*f, g'=g-f`, the fifth returns to `f'=4*f, g'=2*f+g`, the sixth is
-`f'=2*f, g'=f+g`, and the seventh returns to `f'=2*f, g'=g-f`.
+`f'=2*f, g'=f+g`, the seventh returns to `f'=2*f, g'=g-f`, and the eighth
+is `f'=32*f, g'=16*f+g`.
 A constant interval is classified as a maximal plateau only when certificates
 give strict height changes on both sides. This gives the finite lengths
-2, 2, 3, 1, 2, 1, 1 and rejects the precise claim that each maximal plateau in this
+2, 2, 3, 1, 2, 1, 1, 5 and rejects the precise claim that each maximal plateau in this
 chain has length two. These fields are derived metadata, not an additional
 minimum certificate.
 
 The derived `nondecreasing_width_test` compares adjacent intervals only when
-both have certified strict height changes on both sides. The six adjacent
+both have certified strict height changes on both sides. The seven adjacent
 pairs include decreases from width 3 at 87096 to width 1 at 87099 and from
 width 2 at 87100 to width 1 at 87102. This
 falsifies the explicit finite claim that consecutive maximal plateau widths
 never decrease on this chain. A tied witness change or an unknown left
 boundary cannot establish a maximal plateau and is excluded from this test.
-No replacement rule or asymptotic behavior is inferred from seven widths.
+No replacement rule or asymptotic behavior is inferred from eight widths.
 
 The `width_determines_basis_update_test` compares all equal-width pairs of
 certified maximal plateaux. Six pairs are available on the current chain.
@@ -337,5 +341,5 @@ The equal-width controls use those complete height runs for eligibility and
 raw vector multiplication to check unequal updates, independently of comparing
 coordinate rows. Tied witness changes and unknown left boundaries remain
 excluded. Smoke already invokes these controls and the probe.
-The new 87104 witness remains the next bounded research obligation; no
-extrapolation from these seven widths is justified.
+The new 87109 witness remains the next bounded research obligation; no
+extrapolation from these eight widths is justified.
