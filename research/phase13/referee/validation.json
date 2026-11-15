@@ -1,0 +1,80 @@
+{
+  "format": "phase13-referee-validation-v1",
+  "implementation_head": "65b087dc62e4950e1c504fe34865acaacb9188c9",
+  "records": [
+    {
+      "command": "lake build (initially absent .lake build directory)",
+      "exit_code": 0,
+      "log": "clean-lake-build.log",
+      "bytes": 3840,
+      "sha256": "338a1a4f49d1811f832133f6c89c01f0928970924fee13e0d30861da535bb1d2"
+    },
+    {
+      "command": "bash research/phase13/validate.sh",
+      "exit_code": 0,
+      "log": "full-validation.log",
+      "bytes": 39663,
+      "sha256": "ead2e21a076ac019b2f0235e304cb16c48e3316bca2bb8a8e9b4007728be8b32"
+    },
+    {
+      "command": "lake env lean research/lean-audit/FamilyAudit.lean | tee axioms.log | python3 research/lean-audit/check_axioms.py --expected-count 653 (pipefail)",
+      "exit_code": 0,
+      "log": "axioms.log",
+      "bytes": 59616,
+      "sha256": "f96445e541b3068b67e596f6e9fe8941ef739a238f67933a5849c5be15e2a926"
+    },
+    {
+      "command": "lake env lean research/phase13/referee/Signatures.lean",
+      "exit_code": 0,
+      "log": "referee-signatures.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "lake env lean research/phase13/referee/Declarations.lean",
+      "exit_code": 0,
+      "log": "declaration-types.log",
+      "bytes": 13409,
+      "sha256": "d6e423f38834b97e69d5796cefcd31840dba2c538611c1236f7a9da446c0c581"
+    },
+    {
+      "command": "python3 -B research/phase13/referee_checks.py --source PINNED_SOURCE --baseline --overnight PINNED_OVERNIGHT_DIRECTORY --raw-level 8 --output research/phase13/referee/independent-results.json",
+      "exit_code": 0,
+      "log": "independent-final.log",
+      "bytes": 4644,
+      "sha256": "e0f634c8ac0ecd73062c50c78166c6366798ef9d884a7e37e64f554f979af106"
+    },
+    {
+      "command": "python3 -B research/phase13/referee/audit_statements.py --source . --axioms EVIDENCE/axioms.log --output research/phase13/referee/lean-statements.json --checks research/phase13/referee/Declarations.lean",
+      "exit_code": 0,
+      "result": "653 exact records; 60 new signatures; 85 source files scanned"
+    }
+  ],
+  "full_wrapper_results": {
+    "lean_targets": 87,
+    "audit_records": 653,
+    "new_public_declarations": 60,
+    "baseline_names_preserved": 593,
+    "rust_tests": 94,
+    "baseline_minima": 1691,
+    "phase11_12_13_signatures": "PASS",
+    "all_current_ci_python_and_static_manuscript_checks": "PASS"
+  },
+  "actual_failures": [
+    {
+      "command": "initial SSH fetch in new isolated clone",
+      "exit_code": 128,
+      "resolution": "HTTPS fetch; later safely reuse existing per-repository SSH command for reviewer push"
+    },
+    {
+      "command": "exploratory decimal baseline JSON load",
+      "exit_code": 1,
+      "resolution": "finite 20000-digit parser limit, no truncation"
+    },
+    {
+      "command": "first referee Signatures.lean compilation",
+      "exit_code": 1,
+      "resolution": "renamed reserved Lean token prefix used as a local hypothesis; recompiled successfully"
+    }
+  ]
+}
