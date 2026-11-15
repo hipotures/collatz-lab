@@ -24,7 +24,7 @@ with `|p| <= B`, `1 <= q <= B` odd, and `p = A*q (mod M)` is
 S(t,M,2*A,A+B) - S(t,M,2*A,A-B-1).
 ```
 
-The checker reconstructs the two Euclidean quotient transcripts at `B=H-1`,
+For `odd-box-floor-sum-v1`, the checker reconstructs the two Euclidean quotient transcripts at `B=H-1`,
 validates all quotient remainder inequalities and terminal conditions, and
 requires the difference to be zero. This counts even nonprimitive vectors;
 none can conceal a smaller primitive witness. Together with the witness at
@@ -45,6 +45,7 @@ Validation commands:
 
 ```bash
 python3 -B research/phase13/overnight/test_extended.py
+python3 -B research/phase13/overnight/test_basis.py
 python3 -B research/phase13/overnight/verify_results.py --check
 bash research/phase13/overnight/smoke.sh
 ```
@@ -62,11 +63,14 @@ shadow minimum at `N=L_k` is a control, not a new theorem discovered by these
 experiments. Intermediate minima, their transitions, and odd gcd growth are
 the continuing research questions.
 
-## Continuation option: compact basis certificates
+## Compact basis certificates
 
-This is a written elementary argument and an implementation proposal for the
-next checkpoint. It is **not implemented as an accepted certificate type**.
-Existing published records retain their full floor-sum certificates.
+`odd-box-basis-interval-v1` implements the following written elementary
+argument. The producer now defaults to this compact certificate when its
+coefficient bound is at most 4095, and falls back to the existing floor-sum
+certificate above that cap. `--certificate basis` rejects an oversized bound;
+`--certificate floor` selects the original method explicitly. Existing
+published records retain their full floor-sum certificates byte for byte.
 
 Let `f,g` be integer vectors in the cylinder lattice, with
 `abs(det(f,g))=M`, `f_q` even, and `g_q` odd. These vectors form a basis:
@@ -87,12 +91,33 @@ endpoints when `f_i<0`, and handle a zero `f_i` as a constant constraint.
 Excluding all these odd-denominator vectors also excludes every positive
 odd-denominator witness of smaller height.
 
-The derived inventory records this coefficient bound at `B=H-1` for budget
-planning. A small bound could avoid the long Euclidean transcripts at `L_6`.
-An independent checker must validate both lattice congruences, the determinant,
-the denominator parities, the exhaustive coefficient bound, and the integer
-interval exclusions. Before relying on this route, test it against all small
-residue boxes (including nonempty boxes and negative/zero coordinates), the
-historical minima, and the existing overnight certificates. Keep a strict
-coefficient-enumeration cap and a fallback. No unverified optimizer invariant
-or generic shortest-vector assertion is needed for this finite argument.
+The certificate stores the exact coefficient bound `C` and exactly
+`(C+1)//2` rows, in order `beta=1,3,...,C`. Each row contains the two integer
+endpoint pairs for `alpha`, or `null` for a zero coefficient. The independent
+checker validates both lattice congruences, determinant, denominator parities,
+and `C*M <= B*(|f_p|+|f_q|) < (C+1)*M`. It checks endpoint tightness using
+multiplication and inequalities, independently of the producer's division.
+After normalizing the sign of a nonzero coefficient, write
+`d=abs(f_i)` and `z=sign(f_i)*beta*g_i`. The endpoints must satisfy
+
+```
+(lo-1)*d+z < -B <= lo*d+z,
+hi*d+z <= B < (hi+1)*d+z.
+```
+
+For `f_i=0`, it checks the constant constraint directly. Each row must have
+an impossible constant or disjoint integer intervals. No coefficients are
+omitted when the bound exceeds the enumeration cap: the independent checker
+rejects, and the producer either rejects or uses the floor-sum fallback.
+The witness's actual parity check is still required in both methods.
+
+`test_basis.py` compares producer and independent checker separately against
+27,540 directly enumerated small boxes, including 8,748 nonempty boxes, sign
+changes, zero coordinates, and unimodular shears. It rejects malformed bases,
+intervals, omitted rows, invalid parity/membership, and oversized enumeration,
+and checks the floor-sum fallback. It constructs alternative compact proofs
+for all 1,691 historical minima and the stored overnight minima, without
+recomputing those samples. `basis-validation.json` records the full regression
+against its particular source hashes; a smoke run checks the current records.
+These are exact finite tests plus a written certificate argument, not a
+Lean-kernel proof or a theorem about asymptotic behavior.

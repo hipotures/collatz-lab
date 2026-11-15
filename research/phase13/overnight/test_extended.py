@@ -55,7 +55,7 @@ def main():
         if n in (11, 12):
             assert candidate["H"] == {11: 3, 12: 513}[n]
     bits = frontier_prefix(12)
-    good = certify(next(candidates(residue(bits), 12, [12])), bits)
+    good = certify(next(candidates(residue(bits), 12, [12])), bits, method="floor")
     corruptions = []
     for key in ("H", "A", "p", "q"):
         bad = deepcopy(good)

@@ -42,8 +42,13 @@ def inventory():
                  "strict_witness_separation": 2 * h * (h - 1) < (1 << n),
                  "even_basis_denominator": f[1] % 2 == 0,
                  "box_basis_coefficient_bound": hex((h - 1) * (abs(f[0]) + abs(f[1])) // (1 << n)),
-                 "upper_steps": len(row["minimality"]["upper"]) // 2,
-                 "lower_steps": len(row["minimality"]["lower"]) // 2}
+                 "certificate_type": row["minimality"]["type"]}
+        if row["minimality"]["type"] == "odd-box-floor-sum-v1":
+            entry.update(upper_steps=len(row["minimality"]["upper"]) // 2,
+                         lower_steps=len(row["minimality"]["lower"]) // 2)
+        else:
+            assert row["minimality"]["type"] == "odd-box-basis-interval-v1"
+            entry["coefficient_rows"] = len(row["minimality"]["intervals"])
         for known in baseline:
             if known["L"] == n:
                 factor = known["raw_gcd"]

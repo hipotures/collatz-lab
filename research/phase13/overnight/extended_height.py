@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent
 TARGET = ROOT / "heights.jsonl"
 MAX_BITS = 600000
 MAX_FILE_BYTES = 8 * 1024 * 1024
+MAX_COEFFICIENT_BOUND = 4095
 FORMAT = "phase13-overnight-height-v1"
 IMAGES = ((1, 1, 1, 1, 1, 0), (1, 0, 0, 1, 1, 1))
 
@@ -131,22 +132,71 @@ def floor_trace(n, m, a, b):
         m, a = a, m
 
 
-def certify(candidate, bits):
+class BasisLimitError(ValueError):
+    """The compact certificate would require too many coefficient checks."""
+
+
+def basis_certificate(basis, n, bound):
+    """Exclude the symmetric odd-denominator box using exact alpha intervals.
+
+    The independent checker validates lattice membership, determinant, parity,
+    the exhaustive beta bound, and endpoint inequalities. Nothing here relies
+    on the optimizer's shortest-vector invariant.
+    """
+    f, g = basis
+    coefficient_bound = bound * (abs(f[0]) + abs(f[1])) // (1 << n)
+    if coefficient_bound > MAX_COEFFICIENT_BOUND:
+        raise BasisLimitError("compact coefficient enumeration exceeds 4095")
+    intervals = []
+    for beta in range(1, coefficient_bound + 1, 2):
+        row, lower, upper, outside = [], None, None, False
+        for fi, gi in zip(f, g):
+            if fi == 0:
+                row.append(None)
+                outside |= abs(beta * gi) > bound
+                continue
+            ends = (-bound - beta * gi, bound - beta * gi)
+            if fi < 0:
+                ends = (-ends[1], -ends[0])
+            divisor = abs(fi)
+            lo, hi = -((-ends[0]) // divisor), ends[1] // divisor
+            row.append([hex(lo), hex(hi)])
+            lower = lo if lower is None else max(lower, lo)
+            upper = hi if upper is None else min(upper, hi)
+        if not outside and (lower is None or lower <= upper):
+            raise ValueError("odd-denominator box is nonempty")
+        intervals.append(row)
+    return {"type": "odd-box-basis-interval-v1", "bound": hex(bound),
+            "coefficient_bound": hex(coefficient_bound), "intervals": intervals}
+
+
+def certify(candidate, bits, method="auto"):
     n, a, h = (candidate[k] for k in ("N", "A", "H"))
     bound, modulus = h - 1, 1 << n
-    count = (bound + 1) // 2
-    upper, upper_sum = floor_trace(count, modulus, 2 * a, a + bound)
-    lower, lower_sum = floor_trace(count, modulus, 2 * a, a - bound - 1)
-    if upper_sum != lower_sum:
-        raise ValueError("candidate is not minimal")
+    if method not in ("auto", "basis", "floor"):
+        raise ValueError("unknown certificate method")
+    minimality = None
+    if method != "floor":
+        try:
+            minimality = basis_certificate(candidate["basis"], n, bound)
+        except BasisLimitError:
+            if method == "basis":
+                raise
+    if minimality is None:
+        count = (bound + 1) // 2
+        upper, upper_sum = floor_trace(count, modulus, 2 * a, a + bound)
+        lower, lower_sum = floor_trace(count, modulus, 2 * a, a - bound - 1)
+        if upper_sum != lower_sum:
+            raise ValueError("candidate is not minimal")
+        minimality = {"type": "odd-box-floor-sum-v1", "bound": hex(bound),
+                      "upper": upper, "lower": lower,
+                      "upper_sum": hex(upper_sum), "lower_sum": hex(lower_sum)}
     return {"format": FORMAT, "N": n,
             **{k: hex(candidate[k]) for k in ("A", "H", "p", "q")},
             "basis": [[hex(v) for v in row] for row in candidate["basis"]],
             "nonhold_updates": candidate["nonhold_updates"],
             "parity_sha256": hashlib.sha256(bytes(bits)).hexdigest(),
-            "minimality": {"type": "odd-box-floor-sum-v1", "bound": hex(bound),
-                           "upper": upper, "lower": lower,
-                           "upper_sum": hex(upper_sum), "lower_sum": hex(lower_sum)}}
+            "minimality": minimality}
 
 
 def append_atomic(record):
@@ -174,6 +224,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--samples", type=int, nargs="+", required=True)
     parser.add_argument("--seconds-per-sample", type=int, default=90)
+    parser.add_argument("--certificate", choices=("auto", "basis", "floor"), default="auto")
     parser.add_argument("--write", action="store_true", required=True)
     args = parser.parse_args()
     if not all(16384 < n <= MAX_BITS for n in args.samples):
@@ -203,8 +254,9 @@ def main():
         candidate = next(candidates(a, n, [n]))
         print(f"CANDIDATE N={n} height_bits={candidate['H'].bit_length()} "
               f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
-        record = certify(candidate, bits)
-        print(f"TRANSCRIPT N={n} elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
+        record = certify(candidate, bits, method=args.certificate)
+        print(f"TRANSCRIPT N={n} type={record['minimality']['type']} "
+              f"elapsed_seconds={time.perf_counter() - started:.3f}", flush=True)
         verify_record(record)
         append_atomic(record)
         signal.alarm(0)

@@ -1,0 +1,51 @@
+{
+  "format": "phase13-overnight-basis-tests-v1",
+  "classification": "finite exact regression, not a universal formal proof",
+  "exhaustive": {
+    "boxes": 27540,
+    "empty": 18792,
+    "nonempty": 8748,
+    "largest_coefficient_bound": 24,
+    "all_coordinate_signs": [
+      -1,
+      0,
+      1
+    ],
+    "zero_coordinate_positions": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ]
+  },
+  "adversarial": {
+    "rejected_malformed_cases": 13,
+    "explicit_cap_rejection": true,
+    "floor_sum_fallback_verified": true
+  },
+  "regression": {
+    "historical_records": 1691,
+    "historical_source_sha256": "19b6def263de48ee2d669691012ad6e732ba7d6cdac43b0070798a4bc70818f8",
+    "largest_historical_coefficient_bound": 1,
+    "overnight_sample_ids": [
+      80000,
+      87090,
+      87091,
+      87092,
+      90000,
+      522546,
+      522547,
+      522548
+    ],
+    "overnight_source_sha256": "fb2cc65ea9500a2d84f69c5c9db483143455d5058548400701e596f1f297db94",
+    "note": "Alternative compact proofs of the stored exact minima; no sample recomputed."
+  }
+}

@@ -10,6 +10,9 @@ python3 research/phase13/test_height.py
 if [[ -f research/phase13/overnight/test_extended.py ]]; then
   timeout 150s python3 research/phase13/overnight/test_extended.py --quick
 fi
+if [[ -f research/phase13/overnight/test_basis.py ]]; then
+  timeout 150s python3 research/phase13/overnight/test_basis.py --quick
+fi
 if [[ -f research/phase13/overnight/verify_results.py ]]; then
   python3 research/phase13/overnight/verify_results.py --check
 fi

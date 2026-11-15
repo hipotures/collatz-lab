@@ -2,8 +2,8 @@
   "format": "phase13-overnight-inventory-v1",
   "classification": "derived exact finite metadata; not an asymptotic result",
   "source": "heights.jsonl",
-  "source_bytes": 4052103,
-  "source_sha256": "982adbab2ee61192a6666649e16c2167c141370fb67e726462cedfe725db9eaf",
+  "source_bytes": 6012761,
+  "source_sha256": "fb2cc65ea9500a2d84f69c5c9db483143455d5058548400701e596f1f297db94",
   "samples": [
     {
       "N": 80000,
@@ -16,6 +16,7 @@
       "strict_witness_separation": true,
       "even_basis_denominator": true,
       "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-floor-sum-v1",
       "upper_steps": 41096,
       "lower_steps": 20559
     },
@@ -30,6 +31,7 @@
       "strict_witness_separation": true,
       "even_basis_denominator": true,
       "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-floor-sum-v1",
       "upper_steps": 41131,
       "lower_steps": 20615
     },
@@ -44,6 +46,7 @@
       "strict_witness_separation": true,
       "even_basis_denominator": true,
       "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-floor-sum-v1",
       "upper_steps": 41242,
       "lower_steps": 20687,
       "matches_inherited_shadow_level": 5
@@ -59,6 +62,7 @@
       "strict_witness_separation": false,
       "even_basis_denominator": true,
       "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-floor-sum-v1",
       "upper_steps": 20764,
       "lower_steps": 20764
     },
@@ -73,8 +77,52 @@
       "strict_witness_separation": false,
       "even_basis_denominator": true,
       "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-floor-sum-v1",
       "upper_steps": 22124,
       "lower_steps": 22124
+    },
+    {
+      "N": 522546,
+      "height_bits": 211281,
+      "numerator_sign": -1,
+      "numerator_abs_sha256": "af3f86e32337ee8b36249bea9c68a58f8a8608d48c044d0d19653a31d55628f0",
+      "denominator_sha256": "33b1aa8e1b13b3ae7898493b73476ae94d10b3ee74ccc3b9ae483daba4ab7e76",
+      "parity_sha256": "74d32c5e13e09f4c85b7732b01cd5a556275a2f765b02a1456c29e3cc47f474e",
+      "nonhold_updates": 201178,
+      "strict_witness_separation": true,
+      "even_basis_denominator": true,
+      "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-basis-interval-v1",
+      "coefficient_rows": 1
+    },
+    {
+      "N": 522547,
+      "height_bits": 211281,
+      "numerator_sign": -1,
+      "numerator_abs_sha256": "af3f86e32337ee8b36249bea9c68a58f8a8608d48c044d0d19653a31d55628f0",
+      "denominator_sha256": "33b1aa8e1b13b3ae7898493b73476ae94d10b3ee74ccc3b9ae483daba4ab7e76",
+      "parity_sha256": "ec4b0c79014fdaed5ff51b107d1527f5a733e655bfbd9e10387048c42a921d33",
+      "nonhold_updates": 201178,
+      "strict_witness_separation": true,
+      "even_basis_denominator": true,
+      "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-basis-interval-v1",
+      "coefficient_rows": 1,
+      "matches_inherited_shadow_level": 6
+    },
+    {
+      "N": 522548,
+      "height_bits": 311267,
+      "numerator_sign": 1,
+      "numerator_abs_sha256": "86fcc4477d411006741ec7299f53ee5e5c9eb075d2ec001f50afd0e3a3e877cf",
+      "denominator_sha256": "45eed879896031f392766ba23ed55aa1dd1132dfb50b5ee2f808b38b246da227",
+      "parity_sha256": "98cd12ebbd23e76a3d264eefbaf247611b3c0a5922e88d7df14fce25b59a1a71",
+      "nonhold_updates": 201179,
+      "strict_witness_separation": false,
+      "even_basis_denominator": true,
+      "box_basis_coefficient_bound": "0x1",
+      "certificate_type": "odd-box-basis-interval-v1",
+      "coefficient_rows": 1
     }
   ],
   "comparisons": [
@@ -105,6 +153,27 @@
       "same_primitive_witness": false,
       "same_height": false,
       "height_ratio_floor_log2": 0
+    },
+    {
+      "from_N": 90000,
+      "to_N": 522546,
+      "same_primitive_witness": false,
+      "same_height": false,
+      "height_ratio_floor_log2": 159406
+    },
+    {
+      "from_N": 522546,
+      "to_N": 522547,
+      "same_primitive_witness": true,
+      "same_height": true,
+      "height_ratio_floor_log2": 0
+    },
+    {
+      "from_N": 522547,
+      "to_N": 522548,
+      "same_primitive_witness": false,
+      "same_height": false,
+      "height_ratio_floor_log2": 99985
     }
   ]
 }

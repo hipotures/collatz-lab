@@ -1,11 +1,14 @@
 # Phase 13 overnight computation — owner handoff
 
-Five sparse exact height samples around `L_5=87091` are complete. This is
-finite exact evidence, not a determination of an asymptotic exponent.
+Eight sparse exact height samples around `L_5=87091` and `L_6=522547` are
+complete. The three `L_6` samples were added this iteration; the five earlier
+records are byte-for-byte preserved. These are finite exact results, with
+independent certificates, and do not determine an asymptotic exponent.
 
 See [Issue #30](https://github.com/hipotures/collatz-lab/issues/30),
 [PR #29](https://github.com/hipotures/collatz-lab/pull/29),
 [the plan](overnight/PLAN.md) and [the journal](overnight-progress.md).
+No remote issue or PR state was queried or changed.
 
 ## Verified finite computation
 
@@ -16,64 +19,88 @@ See [Issue #30](https://github.com/hipotures/collatz-lab/issues/30),
 | 87091 | 35217 |
 | 87092 | 51875 |
 | 90000 | 51875 |
+| 522546 | 211281 |
+| 522547 | 211281 |
+| 522548 | 311267 |
 
-The first three samples have the identical primitive witness, matching the
-known k=5 shadow coordinate hashes. Monotonicity therefore gives a constant
-minimum throughout `80000..87091`; this is a finite deduction from the
-certified endpoints, not a dense experiment. The boundary jump satisfies
-`2^16657 <= H_87092/H_87091 < 2^16658`. The exact minimum and witness change
-again by `90000`, even though the height bit length stays 51875.
+At `522546` and `522547`, the exact heights and primitive witnesses are
+identical and match the inherited k=6 shadow coordinate hashes. The boundary
+jump satisfies `2^99985 <= H_522548/H_522547 < 2^99986`, using exact integer
+comparisons. No inference about the width of a larger plateau is made from
+these two adjacent samples.
 
-Full hexadecimal heights, primitive positive odd denominators, numerators,
-bases, parity hashes, and no-smaller-height transcripts are in
-[heights.jsonl](overnight/heights.jsonl). The compact
-[inventory](overnight/height-inventory.json) records exact witness/jump
-comparisons and checks the inherited shadow hashes. The known minimum at
-`L_5` is a control; it is not a newly discovered all-level theorem.
+The earlier finite findings remain: the first three samples have the same
+primitive witness, matching the k=5 shadow. Monotonicity gives a plateau
+throughout `80000..87091`; the boundary jump lies in `[2^16657,2^16658)`.
+The height and witness change again by `90000`, even though the height bit
+length remains 51875. Equal bit lengths alone do not establish a plateau.
+The known minima at `L_5` and `L_6` are controls for an inherited all-level
+written theorem, not new theorems discovered by these samples.
 
-## Falsified / unresolved hypotheses
+Full hexadecimal witnesses and certificates are in
+[heights.jsonl](overnight/heights.jsonl). The exact
+[inventory](overnight/height-inventory.json) records witness comparisons,
+jump bounds, and checks of inherited shadow hashes. The file is 6,012,761
+bytes, below its fixed 8 MiB cap; SHA-256:
+`fb2cc65ea9500a2d84f69c5c9db483143455d5058548400701e596f1f297db94`.
 
-`B=liminf log2(H_N)/N`, asymptotic odd-gcd cancellation, and other competing
-subsequences remain unresolved. The equal bit lengths after the boundary do
-not represent equal exact heights. No asymptotic conclusion, novelty claim,
-or new Lean theorem follows from this table.
+## Independent certificate and validation
 
-## Independent verification and resource use
+The separate checker imports no optimizer or other project implementation.
+It reconstructs the literal word and reverse-branch residue, checks every
+actual numerator parity and a primitive positive odd-denominator witness,
+and excludes every vector of height `H-1` or less.
 
-The checker imports no producer/project implementation. It uses literal
-substitution and reverse rational branches, checks every actual numerator
-parity, and verifies primitive odd-denominator witnesses and zero lattice box
-counts at `H-1`. This is independent Python exact arithmetic plus the written
-floor-sum proof; it is not a new Lean-kernel verification.
+This iteration implemented the compact basis/interval certificate described
+in [README.md](overnight/README.md). It checks lattice membership, determinant,
+denominator parity, a complete coefficient bound and tight interval endpoint
+inequalities. Each new sample needs one positive odd coefficient row. The
+checker rejects bounds above 4095; automatic production falls back to the
+preserved floor-sum certificate. All previous floor-sum records remain intact.
 
-The full regression matched all 1,691 historical minima/certificates, passed
-511 brute-force residues and four prefix/residue controls, and rejected seven
-corrupted certificates. `H_11=3`, `H_12=513` passed. Initial decimal parsing
-failed and was fixed with a finite parsing limit; the failure and successful
-rerun are preserved in the logs. Final [overnight smoke](overnight/smoke.log)
-**passed, exit 0**, including baseline checks, the quick extended regression,
-independent verification of all five overnight certificates, and the exact
-inventory check. Smoke took 223.81s and peaked at 94,592 KiB resident memory.
+The exact direct-box tests passed 27,540 cases, including 8,748 nonempty boxes
+that both producer and independent checker rejected. Signed/zero coordinates,
+13 malformed/oversized cases, and the verified fallback are covered. Compact
+certificates passed for all 1,691 historical minima and all eight overnight
+minima. The full extended regression also passed 511 brute-force residues,
+all 1,691 historical floor-sum certificates, four prefix/residue controls,
+seven rejected corruptions, `H_11=3`, and `H_12=513`.
+Evidence: [basis validation](overnight/basis-validation.json),
+[final basis log](overnight/basis-final.log),
+[full regression log](overnight/compact-regression.log).
 
-Both experiment invocations passed with 180 seconds per sample, 550-second
-outer timeouts, and a 1 GiB child address-space cap. New samples took
-60.107–118.533 seconds each; peak resident memory across the invocations was
-115,332 KiB. The complete evidence is 4,052,103 bytes, below the 8 MiB cap.
-Detailed commands and logs are in the [journal](overnight-progress.md).
+The [triplet command](overnight/l6-triplet.log) passed under a 180-second
+per-sample budget, a 750-second outer timeout and a 1 GiB child address-space
+cap. New samples took 90.710–105.667 seconds including independent checking;
+the full invocation took 499.28 seconds and peaked at 123,024 KiB resident
+memory, including rechecking and skipping the five earlier records.
 
-## Morning continuation
+Final [overnight smoke](overnight/smoke.log) **passed, exit 0**, including
+baseline arithmetic/parity regressions, quick extended and basis tests,
+independent parity/minimality verification of all eight records and the exact
+inventory check. It took 350.18 seconds and peaked at 98,492 KiB resident
+memory. The [checkpoint audit](overnight/checkpoint-audit.json) records scope,
+preservation, unchanged HEAD and evidence hashes. No calculation remains
+running at handoff.
 
-Implement and independently test the compact basis/box certificate proposed
-in [README.md](overnight/README.md), then attempt `522546,522547,522548` near
-`L_6`. Its coefficient-bound preflight is 1 at all five stored samples; the
-argument is written mathematics and has no accepted verifier implementation
-yet. Current floor-sum checking dominates the runtime already at `L_5`.
-Raw-shadow gcd beyond k=7 is still pending, followed by basis-transition
-falsification. No `COMPLETE` marker was created because useful bounded work
-remains.
+## Evidence limits and next obligation
 
-Branch: `codex/phase13-overnight`; starting local HEAD/cached origin ref:
-`fbe7b6cd120ee2c93ecce30b50712978652965f8`. This turn performs no commit,
-push, network access, issue/PR edits, merge, or publication. The host driver
-owns the next safe checkpoint. All edits stay in the three authorized paths;
-PR #29, main, original Phase 13 engines, CI and papers are unchanged.
+The computations and independent certificates use Python exact arithmetic.
+The basis-exclusion argument and inherited shadow-minimum theorem are written
+mathematics; no new Lean-kernel proposition or proof was added. Exact
+`B=liminf log2(H_N)/N`, asymptotic gcd cancellation and control of competing
+intermediate approximants remain open. No asymptotic or originality claim
+follows from the finite samples.
+
+The next useful bounded experiment is raw-shadow gcd at k=8 using exact
+noncommutative matrix recurrences, with inherited k=0..7 regression controls
+and separate independent replay. Then investigate basis-transition
+falsification. No gcd level beyond 7 has been computed here. A concrete
+continuation and checkpoint requirements are in the journal. No `COMPLETE`
+marker is justified because useful bounded work remains.
+
+Branch: `codex/phase13-overnight`; entry local HEAD/cached origin ref:
+`43a0f7c841851325fdd165611116224068fc54da`. No commit, push, remote access,
+issue/PR edit, integration or publication was performed. The host driver owns
+the next validated checkpoint. All edits stay within the three authorized
+paths; original Phase 13 engines, PR #29, main, CI and papers are unchanged.

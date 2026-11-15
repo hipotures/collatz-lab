@@ -3,48 +3,59 @@
 ## Resume here
 
 - Branch: `codex/phase13-overnight`. Local HEAD and cached origin ref at
-  inspection: `fbe7b6cd120ee2c93ecce30b50712978652965f8`. PR #29 source:
-  `65b087dc62e4950e1c504fe34865acaacb9188c9`. No Git mutation, fetch, push,
-  network access, issue edit, PR edit, or integration was performed this turn.
-  The host driver owns validation and any subsequent commit/push.
-- Found three untracked partial modules at entry: `extended_height.py`,
-  `verify_results.py`, and `test_extended.py` under `overnight/`. Read and
-  continued them; there was no overnight JSONL evidence to repeat.
-- Full extended regression **passed**: 511 brute-force residues, all 1,691
-  historical minima and certificates, four independent prefix/residue
-  controls through 16,384 bits, seven rejected corruptions, `H_11=3` and
-  `H_12=513`. Evidence: `overnight/regression-checked.log`.
-- Five exact samples are complete. In ascending `N=80000,87090,87091,87092,
-  90000`, the height bit lengths are `35217,35217,35217,51875,51875`.
-  Each has a primitive positive odd-denominator witness, actual parity check,
-  and independently verified zero box count at `H-1`. No sample in this list
-  needs recomputation. Evidence: `overnight/heights.jsonl` and the derived
-  `overnight/height-inventory.json`; timing logs `l5-triplet.log`, `l5-sparse.log`.
-- The first three primitive witnesses are identical and match the inherited
-  k=5 shadow coordinate hashes. Thus height monotonicity gives a constant
-  minimum throughout `80000..87091` (a finite deduction, not a dense scan).
-  The ratio `H_87092/H_87091` lies in `[2^16657,2^16658)`. At `90000` both
-  the witness and exact height differ from `87092`, although their height bit
-  lengths agree; `1 < H_90000/H_87092 < 2`. Bit lengths alone are not plateaux.
-- **Next task:** implement a compact independent basis/box certificate using
-  the fully specified written argument in `overnight/README.md`, and test
-  nonempty as well as empty boxes, denominator parity, and signed/zero
-  coordinates. All five stored bases have coefficient bound 1 at `H-1`.
-  This is a promising exact shortcut, not yet an accepted certificate type.
-  Preserve the existing floor-sum evidence and its independent checks.
-- Then attempt `N=522546,522547,522548` under explicit per-sample caps and
-  the existing 8 MiB evidence limit. `L_6` is not attempted this turn: the
-  measured floor-sum cost already dominates at `L_5`, so the sixfold increase
-  in prefix length calls for a cheaper certificate within the cap. Next run
-  commands and required validation are specified below.
-- After those heights: raw-shadow gcd at k=8, exact noncommutative recurrence,
-  comparison with the inherited k=0..7 signs/gcds/hashes, and independent
-  replay; then basis-transition falsification. None is marked complete here.
-  No hard blocker was reached; further bounded work is useful, so there is
-  no `COMPLETE` marker. **Final overnight smoke passed, exit 0**, including
-  standalone independent verification of all five records and the inventory.
-  Output: `overnight/smoke.log`; final scope/preservation audit:
-  `overnight/checkpoint-audit.json`.
+  entry: `43a0f7c841851325fdd165611116224068fc54da`. PR #29 source:
+  `65b087dc62e4950e1c504fe34865acaacb9188c9`. The host driver owns all
+  commit/push operations. No Git mutation or remote access is authorized here.
+- Entry was clean. Read the current plan, journal, theory Sections 5–9,
+  original experiment/verifier modules, and overnight modules. The five
+  existing samples were already certified and have not been recomputed.
+- **Completed this iteration:** implemented `odd-box-basis-interval-v1` in
+  the overnight producer and independent checker. The proof checks basis
+  membership, determinant, denominator parity, an exhaustive coefficient
+  bound, and tight integer interval endpoints. It rejects enumeration above
+  4095; automatic mode falls back to the preserved floor-sum method.
+- Compact-certificate validation **passed**: 27,540 directly enumerated
+  boxes (18,792 empty, 8,748 nonempty), signed and zero coordinates, 13
+  malformed cases rejected, explicit cap rejection and verified fallback.
+  Alternative compact certificates passed for all 1,691 historical minima
+  and all eight stored overnight minima. Evidence:
+  `overnight/basis-validation.json`, `overnight/basis-validation.log`,
+  `overnight/basis-final.log` (final eight-record source).
+- Full extended regression **passed** after the certificate change: 511
+  brute-force residues, all 1,691 historical minima/floor-sum certificates,
+  four independent prefix/residue controls, seven corruptions rejected,
+  `H_11=3`, `H_12=513`. Evidence: `overnight/compact-regression.log`.
+- **New exact samples completed:** `N=522546,522547,522548` near `L_6`
+  have minimum-height bit lengths `211281,211281,311267`. Each has a primitive
+  positive odd denominator, actual parity witness, and independent exclusion
+  of all smaller-height vectors. The first two witnesses and heights are
+  identical, matching the inherited k=6 shadow coordinate hashes. The exact
+  ratio satisfies `2^99985 <= H_522548/H_522547 < 2^99986`. These three
+  samples must not be recomputed. Evidence: `overnight/l6-triplet.log` and
+  the append-only `overnight/heights.jsonl`.
+- Existing certified `N=80000,87090,87091,87092,90000` have exact-height
+  bit lengths `35217,35217,35217,51875,51875`. Their original 4,052,103
+  bytes remain an unchanged prefix, SHA-256
+  `982adbab2ee61192a6666649e16c2167c141370fb67e726462cedfe725db9eaf`.
+  The first three have the same primitive witness, so monotonicity gives a
+  finite plateau `80000..87091`. The boundary height ratio lies in
+  `[2^16657,2^16658)`. By `90000` the height and witness change again despite
+  the unchanged height bit length. These earlier findings are preserved.
+- The eight-record file is 6,012,761 bytes (below 8 MiB), SHA-256
+  `fb2cc65ea9500a2d84f69c5c9db483143455d5058548400701e596f1f297db94`.
+  Refreshed `overnight/height-inventory.json` verifies exact comparisons and
+  the inherited k=5 and k=6 shadow hashes. Existing floor-sum transcripts
+  were preserved; each new basis certificate enumerates exactly one positive
+  odd coefficient (`C=1`). **Final overnight smoke passed, exit 0**,
+  including independent witness/parity/minimality verification of all eight
+  records and the inventory check. Evidence: `overnight/smoke.log`;
+  final scope/preservation audit: `overnight/checkpoint-audit.json`.
+- **Next research obligation:** exact raw-shadow gcd at
+  k=8 with separate noncommutative matrix construction and independent replay,
+  comparing k=0..7 signs/gcds/hashes against the inherited evidence; then
+  basis-transition falsification. No gcd level beyond 7 is complete here.
+  No hard blocker has been reached; useful bounded work remains, so no
+  `COMPLETE` marker is justified.
 
 ## Scope and evidence levels
 
@@ -60,19 +71,21 @@ No agents or detached processes were spawned.
   exact integer discrepancies, bounded at 600,000 bits.
 - **Independent finite certificate:** literal substitution, reverse rational
   branches, actual numerator parities, primitive positive odd denominator,
-  lattice determinant, and zero box count at `H-1`. The checker imports no
-  optimizer or other project code. Full integers and Euclidean quotients
-  use canonical hexadecimal strings in the bounded JSONL file.
+  lattice determinant, and no vector at `H-1`, by floor-sum count or basis
+  exclusion. The checker imports no optimizer or other project code. Full
+  integers, Euclidean quotients, and interval endpoints use canonical
+  hexadecimal strings in the bounded JSONL file.
 - **Written proof:** the floor-sum counting/telescoping argument is the
   existing theory Section 4. The all-level shadow minimum in Section 8 is
   inherited, not a theorem discovered by an overnight sample. No new Lean
-  proposition or formal proof was added. The optional coefficient-bound and
-  integer-interval argument in `overnight/README.md` is written elementary
-  mathematics only; its proposed verifier still needs implementation/tests.
+  proposition or formal proof was added. The coefficient-bound and integer
+  interval argument in `overnight/README.md` is written elementary mathematics
+  with an implemented independent checker and finite adversarial tests;
+  it is not a Lean proof.
 - **Open:** exact `B`, subexponential raw-gcd cancellation, and competing
   intermediate approximants. Finite data do not prove asymptotic behavior.
 
-## Actual validation and resource observations
+## Earlier checkpoint validation and resource observations
 
 - Initial `timeout 150s /usr/bin/time -v python3 -B
   research/phase13/overnight/test_extended.py` failed promptly because the
@@ -107,12 +120,13 @@ No agents or detached processes were spawned.
   `height-inventory.json` records exact comparisons and canonical coordinate
   hashes, plus the coefficient-bound preflight. It is derived metadata, not
   a substitute for the independent certificate checker.
-- Smoke now prevents imported baseline modules from writing bytecode and
-  runs a quick extended regression (first/final record of every historical
+- The earlier smoke prevented imported baseline modules from writing bytecode
+  and ran a quick extended regression (first/final record of every historical
   family, all 511 small residues, parity controls and corruptions), plus the
   independent checker on every overnight record. The executed invocation was
   `timeout 450s /usr/bin/time -v bash research/phase13/overnight/smoke.sh`,
-  under a 1 GiB child address-space cap, with output in `overnight/smoke.log`.
+  under a 1 GiB child address-space cap. The per-iteration `smoke.log` and
+  `checkpoint-audit.json` now describe the latest checkpoint instead.
   It passed, exit 0: wall time 223.81s, peak resident memory 94,592 KiB.
   Actual output confirms 25,432 signed floor sums, 4,095 exhaustive residues,
   31,750 signed parity cylinders, 262,400 direct `H_12` exclusions, seven
@@ -122,40 +136,76 @@ No agents or detached processes were spawned.
   witness/parity/minimality checks and the exact inventory check. Shell syntax,
   overnight Python compilation and `git diff --check` also passed. No Lean,
   Rust or remote CI check was run or claimed this turn.
-- Final checkpoint audit confirms the original triplet bytes were preserved,
-  the five expected sample IDs are unique, the final source hash matches the
-  inventory, all changed paths are authorized, HEAD is unchanged, and no
-  `COMPLETE` marker exists. The final whitespace check passes. No calculation
-  remains running; the durable files, not a background process, are the handoff.
+- The earlier checkpoint audit confirmed the original triplet was preserved,
+  the five expected sample IDs were unique, the final source hash matched the
+  inventory, all changed paths were authorized, HEAD was unchanged, and no
+  `COMPLETE` marker existed. The whitespace check passed. No calculation
+  was left running at that handoff.
+
+## Current iteration validation and resource observations
+
+All timed commands below ran with a 1 GiB child address-space cap (`ulimit -v
+1048576`), without changing the host configuration.
+
+- `timeout 120s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/test_basis.py --write` passed, exit 0: 0.58s wall
+  time and 79,812 KiB peak resident memory. The preflight log records the
+  five-record source hash. After appending the triplet and strengthening the
+  malformed zero-coordinate test to start from a valid empty-box certificate,
+  the same command passed again, exit 0: 1.93s wall time and 83,700 KiB peak
+  resident memory. `basis-final.log` and `basis-validation.json` record all
+  eight current samples and the final source hash.
+- `timeout 240s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/test_extended.py` passed, exit 0: 50.20s wall
+  time and 76,204 KiB peak resident memory. All 1,691 original floor-sum
+  certificates were checked as well as the new candidate certificates.
+- `timeout 750s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/extended_height.py --samples 522546 522547 522548
+  --seconds-per-sample 180 --certificate basis --write` passed, exit 0:
+  499.28s total wall time, 123,024 KiB peak resident memory. New sample
+  times including independent checking were 90.710s, 90.771s, 105.667s.
+  Candidate construction finished at 53.128s, 53.029s, 53.654s; compact
+  transcript construction finished at 53.134s, 53.034s, 53.667s. The total
+  includes independently checking and skipping the five existing records.
+  Evidence: `overnight/l6-triplet.log`. No sample exhausted its cap.
+- `python3 -B research/phase13/overnight/summarize.py --write` passed on all
+  eight samples. A separate exact check against the local HEAD blob confirmed
+  that all 4,052,103 previous evidence bytes are unchanged; all eight IDs are
+  unique. The new records use coefficient bound 1 and one exhaustive positive
+  odd coefficient row. The three new records add 1,960,658 bytes, giving
+  6,012,761 bytes in total, safely within the fixed 8 MiB cap.
+- `timeout 650s /usr/bin/time -v bash research/phase13/overnight/smoke.sh`
+  passed, exit 0: 350.18s wall time, 98,492 KiB peak resident memory.
+  Output in `overnight/smoke.log` confirms the baseline arithmetic/parity
+  regressions, quick extended and basis tests, all eight independent
+  primitive witnesses/actual parity prefixes/no-smaller-height certificates,
+  and the exact inventory check. The changed Python sources also compiled
+  using `compile(...)` without writing bytecode; shell syntax and
+  `git diff --check` passed. No Lean, Rust, or remote CI result is claimed
+  for this iteration. No calculation is left running at this handoff.
 
 ## Concrete continuation
 
-Read the current files and `git status --short --branch` / `git log -1`
-before working. Implement the proposed compact certificate as a separate
-explicit certificate type in the overnight producer and independent checker.
-Never infer minimality from the optimizer's basis alone. Exhaustively test the
-integer coefficient/interval exclusions against direct small box enumeration;
-cross-check accepted minima against all 1,691 historical certificates and the
-five existing overnight certificates. Reject nonempty boxes and malformed
-bases/intervals. A finite enumeration cap must reject or fall back when the
-bound is too large; do not silently omit coefficients.
+Read the current files and Git state before resuming. Do not recompute a
+sample already independently certified in `heights.jsonl`. The triplet,
+inventory, and final smoke are complete. Implement a bounded exact matrix
+recurrence through raw-shadow level k=8 in separate
+modules under `overnight/`, without editing the inherited Phase 13 modules.
 
-After implementation and those checks, the concrete next sample command is:
+Use `B_0=[[2,0],[0,1]]`, `B_1=[[2,-1],[0,3]]`, with the noncommutative
+updates `B_0'=B_1^5 B_0` and `B_1'=B_1 B_0 B_0 B_1 B_1 B_1` evaluated
+simultaneously. Compare all inherited k=0..7 gcds and coordinate hashes,
+check negative numerator/positive odd denominator directly, and extend only
+to k=8 initially under a per-level time cap and a 1 GiB child memory cap.
+Store exact gcd, raw/reduced bit lengths and deterministic coordinate hashes,
+not full giant raw integer strings. A separate implementation must replay
+and check the new record before it is called independently verified.
 
-```bash
-python3 -B research/phase13/overnight/extended_height.py --samples 522546 522547 522548 --seconds-per-sample 180 --write
-```
+If k=8 exhausts a resource cap, preserve a resumable matrix checkpoint and
+record precisely which construction or gcd check is unfinished. Do not
+promote a candidate, a timeout, or a finite gcd list to an asymptotic claim.
+The next research priority after this is basis-transition falsification;
+additional sparse samples must respect the 8 MiB height-evidence cap.
 
-Use an outer timeout and child memory cap as above. Read the JSONL before
-running; the producer must skip any sample a later iteration already certified.
-If candidate/residue/parity checking alone exceeds the budget, checkpoint the
-candidate separately and label it uncertified until its independent check
-finishes. Do not raise the original Phase 13 engines' 16,384-bit cap. Refresh
-the derived inventory after successful appends, then run overnight smoke.
-Allow more than the observed 145.68s (for example, a 240s outer cap) when
-repeating the full extended regression; the smoke regression is intentionally
-the quicker subset. Host-driver commit/push remains outside Codex.
-
-The host driver's ten-minute quota polling and eight-hour deadline are
-unchanged. Driver logs remain outside this checkout; the research commands'
-small logs and deterministic evidence are under `overnight/`.
+The host driver's quota polling and deadline are unchanged. Driver logs are
+outside this checkout; evidence and command logs are under `overnight/`.
