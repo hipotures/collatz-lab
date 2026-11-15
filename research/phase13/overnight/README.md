@@ -448,3 +448,45 @@ current local evidence and capacity, and certify only its first missing
 failing prefix. Its next failure remains unresolved. Raw-shadow level 8 is
 unchanged; level 9 still needs separately bounded resumable arithmetic.
 Useful research remains, so no `COMPLETE` marker is justified.
+
+## Final-state provenance
+
+Issue #33 freezes the final eight-hour evidence at source
+`76bf6136c334c1db9e52e399fcc33fd4c20b9c24`: 24 heights, 16 transitions and
+nine raw shadows. The earlier summary/audit are retained in `history/` with
+a separate historical label. Original logs, all certificate bytes and exact
+certification scripts remain unchanged. The current owner handoff is
+`../overnight-summary.md`; the current audit is `checkpoint-audit.json`.
+
+Finalization is a separate required step **after** evidence publication and
+successful bounded smoke validation. The host driver now refuses to commit
+a checkpoint with a stale final audit/summary even if arithmetic smoke passes.
+The frozen issue #33 guard intentionally rejects additional data or changed
+source pins; future research needs its own reviewed provenance specification.
+Do not resume the historical unattended driver for this integration task.
+
+```bash
+python3 research/phase13/overnight/test_provenance.py
+python3 research/phase13/overnight/validate_integration.py --reproduction /tmp/phase13-review-new-directory
+python3 research/phase13/overnight/finalize_provenance.py --write
+python3 research/phase13/overnight/finalize_provenance.py --check
+```
+
+The runner requires a new reproduction destination and refuses to overwrite
+its ledger/logs. It records exact commands, observed exit codes/timestamps,
+resource caps and before/after hashes of the actual combined code/evidence.
+A failed command leaves its logs/ledger for diagnosis; it cannot be finalized
+as success. The full current-main matrix and independent pinned-ref referee
+reproduction are bounded verifications, not repeated large-N optimizers.
+No original log is overwritten. Current outputs are under `integration/`.
+
+`finalize_provenance.py --write` checks pinned Git ancestry and byte continuity
+against the original source and current integration base, then binds freshly
+verified outputs to the summary/audit. `--check` is a small deterministic hash,
+count, source-pin and log check suitable for CI, including shallow checkouts.
+It rejects stale counts, altered bytes/scripts/CI inputs, changed source SHA,
+a failed/incomplete smoke, missing/altered logs and a stale rendered summary.
+It does not rerun simulations. Narrative-only handoff edits do not require
+repeating arithmetic validation; finalize again from the same successful
+ledger while all bound inputs remain unchanged. Validation logs describe a
+parent HEAD plus exact input hashes to avoid a self-referential final commit.

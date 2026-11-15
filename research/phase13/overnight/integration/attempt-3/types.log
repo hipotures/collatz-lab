@@ -1,0 +1,203 @@
+CollatzLab.RationalHeight.Prefix : Int → Int → (Nat → Bool) → Nat → Prop
+CollatzLab.RationalHeight.InLattice : Int → Nat → Int → Int → Prop
+CollatzLab.RationalHeight.height : Int → Int → Nat
+CollatzLab.RationalHeight.odd_cancel : ∀ (N : Nat) {d x : Int}, d % 2 = 1 → 2 ^ N ∣ d * x → 2 ^ N ∣ x
+@CollatzLab.RationalHeight.parity_cross_iff : ∀ {p q r s : Int},
+  q % 2 = 1 → s % 2 = 1 → (p % 2 = r % 2 ↔ 2 ∣ p * s - r * q)
+@CollatzLab.RationalHeight.cross_step : ∀ {p q r s : Int},
+  q % 2 = 1 →
+    s % 2 = 1 →
+      p % 2 = r % 2 →
+        ∃ c, c % 2 = 1 ∧ 2 * (CollatzLab.numStep q p * s - CollatzLab.numStep s r * q) = c * (p * s - r * q)
+CollatzLab.RationalHeight.cross_step_dvd : ∀ (N : Nat) {p q r s : Int},
+  q % 2 = 1 →
+    s % 2 = 1 →
+      p % 2 = r % 2 → (2 ^ (N + 1) ∣ p * s - r * q ↔ 2 ^ N ∣ CollatzLab.numStep q p * s - CollatzLab.numStep s r * q)
+CollatzLab.RationalHeight.prefix_cross_iff : ∀ (N : Nat) (p q r s : Int),
+  q % 2 = 1 →
+    s % 2 = 1 →
+      ((∀ (j : Nat), j < N → CollatzLab.seedParity q p j = CollatzLab.seedParity s r j) ↔ 2 ^ N ∣ p * s - r * q)
+@CollatzLab.RationalHeight.cylinder_iff : ∀ {v : Nat → Bool} {N : Nat} {A p q : Int},
+  CollatzLab.RationalHeight.Prefix 1 A v N →
+    q % 2 = 1 → (CollatzLab.RationalHeight.Prefix q p v N ↔ CollatzLab.RationalHeight.InLattice A N p q)
+CollatzLab.RationalHeight.lattice_representation : ∀ (A : Int) (N : Nat) (p q : Int),
+  CollatzLab.RationalHeight.InLattice A N p q ↔ ∃ k, p = 2 ^ N * k + A * q
+CollatzLab.RationalHeight.lattice_determinant : ∀ (A : Int) (N : Nat), 2 ^ N * 1 - 0 * A = 2 ^ N
+CollatzLab.RationalHeight.divide_odd : ∀ (A : Int) (N : Nat) {p q d : Int},
+  d % 2 = 1 → CollatzLab.RationalHeight.InLattice A N (d * p) (d * q) → CollatzLab.RationalHeight.InLattice A N p q
+CollatzLab.RationalHeight.residue_exists : ∀ (v : Nat → Bool) (N : Nat),
+  ∃ A, 0 ≤ A ∧ A < 2 ^ N ∧ CollatzLab.RationalHeight.Prefix 1 A v N
+@CollatzLab.RationalHeight.residue_unique : ∀ {v : Nat → Bool} {N : Nat} {A B : Int},
+  0 ≤ A ∧ A < 2 ^ N ∧ CollatzLab.RationalHeight.Prefix 1 A v N →
+    0 ≤ B ∧ B < 2 ^ N ∧ CollatzLab.RationalHeight.Prefix 1 B v N → A = B
+CollatzLab.RationalHeight.residue : (Nat → Bool) → Nat → Int
+CollatzLab.RationalHeight.residue_spec : ∀ (v : Nat → Bool) (N : Nat),
+  0 ≤ CollatzLab.RationalHeight.residue v N ∧
+    CollatzLab.RationalHeight.residue v N < 2 ^ N ∧
+      CollatzLab.RationalHeight.Prefix 1 (CollatzLab.RationalHeight.residue v N) v N
+CollatzLab.RationalHeight.parity_lattice_iff : ∀ (v : Nat → Bool) (N : Nat) (p q : Int),
+  q % 2 = 1 →
+    (CollatzLab.RationalHeight.Prefix q p v N ↔
+      CollatzLab.RationalHeight.InLattice (CollatzLab.RationalHeight.residue v N) N p q)
+CollatzLab.RationalHeight.minimum_exists : ∀ (v : Nat → Bool) (N : Nat),
+  ∃ B,
+    (∃ p q, 0 < q ∧ q % 2 = 1 ∧ CollatzLab.RationalHeight.Prefix q p v N ∧ CollatzLab.RationalHeight.height p q = B) ∧
+      ∀ (p q : Int),
+        0 < q → q % 2 = 1 → CollatzLab.RationalHeight.Prefix q p v N → B ≤ CollatzLab.RationalHeight.height p q
+CollatzLab.RationalHeight.H : (Nat → Bool) → Nat → Nat
+CollatzLab.RationalHeight.H_spec : ∀ (v : Nat → Bool) (N : Nat),
+  (∃ p q,
+      0 < q ∧
+        q % 2 = 1 ∧
+          CollatzLab.RationalHeight.Prefix q p v N ∧
+            CollatzLab.RationalHeight.height p q = CollatzLab.RationalHeight.H v N) ∧
+    ∀ (p q : Int),
+      0 < q →
+        q % 2 = 1 →
+          CollatzLab.RationalHeight.Prefix q p v N →
+            CollatzLab.RationalHeight.H v N ≤ CollatzLab.RationalHeight.height p q
+CollatzLab.RationalHeight.H_mono : ∀ (v : Nat → Bool) {N M : Nat},
+  N ≤ M → CollatzLab.RationalHeight.H v N ≤ CollatzLab.RationalHeight.H v M
+CollatzLab.RationalHeight.H_positive : ∀ (v : Nat → Bool) (N : Nat), 1 ≤ CollatzLab.RationalHeight.H v N
+CollatzLab.RationalHeight.H_zero : ∀ (v : Nat → Bool), CollatzLab.RationalHeight.H v 0 = 1
+CollatzLab.RationalHeight.H_centered_bound : ∀ (v : Nat → Bool) (N : Nat), CollatzLab.RationalHeight.H v (N + 1) ≤ 2 ^ N
+@CollatzLab.RationalHeight.minimizer_primitive : ∀ {v : Nat → Bool} {N : Nat} {p q : Int},
+  0 < q →
+    q % 2 = 1 →
+      CollatzLab.RationalHeight.Prefix q p v N →
+        CollatzLab.RationalHeight.height p q = CollatzLab.RationalHeight.H v N → p.gcd q = 1
+CollatzLab.RationalHeight.height_bounds : ∀ (p q : Int),
+  CollatzLab.absInt p ≤ ↑(CollatzLab.RationalHeight.height p q) ∧
+    CollatzLab.absInt q ≤ ↑(CollatzLab.RationalHeight.height p q)
+CollatzLab.RationalHeight.cross_height_bound : ∀ (p q r s : Int),
+  CollatzLab.absInt (p * s - r * q) ≤
+    2 * ↑(CollatzLab.RationalHeight.height p q) * ↑(CollatzLab.RationalHeight.height r s)
+@CollatzLab.RationalHeight.same_prefix_height_separation : ∀ {v : Nat → Bool} {N : Nat} {p q r s : Int},
+  q % 2 = 1 →
+    s % 2 = 1 →
+      CollatzLab.RationalHeight.Prefix q p v N →
+        CollatzLab.RationalHeight.Prefix s r v N →
+          p * s ≠ r * q → 2 ^ N ≤ 2 * ↑(CollatzLab.RationalHeight.height p q) * ↑(CollatzLab.RationalHeight.height r s)
+@CollatzLab.RationalHeight.bounded_height_unique : ∀ {v : Nat → Bool} {N B : Nat} {p q r s : Int},
+  q % 2 = 1 →
+    s % 2 = 1 →
+      CollatzLab.RationalHeight.Prefix q p v N →
+        CollatzLab.RationalHeight.Prefix s r v N →
+          CollatzLab.RationalHeight.height p q ≤ B →
+            CollatzLab.RationalHeight.height r s ≤ B → 2 * B * B < 2 ^ N → p * s = r * q
+@CollatzLab.RationalHeight.shadow_crossing : ∀ {v : Nat → Bool} {N : Nat} {p q : Int},
+  q % 2 = 1 →
+    CollatzLab.RationalHeight.Prefix q p v N →
+      CollatzLab.seedParity q p N ≠ CollatzLab.Morphism.bit (v N) →
+        2 ^ N ≤ 2 * ↑(CollatzLab.RationalHeight.height p q) * ↑(CollatzLab.RationalHeight.H v (N + 1))
+CollatzLab.RationalHeight.bounded_iff_rational : ∀ (v : Nat → Bool),
+  (∃ B K, ∀ (N : Nat), K ≤ N → CollatzLab.RationalHeight.H v N ≤ B) ↔
+    ∃ p q, CollatzLab.RealizesWord p q fun j => CollatzLab.Morphism.bit (v j)
+CollatzLab.FrontierHeight.inflate : (Nat → Bool) → Nat → Bool
+CollatzLab.FrontierHeight.baseShadow : Nat → Bool
+CollatzLab.FrontierHeight.shadow : Nat → Nat → Bool
+CollatzLab.FrontierHeight.matchLength : Nat → Nat
+CollatzLab.FrontierHeight.fixed_inflate : ∀ (n : Nat),
+  CollatzLab.FrontierHeight.inflate (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) n =
+    CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix n
+CollatzLab.FrontierHeight.matchLength_formula : ∀ (k : Nat),
+  5 * CollatzLab.FrontierHeight.matchLength k + 1 = 56 * 6 ^ k
+@CollatzLab.FrontierHeight.inflate_first_failure : ∀ {v : Nat → Bool} {m : Nat},
+  (∀ (j : Nat), j < m → v j = CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix j) →
+    v m ≠ CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix m →
+      (∀ (j : Nat),
+          j < 6 * m + 1 →
+            CollatzLab.FrontierHeight.inflate v j = CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix j) ∧
+        CollatzLab.FrontierHeight.inflate v (6 * m + 1) ≠
+          CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix (6 * m + 1)
+CollatzLab.FrontierHeight.shadow_first_failure : ∀ (k : Nat),
+  (∀ (j : Nat),
+      j < CollatzLab.FrontierHeight.matchLength k →
+        CollatzLab.FrontierHeight.shadow k j = CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix j) ∧
+    CollatzLab.FrontierHeight.shadow k (CollatzLab.FrontierHeight.matchLength k) ≠
+      CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix (CollatzLab.FrontierHeight.matchLength k)
+@CollatzLab.FrontierHeight.inflate_period_after : ∀ {v : Nat → Bool} {u s : Nat},
+  (∀ (n : Nat), u ≤ n → v (n + s) = v n) →
+    ∀ (n : Nat), 6 * u ≤ n → CollatzLab.FrontierHeight.inflate v (n + 6 * s) = CollatzLab.FrontierHeight.inflate v n
+CollatzLab.FrontierHeight.shadow_period_after : ∀ (k n : Nat),
+  3 * 6 ^ k ≤ n → CollatzLab.FrontierHeight.shadow k (n + 6 ^ k) = CollatzLab.FrontierHeight.shadow k n
+CollatzLab.FrontierHeight.shadow_tail_initial : ∀ (k j : Nat),
+  j < 6 ^ k →
+    CollatzLab.FrontierHeight.shadow k (3 * 6 ^ k + j) = CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix j
+CollatzLab.FrontierHeight.periodic_seed : ∀ (v : Nat → Bool) (s : Nat),
+  1 ≤ s →
+    (∀ (n : Nat), v (n + s) = v n) →
+      2 ^ s < 3 ^ CollatzLab.Morphism.weight v s →
+        CollatzLab.RealizesWord (-CollatzLab.Morphism.offset v s) (3 ^ CollatzLab.Morphism.weight v s - 2 ^ s) fun j =>
+          CollatzLab.Morphism.bit (v j)
+CollatzLab.FrontierHeight.prepend_seed : ∀ (v : Nat → Bool) (u : Nat) {p q : Int},
+  (CollatzLab.RealizesWord p q fun j => CollatzLab.Morphism.bit (v (u + j))) →
+    CollatzLab.RealizesWord (2 ^ u * p - CollatzLab.Morphism.offset v u * q) (3 ^ CollatzLab.Morphism.weight v u * q)
+      fun j => CollatzLab.Morphism.bit (v j)
+CollatzLab.FrontierHeight.local_pressure : ∀ (n t : Nat),
+  t < 6 →
+    2 ^ t ≤
+      4 *
+        3 ^ CollatzLab.Morphism.weight (fun j => CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix (6 * n + j)) t
+CollatzLab.FrontierHeight.prefix_pressure : ∀ (n : Nat),
+  2 ^ n ≤ 4 * 3 ^ CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) n
+CollatzLab.FrontierHeight.offset_of_pressure : ∀ (v : Nat → Bool),
+  (∀ (n : Nat), 2 ^ n ≤ 4 * 3 ^ CollatzLab.Morphism.weight v n) →
+    ∀ (n : Nat), CollatzLab.Morphism.offset v n ≤ 2 * ↑n * 3 ^ CollatzLab.Morphism.weight v n
+CollatzLab.FrontierHeight.power_gap : ∀ (k : Nat),
+  2 ^ 6 ^ k < 3 ^ CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (6 ^ k)
+CollatzLab.FrontierHeight.shadowNum : Nat → Int
+CollatzLab.FrontierHeight.shadowDen : Nat → Int
+CollatzLab.FrontierHeight.shadow_realized : ∀ (k : Nat),
+  CollatzLab.RealizesWord (CollatzLab.FrontierHeight.shadowNum k) (CollatzLab.FrontierHeight.shadowDen k) fun j =>
+    CollatzLab.Morphism.bit (CollatzLab.FrontierHeight.shadow k j)
+CollatzLab.FrontierHeight.shadow_prefix : ∀ (k : Nat),
+  CollatzLab.RationalHeight.Prefix (CollatzLab.FrontierHeight.shadowDen k) (CollatzLab.FrontierHeight.shadowNum k)
+    (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (CollatzLab.FrontierHeight.matchLength k)
+CollatzLab.FrontierHeight.shadow_failure : ∀ (k : Nat),
+  CollatzLab.seedParity (CollatzLab.FrontierHeight.shadowDen k) (CollatzLab.FrontierHeight.shadowNum k)
+      (CollatzLab.FrontierHeight.matchLength k) ≠
+    CollatzLab.Morphism.bit
+      (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix (CollatzLab.FrontierHeight.matchLength k))
+CollatzLab.FrontierHeight.shadow_weight_sum : ∀ (k : Nat),
+  7 *
+      ↑(CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (3 * 6 ^ k) +
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (6 ^ k)) =
+    20 * ↑(6 ^ k) - 6 * (-1) ^ k
+CollatzLab.FrontierHeight.shadow_height_bound : ∀ (k : Nat),
+  CollatzLab.RationalHeight.height (CollatzLab.FrontierHeight.shadowNum k) (CollatzLab.FrontierHeight.shadowDen k) ≤
+    14 * 6 ^ k *
+      3 ^
+        (CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (3 * 6 ^ k) +
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (6 ^ k))
+CollatzLab.FrontierHeight.H_shadow_upper : ∀ (k : Nat),
+  CollatzLab.RationalHeight.H (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix)
+      (CollatzLab.FrontierHeight.matchLength k) ≤
+    14 * 6 ^ k *
+      3 ^
+        (CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (3 * 6 ^ k) +
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (6 ^ k))
+CollatzLab.FrontierHeight.H_shadow_crossing : ∀ (k : Nat),
+  2 ^ CollatzLab.FrontierHeight.matchLength k ≤
+    2 *
+        (14 * ↑(6 ^ k) *
+          3 ^
+            (CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (3 * 6 ^ k) +
+              CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (6 ^ k))) *
+      ↑(CollatzLab.RationalHeight.H (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix)
+          (CollatzLab.FrontierHeight.matchLength k + 1))
+CollatzLab.FrontierHeight.H_after_shadow : ∀ (k N : Nat),
+  CollatzLab.FrontierHeight.matchLength k < N →
+    2 ^ CollatzLab.FrontierHeight.matchLength k ≤
+      2 *
+          (14 * ↑(6 ^ k) *
+            3 ^
+              (CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (3 * 6 ^ k) +
+                CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) (6 ^ k))) *
+        ↑(CollatzLab.RationalHeight.H (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) N)
+CollatzLab.FrontierHeight.H_eleven : CollatzLab.RationalHeight.H
+    (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) 11 =
+  3
+CollatzLab.FrontierHeight.H_twelve : CollatzLab.RationalHeight.H
+    (CollatzLab.Morphism.word CollatzLab.Morphism.frontierSix) 12 =
+  513

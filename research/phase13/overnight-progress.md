@@ -1,3 +1,55 @@
+# Phase 13 overnight integration — issue #33
+
+## Resume here — current owner handoff
+
+- Active task: <https://github.com/hipotures/collatz-lab/issues/33>.
+- Isolated checkout: `/tmp/collatz-lab-phase13-overnight-integration`, branch
+  `codex/phase13-overnight-integration`. Started at exactly pinned overnight
+  `76bf6136c334c1db9e52e399fcc33fd4c20b9c24`, then merged current main
+  `0190d57f43164ce2ec6016b3d3314c94ff98e06b` locally without conflicts.
+  The combined parent checkpoint is `d6466ed71f2036f39cb0506a4a659bfecc7a0791`.
+- Main matches issue #33 and contains merged PRs #29/#32. The original
+  overnight, implementation and reviewer branch tips match their pinned refs.
+  No protected branch, reviewer report, mathematical source or paper is edited.
+- All final evidence hashes were freshly checked: 24 height records, 11+5
+  transitions, nine raw-shadow records. Certificate data and original
+  certification scripts are unchanged. Source hashes/caps are enforced by
+  `overnight/finalize_provenance.py`.
+- The old summary/audit are preserved byte-for-byte under `overnight/history/`
+  and explicitly labeled as the earlier 23/15 snapshot. The entire original
+  journal follows unchanged below. Its unfinished validation/next-experiment
+  instructions are historical, not this task's next obligation.
+- Original final smoke was already complete: exit 0, 24/16/9, 464.54 seconds,
+  RSS 102,832 KiB. It is retained as historical output. Fresh integration
+  validation has not yet been run at this checkpoint. No new result claimed.
+- Guard implementation and six bounded regression tests pass. Three early
+  attempts are retained in `overnight/integration/attempt-1/`, `attempt-2/`
+  and `attempt-3/`.
+  First: Lean hit the initial 4 GiB address-space cap (command exit 1).
+  Second: all mathematical checks passed (command exit 0), but the runner
+  rejected the input fingerprint because two metadata files were corrected
+  during validation. Third: the matrix, interfaces and 24/16/9 smoke all passed, but the runner
+  rejected metadata-input drift after the CI bytecode-cache portability fix.
+  None is claimed as completed final validation.
+- Current run uses 24 GiB address-space caps for the full matrix/referee
+  reproduction and 1 GiB for smoke/interfaces. The final code is frozen.
+  `validate_integration.py --reproduction /tmp/collatz-phase13-issue33-referee-reproduction`
+  is running. Its full matrix passed (269.91 seconds), as did the independent
+  combined interfaces (9.52 seconds). Final smoke and pinned reproduction
+  remain pending; no final successful attestation is claimed yet.
+- Checkpoint scope: tested metadata tooling, the unchanged original source
+  integration, exact historical copies and completed prior attempt records.
+  Current successful run outputs and corrected final summary/audit follow only
+  after all four commands finish. No PR is open yet.
+- Next: read the current run exit/logs, finalize metadata only after all four
+  commands pass with unchanged inputs, rerun the guard/regressions, commit
+  and push this branch, check actual CI and open an unmerged integration PR.
+- Original mathematical PASS verdict and all proof-status distinctions remain
+  unchanged. Exact B, asymptotic gcd growth and unsampled minima remain open.
+  No new transitions or k=9 computation is authorized by this issue.
+
+## Original journal, retained byte-for-byte from the pinned source
+
 # Phase 13 overnight research journal — issue #30
 
 ## Resume here

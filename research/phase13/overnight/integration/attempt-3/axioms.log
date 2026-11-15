@@ -1,0 +1,707 @@
+'CollatzLab.all_prefixes_survive' depends on axioms: [propext, Quot.sound]
+'CollatzLab.w_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.iter4L_affine_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.uncancelled_d1_divisible_by_256' depends on axioms: [propext, Quot.sound]
+'CollatzLab.dTower_pos_and_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.tower_congruence_all' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.deltaTower_exact_div' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.pade4_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.theorem_7_1_part1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.hTower_closed_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.eForm_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_w' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_seed_realizes_w' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.realizes_shiftWord_pred' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_w' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_w_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.familyWord_four' depends on axioms: [propext, Quot.sound]
+'CollatzLab.familyWord_five_prefix' does not depend on any axioms
+'CollatzLab.Family.word_block' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.word_binary' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.word_unique' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.fixed_point' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.block_images' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.before_first_difference' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.first_difference' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.numIter_block' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.initial_divisibility' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.initial_normalization' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.prefix_mahler' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.denominator_props' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.tower_congruence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.tower_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.approximant_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.valuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.height_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.form_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Family.exponent_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Family.base_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_family' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_family' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_family_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_seed_realizes_shifted_family' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.family_five_positive_prefix_witness' does not depend on any axioms
+'CollatzLab.realizes_all_zero' depends on axioms: [propext]
+'CollatzLab.Phase7Audit.literal_four' does not depend on any axioms
+'CollatzLab.Phase7Audit.literal_five' does not depend on any axioms
+'CollatzLab.Phase7Audit.literal_six' does not depend on any axioms
+'CollatzLab.Phase7Audit.signed_prefix_witnesses' does not depend on any axioms
+'CollatzLab.Phase7Audit.positive_prefix_witnesses' does not depend on any axioms
+'CollatzLab.Phase7Audit.signed_branch_checks' does not depend on any axioms
+'CollatzLab.Phase7Audit.negative_realization' depends on axioms: [propext]
+'CollatzLab.Phase7Audit.disagreement_controls' does not depend on any axioms
+'CollatzLab.Morphism.word_rec' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.word_unique' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.literal_block' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.parity_binary' depends on axioms: [propext]
+'CollatzLab.Morphism.weight_positive' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.one_has_zero' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.weight_lt_length' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.affine_prefix' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.numIter_block' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.prefix_mahler' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.base_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.offsets_odd_multiple' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.first_disagreement' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.sigma_admissible' does not depend on any axioms
+'CollatzLab.Morphism.sigma_criterion' does not depend on any axioms
+'CollatzLab.Morphism.thueMorse_admissible' does not depend on any axioms
+'CollatzLab.Morphism.thueMorse_fails_criterion' does not depend on any axioms
+'CollatzLab.Morphism.secondary_fails_criterion' does not depend on any axioms
+'CollatzLab.bounded_nat_collision' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.repeated_numIter_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.bounded_blocks_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.contracting_recurrence_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_subcritical' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.thueMorse_even' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.thueMorse_odd' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.thueMorse_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.thueMorse_prefix' does not depend on any axioms
+'CollatzLab.Morphism.thueMorse_positive_prefix' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_thueMorse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_thueMorse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_thueMorse_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.gamma_factor' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.gammaStar_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.s_lt_e' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.delta_exact' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.congruence_step' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.initial_divisibility' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.normalized_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.denominator_odd' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.tower_congruence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.tower_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.residual_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.valuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.positive_denominator_props' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.positive_denominator_initial' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.positive_denominator_step' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.positive_tower_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.sum_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.Q_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.GammaStar_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.height_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.height_power_closed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.form_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.form_power_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.homogeneous_bernoulli' depends on axioms: [propext, Quot.sound]
+'CollatzLab.amplify_integer_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_doubly_exponential_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_equal_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_equal_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_equal_weight_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_sigma' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.reverseOrder_admissible' does not depend on any axioms
+'CollatzLab.Morphism.reverseOrder_criterion' does not depend on any axioms
+'CollatzLab.Morphism.reverseOrder_parameters' does not depend on any axioms
+'CollatzLab.Morphism.independent_prefix_witnesses' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_reverseOrder' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PeriodicControl.residual_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PeriodicControl.residual_first' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PeriodicControl.odd_multiple' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PeriodicControl.valuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PeriodicControl.Q_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PeriodicControl.form_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PeriodicControl.form_power_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_with_periodic_control' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_with_shifted_periodic_control' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.secondary_admissible' does not depend on any axioms
+'CollatzLab.Morphism.secondary_control_valid' does not depend on any axioms
+'CollatzLab.Morphism.secondary_control_gap' does not depend on any axioms
+'CollatzLab.Morphism.secondary_positive_prefix' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_secondary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_secondary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_secondary_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.thueMorse_control_valid' does not depend on any axioms
+'CollatzLab.Morphism.thueMorse_control_gap' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_thueMorse_mahler' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.SmallCertificates.catalogue_valid' depends on axioms: [propext]
+'CollatzLab.SmallCertificates.catalogue_counts' does not depend on any axioms
+'CollatzLab.SmallCertificates.listed_no_rational_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.image_injective' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.word_weight_blocks' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.period_balance' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.period_gcd_descent' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_subcritical_equal_weight' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_subcritical_equal_weight' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_subcritical_equal_weight_itinerary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.degree_six_numerical_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.degree_six_ledger' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.unequalAlternating_prolongable_distinct' does not depend on any axioms
+'CollatzLab.Morphism.unequalAlternating_word' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalAlternating_weights' does not depend on any axioms
+'CollatzLab.Morphism.unequalAlternating_realized' depends on axioms: [propext, Quot.sound]
+'CollatzLab.nonunit_leading_valuation' depends on axioms: [propext, Quot.sound]
+'CollatzLab.finite_start_for_leading_coefficient' depends on axioms: [propext, Quot.sound]
+'CollatzLab.premature_valuation_counterexample' does not depend on any axioms
+'CollatzLab.positive_pow_strict' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_eventual_doubly_exponential_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.nat_two_power_factorization' depends on axioms: [propext, Quot.sound]
+'CollatzLab.int_two_power_factorization' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.sum_scale' depends on axioms: [propext]
+'CollatzLab.PolynomialPair.sum_cutoff' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.convolution_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.residual_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.tower_residual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.tower_divisibility' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.odd_multiple_of_exact' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.cancel_odd_multiple' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.valuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.coefficientNorm_positive' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.coefficientNorm_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.norm_bounds' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.heightConstant_positive' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.eval_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.form_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.form_power_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_with_polynomial_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_with_shifted_polynomial_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_polynomial_pair_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.secondaryPair_first' does not depend on any axioms
+'CollatzLab.PolynomialPair.thueMorsePeriodicPair_first' does not depend on any axioms
+'CollatzLab.PolynomialPair.thueMorsePeriodicPair_gap' does not depend on any axioms
+'CollatzLab.PolynomialPair.thueMorseSix_first' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryPair_gap' does not depend on any axioms
+'CollatzLab.PolynomialPair.thueMorseSix_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.thueMorseSix_finite_valuation' does not depend on any axioms
+'CollatzLab.PolynomialPair.thueMorseSix_start' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_thueMorse_polynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_secondary_polynomial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FiniteLinear.total_ext' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.total_zero' does not depend on any axioms
+'CollatzLab.FiniteLinear.total_head' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.total_scaled_sub' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.dot_scaled_sub' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.dot_right_scale' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.skip_surjective' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.integer_null_vector' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.convolution_dot' depends on axioms: [propext]
+'CollatzLab.PolynomialPair.polynomial_pair_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.degree_six_pair_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.window_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.window_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.deterministic_binary_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.total_eq_pivot' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.first_nonzero_coefficient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.recurrence_determines' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.rational_binary_eventually_periodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.RationalSeries.nonzero_residual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.impulse_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.impulse_eventually_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.shifted_alternating_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.shifted_alternating_eventually_periodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.RationalSeries.thueMorse_residual_nonzero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.universal_degree_six_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_all_equal_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_all_equal_weight' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_all_equal_weight_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_integer_seed_realizes_all_equal_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.supercriticalSix_admissible' does not depend on any axioms
+'CollatzLab.Morphism.supercriticalSix_parameters' does not depend on any axioms
+'CollatzLab.Morphism.supercriticalSix_fails_old_criterion' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_supercriticalSix' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_thueMorse_universal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_secondary_universal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_sigma_universal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_reverseOrder_universal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Phase8Audit.supercritical_pair_valid' does not depend on any axioms
+'CollatzLab.Phase8Audit.literal_words_two_through_six' does not depend on any axioms
+'CollatzLab.Phase8Audit.positive_prefixes_two_through_six' does not depend on any axioms
+'CollatzLab.Phase8Audit.negative_prefixes_two_through_six' does not depend on any axioms
+'CollatzLab.Phase8Audit.unreduced_seed_equivalence' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Phase8Audit.predicate_nonvacuous' depends on axioms: [propext]
+'CollatzLab.highWeight101_admissible' does not depend on any axioms
+'CollatzLab.highWeight101_parameters' does not depend on any axioms
+'CollatzLab.small_degree_base_obstruction' does not depend on any axioms
+'CollatzLab.small_degree_worst_ledger_failure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.highWeight101_small_degree_failure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.highWeight101_low_first' does not depend on any axioms
+'CollatzLab.highWeight101_low_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_highWeight101_low_degree' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.numerical_gap_from_six' depends on axioms: [propext, Quot.sound]
+'CollatzLab.universal_dimension_gap_iff' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.universal_high_degree_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_highWeight101' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.MinimalCertificate.prefix_kernel' depends on axioms: [propext, Quot.sound]
+'CollatzLab.MinimalCertificate.convolution_word_ext' depends on axioms: [propext, Quot.sound]
+'CollatzLab.MinimalCertificate.prefix_order_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.MinimalCertificate.hard_admissible' does not depend on any axioms
+'CollatzLab.MinimalCertificate.hard_parameters' does not depend on any axioms
+'CollatzLab.MinimalCertificate.hard_prefix' does not depend on any axioms
+'CollatzLab.MinimalCertificate.hard_exponent_comparison' does not depend on any axioms
+'CollatzLab.MinimalCertificate.hard_small_degree_ledger_failure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.MinimalCertificate.hard_no_small_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.MinimalCertificate.hard_six_first' does not depend on any axioms
+'CollatzLab.MinimalCertificate.hard_six_gap' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.MinimalCertificate.hard_no_rational_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.MinimalCertificate.universal_certificate_degree_iff' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.RationalSeries.deterministic_window_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.digit_range' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.radix_pair_injective' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.boundedWindow_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.boundedWindow_injective' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.rational_interval_eventually_periodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.RationalSeries.rational_bounded_integer_eventually_periodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.RationalSeries.bounded_nonzero_residual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.convolution_period_denominator' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.eventually_periodic_rational_pair' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.bounded_rational_iff_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.signedWave_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.signedWave_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.singleton_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.singleton_base_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalSeries.counting_identity' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.counting_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalSeries.counting_not_bounded' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.secondaryTen_first' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryTen_gap' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryTen_spacing' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryTen_actual_prefix' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryTen_finite_congruences' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryTen_forms' does not depend on any axioms
+'CollatzLab.PolynomialPair.secondaryTen_premature_failure' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_secondary_nonunit' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FiniteLinear.absInt_neg_eq' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.elimination_bound_positive' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.nullBound_positive' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.dot_abs_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.elimination_entry_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FiniteLinear.integer_null_vector_bounded' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.convolution_abs_bound_general' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.bounded_polynomial_pair_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.convolution_abs_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.degree_six_coefficient_bound' does not depend on any axioms
+'CollatzLab.PolynomialPair.coefficientNorm_upper' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.degree_six_height_cap' does not depend on any axioms
+'CollatzLab.PolynomialPair.degree_six_norm_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.degree_six_leading_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.uniform_safe_level' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.universal_bounded_degree_six_certificate' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.Morphism.universal_degree_six_valuation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.PolynomialPair.convolution_zero_coefficients' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.residual_of_zero_denominator' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.first_pair_nonzero' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.first_zero_denominator_order' depends on axioms: [propext, Quot.sound]
+'CollatzLab.PolynomialPair.first_gap_denominator_nonzero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.variable_contracting_recurrence_bounded' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.offset_upper' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.offset_bounds' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.numIter_chunk' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.weight_source_blocks' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.numIter_variable_block' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.numIter_source_blocks' depends on axioms: [propext, Quot.sound]
+'CollatzLab.uniformly_contracting_blocks_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_uniform_block_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_block_contraction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_shifts_of_exclusion' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_eventually_shifted_itinerary_of_exclusion' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_images' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_prolongable_distinct' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_weights' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_image_weight' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_word_first' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_word_middle' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_word_last' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_first' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_middle' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_last' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_not_periodic_from' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_no_000' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_three_image_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_nine_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_nine_gap' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_nine_offset' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_nine_recurrence' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_unequal_100_110' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_unequal_100_110' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequal_100_110_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_seed_realizes_shifted_unequal_100_110' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_orbit_enters_shifted_unequal_100_110' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_eventually_shifted_unequal_100_110_itinerary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.UnequalContractionChecks.literal_first_three' does not depend on any axioms
+'CollatzLab.UnequalContractionChecks.indexed_matches_literal' does not depend on any axioms
+'CollatzLab.UnequalContractionChecks.positive_integer_prefix' does not depend on any axioms
+'CollatzLab.UnequalContractionChecks.signed_unreduced_prefixes' does not depend on any axioms
+'CollatzLab.UnequalContractionChecks.signed_unreduced_equiv' depends on axioms: [propext, Quot.sound]
+'CollatzLab.UnequalContractionChecks.expanding_image_and_contracting_group' does not depend on any axioms
+'CollatzLab.UnequalContractionChecks.rational_control_preserved' depends on axioms: [propext, Quot.sound]
+'CollatzLab.UnequalContractionChecks.rational_control_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_parent_index' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_expand' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_certificate_covers' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.imageWeightSum_start' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_image_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_certificate_weight_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_window_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.window_offset' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_source_expand' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.window_certificate_offset_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_language_covers' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_language_occurs' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_language_table' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_certificate_weight' depends on axioms: [propext]
+'CollatzLab.Morphism.unequal100110_certificate_offset' depends on axioms: [propext]
+'CollatzLab.Morphism.unequal100110_nine_offset_sharp' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal100110_nine_offset_attained' does not depend on any axioms
+'CollatzLab.Morphism.unequal100110_two_source_obstruction' does not depend on any axioms
+'CollatzLab.no_rational_seed_unequal_100_110_via_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.ternary_columns_not_periodic_from' depends on axioms: [propext, Quot.sound]
+'CollatzLab.ternary_columns_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_images_weights' does not depend on any axioms
+'CollatzLab.Morphism.unequal110100_prolongable_distinct' does not depend on any axioms
+'CollatzLab.Morphism.unequal110100_first' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_middle' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_last' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_language_covers' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_language_occurs' does not depend on any axioms
+'CollatzLab.Morphism.unequal110100_certificate_weight' depends on axioms: [propext]
+'CollatzLab.Morphism.unequal110100_certificate_offset' depends on axioms: [propext]
+'CollatzLab.Morphism.unequal110100_nine_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_nine_offset' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_nine_recurrence' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal110100_locally_expanding' does not depend on any axioms
+'CollatzLab.Morphism.unequal110100_positive_prefix' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_unequal_110_100' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_unequal_110_100' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequal_110_100_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_seed_realizes_shifted_unequal_110_100' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_orbit_enters_shifted_unequal_110_100' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.seedParity_neg_both' depends on axioms: [propext, Quot.sound]
+'CollatzLab.positive_odd_denominator_normalization' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_eventually_shifted_itinerary_odd_denominator' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_eventually_shifted_unequal_100_110_signed_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequal_110_100_signed_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.complement_columns_not_periodic_from' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.complement_columns_not_eventually_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.imageWeightSum_affine' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.balance_step' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.balance_power' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.spectral_weight_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_spectral_certificate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.weight_window_from_aligned' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_prolongable' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_distinct' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_first' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_middle' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_last' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_not_eventually_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_four_spectral' does not depend on any axioms
+'CollatzLab.Morphism.unequalSparse_five_spectral' does not depend on any axioms
+'CollatzLab.Morphism.unequalSparse_five_uniform_count' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_five_all_windows' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_unequal_1000_1110' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_unequal_10000_11110' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_unequalSparse_four' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_unequalSparse_five' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequalSparse_four_itinerary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequalSparse_five_itinerary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.SparseChecks.longer_images' does not depend on any axioms
+'CollatzLab.SparseChecks.longer_literal_prefixes' does not depend on any axioms
+'CollatzLab.SparseChecks.longer_positive_prefixes' does not depend on any axioms
+'CollatzLab.SparseChecks.spectral_counts' does not depend on any axioms
+'CollatzLab.absInt_pow_eq' depends on axioms: [propext, Quot.sound]
+'CollatzLab.second_order_binomial_lower' depends on axioms: [propext, Quot.sound]
+'CollatzLab.four_times_power_le' depends on axioms: [propext, Quot.sound]
+'CollatzLab.quarter_power_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.five_eighths_contraction' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.weight_initial_ones' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.weight_singleton_one' depends on axioms: [propext]
+'CollatzLab.Morphism.unequalSparse_one_image' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_zero_image' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_weights' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_parameters' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_power_balance' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_power_weight_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequalSparse_uniform_margin' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_unequalSparse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_unequalSparse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_unequalSparse_itinerary' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_seed_realizes_shifted_unequalSparse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_int_orbit_enters_shifted_unequalSparse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_unequalSparse_signed_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.SparseChecks.sparse_length_two_control' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.column_injective' does not depend on any axioms
+'CollatzLab.Morphism.bit_injective' depends on axioms: [propext]
+'CollatzLab.Morphism.column_certificate_not_periodic_from' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.column_certificate_not_eventually_periodic' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_finite_certificates' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.unequal11001110_images_weights' does not depend on any axioms
+'CollatzLab.Morphism.unequal11001110_not_eventually_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.unequal11001110_language_covers' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal11001110_language_occurs' does not depend on any axioms
+'CollatzLab.Morphism.unequal11001110_certificate_weight' depends on axioms: [propext]
+'CollatzLab.Morphism.unequal11001110_certificate_offset' depends on axioms: [propext]
+'CollatzLab.Morphism.unequal11001110_sixteen_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal11001110_sixteen_offset' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal11001110_sixteen_recurrence' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.unequal11001110_offset_attained' does not depend on any axioms
+'CollatzLab.Morphism.unequal11001110_locally_expanding' does not depend on any axioms
+'CollatzLab.Morphism.unequal11001110_positive_prefix' does not depend on any axioms
+'CollatzLab.no_rational_seed_realizes_unequal_1100_1110' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_shifted_unequal_1100_1110' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequal_1100_1110_itinerary' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.no_eventually_shifted_unequal_1100_1110_signed_denominator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.Morphism.finite_entry_literal_images' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.finite_entry_no_rational_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.catalogueThree_valid' depends on axioms: [propext]
+'CollatzLab.Morphism.catalogueThree_bounds' does not depend on any axioms
+'CollatzLab.Morphism.catalogueThree_length' does not depend on any axioms
+'CollatzLab.Morphism.catalogueFour_valid' depends on axioms: [propext]
+'CollatzLab.Morphism.catalogueFour_bounds' does not depend on any axioms
+'CollatzLab.Morphism.catalogueFour_length' does not depend on any axioms
+'CollatzLab.Morphism.catalogueFive_valid' depends on axioms: [propext]
+'CollatzLab.Morphism.catalogueFive_bounds' does not depend on any axioms
+'CollatzLab.Morphism.catalogueFive_length' does not depend on any axioms
+'CollatzLab.Morphism.catalogueSix_valid' depends on axioms: [propext]
+'CollatzLab.Morphism.catalogueSix_bounds' does not depend on any axioms
+'CollatzLab.Morphism.catalogueSix_length' does not depend on any axioms
+'CollatzLab.Morphism.contractionCatalogue_length' does not depend on any axioms
+'CollatzLab.Morphism.contractionCatalogue_distinct' does not depend on any axioms
+'CollatzLab.Morphism.contractionCatalogue_valid' depends on axioms: [propext]
+'CollatzLab.Morphism.contractionCatalogue_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_contractionCatalogue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.no_rational_seed_shifted_contractionCatalogue' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.Morphism.no_eventually_shifted_contractionCatalogue' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'CollatzLab.Morphism.nonContracting_images' does not depend on any axioms
+'CollatzLab.Morphism.nonContracting_columns' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_parity_columns' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_both_bits' does not depend on any axioms
+'CollatzLab.Morphism.nonContracting_not_periodic_from' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_group_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_three_weight' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_window_lower' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_group_expands' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_no_uniform_chunks' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_power_count' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_prefix_step' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting_prefix_discrepancy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.NonContractingChecks.literal_semantics' does not depend on any axioms
+'CollatzLab.NonContractingChecks.rational_control_preserved' depends on axioms: [propext, Quot.sound]
+'CollatzLab.square_prefix_divisibility' depends on axioms: [propext, Quot.sound]
+'CollatzLab.prefixCycleForm_nonzero' depends on axioms: [propext, Quot.sound]
+'CollatzLab.prefixCycleForm_height' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_square_prefix_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_unbounded_square_prefix' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.word_power_congr' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.initial_double_square' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_morphism_initial_double' depends on axioms: [propext, Quot.sound]
+'CollatzLab.nonContracting_square_prefix' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_nonContracting110111' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_shifted_nonContracting110111' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_eventually_shifted_nonContracting110111' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_eventually_shifted_nonContracting110111_signed' depends on axioms: [propext, Quot.sound]
+'CollatzLab.NonContractingChecks.signed_finite_semantics' does not depend on any axioms
+'CollatzLab.Morphism.nonContracting_nine_prefix_height' depends on axioms: [propext, Quot.sound]
+'CollatzLab.matching_prefix_divisibility' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_matching_prefix_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.nonContracting_variable_cocycle' depends on axioms: [propext, Quot.sound]
+'CollatzLab.nonContracting_no_common_center' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.NonContractingChecks.all_one_rational_control' depends on axioms: [propext]
+'CollatzLab.Morphism.power_image_count' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.prolongable_spectral_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frequencyDen_zero_images' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.weight_chunks_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.weight_prefix_shift_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.uniform_chunks_frequency_necessary' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_ratio_contraction' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_ratio_no_contraction' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_threshold_ne' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.spectral_no_uniform_contraction' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.power_image_discrepancy_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.exists_power_ratio_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.exists_contracting_power_of_ratio' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_gap_thickening' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.subcritical_has_contracting_power' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.uniform_contraction_iff_subcritical' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frequencyDen_nonnegative' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frequencyDen_zero_word' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.binary_incidence_characteristic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.offset_weight_upper' depends on axioms: [propext, Quot.sound]
+'CollatzLab.prefixCycleForm_weight_height' depends on axioms: [propext, Quot.sound]
+'CollatzLab.rational_matching_prefix_weight_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting110111' does not depend on any axioms
+'CollatzLab.NonContractingChecks.literalStep' does not depend on any axioms
+'CollatzLab.NonContractingChecks.literalIter' does not depend on any axioms
+'CollatzLab.prefixCycleForm' does not depend on any axioms
+'CollatzLab.Morphism.nonContracting1011' does not depend on any axioms
+'CollatzLab.Morphism.nonContracting1011_images' does not depend on any axioms
+'CollatzLab.Morphism.nonContracting1011_columns' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting1011_not_periodic_from' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting1011_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting1011_partial_return' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.nonContracting1011_prefix_weight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.nonContracting1011_no_uniform_chunks' depends on axioms: [propext, Quot.sound]
+'CollatzLab.no_rational_seed_realizes_nonContracting1011' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_rational_seed_shifted_nonContracting1011' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.no_eventually_shifted_nonContracting1011_signed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.NonContractingPartialChecks.literalStep' does not depend on any axioms
+'CollatzLab.NonContractingPartialChecks.literalIter' does not depend on any axioms
+'CollatzLab.NonContractingPartialChecks.literal_semantics' does not depend on any axioms
+'CollatzLab.NonContractingPartialChecks.signed_finite_semantics' does not depend on any axioms
+'CollatzLab.cycleCoeff' does not depend on any axioms
+'CollatzLab.returnDet' does not depend on any axioms
+'CollatzLab.cycleCoeff_odd' depends on axioms: [propext, Quot.sound]
+'CollatzLab.returnDet_elimination' depends on axioms: [propext, Quot.sound]
+'CollatzLab.returnDet_of_forms' depends on axioms: [propext, Quot.sound]
+'CollatzLab.two_return_divisibility' depends on axioms: [propext, Quot.sound]
+'CollatzLab.finiteWord' does not depend on any axioms
+'CollatzLab.finiteWord_realized' depends on axioms: [propext, Quot.sound]
+'CollatzLab.returnDet_automatic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.returnDet_zero_or_large' depends on axioms: [propext, Quot.sound]
+'CollatzLab.returnDet_small_iff_zero' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix' does not depend on any axioms
+'CollatzLab.Morphism.frontierSix_images' does not depend on any axioms
+'CollatzLab.Morphism.frontierSix_columns' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_both_letters' does not depend on any axioms
+'CollatzLab.Morphism.frontierSix_not_periodic_from' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_not_eventually_periodic' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_power_count' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_incidence' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_prefix_step' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_boundary_discrepancy' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_prefix_discrepancy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.Morphism.frontierSix_no_uniform_contraction' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_return_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.Morphism.frontierSix_no_square_prefix' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierSixChecks.literalStep' does not depend on any axioms
+'CollatzLab.FrontierSixChecks.literalIter' does not depend on any axioms
+'CollatzLab.FrontierSixChecks.literal_semantics' does not depend on any axioms
+'CollatzLab.FrontierSixChecks.signed_finite_semantics' does not depend on any axioms
+'CollatzLab.RationalHeight.Prefix' does not depend on any axioms
+'CollatzLab.RationalHeight.InLattice' does not depend on any axioms
+'CollatzLab.RationalHeight.height' does not depend on any axioms
+'CollatzLab.RationalHeight.odd_cancel' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.parity_cross_iff' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.cross_step' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.cross_step_dvd' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.prefix_cross_iff' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.cylinder_iff' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.lattice_representation' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.lattice_determinant' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.divide_odd' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.residue_exists' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.residue_unique' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.residue' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.residue_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.parity_lattice_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.minimum_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.H' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.H_spec' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.H_mono' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.H_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.H_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.H_centered_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.minimizer_primitive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.height_bounds' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.cross_height_bound' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.same_prefix_height_separation' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.bounded_height_unique' depends on axioms: [propext, Quot.sound]
+'CollatzLab.RationalHeight.shadow_crossing' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.RationalHeight.bounded_iff_rational' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.inflate' does not depend on any axioms
+'CollatzLab.FrontierHeight.baseShadow' does not depend on any axioms
+'CollatzLab.FrontierHeight.shadow' does not depend on any axioms
+'CollatzLab.FrontierHeight.matchLength' does not depend on any axioms
+'CollatzLab.FrontierHeight.fixed_inflate' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.matchLength_formula' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.inflate_first_failure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_first_failure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.inflate_period_after' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_period_after' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_tail_initial' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.periodic_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.prepend_seed' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.local_pressure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.prefix_pressure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.offset_of_pressure' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.power_gap' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.shadowNum' does not depend on any axioms
+'CollatzLab.FrontierHeight.shadowDen' does not depend on any axioms
+'CollatzLab.FrontierHeight.shadow_realized' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_failure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_weight_sum' depends on axioms: [propext, Quot.sound]
+'CollatzLab.FrontierHeight.shadow_height_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.H_shadow_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.H_shadow_crossing' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.H_after_shadow' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.H_eleven' depends on axioms: [propext, Classical.choice, Quot.sound]
+'CollatzLab.FrontierHeight.H_twelve' depends on axioms: [propext, Classical.choice, Quot.sound]

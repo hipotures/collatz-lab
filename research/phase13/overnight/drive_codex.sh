@@ -140,8 +140,14 @@ while (( ROUND < MAX_ROUNDS )); do
 
   CHECK=0
   bash research/phase13/overnight/smoke.sh || CHECK=$?
+  # Evidence first, successful smoke second, explicit finalization third.
+  # A stale handoff/audit must never be committed merely because smoke passes.
+  # See README's final-state provenance section; this check does no simulation.
+  if (( CHECK == 0 )); then
+    python3 research/phase13/overnight/finalize_provenance.py --check || CHECK=$?
+  fi
   if (( CHECK != 0 )); then
-    echo "ROUND=$ROUND smoke test failed (exit $CHECK); leaving files for repair."
+    echo "ROUND=$ROUND smoke/provenance check failed (exit $CHECK); leaving files for explicit finalization."
     FAILED=$((FAILED + 1))
   else
     TOO_LARGE="$(find research/phase13/overnight -type f -size +20M -print -quit)"
