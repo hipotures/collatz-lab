@@ -10179,5 +10179,25 @@
         }
       ]
     }
+  ],
+  "supplemental_certificates": [
+    {
+      "name": "phase8-110",
+      "N": 141,
+      "certificate_only_seconds": 0.0015892460069153458,
+      "python_peak_bytes": 5194
+    },
+    {
+      "name": "sha256-control",
+      "N": 141,
+      "certificate_only_seconds": 0.0015220159984892234,
+      "python_peak_bytes": 5208
+    },
+    {
+      "name": "sha256-control",
+      "N": 204,
+      "certificate_only_seconds": 0.0020860340009676293,
+      "python_peak_bytes": 5852
+    }
   ]
 }

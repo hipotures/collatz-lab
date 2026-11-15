@@ -10,7 +10,7 @@ import argparse
 from fractions import Fraction
 import gzip
 import json
-from math import gcd, log2
+from math import gcd, isclose, log2
 from pathlib import Path
 import sys
 
@@ -127,7 +127,11 @@ def main():
     if args.write:
         target.write_text(json.dumps(result, indent=2) + "\n")
     else:
-        assert result == json.loads(target.read_text())
+        saved = json.loads(target.read_text())
+        for actual, expected in zip(result["shadow_levels"], saved["shadow_levels"]):
+            assert isclose(actual.pop("log2H_over_match"), expected.pop("log2H_over_match"),
+                           rel_tol=1e-14, abs_tol=1e-14)
+        assert result == saved
     print("PASS: five independently constructed rational shadow levels, exact first failures, "
           "height/minimum/crossing checks, pressure controls and false-multiplier counterexample")
 

@@ -152,8 +152,9 @@ arithmetic, not a claim that the whole solver is Lean verified.
 
 ## 5. Route B: an infinite family of substituted rational shadows
 
-**Written theorem, independently replicated at five finite levels; the
-all-level height estimate is not currently a Lean theorem.** This is an
+**Kernel-verified shadow construction and finite integer inequalities,
+independently replicated at five literal levels.** The logarithmic deductions
+in Section 6 remain written mathematics. This is an
 explicit specialization of the known inverse-parity/periodic-shadow method,
 not a new approximation technique. The exact numerical specialization was
 not found in the sources checked; mathematical priority is unverified.
@@ -316,10 +317,10 @@ iteration rejected it. The correct offset 179 is now kernel/independently
 checked, and the incorrect value is not used in any theorem.
 
 Remaining obstructions are substantive. A recurrence for exact inverse maps
-is not a recurrence for reduced primitive minimizers: odd gcd cancellations
-and competing rational approximants must be controlled. The shadow minima
-agree with the exact engine at five levels, but this does not prove that they
-are always minimal, nor that no other subsequence has smaller exponent.
+does not by itself control odd gcd cancellations or other competing rational
+approximants. Section 8 upgrades shadow minimality to an all-level written
+theorem and disproves the tempting raw-coprimality conjecture. It still does
+not show that no other subsequence has a smaller exponent.
 Generic whole-lattice short vectors can have even denominators. Neither
 automaticity of w nor classical digit-complexity theorems for w determine the
 complexity of the different digit sequence of Phi(w). Known Mahler measures
@@ -329,3 +330,118 @@ The strongest unresolved question is now the **exact value of B**, plausibly
 the shadow bound c but unproved. The existence of a limit is no longer an
 open conjecture under the written proof above. No claim of transcendence,
 novelty or an optimal measure is made here.
+
+## 8. Exact subsequence minima and a modular cancellation obstruction
+
+**Written mathematical deductions with exact finite arithmetic certificates;
+the asymptotic and modular-cycle conclusions are not separate Lean theorems.**
+
+The reduced fractions y_k in Section 5 attain H_(L_k) for **every k**.
+This requires more than observing five matching minima. From the count formula
+`R_(k+1)<=6*R_k+6`, put `D_k=14*S_k`. Since D_k>=14,
+
+```
+T_(k+1) <= 4374*D_k*(3^R_k)^6 <= D_k^6*(3^R_k)^6 = T_k^6,
+```
+
+where `4374=6*3^6<14^5`. The exact finite base check gives
+`2*T_2^2<2^L_2` (S_2=36, R_2=102, L_2=403). If that strict inequality
+holds at k, then
+
+```
+2*T_(k+1)^2 <= 2*T_k^12 <= (2*T_k^2)^6
+               < 2^(6*L_k) < 2^(6*L_k+1) = 2^L_(k+1).
+```
+
+Induction proves it for k>=2. Any smaller rational in the same L_k cylinder
+would have a nonzero cross product of magnitude at most `2*T_k^2<2^L_k`,
+which is impossible. Equal rational values have the same primitive positive
+denominator representation. The two early reduced shadows also satisfy
+`2*height(y_k)^2<2^L_k`, checked exactly at k=0,1. Therefore
+
+```
+H_(L_k) = max(|P_k|,Q_k) / gcd(|P_k|,Q_k)  for every k>=0.
+```
+
+This is an explicit infinite subsequence formula with a remaining integer gcd,
+not an assertion that its normalized logarithm has limit c. Its general
+uniqueness mechanism is classical rational reconstruction, already audited.
+
+The first seven positive levels disprove the simplest way to drop the gcd:
+for k=1..6 it is 1, but **gcd(|P_7|,Q_7)=347**. Here S_7=279936 and
+L_7=3135283. `verify_modular.py` computes the full integer matrices through
+level 7, replicates the literal Fraction construction at levels 0..4, and
+records exact gcds plus coordinate hashes in `modular.json`. This is a
+bounded computation, not a large-N engine scan.
+
+There is a stronger all-level divisibility consequence. Modulo any odd m
+coprime to 3, the inverse image maps are affine maps on Z/mZ with initial
+
+```
+f_0(x)=2*x,   f_1(x)=(2*x-1)/3.
+```
+
+Their substitution update is exactly the noncommutative product of Section 7.
+The following finite equality certificates are reproduced independently:
+
+| Modulus m | Initial repeated level a | Period t, with state(a+t)=state(a) | Level b inside the cycle with f_1=identity |
+|---|---|---|---|
+| 347 | 1 | 86 | 7 |
+| 347^2=120409 | 62 | 14878 | 5425 |
+
+Each state is the pair of affine coefficient pairs for f_0,f_1; all exact
+coefficients at the three relevant points are in `modular.json`. A deterministic
+recurrence and one repeated state prove state periodicity from a, by induction;
+no extrapolation from a plot is involved. Thus f_1 is the identity modulo m
+at every level b+t*j, j>=0. Its inverse matrix has `c_V=0` and `3^r_V=2^S`
+modulo m. Consequently both raw shadow coordinates P_k,Q_k are divisible by m.
+In particular **347 divides both at every k=7+86j**, and **347^2 divides both
+at every k=5425+14878j**.
+
+This is an explicit certified obstruction to raw coprimality, using a known
+finite-state congruence mechanism. No priority claim is made for the particular
+cycles. Constant-size common factors, even at infinitely many levels, do not
+prove cancellation exponential in S_k or change an exponent. The possibility
+`log2 gcd(|P_k|,Q_k)=o(S_k)` remains unresolved, as does control of all other
+prefix lengths. No corresponding claim about unrestricted Collatz orbits is
+implied by these shadow calculations.
+
+There is a useful **conditional** refinement of the lower bound. Suppose
+`log2(height(y_k))/L_k -> c`; the unresolved subexponential-gcd condition
+would imply this, since the raw denominator already has exponent c. Put
+`a=(1-c)/6`. For `L_(k-1)<N<=L_k`, a minimum r either equals y_k, giving
+`log2(H_N)/N>=c-o(1)`, or differs from y_k. In the latter case the two
+determinant comparisons with y_(k-1) and y_k give
+
+```
+log2 H_N >= max((a-o(1))*L_k, N-(c+o(1))*L_k).
+```
+
+Writing x=N/L_k, the minimum of `max(a/x,1-c/x)` occurs at x=a+c.
+Consequently the conditional conclusion is
+`B>=(1-c)/(1+5c)=0.19713587687...`, still below c. This known two-approximant
+principle shows precisely why controlling the gcd alone would not determine
+the global B: intermediate best approximants also need control. This is a
+written conditional theorem, not an unconditional improvement or Lean result.
+
+## 9. Exact verification boundary
+
+`RationalHeight.lean` and `FrontierHeight.lean` export 60 new audited declarations.
+The exact CI manifest has 653 entries, preserving the 593 baseline names.
+Separate `phase13/Signatures.lean` examples state the key interfaces afresh.
+
+| Claim | Evidence |
+|---|---|
+| Signed finite parity iff cross-product / residue congruence | **Lean kernel**, actual numStep/numIter/seedParity semantics |
+| Minimum exists, every minimizer is primitive, monotonicity, centered bound | **Lean kernel** |
+| Bounded heights iff an infinite rational realization; height separation | **Lean kernel**, no Periodicity Conjecture premise |
+| All-level actual rational shadows, exact first mismatch, pressure and weights | **Lean kernel** |
+| H_(L_k)<=T_k and 2^L_k<=2*T_k*H_N whenever N>L_k | **Lean kernel** |
+| H_11=3, H_12=513 | **Lean kernel**, plus independent exhaustive Python iteration |
+| Exponent interval, nonconvergence, exact reduced-shadow minima for all k | **Written deductions** from the displayed finite theorems, not formal real-limit theorems |
+| Modular cycle identities and full gcd computations through k=7 | **Exact independent Python certificates**, with written infinite-cycle deduction |
+| B=c, asymptotic gcd size, no better intermediate approximants | **Open / conjectural**, no convergence claim |
+
+The mathematical result is an attributed quantitative specialization
+and repository formalization. It is not advertised as a newly discovered
+irrationality or transcendence theorem.

@@ -2,6 +2,11 @@
 
 | file | content |
 |---|---|
+| [`phase13-progress.md`](phase13-progress.md) | Phase 13 resume point, exact pushed checkpoints, validation and remaining rational-height questions |
+| [`phase13-prior-art.md`](phase13-prior-art.md) | Primary-source comparison: approximation lattices, odd-denominator reconstruction, 2-adic complexity and Collatz shadows |
+| [`phase13-theory.md`](phase13-theory.md) | Exact finite heights and substituted rational shadows; integer bounds in Lean and written nonconvergence / exponent deductions |
+| [`phase13-experiments.md`](phase13-experiments.md) | 16,384-bit profiles, 1,691 independent minimum certificates, benchmarks and falsified conjectures |
+| [`phase13/README.md`](phase13/README.md) | Algorithms, exact certificate format and bounded reproduction commands |
 | [`phase0-report.md`](phase0-report.md) | hand-written report for the first milestone: what is proved, what is only checked, limitations, next questions |
 | [`literature-cst.md`](literature-cst.md) | how the lab's objects map to the Coefficient Stopping Time literature: sources, equivalence proof, count reconciliation, open obligations |
 | [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and the bounded Phase 2 experiment |

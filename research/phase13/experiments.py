@@ -10,7 +10,7 @@ import argparse
 import hashlib
 import gzip
 import json
-from math import log2
+from math import isclose, log2
 from pathlib import Path
 import sys
 import time
@@ -23,6 +23,19 @@ from verify_certificates import verify
 
 ROOT = Path(__file__).resolve().parent
 sys.set_int_max_str_digits(20000)
+
+
+def same_evidence(actual, expected):
+    """All exact fields must match; tolerate libm rounding in display ratios."""
+    if isinstance(actual, float):
+        return isinstance(expected, float) and isclose(actual, expected, rel_tol=1e-14, abs_tol=1e-14)
+    if isinstance(actual, dict):
+        return (isinstance(expected, dict) and actual.keys() == expected.keys()
+                and all(same_evidence(actual[k], expected[k]) for k in actual))
+    if isinstance(actual, list):
+        return (isinstance(expected, list) and len(actual) == len(expected)
+                and all(same_evidence(a, b) for a, b in zip(actual, expected)))
+    return actual == expected
 
 
 def word(spec, count):
@@ -73,7 +86,7 @@ def specifications(count):
     ]
 
 
-def compute(name, spec, count):
+def compute(name, spec, count, measure=True):
     bits = word(spec, count)
     assert len(bits) == count
     a = residue(bits)
@@ -86,15 +99,22 @@ def compute(name, spec, count):
     # Save both sides of every jump exceeding eight height bits, not just
     # exponentially spaced samples that can hide structural excursions.
     previous = 1
+    low_extreme, high_extreme = (float("inf"), 0), (-1.0, 0)
     for n, h, *_ in profile(a, count):
         if h > 256 * previous:
             checkpoints.update((max(1, n - 1), n))
+        if n >= 128:
+            low_extreme = min(low_extreme, (log2(h) / n, n))
+            high_extreme = max(high_extreme, (log2(h) / n, n))
         previous = h
+    if count >= 128:
+        checkpoints.update((low_extreme[1], high_extreme[1]))
     records, metrics = [], []
     old_h, plateau, last_jump, largest_jump = 1, 0, 0, (1, 1)
     minimum, maximum = (float("inf"), 0), (0.0, 0)
     jumps = 0
-    tracemalloc.start()
+    if measure:
+        tracemalloc.start()
     started = time.perf_counter()
     for n, h, p, q, f, g, transition in profile(a, count):
         if h == old_h:
@@ -118,11 +138,13 @@ def compute(name, spec, count):
             # Independent reverse branches, actual parities and proof transcript.
             verify(r, bits)
             records.append(r)
-            current, peak = tracemalloc.get_traced_memory()
-            metrics.append({"N": n, "elapsed_seconds_including_certification": time.perf_counter() - started,
-                            "python_current_bytes": current, "python_peak_bytes": peak})
+            if measure:
+                current, peak = tracemalloc.get_traced_memory()
+                metrics.append({"N": n, "elapsed_seconds_including_certification": time.perf_counter() - started,
+                                "python_current_bytes": current, "python_peak_bytes": peak})
         old_h = h
-    tracemalloc.stop()
+    if measure:
+        tracemalloc.stop()
     summary = {"jumps": jumps, "largest_jump_ratio": list(largest_jump),
                "minimum_ratio_from_128": list(minimum) if count >= 128 else None,
                "maximum_ratio_from_128": list(maximum) if count >= 128 else None,
@@ -156,7 +178,7 @@ def main():
                 verify(record, bits)
             metrics = []
         else:
-            family, metrics = compute(name, spec, args.max_bits)
+            family, metrics = compute(name, spec, args.max_bits, measure=not args.check)
         families.append(family)
         observations.append({"name": name, "records": metrics})
         print(name, "N", args.max_bits, "height bits", family["records"][-1]["H"].bit_length(), flush=True)
@@ -165,7 +187,7 @@ def main():
                                           "done": {f["name"]: f for f in families}}, indent=2) + "\n")
     result = {"format": "phase13-certified-height-v1", "max_bits": args.max_bits, "families": families}
     if args.check:
-        assert result == saved, "deterministic height evidence differs"
+        assert same_evidence(result, saved), "deterministic height evidence differs"
         print("Exact height evidence reproduced")
     else:
         encoded = (json.dumps(result, separators=(",", ":")) + "\n").encode()

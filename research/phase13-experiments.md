@@ -4,7 +4,7 @@ All data are finite evidence, not asymptotic proofs. The nonconvergence proof
 is in [the theory report](phase13-theory.md), independent of these observations.
 The exact JSON, including every numerator, denominator and minimality
 certificate, is `phase13/heights.json.gz` (standard gzip; 3.0 MB compressed).
-It contains 1,688 certified records in ten families through N=16,384.
+It contains 1,691 certified records in ten families through N=16,384.
 
 ## Reproduction and independent checks
 
@@ -13,6 +13,7 @@ python3 research/phase13/test_height.py
 python3 research/phase13/experiments.py --check
 python3 research/phase13/verify_certificates.py research/phase13/heights.json.gz
 python3 research/phase13/verify_analytics.py --check
+python3 research/phase13/verify_modular.py --check
 ```
 
 The two reconstruction engines share no minimization implementation. The
@@ -52,8 +53,12 @@ row includes its exact minimizing p/q, basis, congruence and no-smaller-height
 transcripts there. `analytics.json` independently constructs the shadow
 fractions and their first failures at levels 0..4. In all five cases the
 shadow is a minimum, and `2*H^2<2^L` gives an additional uniqueness control.
-At levels 1..4 the raw shadow pairs happen to be coprime; this observation is
-not an infinite coprimality theorem.
+At levels 1..4 the raw shadow pairs happen to be coprime; the deeper exact
+matrix computation finds gcd 347 at level 7, disproving infinite raw
+coprimality. This bounded matrix calculation goes beyond the 16,384-bit
+engine scan and is recorded separately in `modular.json`. It stores defining
+levels, exact gcds and coordinate hashes; the script reconstructs the full
+integers, and the theory gives their exact formulas.
 
 ## Other words and controls
 
@@ -99,7 +104,9 @@ and independent verification) were 22.408, 41.020, 19.695, 20.295, 40.745,
 allocation peaks ranged from 0.36 MB to 26.74 MB. These exclude residue
 construction, the first checkpoint-selection pass, interpreter startup and
 some native allocator memory; they are not process RSS or formal complexity
-bounds. Timings vary by machine and tracemalloc substantially affects them.
+bounds. Three additional certificate-only timing records cover the reported
+Phase 8 and SHA-256 extrema; they are separate from the cumulative profile
+measurements. Timings vary by machine and tracemalloc substantially affects them.
 
 The hard cap is 16,384 bits. SIGINT cancels normally and completed families
 can be resumed from the ignored checkpoint file. Full command details and
@@ -111,5 +118,10 @@ acceptance of even-q shortest vectors, equality of ordinary parity-digit
 complexity with seed height, the common-image-multiplier shortcut (first
 failure on source 10 at 12 bits), and numerical convergence of the primary
 profile. The last has an all-level written disproof, not just a finite outlier.
-Exact B=c, eventual exact optimality of the shadow family, and analogous
-asymptotic descriptions for the other words remain conjectural/unresolved.
+Section 8 of the theory report proves that the **reduced** shadow family is
+minimal along L_k at every level by strict reconstruction uniqueness; that is
+a written all-level deduction, not an extrapolation of this table. Exact B=c,
+asymptotic gcd cancellation and analogous exponent descriptions for the other
+words remain conjectural/unresolved. The modular cycle certificates prove
+infinitely many raw common factors 347 and 347^2, without asserting growth
+large enough to affect an exponent.

@@ -73,3 +73,41 @@ were not audited and they are not used to derive a theorem here. The
 finite drift alternative is explicitly attributed to the earlier De Jesús
 confinement mechanism, with its additional finite-state distinctness premise
 proved separately.
+
+The final deeper pass derives exact reduced-shadow minima on an infinite
+subsequence by the **known strict uniqueness criterion**, and finds a raw
+gcd counterexample plus periodic congruence certificates modulo 347 and
+347^2. These use classical rational reconstruction and finite affine-map
+arithmetic. They are classified as explicit candidate specializations /
+certificates with priority unverified, not new general approximation or
+automatic-word theorems. The full finite integer shadow inequalities are now
+formalized; real-limit and modular-cycle deductions have separate written
+proofs and do not acquire kernel status from their supporting finite tests.
+
+## Additional late search hits and explicit access limits
+
+- [*On the Nth 2-adic complexity of binary sequences identified with algebraic
+  2-adic integers*](https://www.sciencedirect.com/science/article/pii/S0166218X2500263X),
+  publisher PII S0166218X2500263X (2025): the publisher-indexed introduction
+  explicitly defines the same positive-odd-denominator minimum, without
+  reducedness, and announces bounds under algebraicity of the ordinary digit
+  value. Direct original access returned 403; the numbered bounds and proofs
+  were **not obtained**. No algebraicity hypothesis for Phi(w) is established
+  or imported here. This reinforces known status of the invariant; applicability
+  of uninspected finer bounds is unresolved.
+- Chen–Obrovsky–Winterhof, *Maximum-order Complexity and 2-Adic Complexity*,
+  IEEE Trans. Information Theory **70**(8) (2024), 6060–6067,
+  [DOI](https://doi.org/10.1109/TIT.2024.3405946): author-institution metadata
+  and abstract inspected. It relates ordinary digit maximum-order complexity
+  to 2-adic complexity. The full numbered theorem/proof was not obtained, and
+  no maximum-order complexity premise for the **digits of Phi(w)** is supplied.
+  It is not a theorem about w merely because w is automatic.
+- [*If a machine did it, it is probably transcendental (even p-adically)*](https://doi.org/10.1007/s00209-026-04096-3)
+  (2026): publisher search passage discusses low-complexity words of p-adic
+  continued-fraction partial quotients. The original proof chain was not
+  audited and no such continued-fraction description is given for our seed.
+  This is an unresolved adjacent source, not an exclusion or exponent theorem
+  used in the present development.
+
+Fresh exact-image / constant / divisor searches also found no source for the
+particular 347 cycle or 25/98 specialization. They provide no proof of priority.

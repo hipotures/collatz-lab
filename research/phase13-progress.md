@@ -9,10 +9,12 @@
   [`25eaf8e992108bf4bc3aeccfd4b020551951d2a7`](https://github.com/hipotures/collatz-lab/commit/25eaf8e992108bf4bc3aeccfd4b020551951d2a7).
 - Checkpoint B pushed normally:
   [`282b3715c95c26bac1077fecd0df457bd277cb57`](https://github.com/hipotures/collatz-lab/commit/282b3715c95c26bac1077fecd0df457bd277cb57).
-- Checkpoint C/D: ten families through 16,384 bits, 1,688 independently
-  checked minimum certificates; written all-level substituted-shadow theorem
-  proves nonconvergence. Exact constant B remains unresolved. Its pushed SHA
-  is recorded at the next journal update.
+- Checkpoint C/D pushed normally:
+  [`2684bc31f434ea988f60ac6687345cd18ab8474f`](https://github.com/hipotures/collatz-lab/commit/2684bc31f434ea988f60ac6687345cd18ab8474f).
+- Checkpoint E: all-level explicit rational shadows and finite height bounds
+  now Lean verified; full clean validation passes. This commit's proof SHA is
+  recorded in the final metadata handoff. Ten families through 16,384 bits
+  have 1,691 independently verified optimality certificates.
 - Main checkout `/home/user/DEV/collatz-lab` and the manuscript worktree are
   untouched. No agents were spawned. Do not switch those checkouts.
 - Gate 0 found direct prior coverage: Klapper–Goresky 1997 minimizes exactly
@@ -24,16 +26,24 @@
 - Engine obligation completed: reference floor-sum search, adaptive odd-coset
   search, independent minimality verifier, all small residues and signed parity
   cylinders. H_11=3 / H_12=513 reproduced by actual numerator scans.
-- Next: complete the scoped Lean formalization, independent signatures and
-  CI audit wiring; validate the full inherited matrix and clean build. The
-  untracked `CollatzLab/RationalHeight.lean` already compiles locally but is
-  not part of this data/report checkpoint. Do not mistake written all-level
-  asymptotics for a kernel theorem. A reviewable PR must explain this boundary.
-- Current CI expected audit count is 593, read from live CI. No Lean/source
-  changes or proof checks at this documentation checkpoint. No remote branch
-  CI is triggered by pushes under the present workflow (PRs trigger it).
-- Issue #28 remains open. No PR until a reviewable conclusion of all gates;
-  no merge, issue closure or publication is authorized.
+- Research conclusion: the normalized profile does **not** converge, with
+  `(1-c)/6<=B<=c`, `c=(25/98)log2(3)`. The reduced shadows give exact minima
+  along every L_k. Raw coprimality fails at k=7 (gcd 347), and exact modular
+  cycles prove infinite common factors 347 and 347^2. All are known-method
+  specializations, with no priority claim. Real-limit / modular-cycle deductions
+  are written proofs, not separate Lean limit theorems.
+- **Next mathematical obligation:** determine B, controlling odd gcd growth
+  and possible better approximants between L_k. A precise conditional bound
+  `(1-c)/(1+5c)<=B` is proved if shadow heights have exponent c; that premise
+  is not assumed unconditionally. Do not redo the completed engine or known
+  irrationality proof. Read theory Sections 6–9 and `modular.json` first.
+- **Next command after fetching/checking status:** `bash research/phase13/validate.sh`.
+  It reproduces all inherited checks and bounded new evidence. The audit has
+  **653** exact entries (60 new, 593 baseline preserved), wired to CI.
+- Issue #28 remains open. All gates have a reviewable milestone; open the
+  requested PR after pushing this validated proof checkpoint. Integration,
+  issue closure and any publication remain owner decisions. The final
+  handoff below records PR/head CI without merging anything.
 
 ## Source-gate record
 
@@ -87,7 +97,8 @@ agent or process survives a session.
 
 ## Checkpoint C/D research and validation
 
-Read the theory report Sections 5–7 before resuming analytical work. The exact
+Historical C/D record (superseded by E where stated): read theory Sections 5–7.
+The exact
 first failures are L_k=(56*6^k-1)/5 and the shadow height is at most
 T_k=14*6^k*3^((20*6^k-6*(-1)^k)/7). The retained-height determinant gives
 H_(L_k)<=T_k and 2^L_k<=2*T_k*H_(L_k+1). Thus B<=c and limsup>=1-c,
@@ -122,3 +133,96 @@ Actual commands/results:
 - Inherited clean baseline `lake build` completed successfully while the new
   module was developed separately. New-module direct compilation succeeds.
   Final full validation, axiom inventory and clean rebuild remain required.
+
+## Checkpoint E: exact interfaces, deeper cancellation and validation
+
+All 60 public declarations in the two scoped modules are explicitly audited.
+The final source signatures check the parameter order, signed odd denominators,
+finite quantifiers, primitive minimizers, all-level actual shadow realizations,
+exact first mismatch, both integer height inequalities and both small minima.
+No existing numStep/numIter/seedParity/RealizesWord meaning was changed.
+
+The late gcd investigation was necessary: full integer matrices through k=7
+give raw gcds `3,1,1,1,1,1,1,347`. Independent normalized affine-map cycles
+have repeated states at 1/87 modulo 347, and 62/14940 modulo 120409. The
+identity levels are 7 and 5425. The written induction proves infinitely many
+raw common factors on the corresponding progressions. Constant factors do
+not establish exponential cancellation. Exact subsequence minimality instead
+follows from the strict height bound, with a finite base and `T_(k+1)<=T_k^6`.
+
+Corrected formalization attempts: implication/iff precedence initially placed
+oddness inside an equivalence; explicit parentheses repaired the exact intended
+statement before any checkpoint. Lean's core has no Nat.find here, so the
+minimum is constructed by strong induction and classical choice. The H_12
+lower-bound proof needed the explicit odd-q identity
+`p+3q=4096*(d+q/2)+2048`; giving that integer witness made the 513 bound
+transparent. Intermediate elaboration failures were fixed without stronger
+mathematical hypotheses or proof escapes. The final kernel build succeeds.
+
+Actual completed clean validation: `lake clean` followed by
+`bash research/phase13/validate.sh`, exit 0. Its inherited script actually ran:
+
+| Command/check | Result |
+|---|---|
+| `lake build` after clean | Pass, final two new modules included |
+| Full FamilyAudit and exact foundation parser | 653 names, only standard allowlist |
+| Parser self-test and forbidden-escape scan | Pass; no forbidden proof escape |
+| `lake env lean research/phase11/Signatures.lean`, Phase 12 and Phase 13 signatures | All pass |
+| `cargo fmt --check` | Pass |
+| `cargo clippy --locked --all-targets --all-features -- -D warnings` | Pass |
+| `cargo test --locked --all-targets` | 94 pass, no failures |
+| Phase 8 polynomial / Phase 7 uncovered / Phase 9 independent checkers | All pass |
+| All five live Phase 10 checkers, all three Phase 11 checkers | All pass |
+| Phase 12 exact return evidence and source inventory | Pass |
+| `paper/check_tex.py` and generated Lean names | Pass; no manuscript/PDF change or readiness claim |
+| Phase 13 exhaustive/signed/hostile tests | Pass, exact counts in checkpoint B |
+| Phase 13 `experiments.py --check` | All ten 16,384-bit profiles reproduced |
+| Independent certificate verifier | All 1,688 minimum certificates pass |
+| Independent literal shadow checker | Five levels, first failures and exact bounds pass |
+| `git diff --check`, Markdown fence check | Pass |
+
+The later added modular checker separately passed `--write` and `--check`,
+then was added to the final full wrapper/CI. A final wrapper rerun includes
+it. Verification-only profile reproduction now omits tracemalloc, keeping
+exact results/certificates identical while avoiding benchmark overhead in CI.
+Approximate display ratios alone allow 1e-14 libm rounding; integer evidence
+must match exactly. No performance improvement or mathematical result is
+inferred from omitting that instrumentation.
+
+Separate executed pipeline with `set -o pipefail`:
+`lake env lean research/lean-audit/FamilyAudit.lean | tee /home/user/DEV/collatz-lab-phase13-evidence/axioms.log | python3 research/lean-audit/check_axioms.py --expected-count 653`.
+It passed, as did separate Phase 12 and Phase 13 signature invocations.
+
+Supplementary evidence in `/home/user/DEV/collatz-lab-phase13-evidence/`:
+
+- Clean full `validate.log`, SHA-256
+  `370e941d326d3dc92f3c8186bbb61193f716524b157d5a306a65e0e7a0a9e2d8`.
+- Separate `axioms.log`, SHA-256
+  `f96445e541b3068b67e596f6e9fe8941ef739a238f67933a5849c5be15e2a926`.
+- Final wrapper output `validate-final.log`, exit 0, SHA-256
+  `bddbf5760c56e78dcb0cdc8bded53a886509fb728b84460e15c78e5ffe5f35e9`.
+  This includes the added modular checker. All scripts and exact fixtures are
+  committed, so raw logs are supplementary, not required for reproduction.
+
+After that full validation, three additional exact certificates were added
+for every remaining reported dense extremum (Phase 8 N=141, SHA-256 N=141/204).
+The complete **1,691-record** profiles were reproduced with the updated
+checkpoint-selection rule, exit 0; the independent full certificate checker
+also passed, exit 0. Supplemental certificate-only timing observations are
+explicitly separated from the earlier benchmark run. No Lean/Rust source or
+theorem changed after the clean validation.
+
+- `profile-final.log` SHA-256
+  `246eb42bd7ae5b0089ac12def2eaf920bc4f9194c4bf286732c84d3a2564e8f9`.
+- `certificates-final.log` SHA-256
+  `cb79a4754f655244084179de90cf9d66ae4ee1c42b8bd8cbadbad3397a8d664d`.
+
+Late primary-source hits on algebraic digit values, maximum-order complexity
+and p-adic continued fractions are explicitly screened in the source matrix's
+last section, with inaccessible full texts marked. They supply no verified
+premise about the digit or continued-fraction expansion of Phi(w). No negative
+search or raw-gcd observation is treated as an originality proof.
+
+No paper/, Phase 9 report, historical referee report, author/contact metadata,
+main checkout, other branch or issue state was modified. No agents were
+spawned, and no merge, publication or unsolicited message was performed.
