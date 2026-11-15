@@ -1,6 +1,6 @@
 PASS: 25432 signed floor sums; 4095 exhaustive residues; 31750 signed parity cylinders; 262400 direct H_12 exclusions; 7 rejected corrupt certificates; H_11=3, H_12=513
 PASS: 511 brute-force residues; 20 baseline minima and certificates; four independent prefix/residue controls; 7 rejected corruptions; H_11=3, H_12=513
-{"adversarial": {"explicit_cap_rejection": true, "floor_sum_fallback_verified": true, "rejected_malformed_cases": 13}, "classification": "finite exact regression, not a universal formal proof", "exhaustive": {"all_coordinate_signs": [-1, 0, 1], "boxes": 27540, "empty": 18792, "largest_coefficient_bound": 24, "nonempty": 8748, "zero_coordinate_positions": [[0, 0], [0, 1], [1, 0]]}, "format": "phase13-overnight-basis-tests-v1", "regression": {"historical_records": 20, "historical_source_sha256": "19b6def263de48ee2d669691012ad6e732ba7d6cdac43b0070798a4bc70818f8", "largest_historical_coefficient_bound": 1, "note": "Alternative compact proofs of the stored exact minima; no sample recomputed.", "overnight_sample_ids": [80000, 87090, 87091, 87092, 87094, 87096, 87099, 87100, 87102, 87103, 87104, 87109, 87112, 90000, 522546, 522547, 522548], "overnight_source_sha256": "6e0bd541aaeb7e9063056970cb8ad105c1141f77c69b6a371f566af29df0aab3"}}
+{"adversarial": {"explicit_cap_rejection": true, "floor_sum_fallback_verified": true, "rejected_malformed_cases": 13}, "classification": "finite exact regression, not a universal formal proof", "exhaustive": {"all_coordinate_signs": [-1, 0, 1], "boxes": 27540, "empty": 18792, "largest_coefficient_bound": 24, "nonempty": 8748, "zero_coordinate_positions": [[0, 0], [0, 1], [1, 0]]}, "format": "phase13-overnight-basis-tests-v1", "regression": {"historical_records": 20, "historical_source_sha256": "19b6def263de48ee2d669691012ad6e732ba7d6cdac43b0070798a4bc70818f8", "largest_historical_coefficient_bound": 1, "note": "Alternative compact proofs of the stored exact minima; no sample recomputed.", "overnight_sample_ids": [80000, 87090, 87091, 87092, 87094, 87096, 87099, 87100, 87102, 87103, 87104, 87109, 87112, 87113, 90000, 522546, 522547, 522548], "overnight_source_sha256": "c0f45c58a69a54d0aea8f66bfcb52cf0f40b49c956b1a5d977c26a54211f755b"}}
 PASS: independent compact-box exclusions, direct nonempty/empty boxes, signed/zero coordinates, adversarial mutations, cap/fallback, stored minima
 VERIFIED N=87090 height_bits=35217
 VERIFIED N=87091 height_bits=35217
@@ -19,8 +19,9 @@ VERIFIED N=87103 height_bits=51875
 VERIFIED N=87104 height_bits=51875
 VERIFIED N=87109 height_bits=51875
 VERIFIED N=87112 height_bits=51875
-PASS: 17 independent primitive witnesses, actual parity prefixes, and zero box counts at H-1
-PASS: 17 height inventory entries; exact witness and jump comparisons; inherited shadow hashes at sampled boundaries
+VERIFIED N=87113 height_bits=51875
+PASS: 18 independent primitive witnesses, actual parity prefixes, and zero box counts at H-1
+PASS: 18 height inventory entries; exact witness and jump comparisons; inherited shadow hashes at sampled boundaries
 PASS: 10 literal inverse maps; 5 matrix/offset shadow controls; 37800 split gcds; 20 corruptions rejected; resumable checkpoint controls
 VERIFIED k=0 gcd=0x3 elapsed_seconds=0.000
 VERIFIED k=1 gcd=0x1 elapsed_seconds=0.000
@@ -28,9 +29,9 @@ VERIFIED k=2 gcd=0x1 elapsed_seconds=0.000
 VERIFIED k=3 gcd=0x1 elapsed_seconds=0.000
 VERIFIED k=4 gcd=0x1 elapsed_seconds=0.000
 VERIFIED k=5 gcd=0x1 elapsed_seconds=0.002
-VERIFIED k=6 gcd=0x1 elapsed_seconds=0.043
-VERIFIED k=7 gcd=0x15b elapsed_seconds=1.189
-VERIFIED k=8 gcd=0x1 elapsed_seconds=39.368
+VERIFIED k=6 gcd=0x1 elapsed_seconds=0.040
+VERIFIED k=7 gcd=0x15b elapsed_seconds=1.193
+VERIFIED k=8 gcd=0x1 elapsed_seconds=39.177
 PASS: 9 independently replayed levels; 10 literal controls; inherited signs/gcds/hashes agree
 PASS: 5404 signed Fraction/valuation controls (1364 no-failure cases); 68 small transition certificates (2 ties, 66 strict increases); 18 rejected corruptions; 3 publication/resumption controls; H_11=3, H_12=513
 PASS: 31 independently certified small chain links (2 ties); width decreases agree with direct complete height runs; equal-width update comparisons agree with raw vector multiplication; unknown left boundary stays unclassified; 4 malformed chains rejected
@@ -43,30 +44,31 @@ PASS: 31 independently certified small chain links (2 ties); width decreases agr
 {"constant_minimum_through_N": 87103, "first_failure_index": 87103, "source_N": 87103, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87104, "target_height_bits": 51875}
 {"constant_minimum_through_N": 87108, "first_failure_index": 87108, "source_N": 87104, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87109, "target_height_bits": 51875}
 {"constant_minimum_through_N": 87111, "first_failure_index": 87111, "source_N": 87109, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87112, "target_height_bits": 51875}
-PASS: 9 independently verified witness failures and exact height comparisons
+{"constant_minimum_through_N": 87112, "first_failure_index": 87112, "source_N": 87112, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87113, "target_height_bits": 51875}
+PASS: 10 independently verified witness failures and exact height comparisons
 PASS: two exact basis links; 1454 proposed updates checked by two routes; prediction_falsified=True first_failure_index=87097
-PASS: 9 certified chain intervals; two-prefix plateau claim falsified=True
-PASS: 8 adjacent maximal plateau pairs; nondecreasing widths falsified=True
-PASS: 7 equal-width maximal plateau pairs; width determines selected-basis update falsified=True
+PASS: 10 certified chain intervals; two-prefix plateau claim falsified=True
+PASS: 9 adjacent maximal plateau pairs; nondecreasing widths falsified=True
+PASS: 10 equal-width maximal plateau pairs; width determines selected-basis update falsified=True
 PASS: overnight smoke checks
 	Command being timed: "bash research/phase13/overnight/smoke.sh"
-	User time (seconds): 427.55
-	System time (seconds): 0.49
+	User time (seconds): 431.08
+	System time (seconds): 0.46
 	Percent of CPU this job got: 99%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:08.08
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:11.57
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 100708
+	Maximum resident set size (kbytes): 102164
 	Average resident set size (kbytes): 0
 	Major (requiring I/O) page faults: 0
-	Minor (reclaiming a frame) page faults: 255909
-	Voluntary context switches: 55
-	Involuntary context switches: 2619
+	Minor (reclaiming a frame) page faults: 253212
+	Voluntary context switches: 54
+	Involuntary context switches: 2542
 	Swaps: 0
 	File system inputs: 0
-	File system outputs: 1768
+	File system outputs: 1776
 	Socket messages sent: 0
 	Socket messages received: 0
 	Signals delivered: 0

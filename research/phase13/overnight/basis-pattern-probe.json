@@ -1,8 +1,8 @@
 {
   "format": "phase13-basis-pattern-probe-v1",
   "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
-  "height_source_sha256": "6e0bd541aaeb7e9063056970cb8ad105c1141f77c69b6a371f566af29df0aab3",
-  "transition_source_sha256": "01f435ecebc8da625b500675b92c87b63910ab3605afd16ca74a3582a1a9633b",
+  "height_source_sha256": "c0f45c58a69a54d0aea8f66bfcb52cf0f40b49c956b1a5d977c26a54211f755b",
+  "transition_source_sha256": "6884af2c1af24d7e6a4097fe931cabf1655c5dc4de6fff3392bf356fd9403485",
   "observed_links": [
     {
       "from_N": 87092,
@@ -197,6 +197,24 @@
             1
           ]
         ]
+      },
+      {
+        "source_N": 87112,
+        "constant_minimum_through_N": 87112,
+        "next_prefix_N": 87113,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
       }
     ],
     "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
@@ -207,11 +225,12 @@
       87102,
       87103,
       87104,
-      87109
+      87109,
+      87112
     ],
     "nondecreasing_width_test": {
       "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-      "adjacent_maximal_plateau_pairs_checked": 8,
+      "adjacent_maximal_plateau_pairs_checked": 9,
       "hypothesis_falsified": true,
       "decreases": [
         {
@@ -231,17 +250,48 @@
           "to_source_N": 87109,
           "from_length": 5,
           "to_length": 3
+        },
+        {
+          "from_source_N": 87109,
+          "to_source_N": 87112,
+          "from_length": 3,
+          "to_length": 1
         }
       ]
     },
     "width_determines_basis_update_test": {
       "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
-      "equal_width_pairs_checked": 7,
+      "equal_width_pairs_checked": 10,
       "hypothesis_falsified": true,
       "counterexamples": [
         {
           "from_source_N": 87099,
           "to_source_N": 87102,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87099,
+          "to_source_N": 87112,
           "interval_length": 1,
           "from_basis_update_rows": [
             [
@@ -285,6 +335,31 @@
             ],
             [
               -1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87103,
+          "to_source_N": 87112,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
               1
             ]
           ]

@@ -1,9 +1,9 @@
 {
-  "format": "phase13-overnight-checkpoint-audit-v10",
+  "format": "phase13-overnight-checkpoint-audit-v11",
   "classification": "local scope, preservation and evidence-reference audit; no new mathematical certificate",
   "branch": "codex/phase13-overnight",
-  "head": "096fcff4dda6facb604b57c3edfd8c82267ff743",
-  "cached_origin_ref": "096fcff4dda6facb604b57c3edfd8c82267ff743",
+  "head": "d2862296f93ae2808289e834a9c45517cd77bc73",
+  "cached_origin_ref": "d2862296f93ae2808289e834a9c45517cd77bc73",
   "head_unchanged": true,
   "issue_url": "https://github.com/hipotures/collatz-lab/issues/30",
   "remote_issue_or_pr_state": "not queried or changed; remote access prohibited",
@@ -12,19 +12,19 @@
     "research/phase13/overnight-progress.md",
     "research/phase13/overnight-summary.md",
     "research/phase13/overnight/README.md",
-    "research/phase13/overnight/basis-87109-chain.log",
+    "research/phase13/overnight/basis-87112-chain.log",
     "research/phase13/overnight/basis-pattern-probe.json",
     "research/phase13/overnight/checkpoint-audit.json",
     "research/phase13/overnight/height-inventory.json",
     "research/phase13/overnight/heights.jsonl",
     "research/phase13/overnight/smoke.log",
-    "research/phase13/overnight/transition-87109-compute.log",
-    "research/phase13/overnight/transition-87109-replay.log",
+    "research/phase13/overnight/transition-87112-compute.log",
+    "research/phase13/overnight/transition-87112-replay.log",
     "research/phase13/overnight/transition-checkpoint.json",
     "research/phase13/overnight/transition-verification.json",
     "research/phase13/overnight/transitions.jsonl"
   ],
-  "height_records": 17,
+  "height_records": 18,
   "sample_ids": [
     80000,
     87090,
@@ -39,6 +39,7 @@
     87104,
     87109,
     87112,
+    87113,
     90000,
     522546,
     522547,
@@ -46,40 +47,40 @@
   ],
   "append_only_evidence": {
     "heights.jsonl": {
-      "previous_bytes_preserved": 7019901,
-      "appended_bytes": 125895,
-      "source_bytes": 7145796,
-      "sha256": "6e0bd541aaeb7e9063056970cb8ad105c1141f77c69b6a371f566af29df0aab3",
+      "previous_bytes_preserved": 7145796,
+      "appended_bytes": 125896,
+      "source_bytes": 7271692,
+      "sha256": "c0f45c58a69a54d0aea8f66bfcb52cf0f40b49c956b1a5d977c26a54211f755b",
       "fixed_cap_bytes": 8388608,
-      "remaining_bytes": 1242812
+      "remaining_bytes": 1116916
     },
     "transitions.jsonl": {
-      "previous_bytes_preserved": 350135,
-      "appended_bytes": 43757,
-      "source_bytes": 393892,
-      "sha256": "01f435ecebc8da625b500675b92c87b63910ab3605afd16ca74a3582a1a9633b",
+      "previous_bytes_preserved": 393892,
+      "appended_bytes": 43755,
+      "source_bytes": 437647,
+      "sha256": "6884af2c1af24d7e6a4097fe931cabf1655c5dc4de6fff3392bf356fd9403485",
       "fixed_cap_bytes": 524288,
-      "remaining_bytes": 130396
+      "remaining_bytes": 86641
     }
   },
-  "transition_records": 9,
+  "transition_records": 10,
   "transition_references_and_completed_checkpoint_match": true,
   "previous_extrapolation_result_fields_unchanged": true,
-  "previous_eight_chain_links_unchanged": true,
-  "preserved_old_command_logs": 42,
+  "previous_nine_chain_links_unchanged": true,
+  "preserved_old_command_logs": 45,
   "preserved_artifacts": [
     "research/phase13/overnight/PLAN.md",
     "research/phase13/overnight/basis-87100-chain.log",
     "research/phase13/overnight/basis-87102-chain.log",
     "research/phase13/overnight/basis-87103-chain.log",
     "research/phase13/overnight/basis-87104-chain.log",
+    "research/phase13/overnight/basis-87109-chain.log",
     "research/phase13/overnight/basis-chain-controls.log",
     "research/phase13/overnight/basis-chain-probe.log",
     "research/phase13/overnight/basis-equal-width-probe.log",
     "research/phase13/overnight/basis-final.log",
     "research/phase13/overnight/basis-pattern-final.log",
     "research/phase13/overnight/basis-pattern-probe.log",
-    "research/phase13/overnight/basis-validation.json",
     "research/phase13/overnight/basis-validation.log",
     "research/phase13/overnight/basis-width-decrease.log",
     "research/phase13/overnight/compact-regression.log",
@@ -119,6 +120,8 @@
     "research/phase13/overnight/transition-87103-replay.log",
     "research/phase13/overnight/transition-87104-compute.log",
     "research/phase13/overnight/transition-87104-replay.log",
+    "research/phase13/overnight/transition-87109-compute.log",
+    "research/phase13/overnight/transition-87109-replay.log",
     "research/phase13/overnight/transition-compute.log",
     "research/phase13/overnight/transition-replay.log",
     "research/phase13/overnight/transition-resume-tests.log",
@@ -133,12 +136,12 @@
   "all_python_shell_sources_and_raw_shadow_artifacts_unchanged": true,
   "historical_journal_sections_preserved": true,
   "raw_shadow_records": 9,
-  "finite_result": "H_87104 < H_87109 = H_87110 = H_87111 < H_87112 < H_90000; actual N=87109 first failure index 87111",
+  "finite_result": "H_87109 < H_87112 < H_87113 < H_90000; actual N=87112 first failure index 87112; singleton maximal plateau at 87112",
   "new_height_bits": 51875,
-  "height_increase_bits": 35235,
+  "height_increase_bits": 35236,
   "failure_numerator_sign": 1,
   "failure_numerator_bits": 63384,
-  "failure_numerator_abs_sha256": "80b4f02234fba60be3ea1f1fb9d8c365a8bbd5f21fcb84a80d8141e69895a0a6",
+  "failure_numerator_abs_sha256": "90c1bfc3ba1803217f45765c4c82fdc7e916343b4c551d2f347853d45c32b58d",
   "maximal_plateau_lengths": [
     2,
     2,
@@ -148,21 +151,22 @@
     1,
     1,
     5,
-    3
+    3,
+    1
   ],
   "latest_selected_basis_update_rows": [
     [
-      8,
+      2,
       0
     ],
     [
-      4,
+      1,
       1
     ]
   ],
   "nondecreasing_width_test": {
     "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
-    "adjacent_maximal_plateau_pairs_checked": 8,
+    "adjacent_maximal_plateau_pairs_checked": 9,
     "hypothesis_falsified": true,
     "decreases": [
       {
@@ -182,17 +186,48 @@
         "to_source_N": 87109,
         "from_length": 5,
         "to_length": 3
+      },
+      {
+        "from_source_N": 87109,
+        "to_source_N": 87112,
+        "from_length": 3,
+        "to_length": 1
       }
     ]
   },
   "width_determines_basis_update_test": {
     "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
-    "equal_width_pairs_checked": 7,
+    "equal_width_pairs_checked": 10,
     "hypothesis_falsified": true,
     "counterexamples": [
       {
         "from_source_N": 87099,
         "to_source_N": 87102,
+        "interval_length": 1,
+        "from_basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "to_basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "from_source_N": 87099,
+        "to_source_N": 87112,
         "interval_length": 1,
         "from_basis_update_rows": [
           [
@@ -239,6 +274,31 @@
             1
           ]
         ]
+      },
+      {
+        "from_source_N": 87103,
+        "to_source_N": 87112,
+        "interval_length": 1,
+        "from_basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ],
+        "to_basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
       }
     ]
   },
@@ -253,52 +313,52 @@
     "written_proofs": "inherited finite parity, monotonicity and basis-exclusion arguments; no new all-level or Lean theorem",
     "open": "exact B, asymptotic gcd cancellation and remaining intermediate minima"
   },
-  "next_obligation": "Locate actual N=87112 witness first failure through 90000; certify only a missing target prefix; retain evidence caps and check remaining headroom.",
-  "next_command": "python3 -B -u research/phase13/overnight/witness_transition.py --start 87112 --through 90000 --seconds 180 --write",
+  "next_obligation": "Locate actual N=87113 witness first failure through 90000; certify only a missing target prefix; reserve/check record sizes. At observed sizes one further transition fits this segment; implement a separate bounded segment before later transitions, preserving fixed caps.",
+  "next_command": "python3 -B -u research/phase13/overnight/witness_transition.py --start 87113 --through 90000 --seconds 180 --write",
   "resource_observations": {
-    "transition-87109-compute.log": {
+    "transition-87112-compute.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "7.79",
-      "peak_resident_kib_observed": 111948
+      "wall_seconds_observed": "7.55",
+      "peak_resident_kib_observed": 112572
     },
-    "transition-87109-replay.log": {
+    "transition-87112-replay.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "29.78",
-      "peak_resident_kib_observed": 68864
+      "wall_seconds_observed": "32.57",
+      "peak_resident_kib_observed": 69196
     },
-    "basis-87109-chain.log": {
+    "basis-87112-chain.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "1.94",
-      "peak_resident_kib_observed": 69264
+      "wall_seconds_observed": "1.95",
+      "peak_resident_kib_observed": 69516
     },
     "smoke.log": {
       "exit_status": 0,
-      "wall_seconds_observed": "428.08",
-      "peak_resident_kib_observed": 100708
+      "wall_seconds_observed": "431.57",
+      "peak_resident_kib_observed": 102164
     }
   },
   "smoke_exit_status": 0,
-  "prior_unrecorded_eighth_checkpoint_smoke": "no separate pass claimed; current full smoke covers all stored records",
   "complete_marker": false,
   "no_git_mutation_or_remote_access": true,
   "no_agents_or_detached_processes": true,
   "no_calculation_remains_running": true,
   "artifact_sha256": {
-    "research/phase13/overnight-progress.md": "3b7badea0d514d9469870596f02ecfda0f6d983d3b425c1f0227bec22a8d2fc3",
-    "research/phase13/overnight-summary.md": "227e3fcb690647af6e6b6cc737b6487b36a72bbd13b485756037b4f68f3d8785",
+    "research/phase13/overnight-progress.md": "a2a31a02a0a723815930ad7f26ba7ebe81d3800824d45ad396da70013a6b65ca",
+    "research/phase13/overnight-summary.md": "ab266b7cd75a38cc7b9683edda37322499859e28510339429c9bbed9e4120a34",
     "research/phase13/overnight/PLAN.md": "06745ed38390243812854ceaec86e32a71b30cf86ada0bc03571024209e1cb25",
-    "research/phase13/overnight/README.md": "1a7c02dc0d13c8b694e44115d5b9494a20c48ba8c3e75fe69bc41fe6a4a534de",
+    "research/phase13/overnight/README.md": "87358bc324d5124fde2066f8397cf87812174b67d6f4becaf9ccd651a37e3c4e",
     "research/phase13/overnight/basis-87100-chain.log": "9c4d3880312456f5531c720b463085697357df16dc6053b91d603d94bf0df4c2",
     "research/phase13/overnight/basis-87102-chain.log": "3a9dffd848f4f854a0ddb38a92f1074de8308a3f18225d21ba6d4381091cbae6",
     "research/phase13/overnight/basis-87103-chain.log": "647f66c98eaa4d90bd0e75bd6036aa3c0f6828e879404f43ed2c6b5f7a003ef6",
     "research/phase13/overnight/basis-87104-chain.log": "a9659270e143a1fcc493a9d8bae28740cbf2d504a86d0073a0d2380c2799df6b",
     "research/phase13/overnight/basis-87109-chain.log": "f25b4cffcc0412d15e3286b17373891c439261a738dc433983c059668ccd7014",
+    "research/phase13/overnight/basis-87112-chain.log": "7d11735e6693d014d79c374a5b9113141f8383403bca8aac315a94266e25d123",
     "research/phase13/overnight/basis-chain-controls.log": "5334ea4743e63e6fe2c6ea0c75150b0cd3ed83e01124a3e3455b2913f7d3fac9",
     "research/phase13/overnight/basis-chain-probe.log": "b1e71b8cdecaddd333f230f57902a7559efeec5dbd31d3f824098ed1581d9cfa",
     "research/phase13/overnight/basis-equal-width-probe.log": "13d757862e1ca01e056cabb9bd86529ed0acb7e8e5fd615435a28e968289418f",
     "research/phase13/overnight/basis-final.log": "882214a3fdfe41a1cd2d1aaea5d0603d7764a1c129929e25da2ce51e99dc289e",
     "research/phase13/overnight/basis-pattern-final.log": "af44770323a29b607dc8bd1c460c33202e04c20b70e6314123c975e3ca7d37c5",
-    "research/phase13/overnight/basis-pattern-probe.json": "94e4b1c29427faa385474bf6ce75de8be297c466ad7b4a0152e5a9e7d45eed69",
+    "research/phase13/overnight/basis-pattern-probe.json": "c5200debb80433af8689f098c8183b7bc9ab563bfc099e2fa5ea6860750c9167",
     "research/phase13/overnight/basis-pattern-probe.log": "ed58ffd2a2ba2de50f7338cbf32a564fed3c32b8f017df8d8b75a3b541bd309d",
     "research/phase13/overnight/basis-validation.json": "b39ed4041556503f20bf586804a90be96a60f49a2f7d2f51fa6b18403e5c6993",
     "research/phase13/overnight/basis-validation.log": "118feaa375c1c9bc573a93ae5bb534a48e3e76e05d2963b1664fa498e05dcd0d",
@@ -307,8 +367,8 @@
     "research/phase13/overnight/drive_codex.sh": "409ed60cff75143e5a75d3ee00fc2a2f84b6e8e5fd6c3d0e087cac49f730488b",
     "research/phase13/overnight/equal-width-update-controls.log": "2bfaaacee4b804ce90523a21fa097484fb46cf82577f4bef17943c6dedf3f7c0",
     "research/phase13/overnight/extended_height.py": "2166fcb0a6e3ce03850a56666c8c33b288a4b9930c564a2bb12ac73315cf81fe",
-    "research/phase13/overnight/height-inventory.json": "cf654bab76c9a9b7fd32f90ed1d7f875af6f11cf00cfbb9c52b4e8774e45de49",
-    "research/phase13/overnight/heights.jsonl": "6e0bd541aaeb7e9063056970cb8ad105c1141f77c69b6a371f566af29df0aab3",
+    "research/phase13/overnight/height-inventory.json": "956f8389bb5cd0b28f5a7384ad5dc9933d2843d3b018c988bebb7773b854de0d",
+    "research/phase13/overnight/heights.jsonl": "c0f45c58a69a54d0aea8f66bfcb52cf0f40b49c956b1a5d977c26a54211f755b",
     "research/phase13/overnight/l5-sparse.log": "88650cd7d28af495d41fd5ea6066cc2d710b6be3263ad9ebc42c1ff3c7fb2c26",
     "research/phase13/overnight/l5-triplet.log": "a21c1dea203a382701089b4c209ffc962d3f0c273a55a38b8964f7ec60ab1ceb",
     "research/phase13/overnight/l6-triplet.log": "3fc4947ae98e9542484f8a27a173bf7b2680a08069ce7c0431ea8ebd749f6472",
@@ -322,7 +382,7 @@
     "research/phase13/overnight/raw_shadows.py": "ec6cdec9436fea73824c6c63588b58e6d2c0f907d62079156e0b13ea5c95985e",
     "research/phase13/overnight/regression-checked.log": "5ef1d914f59fff4a92a88ba5ada25b2744e4f51dce6cf0bf68fbedb97f62e609",
     "research/phase13/overnight/regression.log": "f5ecb2d746f5ad99c3536a9e60343ce6c869a3e25d2ec388e006df0986b2f7f1",
-    "research/phase13/overnight/smoke.log": "5b010c35ef3da5bd80141eaa5b343ab6a45cf0df216b2a458c224884ba82494c",
+    "research/phase13/overnight/smoke.log": "1a99ca928e7e3dcccfee65d85efd521e02542c09d7263e59262349af962adf7d",
     "research/phase13/overnight/smoke.sh": "20cc67c2bb6e92836b8b2cbf25d88ec8c6cee4802ea518c96e05e2a0145a6dfe",
     "research/phase13/overnight/summarize.py": "f7d81418ff8233f8c5f339fc7dfacb653396296cf1a478d4ec263b7a5eca25c7",
     "research/phase13/overnight/test_basis.py": "9f054bbaba61f98e0cbc69dc92f352315bef25be414c6187b0661d51e614c20b",
@@ -345,14 +405,16 @@
     "research/phase13/overnight/transition-87104-replay.log": "cf18dcee52fe0bf5a425e96ee7de77806834917ec5012bef329b66cb5ac6ae6d",
     "research/phase13/overnight/transition-87109-compute.log": "26492e60916b2980463fbd3c42b488b46186fd9d693a861c97b08eb6b3d9c8da",
     "research/phase13/overnight/transition-87109-replay.log": "945acfbeffb1bbc772e7fae8d1303d435b15c20a51807e43e89886ba49ad7e26",
-    "research/phase13/overnight/transition-checkpoint.json": "d93d8750990bad40907ecfa3fb04135da8923bcdc9e09f524efe6d44e524f9bb",
+    "research/phase13/overnight/transition-87112-compute.log": "e9983b38585ca4cbe2612ae3e4c1e3ec1ff5e5ddede9c35f165be4594bece5b3",
+    "research/phase13/overnight/transition-87112-replay.log": "b93e49a49129dc3cccdcc339f11fc33f23f9325edcfe10197656dc1fb84a5360",
+    "research/phase13/overnight/transition-checkpoint.json": "aefcc321b18d23bd671265fae97f72e2e7b150579fb2d2670d20438859a2935b",
     "research/phase13/overnight/transition-compute.log": "0f1c6387fba4a9ff491113108252651dd3a4d4cbf8b09f7c3d5a2b4120fac645",
     "research/phase13/overnight/transition-replay.log": "2279cc31275e7cfa3d1de4456778aaf08d4508ba3714303f0c6900b1de3a1f7c",
     "research/phase13/overnight/transition-resume-tests.log": "e4aae2773b1bee874e380a6682844564c4da1ca4d1ffefe2c4d39cc73205bc59",
     "research/phase13/overnight/transition-skip.log": "7bc37c0ea00fa966cce05169f8b7b982e2bd4f070c329b2a03be53d97d0a484d",
-    "research/phase13/overnight/transition-verification.json": "e826e7afa93d838a2dc1b9b53383bc5670b2d0645975a1fced0603f0af9194d5",
+    "research/phase13/overnight/transition-verification.json": "002a844c4be86e4afa420d2cfaebe9ac181546cd854d658cbe68e56cb03b3c22",
     "research/phase13/overnight/transitions-tests.log": "1b62a29cc5f18785801e26e1cc06444967c97dc3ea5c344391a1f828fa4a672e",
-    "research/phase13/overnight/transitions.jsonl": "01f435ecebc8da625b500675b92c87b63910ab3605afd16ca74a3582a1a9633b",
+    "research/phase13/overnight/transitions.jsonl": "6884af2c1af24d7e6a4097fe931cabf1655c5dc4de6fff3392bf356fd9403485",
     "research/phase13/overnight/verify_raw_shadows.py": "7a29bbd619f84d78b40a6904d2626166365b52e7d26ecbe8b395a49300358e97",
     "research/phase13/overnight/verify_results.py": "115a801427596254e9c1379eec15d8301fa919f44747616153a9c910b0c3cffa",
     "research/phase13/overnight/verify_transitions.py": "c5f02626de303ba943e92883ce5d300798bdcadaf7793e6f079a734c6f50f996",
