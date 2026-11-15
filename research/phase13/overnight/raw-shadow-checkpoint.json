@@ -1,0 +1,6 @@
+{
+  "format": "phase13-raw-shadow-checkpoint-v1",
+  "stage": "complete",
+  "through_level": 8,
+  "evidence_sha256": "72088c34e8e8ac6666da741466fd8c244168350de12c124be38b086d849acad7"
+}

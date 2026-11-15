@@ -121,3 +121,63 @@ recomputing those samples. `basis-validation.json` records the full regression
 against its particular source hashes; a smoke run checks the current records.
 These are exact finite tests plus a written certificate argument, not a
 Lean-kernel proof or a theorem about asymptotic behavior.
+
+## Raw-shadow cancellation replay
+
+`raw_shadows.py` computes the full signed matrices `[[m,-c],[0,a]]`, starting
+at `B_0=[[2,0],[0,1]]`, `B_1=[[2,-1],[0,3]]`. It evaluates
+`B_0'=B_1^5 B_0` and `B_1'=B_1 B_0 B_0 B_1 B_1 B_1` simultaneously.
+The matrices for `U_k=mu^k(100)` and `V_k=mu^k(1)` then give the raw shadow
+coordinates in theory Section 5. Records contain the exact gcd (canonical
+hexadecimal), coordinate bit lengths and SHA-256 hashes of the minimal-length
+unsigned big-endian magnitudes. The numerator sign, positive odd denominator,
+reduced coordinate hashes and strict finite height separation are checked.
+Full raw coordinates are not written to the evidence file.
+
+`verify_raw_shadows.py` imports no producer or project implementation. It
+computes positive offsets with expanded scalar recurrences and denominators
+from the exact letter counts. At a level with `m=2^S`, let
+`a=3^r_0`, `b=3^r_1` and offsets `c_0,c_1`. Its separate updates are
+
+```
+c_0' = m^5*c_0 + a*c_1*(m^4+m^3*b+m^2*b^2+m*b^3+b^4),
+c_1' = c_1*(a^2*b^3+m^3*b^2+m^4*b+m^5)
+       + c_0*(m*a*b^3+m^2*b^3).
+```
+
+These follow by expanding the ordered product: position `j` contributes
+`m^j*c_(x_j)*product(a_(x_i), i>j)`. The checker constructs
+`c_U=c_1*a^2+m*c_0*a+m^2*c_0`, then the exact `P,Q`. It checks the gcd by
+factoring the denominator as `Q=3^r_U*(b-m)`. Since `b-m` is coprime to 3,
+the gcd is the product of the bounded 3-adic part and `gcd(P,b-m)`; it also
+checks that both factors of the reduced denominator are coprime to the
+reduced numerator. This elementary identity is a written arithmetic argument,
+implemented in Python, not a Lean theorem.
+
+Both calculations compare inherited levels `0..7` with `../modular.json`.
+The separate replay also checks ten literal reverse-branch maps through
+level 4. `test_raw_shadows.py` tests the split-gcd identity on 37,800 signed
+inputs, five exact matrix/offset shadow controls, twenty rejected record
+corruptions and checkpoint resumption before and after record publication.
+
+The experiment is capped at level 8, 64 KiB of JSONL evidence and an 8 MiB
+emergency checkpoint. Each level has a signal budget of at most 240 seconds
+(default 180). A `matrix-ready` checkpoint permits repeating only an
+unfinished level or advancing from the previous completed one; independently
+verified results are identified by the separate replay manifest. At the final
+level the checkpoint becomes compact completed status. Existing record bytes
+are preserved on resume. Use an additional outer timeout and child memory cap:
+
+```bash
+ulimit -v 1048576
+timeout 420s python3 -B research/phase13/overnight/raw_shadows.py --through-level 8 --seconds-per-level 180 --write
+timeout 420s python3 -B research/phase13/overnight/verify_raw_shadows.py --write
+```
+
+`--write` on the checker writes only its small verification manifest;
+`--check` independently replays the computation and compares that manifest.
+Smoke runs the small controls and the independent replay, without rerunning
+the matrix producer. The JSONL is exact computation and the replay is an
+independent finite certificate. The inherited all-level shadow-minimum
+argument remains written mathematics. These records do not constitute new
+large-prefix parity/minimality certificates or any asymptotic gcd conclusion.

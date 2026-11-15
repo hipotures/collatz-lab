@@ -19,5 +19,11 @@ fi
 if [[ -f research/phase13/overnight/height-inventory.json ]]; then
   python3 research/phase13/overnight/summarize.py --check
 fi
+if [[ -f research/phase13/overnight/test_raw_shadows.py ]]; then
+  timeout 60s python3 research/phase13/overnight/test_raw_shadows.py
+fi
+if [[ -f research/phase13/overnight/raw-shadows.jsonl ]]; then
+  timeout 420s python3 research/phase13/overnight/verify_raw_shadows.py --check
+fi
 git diff --check
 echo "PASS: overnight smoke checks"

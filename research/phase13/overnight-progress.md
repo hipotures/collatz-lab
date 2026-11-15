@@ -2,60 +2,55 @@
 
 ## Resume here
 
-- Branch: `codex/phase13-overnight`. Local HEAD and cached origin ref at
-  entry: `43a0f7c841851325fdd165611116224068fc54da`. PR #29 source:
-  `65b087dc62e4950e1c504fe34865acaacb9188c9`. The host driver owns all
-  commit/push operations. No Git mutation or remote access is authorized here.
-- Entry was clean. Read the current plan, journal, theory Sections 5–9,
-  original experiment/verifier modules, and overnight modules. The five
-  existing samples were already certified and have not been recomputed.
-- **Completed this iteration:** implemented `odd-box-basis-interval-v1` in
-  the overnight producer and independent checker. The proof checks basis
-  membership, determinant, denominator parity, an exhaustive coefficient
-  bound, and tight integer interval endpoints. It rejects enumeration above
-  4095; automatic mode falls back to the preserved floor-sum method.
-- Compact-certificate validation **passed**: 27,540 directly enumerated
-  boxes (18,792 empty, 8,748 nonempty), signed and zero coordinates, 13
-  malformed cases rejected, explicit cap rejection and verified fallback.
-  Alternative compact certificates passed for all 1,691 historical minima
-  and all eight stored overnight minima. Evidence:
-  `overnight/basis-validation.json`, `overnight/basis-validation.log`,
-  `overnight/basis-final.log` (final eight-record source).
-- Full extended regression **passed** after the certificate change: 511
-  brute-force residues, all 1,691 historical minima/floor-sum certificates,
-  four independent prefix/residue controls, seven corruptions rejected,
-  `H_11=3`, `H_12=513`. Evidence: `overnight/compact-regression.log`.
-- **New exact samples completed:** `N=522546,522547,522548` near `L_6`
-  have minimum-height bit lengths `211281,211281,311267`. Each has a primitive
-  positive odd denominator, actual parity witness, and independent exclusion
-  of all smaller-height vectors. The first two witnesses and heights are
-  identical, matching the inherited k=6 shadow coordinate hashes. The exact
-  ratio satisfies `2^99985 <= H_522548/H_522547 < 2^99986`. These three
-  samples must not be recomputed. Evidence: `overnight/l6-triplet.log` and
-  the append-only `overnight/heights.jsonl`.
-- Existing certified `N=80000,87090,87091,87092,90000` have exact-height
-  bit lengths `35217,35217,35217,51875,51875`. Their original 4,052,103
-  bytes remain an unchanged prefix, SHA-256
-  `982adbab2ee61192a6666649e16c2167c141370fb67e726462cedfe725db9eaf`.
-  The first three have the same primitive witness, so monotonicity gives a
-  finite plateau `80000..87091`. The boundary height ratio lies in
-  `[2^16657,2^16658)`. By `90000` the height and witness change again despite
-  the unchanged height bit length. These earlier findings are preserved.
-- The eight-record file is 6,012,761 bytes (below 8 MiB), SHA-256
+- Branch: `codex/phase13-overnight`. Entry local HEAD and cached origin ref:
+  `6a65207193376deafdf1e4f9480efba648a4faca`. PR #29 source:
+  `65b087dc62e4950e1c504fe34865acaacb9188c9`. Entry was clean. No Git
+  mutation or remote access was performed; the host driver owns checkpoints.
+- **Completed this iteration:** exact raw-shadow level `k=8` using signed
+  noncommutative matrix products, followed by a separate positive-offset
+  recurrence and split-denominator gcd replay. Both reconstructed and matched
+  inherited levels `0..7`, including their gcds and coordinate hashes.
+- **New exact finite result:** at `S_8=1679616`, `L_8=18811699`,
+  `gcd(|P_8|,Q_8)=1`. The negative numerator and positive odd denominator
+  have bit lengths `7606082,7606080`; reduced bit lengths are unchanged.
+  The gcd list through level 8 is `[3,1,1,1,1,1,1,347,1]`. In particular,
+  nondecreasing raw gcd is false already at `7 -> 8`. No asymptotic
+  cancellation conclusion follows, and no new large-prefix parity/minimality
+  sample at `L_8` is claimed.
+- Evidence: `overnight/raw-shadows.jsonl` (9 records, 6,288 bytes, SHA-256
+  `72088c34e8e8ac6666da741466fd8c244168350de12c124be38b086d849acad7`),
+  `overnight/raw-shadow-verification.json`, and
+  `overnight/raw-shadows-compute.log`, `overnight/raw-shadows-replay.log`.
+  Both timed commands passed with exit 0 under a 1 GiB child memory cap.
+  The matrix-ready emergency checkpoint has been replaced by compact
+  completed status in `overnight/raw-shadow-checkpoint.json`.
+- Small controls passed: 10 literal reverse-branch maps, 5 exact
+  matrix/offset shadow comparisons, 37,800 signed split-gcd cases,
+  20 rejected malformed records, and resumption before/after publication.
+  Evidence: `overnight/raw-shadows-tests.log`. The new checker imports no
+  producer or other project implementation.
+- The eight existing certified height samples remain byte-for-byte
+  unchanged: `N=80000,87090,87091,87092,90000,522546,522547,522548`.
+  Their height bit lengths are `35217,35217,35217,51875,51875,211281,
+  211281,311267`. File size is still 6,012,761 bytes; SHA-256
   `fb2cc65ea9500a2d84f69c5c9db483143455d5058548400701e596f1f297db94`.
-  Refreshed `overnight/height-inventory.json` verifies exact comparisons and
-  the inherited k=5 and k=6 shadow hashes. Existing floor-sum transcripts
-  were preserved; each new basis certificate enumerates exactly one positive
-  odd coefficient (`C=1`). **Final overnight smoke passed, exit 0**,
-  including independent witness/parity/minimality verification of all eight
-  records and the inventory check. Evidence: `overnight/smoke.log`;
-  final scope/preservation audit: `overnight/checkpoint-audit.json`.
-- **Next research obligation:** exact raw-shadow gcd at
-  k=8 with separate noncommutative matrix construction and independent replay,
-  comparing k=0..7 signs/gcds/hashes against the inherited evidence; then
-  basis-transition falsification. No gcd level beyond 7 is complete here.
-  No hard blocker has been reached; useful bounded work remains, so no
-  `COMPLETE` marker is justified.
+  Earlier plateau and jump findings are preserved below and in the summary.
+  Do not recompute these samples or the completed raw-shadow experiment.
+- **Final overnight smoke passed, exit 0:** 389.32s wall time and
+  98,896 KiB peak resident memory. It checked the baseline arithmetic/parity
+  controls, quick extended/basis regressions, all eight independent height
+  certificates, the exact inventory, and all nine raw-shadow replay records.
+  Evidence: `overnight/smoke.log`; final scope/preservation/hashes:
+  `overnight/checkpoint-audit.json`. No calculation remains running.
+- **Next bounded research obligation:** basis-transition falsification
+  inside `87092 < N <= 90000`. Using the stored primitive witness at 87092,
+  find its first actual parity mismatch by 90000. This locates a concrete
+  endpoint of witness persistence without a dense height scan. Independently
+  certify a minimum at the first failing prefix if that prefix is not already
+  stored; compare exact heights, allowing a change of witness at equal height.
+  Preserve existing JSONL bytes and its 8 MiB cap. Details are in Concrete
+  continuation below. Level `k=9` has not been attempted.
+- Useful bounded work remains, so no `COMPLETE` marker is justified.
 
 ## Scope and evidence levels
 
@@ -68,20 +63,24 @@ Lean/Rust sources, CI, papers, main, PR #29, and other worktrees are untouched.
 No agents or detached processes were spawned.
 
 - **Exact computation:** an adaptive odd-denominator candidate solver with
-  exact integer discrepancies, bounded at 600,000 bits.
+  exact integer discrepancies, bounded at 600,000 bits; and full signed
+  noncommutative raw-shadow matrices through level 8.
 - **Independent finite certificate:** literal substitution, reverse rational
   branches, actual numerator parities, primitive positive odd denominator,
   lattice determinant, and no vector at `H-1`, by floor-sum count or basis
   exclusion. The checker imports no optimizer or other project code. Full
   integers, Euclidean quotients, and interval endpoints use canonical
-  hexadecimal strings in the bounded JSONL file.
+  hexadecimal strings in the bounded JSONL file. Separate raw-shadow replay
+  uses expanded positive offsets and coprime denominator factors, comparing
+  every stored coordinate hash, bit length, sign and gcd.
 - **Written proof:** the floor-sum counting/telescoping argument is the
   existing theory Section 4. The all-level shadow minimum in Section 8 is
   inherited, not a theorem discovered by an overnight sample. No new Lean
   proposition or formal proof was added. The coefficient-bound and integer
   interval argument in `overnight/README.md` is written elementary mathematics
   with an implemented independent checker and finite adversarial tests;
-  it is not a Lean proof.
+  it is not a Lean proof. The expanded offset recurrences and split-gcd
+  identity have the same written-arithmetic/Python trust boundary.
 - **Open:** exact `B`, subexponential raw-gcd cancellation, and competing
   intermediate approximants. Finite data do not prove asymptotic behavior.
 
@@ -142,7 +141,7 @@ No agents or detached processes were spawned.
   `COMPLETE` marker existed. The whitespace check passed. No calculation
   was left running at that handoff.
 
-## Current iteration validation and resource observations
+## Previous height-checkpoint validation and resource observations
 
 All timed commands below ran with a 1 GiB child address-space cap (`ulimit -v
 1048576`), without changing the host configuration.
@@ -184,28 +183,93 @@ All timed commands below ran with a 1 GiB child address-space cap (`ulimit -v
   `git diff --check` passed. No Lean, Rust, or remote CI result is claimed
   for this iteration. No calculation is left running at this handoff.
 
+## Raw-shadow checkpoint validation and resource observations
+
+Commands used `ulimit -v 1048576` in their child shell. They did not change
+host configuration. Each expensive level also had a 180-second signal budget.
+
+- `timeout 60s /usr/bin/time -v python3 -B
+  research/phase13/overnight/test_raw_shadows.py` passed, exit 0: 0.03s wall
+  time, 20,480 KiB peak resident memory. It checked the ten literal maps,
+  five exact matrix/offset shadow controls, 37,800 signed split-gcd inputs,
+  twenty rejected corruptions and resumable matrix checkpoints. Evidence:
+  `overnight/raw-shadows-tests.log`.
+- `timeout 420s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/raw_shadows.py --through-level 8
+  --seconds-per-level 180 --write` passed, exit 0: 54.27s total wall time,
+  38,908 KiB peak resident memory. Level 8 took 52.620s including matrix
+  construction, exact full-coordinate gcd and record publication. It matched
+  every inherited level before publishing the new one. Evidence:
+  `overnight/raw-shadows-compute.log`.
+- `timeout 420s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/verify_raw_shadows.py --write` passed, exit 0:
+  41.79s total wall time, 37,588 KiB peak resident memory. Level 8 took
+  40.496s. The separate checker expands positive offsets, reconstructs scalar
+  denominators from letter counts, splits `Q=3^r_U*(b-2^S)` into coprime
+  factors, and independently verifies all raw/reduced hashes and bit lengths.
+  Ten literal inverse maps through level 4 also agree. Evidence:
+  `overnight/raw-shadows-replay.log`, `overnight/raw-shadow-verification.json`.
+- The checkpoint mechanism writes matrices before a level's gcd, accepts
+  either an unfinished level or the preceding completed level on resume, and
+  preserves all completed evidence lines. At the final level it writes compact
+  completed status. The 64 KiB evidence cap and 8 MiB emergency checkpoint cap
+  were respected. No timeout or mathematical blocker occurred this iteration.
+- The strict finite inequality `2*height(y_8)^2 < 2^L_8` was checked in both
+  arithmetic routes. This is a separation inequality for the reconstructed
+  shadow coordinates, not a fresh independent check of 18,811,699 actual
+  parity bits. The all-level match/minimum interpretation is the inherited
+  written argument from theory Sections 5 and 8.
+
+- `timeout 750s /usr/bin/time -v bash
+  research/phase13/overnight/smoke.sh` passed, exit 0: 389.32s wall time,
+  98,896 KiB peak resident memory, under the same child memory cap. Output
+  confirms 25,432 signed floor sums, 4,095 exhaustive residues, 31,750 signed
+  parity cylinders, 262,400 direct `H_12` exclusions and seven rejected
+  baseline corruptions; 511 extended brute-force residues, twenty historical
+  first/final records, four independent prefix/residue controls and seven
+  extended corruptions; 27,540 direct compact-box controls and thirteen
+  malformed basis cases; all eight stored height certificates and the exact
+  inventory; then the new raw-shadow tests and independent nine-level replay.
+  Its final replay checked level 8 in 40.541s. Evidence: `overnight/smoke.log`.
+- Overnight Python compilation without bytecode, shell syntax and
+  `git diff --check` passed. Final local audit checks the entire eight-record
+  height file against the entry HEAD blob, unchanged branch/HEAD/cached origin
+  ref, authorized changed paths, and evidence/replay/checkpoint hashes.
+  No Lean, Rust or remote CI check was run or claimed. No calculation remains
+  running, and no commit, push, issue/PR mutation or external action occurred.
+
 ## Concrete continuation
 
-Read the current files and Git state before resuming. Do not recompute a
-sample already independently certified in `heights.jsonl`. The triplet,
-inventory, and final smoke are complete. Implement a bounded exact matrix
-recurrence through raw-shadow level k=8 in separate
-modules under `overnight/`, without editing the inherited Phase 13 modules.
+Read the current plan, journal, modules, evidence and Git state before the
+next step. The eight sparse height samples and raw-shadow level 8 are complete.
+Do not rerun either producer to rediscover those results. Smoke may independently
+recheck existing certificates; that is validation, not a new experiment.
 
-Use `B_0=[[2,0],[0,1]]`, `B_1=[[2,-1],[0,3]]`, with the noncommutative
-updates `B_0'=B_1^5 B_0` and `B_1'=B_1 B_0 B_0 B_1 B_1 B_1` evaluated
-simultaneously. Compare all inherited k=0..7 gcds and coordinate hashes,
-check negative numerator/positive odd denominator directly, and extend only
-to k=8 initially under a per-level time cap and a 1 GiB child memory cap.
-Store exact gcd, raw/reduced bit lengths and deterministic coordinate hashes,
-not full giant raw integer strings. A separate implementation must replay
-and check the new record before it is called independently verified.
+The next useful step is a bounded transition experiment between the already
+certified prefixes 87092 and 90000:
 
-If k=8 exhausts a resource cap, preserve a resumable matrix checkpoint and
-record precisely which construction or gcd check is unfinished. Do not
-promote a candidate, a timeout, or a finite gcd list to an asymptotic claim.
-The next research priority after this is basis-transition falsification;
-additional sparse samples must respect the 8 MiB height-evidence cap.
+1. Read the primitive witness `(p,q)` and exact height at `N=87092` from
+   `overnight/heights.jsonl`. Construct the literal fixed-word prefix through
+   90000 independently of an optimizer. Iterate the actual rational numerator
+   recurrence with the same positive odd denominator, recording the first
+   mismatch index `t`. Do not infer the next transition from height bit lengths.
+2. The existing witness and monotonicity certify persistence of the known
+   minimum through prefix length `t`. A mismatch concerns this witness;
+   it does not by itself prove that the next height strictly increases, since
+   there could be another witness at the same height. Record this distinction.
+3. If `t+1` is a new prefix length, compute its candidate and use the existing
+   independent parity/basis-interval checker to certify its exact minimum.
+   Compare the actual integers and witnesses. If `t+1=90000`, reuse that
+   existing certificate. Keep each calculation signal/timeout bounded and
+   memory capped, and preserve the height JSONL's existing bytes and 8 MiB cap.
+4. Store only a small transition certificate and any genuinely new minimum;
+   do not generate a dense profile. Add its independent verification to smoke.
+
+This can falsify a fixed witness-persistence or plateau guess on a concrete
+finite interval. It cannot decide `B=c`, asymptotic gcd size or the behavior
+of other intervals. Level 9 is optional future research and has not been run;
+this implementation deliberately caps its full-integer computation at level 8.
+No hard blocker has been reached and no `COMPLETE` marker is warranted.
 
 The host driver's quota polling and deadline are unchanged. Driver logs are
 outside this checkout; evidence and command logs are under `overnight/`.
