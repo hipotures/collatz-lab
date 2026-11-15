@@ -42,7 +42,7 @@ class ProvenanceTests(unittest.TestCase):
                 final.smoke_counts(broken)
 
     def test_source_identity(self):
-        audit = {"format": "phase13-overnight-final-audit-v3", "source_commit": final.SOURCE,
+        audit = {"format": final.FORMAT, "source_commit": final.SOURCE,
                  "integration_base": final.MAIN, "implementation_commit": final.IMPLEMENTATION,
                  "review_commit": final.REVIEW, "counts": final.smoke_counts(SMOKE)}
         final.check_identity(audit)
@@ -68,11 +68,11 @@ class ProvenanceTests(unittest.TestCase):
                 final.check_summary(broken, audit)
 
     def test_current_audit_and_hostile_mutations(self):
-        # Before first finalization, the historical v2 audit intentionally is
+        # Before finalization, earlier audit formats intentionally are
         # rejected by the identity test above. Once finalized, exercise the
         # real ledger, protected files and summary without changing any file.
         audit = json.loads((final.ROOT / final.AUDIT).read_text())
-        if audit["format"] != "phase13-overnight-final-audit-v3":
+        if audit["format"] != final.FORMAT:
             with self.assertRaises(ValueError):
                 final.check_identity(audit)
             return
@@ -87,6 +87,10 @@ class ProvenanceTests(unittest.TestCase):
             lambda a: a["validation"].update(entry_head="bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10"),
             lambda a: a["validation"]["inputs"].pop("CollatzLab/Word.lean"),
             lambda a: a["validation"]["commands"].pop(),
+            lambda a: a.update(validation_sha256="0"*64),
+            lambda a: a["frozen_inputs"].pop("CollatzLab/Word.lean"),
+            lambda a: a["metadata_tools"][final.NIGHT + "finalize_provenance.py"].update(sha256="0"*64),
+            lambda a: a["historical_smoke"].update(exit_code=124),
         ]
         for mutate in changes:
             broken = deepcopy(audit)
@@ -101,6 +105,69 @@ class ProvenanceTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 final.check_summary(broken, audit)
 
+    def test_frozen_scope_allows_unrelated_edits_and_new_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            dependencies = ["CollatzLab/Word.lean", "lean-toolchain", "research/lean-audit/FamilyAudit.lean",
+                            "research/phase13/height_reference.py", final.NIGHT + "verify_results.py",
+                            final.NIGHT + "heights.jsonl"]
+            unrelated = ["src/main.rs", "Cargo.toml", ".github/workflows/ci.yml", "README.md",
+                         final.NIGHT + "finalize_provenance.py", final.NIGHT + "test_provenance.py"]
+            recorded = {}
+            for path in dependencies + unrelated:
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b"original fixture\n")
+                recorded[path] = final.file_info(target.read_bytes())
+            expected = {path: recorded[path] for path in dependencies}
+            self.assertEqual(final.check_frozen_inputs(root, recorded), expected)
+            for path in unrelated + ["new-file.txt", "research/phase13/new-experiment.py"]:
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(b"unrelated future change\n")
+            self.assertEqual(final.check_frozen_inputs(root, recorded), expected)
+            for path in dependencies:
+                with self.subTest(path=path):
+                    target = root / path
+                    target.write_bytes(b"changed certification input\n")
+                    with self.assertRaises(ValueError):
+                        final.check_frozen_inputs(root, recorded)
+                    target.write_bytes(b"original fixture\n")
+
+    def test_original_validation_ledger_cannot_be_relabelled(self):
+        raw = (final.ROOT / final.RUNS).read_bytes()
+        ledger = json.loads(raw)
+        self.assertEqual(final.sha(raw), final.VALIDATION_SHA256)
+        self.assertEqual(ledger["entry_head"], final.VALIDATION_HEAD)
+        final.check_runs(final.ROOT, ledger)
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            target = root / final.RUNS
+            target.parent.mkdir(parents=True)
+            for mutate in (lambda value: value.update(entry_head="1"*40),
+                           lambda value: value["commands"][2].update(wall_seconds=1.0),
+                           lambda value: value["commands"][2]["log"].update(sha256="0"*64)):
+                broken = deepcopy(ledger)
+                mutate(broken)
+                target.write_bytes(final.encoded(broken))
+                with self.assertRaises(ValueError):
+                    final.check_runs(root, broken)
+
+    def test_recorded_resource_values_match_hashed_outputs(self):
+        ledger = json.loads((final.ROOT / final.RUNS).read_bytes())
+        for run in ledger["commands"]:
+            text = (final.ROOT / run["resources"]["path"]).read_text()
+            final.check_resource_stats(run, text)
+            for key in ("wall_seconds", "peak_resident_KiB", "exit_code"):
+                with self.subTest(command=run["name"], field=key):
+                    broken = dict(run)
+                    broken[key] += 1
+                    with self.assertRaises(ValueError):
+                        final.check_resource_stats(broken, text)
+            for broken in (text + text, text.replace("Exit status: 0", "Exit status: 1")):
+                with self.assertRaises(ValueError):
+                    final.check_resource_stats(run, broken)
+
     def test_evidence_byte_mutation(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -109,6 +176,11 @@ class ProvenanceTests(unittest.TestCase):
             for name in final.EVIDENCE:
                 (destination / name).write_bytes((final.ROOT / final.NIGHT / name).read_bytes())
             final.inventory(root)
+            extra = destination / "transitions-0003.jsonl"
+            extra.write_bytes(b"unexpected additional segment\n")
+            with self.assertRaises(ValueError):
+                final.inventory(root)
+            extra.unlink()
             path = destination / "heights.jsonl"
             raw = path.read_bytes()
             path.write_bytes(raw[:-1] + b" ")

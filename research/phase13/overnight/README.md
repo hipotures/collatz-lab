@@ -467,26 +467,43 @@ Do not resume the historical unattended driver for this integration task.
 
 ```bash
 python3 research/phase13/overnight/test_provenance.py
-python3 research/phase13/overnight/validate_integration.py --reproduction /tmp/phase13-review-new-directory
 python3 research/phase13/overnight/finalize_provenance.py --write
 python3 research/phase13/overnight/finalize_provenance.py --check
+python3 research/phase13/overnight/test_provenance.py
 ```
 
 The runner requires a new reproduction destination and refuses to overwrite
-its ledger/logs. It records exact commands, observed exit codes/timestamps,
+its ledger/logs. It recorded exact commands, observed exit codes/timestamps,
 resource caps and before/after hashes of the actual combined code/evidence.
 A failed command leaves its logs/ledger for diagnosis; it cannot be finalized
 as success. The full current-main matrix and independent pinned-ref referee
 reproduction are bounded verifications, not repeated large-N optimizers.
 No original log is overwritten. Current outputs are under `integration/`.
 
+The completed issue #33 ledger and four log/resource pairs are immutable
+historical observations of entry HEAD `d6466ed71f2036f39cb0506a4a659bfecc7a0791`
+and its complete recorded working-tree manifest. The v4 guard pins the raw
+ledger SHA-256, retains its original input hashes, and cross-checks wall time,
+peak RSS and exit against the hashed resource outputs. It does not authenticate
+self-reported execution timestamps independently. New research or a replacement
+arithmetic run needs its own reviewed provenance specification.
+
 `finalize_provenance.py --write` checks pinned Git ancestry and byte continuity
-against the original source and current integration base, then binds freshly
-verified outputs to the summary/audit. `--check` is a small deterministic hash,
-count, source-pin and log check suitable for CI, including shallow checkouts.
-It rejects stale counts, altered bytes/scripts/CI inputs, changed source SHA,
-a failed/incomplete smoke, missing/altered logs and a stale rendered summary.
-It does not rerun simulations. Narrative-only handoff edits do not require
-repeating arithmetic validation; finalize again from the same successful
-ledger while all bound inputs remain unchanged. Validation logs describe a
+for the original certification sources, evidence and historical snapshots.
+Its explicit frozen manifest selects the recorded Lean sources/configuration,
+axiom-audit files and Phase 13 certification dependencies. Existing unrelated
+Rust, CI and Markdown files, current metadata tools and new standalone files
+are outside that arithmetic comparison. The complete original manifest remains
+in the ledger; unrelated future changes never rewrite its historical hashes.
+Preserving every pre-existing main file is an integration delivery check, not
+a permanent restriction on future repository development.
+
+`--check` is a bounded hash, count, source-pin and log check suitable for CI,
+including shallow checkouts. It rejects changed frozen sources/evidence, stale
+counts/source pins, altered or incomplete smoke/logs, relabelled validation
+records and a stale canonical summary. Current metadata-tool hashes are stored
+separately. Those tools were not exercised by the historical arithmetic matrix:
+run their bounded regressions before and after finalization, and in current CI.
+Refreshing only metadata needs no repeated arithmetic while frozen dependencies
+and original command outputs remain unchanged. Validation logs describe a
 parent HEAD plus exact input hashes to avoid a self-referential final commit.

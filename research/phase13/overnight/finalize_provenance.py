@@ -24,6 +24,12 @@ AUDIT = NIGHT + "checkpoint-audit.json"
 SUMMARY = "research/phase13/overnight-summary.md"
 JOURNAL = "research/phase13/overnight-progress.md"
 RUNS = NIGHT + "integration/validation.json"
+FORMAT = "phase13-overnight-final-audit-v4"
+VALIDATION_HEAD = "d6466ed71f2036f39cb0506a4a659bfecc7a0791"
+VALIDATION_SHA256 = "6dfeea6d534f46dea1b11cb50f42039d30b4f994bf482a6296307d8d475850b4"
+METADATA_TOOLS = {NIGHT + name for name in (
+    "finalize_provenance.py", "test_provenance.py", "validate_integration.py", "drive_codex.sh")}
+BINDING_SCOPE = "frozen recorded Lean/Phase 13 certification inputs; complete validation ledger is historical"
 MUTABLE = {AUDIT, SUMMARY, JOURNAL, NIGHT + "README.md", NIGHT + "drive_codex.sh"}
 EVIDENCE = {
     "heights.jsonl": (24, 8027076, "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3", 8388608),
@@ -69,14 +75,57 @@ def tracked(root):
 
 
 def inputs(root):
-    # Exclude narrative handoffs and outputs of this validation, avoiding a
-    # self-hash cycle. All code, certificates, original logs, CI and fixtures
-    # (including the historical JSON audit) remain bound to the actual run.
+    # The runner records the complete actual combined tree. Preserve this
+    # historical manifest even when unrelated repository files later change.
     return {p: file_info((root / p).read_bytes()) for p in tracked(root)
             if not p.endswith(".md") and p != AUDIT and not p.startswith(NIGHT + "integration/")}
 
 
+def certification_path(path):
+    # Select only existing paths from the hash-pinned historical manifest.
+    # New standalone files, unrelated Rust/CI/docs and current metadata tools
+    # cannot make frozen arithmetic evidence stale. Modifying a dependency
+    # already used by the certification still requires a new reviewed record.
+    return (path not in METADATA_TOOLS and path != AUDIT and not path.endswith(".md") and
+            not path.startswith(NIGHT + "integration/") and
+            (path in {"CollatzLab.lean", "lakefile.lean", "lake-manifest.json", "lean-toolchain"} or
+             path.startswith(("CollatzLab/", "research/lean-audit/", "research/phase13/"))))
+
+
+def frozen_inputs(recorded):
+    return {path: value for path, value in recorded.items() if certification_path(path)}
+
+
+def check_frozen_inputs(root, recorded):
+    expected = frozen_inputs(recorded)
+    actual = {path: file_info((root / path).read_bytes()) for path in expected}
+    require(actual == expected, "frozen certification code/evidence differs from the recorded validation")
+    return expected
+
+
+def metadata_tools(root):
+    return {path: file_info((root / path).read_bytes()) for path in sorted(METADATA_TOOLS)}
+
+
+def resource_stats(text):
+    elapsed = re.findall(r"Elapsed \(wall clock\) time .*: (\S+)\n", text)
+    peak = re.findall(r"Maximum resident set size \(kbytes\): (\d+)", text)
+    require(len(elapsed) == len(peak) == 1, "missing/duplicate resource timing or RSS")
+    total = 0
+    for field in elapsed[0].split(":"):
+        total = total * 60 + float(field)
+    require(re.findall(r"Exit status: (\d+)", text) == ["0"], "timed command did not pass")
+    return {"wall_seconds": round(total, 2), "peak_resident_KiB": int(peak[0]), "exit_code": 0}
+
+
+def check_resource_stats(run, text):
+    require({key: run[key] for key in ("wall_seconds", "peak_resident_KiB", "exit_code")} == resource_stats(text),
+            "recorded wall time/RSS/exit differs from captured resources")
+
+
 def inventory(root):
+    require({path.name for path in (root / NIGHT).glob("transitions-*.jsonl")} == {"transitions-0002.jsonl"},
+            "the frozen transition segment set changed")
     result = {}
     for name, (count, size, digest, cap) in EVIDENCE.items():
         raw = (root / NIGHT / name).read_bytes()
@@ -99,7 +148,7 @@ def smoke_counts(text):
 
 
 def check_identity(audit):
-    require(audit["format"] == "phase13-overnight-final-audit-v3", "historical audit is not a final audit")
+    require(audit["format"] == FORMAT, "historical audit is not a current final audit")
     require(audit["source_commit"] == SOURCE and audit["integration_base"] == MAIN and
             audit["implementation_commit"] == IMPLEMENTATION and audit["review_commit"] == REVIEW,
             "source/base/review SHA differs from the reviewed pins")
@@ -108,11 +157,12 @@ def check_identity(audit):
 
 
 def check_runs(root, ledger):
+    raw = (root / RUNS).read_bytes()
+    require(sha(raw) == VALIDATION_SHA256 and json.loads(raw) == ledger,
+            "the original combined-tree validation ledger changed")
     require(ledger["format"] == "phase13-integration-validation-v1", "unknown validation ledger")
-    require(re.fullmatch(r"[0-9a-f]{40}", ledger["entry_head"]) is not None and
-            ledger["entry_head"] not in {"bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10", SOURCE, IMPLEMENTATION},
-            "validation entry HEAD must identify the actual combined checkout")
-    require(ledger["inputs"] == inputs(root), "code/evidence/CI differs from the actual validated inputs")
+    require(ledger["entry_head"] == VALIDATION_HEAD, "wrong recorded combined-checkout entry HEAD")
+    check_frozen_inputs(root, ledger["inputs"])
     runs = ledger["commands"]
     require(len(runs) == len(COMMANDS), "incomplete validation ledger")
     for run, (name, command, seconds, memory) in zip(runs, COMMANDS):
@@ -129,7 +179,7 @@ def check_runs(root, ledger):
             require(file_info((root / path).read_bytes()) == {k: v for k, v in run[key].items() if k != "path"},
                     "run log/hash changed: " + path)
         resources = (root / run["resources"]["path"]).read_text()
-        require(re.findall(r"Exit status: (\d+)", resources) == ["0"], "timed command did not pass")
+        check_resource_stats(run, resources)
         require(run["started_utc"] <= run["finished_utc"], "invalid run chronology")
     smoke = (root / runs[2]["log"]["path"]).read_text()
     return smoke_counts(smoke)
@@ -149,7 +199,7 @@ def preservation(root):
     protected = {}
     for ref, paths, excluded in ((SOURCE, original, MUTABLE), (MAIN, main, {".github/workflows/ci.yml"})):
         for path in paths:
-            if path in excluded:
+            if path in excluded or not certification_path(path):
                 continue
             raw = git_bytes(root, ref, path)
             require((root / path).read_bytes() == raw, "protected source changed: " + path)
@@ -170,7 +220,7 @@ def summary(audit):
     for name, row in sorted(audit["evidence"].items()):
         rows.append(f"| [{name}](overnight/{name}) | {row['records']} | {row['bytes']:,} | `{row['sha256']}` |")
     commands = audit["validation"]["commands"]
-    checked = ["| Current checked command | Exit | Wall seconds | Peak RSS KiB |", "|---|---:|---:|---:|"]
+    checked = ["| Recorded integration command | Exit | Wall seconds | Peak RSS KiB |", "|---|---:|---:|---:|"]
     for run in commands:
         checked.append(f"| [{run['name']}](overnight/{run['log']['path'].split('/')[-2]}/{run['log']['path'].split('/')[-1]}) | {run['exit_code']} | {run['wall_seconds']} | {run['peak_resident_KiB']} |")
     return f"""# Phase 13 overnight computation — final owner handoff
@@ -199,10 +249,15 @@ attest the older checkpoint, not the final source head. See the
 [history label](overnight/history/README.md).
 
 The new [final audit](overnight/checkpoint-audit.json) binds the unchanged
-source bytes, main's protected files, fresh command outputs and actual input
-hashes. Its validation entry HEAD is a parent checkpoint plus an explicit
-working-tree input manifest; it does not pretend to contain its own future
-commit SHA. The PR head identifies the committed handoff.
+certification sources/evidence and the original integration command outputs.
+The hash-pinned validation ledger retains its complete historical combined-tree
+input manifest and entry HEAD; unrelated future source, CI or documentation
+changes do not invalidate this frozen experiment. Current checks compare the
+explicit frozen certification subset and separately hash the metadata tools.
+The arithmetic runs did not execute the metadata regression tests; those are
+checked separately by the finalization procedure and CI. The PR head identifies
+the committed handoff without a self-hash cycle. These are recorded observations,
+not independent authentication of self-reported execution timestamps.
 
 ## Unchanged evidence and capacity
 
@@ -228,15 +283,15 @@ historical observations, not the timing of the fresh integration checks.
 
 {chr(10).join(checked)}
 
-The current smoke uses a 750-second outer timeout and 1 GiB address-space cap.
-The full current-main matrix checks Lean, the exact **653**-declaration axiom
+The recorded integration smoke used a 750-second outer timeout and 1 GiB address-space cap.
+The recorded combined-tree matrix checked Lean, the exact **653**-declaration axiom
 allowlist, research interfaces, Rust formatting/lints/**94 tests**, all current
 Python checkers and static manuscript/Lean-name consistency. Independent
-interface/axiom parsing checks the actual combined tree. The unchanged
+interface/axiom parsing checked that combined tree. The unchanged
 referee reproduction fetches its exact two pinned refs, checks all **1,691**
 baseline minima, all **24** overnight minima, **16** transitions and raw gcds
 through k=8, and byte-compares both committed reviewer result files.
-All logs, timestamps, exit codes, caps and input fingerprints are in the
+All recorded logs, timestamps, exit codes, caps and input fingerprints are in the
 [validation ledger](overnight/integration/validation.json). CI status is
 reported separately in the integration journal/PR, never inferred from a local run.
 
@@ -271,7 +326,12 @@ def check_summary(text, audit):
 
 def check_audit(root, audit):
     check_identity(audit)
+    require(audit["binding_scope"] == BINDING_SCOPE and audit["validation_sha256"] == VALIDATION_SHA256,
+            "wrong frozen validation scope/identity")
     require(json.loads((root / RUNS).read_text()) == audit["validation"], "external validation ledger differs from final audit")
+    require(audit["frozen_inputs"] == frozen_inputs(audit["validation"]["inputs"]),
+            "explicit frozen certification manifest differs")
+    require(audit["metadata_tools"] == metadata_tools(root), "metadata tools changed; rerun bounded controls and finalize")
     require(audit["evidence"] == inventory(root), "audit evidence inventory differs")
     require(audit["counts"] == check_runs(root, audit["validation"]), "final smoke differs")
     for path, entry in (audit["protected_files"] | audit["historical_snapshots"]).items():
@@ -280,6 +340,9 @@ def check_audit(root, audit):
     raw = (root / JOURNAL).read_bytes()[-audit["original_journal"]["bytes"]:]
     require(file_info(raw) == audit["original_journal"], "original journal history changed")
     require(smoke_counts((root / NIGHT / "smoke.log").read_text()) == audit["counts"], "historical final smoke differs")
+    historical = (root / NIGHT / "smoke.log").read_bytes()
+    require(audit["historical_smoke"] == dict(file_info(historical), **resource_stats(historical.decode())),
+            "historical smoke metadata differs from its captured output")
     check_summary((root / SUMMARY).read_text(), audit)
 
 
@@ -295,14 +358,16 @@ def main():
         for ref in (SOURCE, MAIN):
             subprocess.run(["git", "merge-base", "--is-ancestor", ref, ledger["entry_head"]], cwd=ROOT, check=True)
         protected, historical, original_journal = preservation(ROOT)
-        audit = {"format": "phase13-overnight-final-audit-v3", "source_commit": SOURCE,
+        audit = {"format": FORMAT, "source_commit": SOURCE,
                  "integration_base": MAIN, "implementation_commit": IMPLEMENTATION, "review_commit": REVIEW,
                  "classification": "final frozen finite evidence; no new mathematical claim",
                  "counts": counts, "evidence": inventory(ROOT), "validation": ledger,
+                 "binding_scope": BINDING_SCOPE, "validation_sha256": VALIDATION_SHA256,
+                 "frozen_inputs": frozen_inputs(ledger["inputs"]), "metadata_tools": metadata_tools(ROOT),
                  "protected_files": protected, "historical_snapshots": historical,
                  "original_journal": original_journal,
                  "historical_smoke": dict(file_info((ROOT / NIGHT / "smoke.log").read_bytes()),
-                                          wall_seconds="464.54", peak_resident_KiB=102832, exit_code=0),
+                                          **resource_stats((ROOT / NIGHT / "smoke.log").read_text())),
                  "unavailable_checks": [], "remaining_research": ["exact B", "asymptotic gcd cancellation", "unsampled minima"]}
         (ROOT / AUDIT).write_bytes(encoded(audit))
         (ROOT / SUMMARY).write_text(summary(audit))
