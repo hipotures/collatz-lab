@@ -1,18 +1,20 @@
 # Phase 13 overnight computation — owner handoff
 
-The first witness transition after `L_5` is now certified:
-**`H_87094 > H_87093 = H_87092`**, although all three heights have 51,875 bits.
-The stored witness at 87092 first fails at zero-based index 87093. Only the
-new prefix 87094 was computed; all eight previous height certificates and
-the completed raw-shadow level 8 are preserved byte for byte. These finite
-results do not determine asymptotic cancellation or an exponent.
+The next witness transition after `L_5` is now certified:
+**`H_87096 > H_87095 = H_87094 > H_87093 = H_87092`**,
+although all five heights have 51,875 bits. The stored witness at 87094 first
+fails at zero-based index 87095. Only the new minimum at 87096 was computed;
+all nine previous height certificates, the earlier transition and raw-shadow
+level 8 remain intact. A specific repeated-basis prediction is also falsified
+by exact parity. These finite results do not determine an asymptotic exponent
+or cancellation bound.
 
 See [Issue #30](https://github.com/hipotures/collatz-lab/issues/30),
 [PR #29](https://github.com/hipotures/collatz-lab/pull/29),
 [the plan](overnight/PLAN.md) and [the journal](overnight-progress.md).
 No remote issue or PR state was queried or changed.
 
-## New exact witness transition
+## Certified witness transitions
 
 The [bounded scan](overnight/witness_transition.py) uses literal substitution
 and actual rational numerator iteration. The
@@ -20,17 +22,18 @@ and actual rational numerator iteration. The
 failure using reverse branches and an exact 2-adic discrepancy valuation.
 Both endpoint minima have independently checked primitive witnesses, actual
 parities and compact no-smaller-height certificates. The strict height
-increase is verified from the exact integers; a changed witness alone would
-not establish it. The positive height difference has 35,217 bits, and the
-height ratio is strictly between 1 and 2.
+increases are verified from the exact integers; a changed witness alone would
+not establish them. The latest positive height difference has 35,219 bits,
+and `1 < H_87096/H_87094 < 2`. The previous difference has 35,217 bits.
 
 The source witness's persistence and monotonicity give the exact plateau
-`87092..87093`. Its width is two prefixes. No general plateau rule or
-asymptotic statement follows from this finite interval.
+`87092..87093`, and the new source gives `87094..87095`. Each interval has
+two prefixes. No general plateau rule or asymptotic statement follows.
 
-[transitions.jsonl](overnight/transitions.jsonl) stores one compact record,
-43,773 bytes, SHA-256
-`385efdbd09c8c3f33392f2e40fda6bacd1d6d89c47f61ee2ec0928c1429cd63e`.
+[transitions.jsonl](overnight/transitions.jsonl) stores two compact records,
+87,545 bytes, SHA-256
+`5d923526de3f5c9287e9a7dfd82dd38f96711e1016c9bf66bfb41e55d88766c8`.
+The preceding 43,773 bytes are unchanged.
 The [replay manifest](overnight/transition-verification.json) binds the
 independent verification to its sources. The [small controls](overnight/transitions-tests.log)
 passed 5404 signed Fraction/valuation cases, 68 small transition certificates
@@ -38,12 +41,36 @@ passed 5404 signed Fraction/valuation cases, 68 small transition certificates
 Three [publication/resumption controls](overnight/transition-resume-tests.log)
 also passed in a temporary fixture that forbids new scans or optimization.
 
-The [complete computation](overnight/transition-compute.log) passed in 7.92s,
-peaking at 106,720 KiB resident memory. The
-[independent replay](overnight/transition-replay.log) passed in 3.43s,
-peaking at 66,284 KiB. Both ran under a 1 GiB child address-space cap and a
-180-second computation budget. A completed repeat request skipped calculation;
-a located checkpoint permits resumption if a future target exceeds its budget.
+The [new computation](overnight/transition-87094-compute.log) passed in 7.94s,
+peaking at 107,584 KiB resident memory. The
+[independent replay of both links](overnight/transition-87094-replay.log)
+passed in 6.80s, peaking at 66,580 KiB. Both ran under a 1 GiB child
+address-space cap and a 180-second computation budget. The earlier command
+logs are preserved; a located checkpoint permits resumption if a future
+target exceeds its budget.
+
+## Finite basis-pattern counterexample
+
+Both observed selected-basis links have exactly `f'=4*f, g'=2*f+g`.
+The [new probe](overnight/probe_basis_pattern.py) tests the explicit
+prediction that this update repeats every two bits from 87092 through 90000.
+Its closed formula and 1454 stepwise updates agree, but the resulting
+primitive candidate first fails actual parity at **index 87097**, or prefix
+length 87098. Forward numerator iteration and reverse-branch valuation
+independently agree, including the failing numerator.
+
+The [compact report](overnight/basis-pattern-probe.json) records this finite
+rejection and binds it to the certified evidence. The candidate has lower
+height than `H_90000` but fails its parity constraint; it supplies no new
+minimum. It is a different vector from the actual 87096 witness, whose next
+failure has not been located. No claim about plateau widths follows. Exact
+arithmetic also rejects ratio four between the two actual height increments,
+despite the repeated selected-basis update.
+
+The final [probe command](overnight/basis-pattern-final.log) passed in 1.81s,
+peaking at 66,704 KiB, under a 30-second signal budget, 35-second outer
+timeout and 1 GiB child address-space cap. The module imports no project code
+or optimizer; smoke checks its deterministic report by replaying both routes.
 
 ## Previously completed raw-shadow result
 
@@ -90,7 +117,8 @@ match and minimum interpretation remains the inherited written argument.
 | 87090 | 35217 |
 | 87091 | 35217 |
 | 87092 | 51875 |
-| 87094 (new) | 51875 |
+| 87094 | 51875 |
+| 87096 (new this iteration) | 51875 |
 | 90000 | 51875 |
 | 522546 | 211281 |
 | 522547 | 211281 |
@@ -113,11 +141,11 @@ written theorem, not new theorems discovered by these samples.
 Full hexadecimal witnesses and certificates are in
 [heights.jsonl](overnight/heights.jsonl). The exact
 [inventory](overnight/height-inventory.json) records witness comparisons,
-jump bounds, and checks of inherited shadow hashes. The file is 6,138,652
+jump bounds, and checks of inherited shadow hashes. The file is 6,264,543
 bytes, below its fixed 8 MiB cap; SHA-256:
-`00422d5cb5884ad1b0f015ff1b7969b8e31f1db2063bffa5ab4d2c6d477e9f80`.
-The preceding 6,012,761 bytes are identical to the entry checkpoint; only
-the new independently certified height record at 87094 was appended.
+`328ad4fca68e27a84edd2f0cf1e9f3212f4ef4cc9a399a525c9b8aa372c628f1`.
+The preceding 6,138,652 bytes are identical to the entry checkpoint; only
+the new independently certified height record at 87096 was appended.
 
 ## Independent certificate and validation
 
@@ -150,13 +178,15 @@ cap. New samples took 90.710–105.667 seconds including independent checking;
 the full invocation took 499.28 seconds and peaked at 123,024 KiB resident
 memory, including rechecking and skipping the five earlier records.
 
-The updated [overnight smoke](overnight/smoke.log) **passed, exit 0**, with all
-nine height certificates, baseline and compact-basis regressions, raw-shadow
-replay and the new transition semantic/corruption/resumption controls and
-independent replay. It took 399.76s and peaked at 99,100 KiB resident memory.
-The [checkpoint audit](overnight/checkpoint-audit.json) records preservation,
-authorized scope, unchanged Git state and evidence hashes. No calculation
-remains running at handoff. No Lean, Rust or remote CI result is claimed.
+The updated [overnight smoke](overnight/smoke.log) **passed, exit 0**, in
+404.91s, peaking at 99,312 KiB resident memory. It checked all ten stored
+height certificates, baseline and compact-basis regressions, raw-shadow replay,
+transition semantic/corruption/resumption controls, both large transitions
+and the basis-pattern probe. It ran with a 750-second outer timeout and
+1 GiB child address-space cap. The [checkpoint audit](overnight/checkpoint-audit.json)
+records preservation, authorized scope, unchanged Git state and evidence
+hashes. No calculation remains running. No Lean, Rust or remote CI result
+is claimed.
 
 ## Evidence limits and next obligation
 
@@ -168,16 +198,18 @@ intermediate approximants remain open. No asymptotic or originality claim
 follows from the finite samples.
 
 The next bounded experiment is to locate the first actual parity mismatch of
-the new stored witness at `N=87094` before or at 90000, then independently
+the new stored witness at `N=87096` before or at 90000, then independently
 certify the minimum at that first failing prefix if absent. This
 tests witness persistence and basis transitions without a dense height scan.
-A changed witness alone does not prove a strict height increase. The journal
-gives the precise continuation and evidence caps. Its height and witness
+A changed witness alone does not prove a strict height increase. The rejected
+basis-pattern candidate's mismatch at 87097 is not the actual source witness's
+first failure. The journal gives the precise continuation and evidence caps.
+The actual source height and witness
 still differ from the stored 90000 sample. Level 9 has not been attempted.
 No `COMPLETE` marker is justified because useful bounded work remains.
 
 Branch: `codex/phase13-overnight`; entry local HEAD/cached origin ref:
-`291b5d2681cf0aab48c92764b65fc491e47c234b`. No commit, push, remote access,
+`a51c4fe0819a2ce5d6c6b18b21d679f414fbdb1f`. No commit, push, remote access,
 issue/PR edit, integration or publication was performed. The host driver owns
 the next validated checkpoint. All edits stay within the three authorized
 paths; original Phase 13 engines, PR #29, main, CI and papers are unchanged.

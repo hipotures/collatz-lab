@@ -1,0 +1,59 @@
+{
+  "format": "phase13-basis-pattern-probe-v1",
+  "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
+  "height_source_sha256": "328ad4fca68e27a84edd2f0cf1e9f3212f4ef4cc9a399a525c9b8aa372c628f1",
+  "transition_source_sha256": "5d923526de3f5c9287e9a7dfd82dd38f96711e1016c9bf66bfb41e55d88766c8",
+  "observed_links": [
+    {
+      "from_N": 87092,
+      "to_N": 87094,
+      "basis_update_rows": [
+        [
+          4,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "from_N": 87094,
+      "to_N": 87096,
+      "basis_update_rows": [
+        [
+          4,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    }
+  ],
+  "second_height_increment_is_four_times_first": false,
+  "hypothesis_tested": "repeat f'=4*f, g'=2*f+g every two bits from N=87092 through N=90000",
+  "prediction_start_N": 87092,
+  "prediction_end_N": 90000,
+  "prediction_steps": 1454,
+  "predicted_numerator_sign": 1,
+  "predicted_numerator_bits": 51875,
+  "predicted_denominator_bits": 51875,
+  "predicted_numerator_abs_sha256": "4bdd6dd8b80b0740f3460f6b76d034a857570fd884dbf0bcd589886cfa3899ef",
+  "predicted_denominator_sha256": "8626ce0c73692115671492942e21439af654587b34d30b03a14a128aa4ad337f",
+  "predicted_coordinate_gcd": "0x1",
+  "closed_formula_matches_iterated_updates": true,
+  "first_failure_index": 87097,
+  "prediction_falsified_by_actual_parity": true,
+  "first_failing_prefix_N": 87098,
+  "forward_and_reverse_failure_agree": true,
+  "failure_state_checked_by_two_routes": {
+    "numerator_sign": 1,
+    "numerator_bits": 63383,
+    "numerator_abs_sha256": "b1d83c763a1d289832b87909d158d01e83c8494d0709a3b31afaa2fbdebf221a"
+  },
+  "predicted_height_less_than_stored_minimum": true,
+  "predicted_witness_equals_stored_endpoint": false
+}

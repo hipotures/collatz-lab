@@ -31,5 +31,8 @@ fi
 if [[ -f research/phase13/overnight/transitions.jsonl ]]; then
   timeout 180s python3 research/phase13/overnight/verify_transitions.py --check
 fi
+if [[ -f research/phase13/overnight/basis-pattern-probe.json ]]; then
+  timeout 35s python3 research/phase13/overnight/probe_basis_pattern.py --check
+fi
 git diff --check
 echo "PASS: overnight smoke checks"

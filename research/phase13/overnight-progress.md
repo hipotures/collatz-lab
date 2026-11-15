@@ -3,47 +3,53 @@
 ## Resume here
 
 - Branch: `codex/phase13-overnight`. Entry local HEAD and cached origin ref:
-  `291b5d2681cf0aab48c92764b65fc491e47c234b`. PR #29 source:
+  `a51c4fe0819a2ce5d6c6b18b21d679f414fbdb1f`. PR #29 source:
   `65b087dc62e4950e1c504fe34865acaacb9188c9`. Entry was clean. No Git
   mutation or remote access was performed; the host driver owns checkpoints.
-- **Completed this iteration:** the first bounded witness transition after
-  `L_5`. The stored primitive witness at `N=87092` matches exactly through
-  prefix length **87093**, then fails at zero-based index **87093**. A new
-  independent parity/minimality certificate gives **`H_87094 > H_87093 =
-  H_87092`**. Both endpoint heights have 51,875 bits; their positive difference
-  has 35,217 bits and `1 < H_87094/H_87092 < 2`. Equal bit lengths conceal
-  this strict increase. No asymptotic conclusion follows.
+- **Completed this iteration:** the next bounded witness transition after
+  `L_5`. The stored primitive witness at `N=87094` matches exactly through
+  prefix length **87095**, then fails at zero-based index **87095**. A new
+  independent parity/minimality certificate gives **`H_87096 > H_87095 =
+  H_87094`**. Both endpoint heights have 51,875 bits; their positive difference
+  has 35,219 bits and `1 < H_87096/H_87094 < 2`. The preceding transition
+  remains certified: `H_87094 > H_87093 = H_87092`.
 - The forward actual-parity scan and independent reverse-branch discrepancy
   valuation agree. Compact basis/interval certificates independently exclude
   every smaller-height odd-denominator vector at both endpoints, so this is
   a strict minimum change, not merely a change of selected witness.
-- Evidence: `overnight/transitions.jsonl` (one record, 43,773 bytes, SHA-256
-  `385efdbd09c8c3f33392f2e40fda6bacd1d6d89c47f61ee2ec0928c1429cd63e`),
-  `overnight/transition-verification.json`, `overnight/transition-compute.log`,
-  `overnight/transition-replay.log`, and the completed
-  `overnight/transition-checkpoint.json`. The complete computation took 7.92s
-  and the independent replay 3.43s, both exit 0 under a 1 GiB child memory cap.
-- Appended only the genuinely new `N=87094` certificate (125,891 bytes).
-  All 6,012,761 bytes of the eight prior samples are unchanged. The nine-record
-  file is now 6,138,652 bytes, SHA-256
-  `00422d5cb5884ad1b0f015ff1b7969b8e31f1db2063bffa5ab4d2c6d477e9f80`,
+- Evidence: `overnight/transitions.jsonl` (two records, 87,545 bytes, SHA-256
+  `5d923526de3f5c9287e9a7dfd82dd38f96711e1016c9bf66bfb41e55d88766c8`),
+  `overnight/transition-verification.json`, `overnight/transition-87094-compute.log`,
+  `overnight/transition-87094-replay.log`, and the completed
+  `overnight/transition-checkpoint.json`. The complete computation took 7.94s
+  and independent replay of both transitions 6.80s, both exit 0 under a 1 GiB
+  child address-space cap. The old transition record and logs are unchanged.
+- Appended only the genuinely new `N=87096` certificate (125,891 bytes).
+  All 6,138,652 bytes of the nine prior samples are unchanged. The ten-record
+  file is now 6,264,543 bytes, SHA-256
+  `328ad4fca68e27a84edd2f0cf1e9f3212f4ef4cc9a399a525c9b8aa372c628f1`,
   below the fixed 8 MiB cap. No historical sample was recomputed.
-- Small controls passed: 5404 signed Fraction/valuation comparisons, including
-  1364 no-failure cases; 68 small transition certificates, including two
-  equal-height witness changes and 66 strict increases; eighteen rejected
-  corruptions. Evidence: `overnight/transitions-tests.log`. A repeated completed
-  request skipped calculation and preserved all evidence (`transition-skip.log`).
-  Three additional temporary-fixture publication/resumption controls passed
-  (`transition-resume-tests.log`); they forbid new scans and optimization.
+- **Finite basis-pattern falsification:** both observed links have the exact
+  selected-basis update `f'=4*f, g'=2*f+g`. Repeating it from 87092 to 90000
+  gives a primitive candidate that first fails actual parity at **index 87097**
+  (prefix length 87098). Literal forward iteration and reverse rational branches
+  agree, including the failing numerator. Closed-form and 1454 iterated updates
+  agree. Evidence: `overnight/probe_basis_pattern.py`,
+  `overnight/basis-pattern-probe.json`, `overnight/basis-pattern-final.log`.
+  The final bounded probe passed in 1.81s, peak 66,704 KiB. This rejects that
+  particular extrapolation; it does not locate the actual 87096 witness's next
+  failure or prove a rule about plateau widths. The two actual height increments
+  are not in exact ratio four, despite the repeated basis update.
 - Earlier height triplets and the raw-shadow `k=8` result remain complete.
   The raw gcd list is `[3,1,1,1,1,1,1,347,1]`; its nine-line file and replay
   manifest remain byte-for-byte unchanged. Do not repeat either producer.
-- **Final overnight smoke passed, exit 0:** 399.76s wall time, 99,100 KiB peak
-  resident memory. It checked all nine height certificates, raw-shadow replay
-  and the new transition semantic/corruption/resumption controls and replay.
+- **Final overnight smoke passed, exit 0:** 404.91s wall time, 99,312 KiB
+  peak resident memory, under a 750-second outer timeout and 1 GiB child
+  address-space cap. It checked all ten height certificates, raw-shadow replay,
+  transition controls and both replays, and the new basis-pattern rejection.
   Evidence: `overnight/smoke.log`; scope/preservation/hashes:
   `overnight/checkpoint-audit.json`. No calculation remains running.
-- **Next bounded research obligation:** scan the new `N=87094` witness through
+- **Next bounded research obligation:** scan the new `N=87096` witness through
   90000 and certify its first failing prefix only if absent. Its exact height
   and witness differ from those at 90000, so a larger transition remains
   unresolved. Do not infer its location from bit lengths. Preserve all prior
@@ -76,6 +82,10 @@ No agents or detached processes were spawned.
   transition verifier imports only the independent height checker, reconstructs
   the word by indexed substitution, locates the failure by reverse-branch
   discrepancy valuation and verifies compact proofs of both endpoint minima.
+  The new basis-pattern probe imports no project implementation. It compares
+  exact basis coordinates, closed-form and repeated updates, literal actual
+  parities, reverse-branch valuation and the failing numerator. Its result is
+  an exact finite rejection of a specified extrapolation, not a minimum.
 - **Written proof:** the floor-sum counting/telescoping argument is the
   existing theory Section 4. The all-level shadow minimum in Section 8 is
   inherited, not a theorem discovered by an overnight sample. No new Lean
@@ -85,7 +95,8 @@ No agents or detached processes were spawned.
   it is not a Lean proof. The expanded offset recurrences and split-gcd
   identity have the same written-arithmetic/Python trust boundary. Witness
   persistence plus monotonicity gives the finite plateau at `87092..87093`;
-  the cylinder-valuation derivation is written in the same README. No new
+  the cylinder-valuation derivation is written in the same README. The next
+  finite plateau is `87094..87095`, by the same monotonicity argument. No new
   universally quantified transition law or Lean theorem was introduced.
 - **Open:** exact `B`, subexponential raw-gcd cancellation, and competing
   intermediate approximants. Finite data do not prove asymptotic behavior.
@@ -318,24 +329,107 @@ remote access remained prohibited.
   running. No Git mutation, issue/PR change, remote action or `COMPLETE` marker
   was made; the host driver owns commit/push.
 
+## Second witness transition and basis-pattern probe
+
+This iteration started from clean local HEAD and cached origin ref
+`a51c4fe0819a2ce5d6c6b18b21d679f414fbdb1f`. It read current local instructions,
+theory Sections 5–9, modules and evidence before choosing the absent transition.
+The remote issue was not accessed because the user's instruction forbids it.
+All timed commands below used a 1 GiB child address-space cap (`ulimit -v
+1048576`); no host settings changed.
+
+- `timeout 185s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/witness_transition.py --start 87094 --through 90000
+  --seconds 180 --write` passed, exit 0: 7.94s wall time, peak 107,584 KiB.
+  It located the failure at index 87095 after 1.568s, independently certified
+  the new minimum at 87096 after 4.508s, and finished transition publication
+  at 7.906s. The source and target compact coefficient bounds are both 1,
+  with one exhaustive positive odd coefficient row. No old minimum was
+  requested from the optimizer. Evidence: `transition-87094-compute.log`.
+- `timeout 180s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/verify_transitions.py --write` passed, exit 0:
+  6.80s wall time, peak 66,580 KiB. The separate reverse-branch calculation
+  verified both stored transitions and the new failure numerator: positive,
+  63,384 bits, hash
+  `190b24c45df4cf1ea17349c2e907856d9721ed7ef79cbeb90c3982ca7d9196d8`.
+  It checked both referenced actual parity/minimality certificates per link.
+  Evidence: `transition-87094-replay.log`, `transition-verification.json`.
+- `python3 -B research/phase13/overnight/summarize.py --write` passed for
+  all ten height records. Exact comparison gives `H_87096 < H_90000`, and
+  their primitive witnesses differ. The new actual witness's next failure
+  remains unresolved; the rejected extrapolated witness is a different vector.
+- Implemented `probe_basis_pattern.py` to test one explicit finite prediction.
+  Cramer's coordinates, independently checked by vector multiplication, give
+  `[[4,0],[2,1]]` for each of the two observed selected-basis transitions.
+  For `r=(90000-87092)/2=1454`, repetition predicts
+  `f_r=4^r*f_0`, `g_r=g_0+2*(4^r-1)/3*f_0`. Exact stepwise updates agree with
+  this closed formula. The resulting primitive positive odd-denominator vector
+  has smaller height than `H_90000`, but is inadmissible: forward iteration
+  first fails at 87097, and the independently computed reverse-branch
+  discrepancy has valuation 87097. Reverse branches also reconstruct the same
+  positive 63,383-bit failing numerator. The endpoint candidate is not the
+  source witness at 87096. No new minimum at 87098 is claimed.
+- `timeout 35s /usr/bin/time -v python3 -B -u
+  research/phase13/overnight/probe_basis_pattern.py --write` passed initially
+  in 1.66s, peak 66,632 KiB (`basis-pattern-probe.log`). After adding explicit
+  known-prefix membership and the second failing-numerator reconstruction,
+  the same bounded command passed in 1.81s, peak 66,704 KiB
+  (`basis-pattern-final.log`). Both exited 0. The probe has its own 30-second
+  signal budget and 32 KiB output cap. The final deterministic report is
+  `basis-pattern-probe.json`; smoke replays it with `--check` and checks its
+  source hashes. Neither run calls an optimizer or produces height records.
+- `timeout 750s /usr/bin/time -v bash
+  research/phase13/overnight/smoke.sh` passed, exit 0: 404.91s wall time,
+  peak 99,312 KiB. Its output confirms 25,432 signed floor sums, 4,095
+  exhaustive residues, 31,750 signed parity cylinders, 262,400 direct `H_12`
+  exclusions and seven malformed baseline certificates; 511 extended
+  brute-force residues, twenty historical first/final records, four independent
+  prefix/residue controls and seven extended corruptions; 27,540 direct compact
+  boxes and thirteen malformed basis cases; all ten stored actual parity and
+  minimum certificates plus inventory; raw-shadow controls and nine-level replay;
+  5404 Fraction/valuation controls, 68 small transition certificates, eighteen
+  corruptions and three publication/resumption controls; both large transition
+  replays; and the two-route basis-pattern rejection. It also passed overnight
+  Python compilation, shell syntax and `git diff --check`. No full historical
+  producer, old sparse-sample producer or raw-shadow producer was repeated.
+  Evidence: `smoke.log`.
+- Final local audit compares all 6,138,652 prior height bytes and 43,773 prior
+  transition bytes with entry HEAD, and checks unchanged raw-shadow evidence,
+  manifests and previous transition logs; unchanged branch/HEAD/cached ref;
+  unique new prefix 87096, matching references and completed checkpoint;
+  source/evidence hashes and authorized changed paths. The final whitespace
+  check also passed. Evidence: `checkpoint-audit.json`. No calculation remains
+  running, and no Git mutation or remote action occurred.
+- The first metadata-audit attempt stopped before writing because parsing
+  `6:44.91` through binary floats produced `404.90999999999997`, which failed
+  exact equality with the display value `404.91`. The resource parser was
+  corrected to exact decimal arithmetic. This was a reporting assertion;
+  every smoke/certificate check had already passed. No experiment was rerun.
+
+The new independent minimum, finite extrapolation rejection, inherited written
+proof arguments and open conjectures are separate evidence levels. No Lean,
+Rust or remote CI result is claimed. No budget was exhausted or hard blocker
+encountered; no `COMPLETE` marker is warranted.
+
 ## Concrete continuation
 
 Read the current plan, journal, modules, evidence and Git state before the
-next step. The nine sparse height samples, raw-shadow level 8 and first
-post-`L_5` witness transition are complete. Do not repeat their producers.
+next step. The ten sparse height samples, raw-shadow level 8 and first two
+post-`L_5` witness transitions are complete. Do not repeat their producers.
 Smoke may independently recheck certificates; that is validation.
 
 The next useful step is one further bounded transition for the stored
-`N=87094` witness, with search ending at 90000. It differs from the 90000
+`N=87096` witness, with search ending at 90000. It differs from the 90000
 witness and has a strictly smaller height; locate its own first failure.
 The completed old checkpoint may be replaced by this new request while
 all existing transition and height lines remain append-only. Start with:
 
 ```bash
 ulimit -v 1048576
-timeout 185s /usr/bin/time -v python3 -B -u research/phase13/overnight/witness_transition.py --start 87094 --through 90000 --seconds 180 --write
+timeout 185s /usr/bin/time -v python3 -B -u research/phase13/overnight/witness_transition.py --start 87096 --through 90000 --seconds 180 --write
 timeout 180s /usr/bin/time -v python3 -B -u research/phase13/overnight/verify_transitions.py --write
 python3 -B research/phase13/overnight/summarize.py --write
+timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
 First check whether a later iteration has already certified this transition.
@@ -345,6 +439,11 @@ different witness at equal height. Refresh the replay manifest and inventory,
 run smoke and check byte preservation before handoff. Keep the 8 MiB height
 cap and 512 KiB transition cap; stop on a durable checkpoint if a budget is
 exhausted. Do not generate a dense height profile.
+
+The repeated selected-basis pattern is already falsified by a different
+predicted candidate at index 87097. Do not reuse that location as the actual
+87096 witness's first failure. The probe's source hashes bind the whole files;
+refresh its small report after appending a new certified transition.
 
 This cannot decide `B=c`, asymptotic gcd size or behavior on other intervals.
 Level 9 is optional future research and has not been run; the raw-shadow

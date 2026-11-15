@@ -243,13 +243,46 @@ Commands for one new obligation (read the journal before choosing parameters):
 
 ```bash
 ulimit -v 1048576
-timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87094 --through 90000 --seconds 180 --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87096 --through 90000 --seconds 180 --write
 timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
 python3 -B research/phase13/overnight/summarize.py --write
+timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
-The new source above is intentional: the transition from `87092` has already
-been certified, with first failure at index `87093` and a strict height
-increase at prefix length `87094`. Both endpoint heights have 51,875 bits.
-The next witness has not been scanned; it differs from the stored `90000`
-witness. No dense height profile or predictable plateau rule follows.
+The new source above is intentional: transitions from `87092` and `87094`
+have already been certified, with failures at indices `87093` and `87095`
+and strict height increases at prefix lengths `87094` and `87096`.
+All endpoint heights have 51,875 bits. The actual `87096` witness has not
+been scanned beyond its certified prefix; it differs from the stored `90000`
+witness and has smaller height. No dense height profile follows.
+
+## A specific basis-pattern falsification
+
+`probe_basis_pattern.py` imports no project implementation. It reads the
+already certified minima and transition references; it computes no minimum.
+Both stored links from 87092 to 87094 and from 87094 to 87096 have the
+selected-basis update `f'=4*f, g'=2*f+g`. The script derives the coordinates
+by determinants and checks them by direct vector multiplication. It tests the
+specific prediction that this update repeats every two bits through 90000.
+For `r=1454` proposed updates, the closed formula
+`f_r=4^r*f_0, g_r=g_0+2*(4^r-1)/3*f_0` agrees with explicit iteration.
+
+The predicted primitive positive odd-denominator candidate has lower height
+than the stored minimum at 90000, but fails actual parity first at index
+87097. Literal forward iteration and reverse-branch discrepancy valuation
+agree; a second reverse calculation reconstructs the exact failing numerator.
+The endpoint parity hash and reverse residue also match the stored certificate.
+This is an exact finite counterexample to this particular selected-basis
+extrapolation. It is not the actual 87096 witness and does not locate that
+witness's next failure, prove a plateau-width law, or certify a new minimum.
+The two observed height increments also fail the exact scalar ratio four;
+a repeated basis update alone does not imply that height relation.
+
+`basis-pattern-probe.json` stores hashes, bit lengths and the explicit finite
+claim, under a 32 KiB cap. The probe has a 30-second signal budget and caps
+its proposed iteration count at 4096. `--write` publishes its derived report
+atomically; `--check`, called by smoke under `timeout 35s`, independently
+replays both arithmetic routes and compares the report. Refresh it after
+appending height or transition evidence, because its source hashes cover the
+whole files. Its trust boundary is Python exact arithmetic and the written
+finite parity equivalence, with no optimizer or new Lean theorem.

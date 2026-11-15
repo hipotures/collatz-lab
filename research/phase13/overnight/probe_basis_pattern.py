@@ -1,0 +1,183 @@
+#!/usr/bin/env python3
+"""Bounded falsification of a specific two-bit basis-update extrapolation.
+
+The two certified links starting at 87092 and 87094 have the same update.
+Test its literal repetition at the already stored N=90000 cylinder. No
+optimization or new minimum is computed. Forward actual parity and reverse
+integer branches independently check the predicted witness's first failure.
+"""
+
+import argparse
+import hashlib
+import json
+from math import gcd
+from pathlib import Path
+import signal
+import tempfile
+
+
+ROOT = Path(__file__).resolve().parent
+DESTINATION = ROOT / "basis-pattern-probe.json"
+SOURCES = (87092, 87094)
+END = 90000
+
+
+def magnitude(value):
+    value = abs(value)
+    return hashlib.sha256(value.to_bytes((value.bit_length() + 7) // 8, "big")).hexdigest()
+
+
+def load(path, cap, key):
+    assert 0 < path.stat().st_size <= cap
+    raw = path.read_bytes()
+    assert raw.endswith(b"\n")
+    records, hashes = {}, {}
+    for line in raw.splitlines(keepends=True):
+        row = json.loads(line)
+        identifier = row[key]
+        assert identifier not in records
+        records[identifier] = row
+        hashes[identifier] = hashlib.sha256(line).hexdigest()
+    return raw, records, hashes
+
+
+def basis(row):
+    return [[int(x, 16) for x in v] for v in row["basis"]]
+
+
+def coordinates(old, vector):
+    f, g = old
+    determinant = f[0] * g[1] - f[1] * g[0]
+    alpha, ra = divmod(vector[0] * g[1] - vector[1] * g[0], determinant)
+    beta, rb = divmod(f[0] * vector[1] - f[1] * vector[0], determinant)
+    assert ra == rb == 0
+    assert vector == [alpha * f[i] + beta * g[i] for i in range(2)]
+    return [alpha, beta]
+
+
+def probe():
+    height_raw, heights, hashes = load(ROOT / "heights.jsonl", 8 * 1024 * 1024, "N")
+    transition_raw, transitions, _ = load(ROOT / "transitions.jsonl", 512 * 1024, "source_N")
+    replay = json.loads((ROOT / "transition-verification.json").read_bytes())
+    assert replay["source_sha256"] == hashlib.sha256(transition_raw).hexdigest()
+    assert replay["height_source_sha256"] == hashlib.sha256(height_raw).hexdigest()
+    links, increments = [], []
+    for start in SOURCES:
+        row = transitions[start]
+        assert row["target_N"] == start + 2 and row["search_end_N"] == END
+        assert row["source_record_sha256"] == hashes[start]
+        assert row["target_record_sha256"] == hashes[start + 2]
+        old, new = basis(heights[start]), basis(heights[start + 2])
+        update = [coordinates(old, v) for v in new]
+        assert update == [[4, 0], [2, 1]]
+        links.append({"from_N": start, "to_N": start + 2, "basis_update_rows": update})
+        increments.append(int(heights[start + 2]["H"], 16) - int(heights[start]["H"], 16))
+    assert all(difference > 0 for difference in increments)
+
+    # Derive a closed formula; separately replay all 1454 proposed updates.
+    start = SOURCES[0]
+    steps, remainder = divmod(END - start, 2)
+    assert remainder == 0 and 0 < steps <= 4096
+    f, g = basis(heights[start])
+    scale = 1 << (2 * steps)
+    coefficient, remainder = divmod(2 * (scale - 1), 3)
+    assert remainder == 0
+    predicted = [[scale * x for x in f], [g[i] + coefficient * f[i] for i in range(2)]]
+    iterated_f, iterated_g = f, g
+    for _ in range(steps):
+        iterated_f, iterated_g = ([4 * x for x in iterated_f],
+                                  [iterated_g[i] + 2 * iterated_f[i] for i in range(2)])
+    assert predicted == [iterated_f, iterated_g]
+    p, q = predicted[1]
+    if q < 0:
+        p, q = -p, -q
+    assert q > 0 and q % 2 == 1
+    known_end = SOURCES[-1] + 2
+    assert (p - int(heights[known_end]["A"], 16) * q) % (1 << known_end) == 0
+
+    word = "1"
+    while len(word) < END:
+        word = "".join("100111" if b == "1" else "111110" for b in word)
+    bits = bytearray(int(b) for b in word[:END])
+    assert hashlib.sha256(bytes(bits)).hexdigest() == heights[END]["parity_sha256"]
+    value, forward = p, None
+    for index, bit in enumerate(bits):
+        if value % 2 != bit:
+            forward = index
+            break
+        value = (3 * value + q) // 2 if bit else value // 2
+    numerator, denominator = 0, 1
+    for bit in reversed(bits):
+        numerator = 2 * numerator - (denominator if bit else 0)
+        denominator *= 3 if bit else 1
+    assert numerator * pow(denominator, -1, 1 << END) % (1 << END) == int(heights[END]["A"], 16)
+    discrepancy = p * denominator - q * numerator
+    valuation = (abs(discrepancy) & -abs(discrepancy)).bit_length() - 1 if discrepancy else END
+    reverse = valuation if valuation < END else None
+    assert forward == reverse
+    failure_state = None
+    if forward is not None:
+        assert forward >= known_end
+        numerator, denominator = 0, 1
+        for bit in reversed(bits[:forward]):
+            numerator = 2 * numerator - (denominator if bit else 0)
+            denominator *= 3 if bit else 1
+        reconstructed, remainder = divmod(p * denominator - q * numerator, 1 << forward)
+        assert remainder == 0 and reconstructed == value and reconstructed % 2 != bits[forward]
+        failure_state = {"numerator_sign": (value > 0) - (value < 0),
+                         "numerator_bits": abs(value).bit_length(),
+                         "numerator_abs_sha256": magnitude(value)}
+    stored = heights[END]
+    return {"format": "phase13-basis-pattern-probe-v1",
+            "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
+            "height_source_sha256": hashlib.sha256(height_raw).hexdigest(),
+            "transition_source_sha256": hashlib.sha256(transition_raw).hexdigest(),
+            "observed_links": links,
+            "second_height_increment_is_four_times_first": increments[1] == 4 * increments[0],
+            "hypothesis_tested": "repeat f'=4*f, g'=2*f+g every two bits from N=87092 through N=90000",
+            "prediction_start_N": start, "prediction_end_N": END, "prediction_steps": steps,
+            "predicted_numerator_sign": (p > 0) - (p < 0),
+            "predicted_numerator_bits": abs(p).bit_length(), "predicted_denominator_bits": q.bit_length(),
+            "predicted_numerator_abs_sha256": magnitude(p), "predicted_denominator_sha256": magnitude(q),
+            "predicted_coordinate_gcd": hex(gcd(p, q)),
+            "closed_formula_matches_iterated_updates": True,
+            "first_failure_index": forward,
+            "prediction_falsified_by_actual_parity": forward is not None,
+            "first_failing_prefix_N": forward + 1 if forward is not None else None,
+            "forward_and_reverse_failure_agree": True,
+            "failure_state_checked_by_two_routes": failure_state,
+            "predicted_height_less_than_stored_minimum": max(abs(p), q) < int(stored["H"], 16),
+            "predicted_witness_equals_stored_endpoint": (p, q) == (int(stored["p"], 16), int(stored["q"], 16))}
+
+
+def expired(_signum, _frame):
+    raise TimeoutError("basis-pattern probe exceeded its 30-second budget")
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--write", action="store_true")
+    mode.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    signal.signal(signal.SIGALRM, expired)
+    signal.alarm(30)
+    result = probe()
+    if args.write:
+        data = (json.dumps(result, indent=2) + "\n").encode()
+        assert len(data) <= 32 * 1024
+        with tempfile.NamedTemporaryFile(dir=ROOT, prefix="basis-probe-", suffix=".tmp",
+                                         delete=False) as stream:
+            temporary = Path(stream.name)
+            stream.write(data)
+        temporary.replace(DESTINATION)
+    else:
+        assert json.loads(DESTINATION.read_bytes()) == result
+    signal.alarm(0)
+    print(f"PASS: two exact basis links; 1454 proposed updates checked by two routes; "
+          f"prediction_falsified={result['prediction_falsified_by_actual_parity']} "
+          f"first_failure_index={result['first_failure_index']}")
+
+
+if __name__ == "__main__":
+    main()
