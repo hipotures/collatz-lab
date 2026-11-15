@@ -51,3 +51,25 @@ No source found in this bounded search determines B for the selected seed.
 This is **unresolved under checked hypotheses**, not proof of originality.
 Third-party originals stay outside the repository; hashes and access errors
 are recorded in `phase13/sources.json`.
+
+## Post-experiment claim audit
+
+The substituted shadows `mu^k(100) mu^k(1)^infinity` give the explicit
+candidate bound `B<=(25/98)*log2(3)` and a nonconvergence proof in the theory
+report. Its ingredients reduce to Bernstein inverse branches, Allikvere's
+preperiodic-shadow height mechanism and the classical cross-product bound.
+Klapper already supplies the complementary accumulation relation. Therefore
+this is classified as an **explicit known-method quantitative specialization**,
+with priority for the exact constant unverified. It is neither an original
+general criterion nor a newly discovered irrationality result.
+
+A fresh search on the exact two images and approximation-height terminology,
+and on Collatz morphic shadows/irrationality exponents, did not find this
+specific constant. That search is not a novelty certificate. Real automatic
+digit approximation results (for example Bugeaud–Krieger–Shallit, Acta Arith.
+149 (2011), 181–199, [DOI](https://doi.org/10.4064/aa149-2-7)) concern different
+numbers and norms; their introduction was screened, but their full proofs
+were not audited and they are not used to derive a theorem here. The
+finite drift alternative is explicitly attributed to the earlier De Jesús
+confinement mechanism, with its additional finite-state distinctness premise
+proved separately.

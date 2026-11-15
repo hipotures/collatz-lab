@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Independent certificate checker: imports NO producer/project implementation.
 
-    python3 research/phase13/verify_certificates.py research/phase13/heights.json
+    python3 research/phase13/verify_certificates.py research/phase13/heights.json.gz
 
 The trusted computing base here is Python exact integer/Fraction arithmetic,
 not Lean. The Euclidean certificate identity is proved in the theory report.
@@ -9,9 +9,13 @@ not Lean. The Euclidean certificate identity is proved in the theory report.
 
 import argparse
 from fractions import Fraction
+import gzip
 import json
 from math import gcd
 from pathlib import Path
+import sys
+
+sys.set_int_max_str_digits(20000)
 
 
 def checked_sum(quotients, expected):
@@ -89,7 +93,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("path", type=Path)
     args = parser.parse_args()
-    data = json.loads(args.path.read_text())
+    raw = args.path.read_bytes()
+    data = json.loads(gzip.decompress(raw) if args.path.suffix == ".gz" else raw)
     count = 0
     for family in data["families"]:
         word = literal_word(family["spec"], max(x["N"] for x in family["records"]))

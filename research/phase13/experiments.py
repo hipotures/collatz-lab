@@ -8,9 +8,11 @@ families can be reused with --resume; all reused certificates are rechecked.
 
 import argparse
 import hashlib
+import gzip
 import json
 from math import log2
 from pathlib import Path
+import sys
 import time
 import tracemalloc
 
@@ -20,6 +22,7 @@ from verify_certificates import verify
 
 
 ROOT = Path(__file__).resolve().parent
+sys.set_int_max_str_digits(20000)
 
 
 def word(spec, count):
@@ -80,6 +83,13 @@ def compute(name, spec, count):
         while k <= count:
             checkpoints.add(k)
             k *= base
+    # Save both sides of every jump exceeding eight height bits, not just
+    # exponentially spaced samples that can hide structural excursions.
+    previous = 1
+    for n, h, *_ in profile(a, count):
+        if h > 256 * previous:
+            checkpoints.update((max(1, n - 1), n))
+        previous = h
     records, metrics = [], []
     old_h, plateau, last_jump, largest_jump = 1, 0, 0, (1, 1)
     minimum, maximum = (float("inf"), 0), (0.0, 0)
@@ -130,9 +140,9 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.max_bits <= MAX_BITS:
         parser.error(f"max-bits must be in 1..{MAX_BITS}")
-    target = ROOT / "heights.json"
+    target = ROOT / "heights.json.gz"
     if args.check:
-        saved = json.loads(target.read_text())
+        saved = json.loads(gzip.decompress(target.read_bytes()))
         args.max_bits = saved["max_bits"]
     families, observations = [], []
     partial = ROOT / "resume.json"
@@ -158,7 +168,8 @@ def main():
         assert result == saved, "deterministic height evidence differs"
         print("Exact height evidence reproduced")
     else:
-        target.write_text(json.dumps(result, indent=2) + "\n")
+        encoded = (json.dumps(result, separators=(",", ":")) + "\n").encode()
+        target.write_bytes(gzip.compress(encoded, mtime=0))
         (ROOT / "benchmark.json").write_text(json.dumps({"note": "machine-dependent observations, not proof",
                                                         "families": observations}, indent=2) + "\n")
         partial.unlink(missing_ok=True)

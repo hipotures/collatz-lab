@@ -149,3 +149,183 @@ imports neither reconstruction implementation and reconstructs A by **reverse
 rational inverse branches**, whereas the producer uses forward affine offsets.
 This computational certificate proof is written mathematics/Python exact
 arithmetic, not a claim that the whole solver is Lean verified.
+
+## 5. Route B: an infinite family of substituted rational shadows
+
+**Written theorem, independently replicated at five finite levels; the
+all-level height estimate is not currently a Lean theorem.** This is an
+explicit specialization of the known inverse-parity/periodic-shadow method,
+not a new approximation technique. The exact numerical specialization was
+not found in the sources checked; mathematical priority is unverified.
+
+Let mu be the literal Phase 12 substitution, `S_k=6^k`, `e_k=(-1)^k`, and
+
+```
+U_k = mu^k(100),    V_k = mu^k(1),    z_k = U_k V_k V_k ...,
+L_k = (56*S_k-1)/5.
+```
+
+The base shadow `100111...` is the actual itinerary of -3/1. It agrees with w
+at indices 0..10 and disagrees at 11. The two mu images agree exactly in
+their first position before differing in the second. Thus, if two words first
+disagree at index m, their images first disagree at `6m+1`. Induction proves
+that z_k and w agree at exactly their first L_k positions, since
+`L_0=11`, `L_(k+1)=6*L_k+1`. The predicted first failing prefix lengths are
+therefore **12,68,404,2420,14516,...**. This is an exact word argument, not a
+fit to the height data. The preperiod and period lengths of z_k are 3S_k,S_k;
+they are not asserted to be minimal.
+
+For a finite word X let `a_X=3^r_X`, `c_X=offset(X)`, `m_X=2^|X|`. Put
+`a=a_U`, `b=a_V`, `c=c_U`, `d=c_V`. The periodic tail seed is `-d/(b-2^S)`;
+reversing U gives the rational seed
+
+```
+P_k = -(2^(3*S)*d + c*(b-2^S)),
+Q_k = a*(b-2^S),     y_k=P_k/Q_k.
+```
+
+The denominator is positive odd. For k=0 this is checked directly. For k>=1
+each six-bit image has at least four ones, so `b>=81^(S/6)>64^(S/6)=2^S`.
+The inverse branches prove that y_k realizes the **entire** periodic shadow
+z_k. The normalized reduced seed has the same itinerary and no larger height.
+
+Here is a fully elementary bound on its real height, avoiding any transfer
+of a real limit to Q_2. Every aligned prefix n=6t+s of w has at least
+`4t+tau_s` ones, where `tau=(0,1,1,1,2,3)` for s=0..5. The six checks
+`2^s<=4*3^tau_s` and `64<=81` give
+
+```
+2^n <= 4*3^r_n  for every n>=0.
+```
+
+Induct in the offset recurrence to obtain `c_n<=2*n*3^r_n`. At a zero the
+left side is unchanged. At a one, `3*c_n+2^n <=(6n+4)*3^r_n`, which is at
+most `2*(n+1)*3^(r_n+1)`. Both U_k and V_k are actual prefixes of w. Hence
+`c<=6S*a`, `d<=2S*b`, `2^(3S)<=4a`, and `0<b-2^S<b`. Consequently
+
+```
+height(y_k) <= max(|P_k|,Q_k) <= 14*S_k*3^R_k =: T_k,
+R_k = r_(U_k)+r_(V_k) = (20*S_k-6*e_k)/7.
+```
+
+The last count follows from the exact incidence identity already proved in
+Phase 12: `7*r_U=15S-8e`, `7*r_V=5S+2e`. This uses unequal image weights
+faithfully. The proof supplies actual rational witnesses, not an assumed
+short vector. In particular
+
+```
+H_(L_k) <= T_k,
+2^L_k <= 2*T_k*H_(L_k+1).
+```
+
+For the second inequality, any rational seed matching w for L_k+1 bits is
+different from y_k, since y_k fails at index L_k. Their cross product is a
+nonzero multiple of `2^L_k`. Keep the two heights in the cross-product bound;
+do not eliminate them as in the Phase 12 seed-free no-go.
+
+## 6. Route A: exponent transfer, lower bounds and nonconvergence
+
+**Written deductions from Section 5 and standard determinant approximation.**
+Set
+
+```
+c = (25/98)*log2(3) = 0.40432716855... < 1/2.
+```
+
+The explicit T_k satisfies `log2(T_k)/L_k -> c`. The preceding inequalities
+therefore prove for the actual Phase 12 word:
+
+```
+liminf log2(H_N)/N <= c,
+limsup log2(H_N)/N >= 1-c.
+```
+
+**Thus the normalized height profile does not converge.** In particular, the
+tempting limit 1/2 is false for this word. This conclusion follows directly
+from two exact subsequences; it does not assume Klapper's theorem or infer
+anything from the 16,384-bit experiment. It does not determine either extremum.
+
+There is also a weak but nontrivial bound at **all** sufficiently large N.
+Choose the unique k with `L_k<N<=L_(k+1)`. The shadow y_k is different from
+every seed matching N bits, so
+
+```
+H_N >= 2^L_k / (28*S_k*3^R_k),  for L_k<N<=6*L_k+1.
+```
+
+This explicit finite inequality implies
+
+```
+(1-c)/6 <= B=liminf log2(H_N)/N <= c.
+```
+
+The lower endpoint is approximately 0.09927880524. Combined with the **external
+known** Klapper result, the limsup is 1-B, lying between `1-c` and
+`1-(1-c)/6`. In the height-exponent convention of Section 3,
+
+```
+1/c <= mu_2(Phi(w)) <= 6/(1-c).
+```
+
+The upper bound here is an explicit, weak shadow-based approximation measure,
+with a computable finite threshold in the displayed inequality; its exact
+value is not asserted optimal. It is a known-method deduction, not a new
+general irrationality-measure theorem. The separate code checks exact integer
+inequalities and first failures; no logarithm is used to certify a height.
+
+**A second route within A: finite drift/confinement.** The known De Jesús
+growth estimate retains H and bounds the first J numerators by
+`H*(1+J/2)*2^Omega_J`. To use the global `P(6^k)<=4*6^k` bound for finite
+shadows, infinite aperiodicity does not suffice: the first J states must be
+proved distinct while N is still finite. A marker/descent argument gives a
+useful sufficient condition. Any equal factors at shift m>0 have matching
+length `<37*m`: a match of length >=37 contains a forced-zero marker pair
+at `36t+1,36t+2`; nonzero shift residues modulo 6 send one to a forced one.
+For m divisible by 6, identity column 5 passes at least floor(length/6)
+matched parents to the smaller shift m/6. Strong induction proves the bound.
+Hence a seed matching N>=38J symbols has distinct states at times 0..J.
+
+Taking J=4S and N=152S, finite confinement plus the known complexity bound
+forces roughly `log2 H_N >= (1-4g)*S-O(log S)`, where
+`g=(5/7)*log2(3)-1`. The coefficient is positive. Between these sparse scales
+this would yield only `(1-4g)/912` as a liminf lower bound, much weaker than
+the explicit-shadow lower bound above. This route was investigated and its
+finite distinctness gap addressed, but it is **not** the headline or a new
+counting mechanism. No assertion about infinite rational orbit distinctness
+is silently applied to a finite approximant.
+
+## 7. Lattice dynamics and rigorous limitations
+
+The finite inverse sum gives `A_(n+1)=A_n+epsilon_n*2^n`, with epsilon in
+{0,1}; testing the next actual parity selects the lift. For a word concatenation
+UV, its rational inverse map is `F_U(F_V(y))`. At level one the exact matrices
+are
+
+```
+B_1 = [[64,-179],[0,81]],    B_0 = [[64,-211],[0,243]].
+```
+
+At successive levels,
+`B_1' = B_1 B_0 B_0 B_1 B_1 B_1`, `B_0'=B_1^5 B_0`. These are exact
+noncommutative product recurrences, not a scalar Mahler equation. The
+upper-right entry of `B_1 B_0-B_0 B_1` is -28454. Replacing both lower-right
+entries by 81 already gives the wrong 12-bit residue on source prefix 10;
+the precise two residues are in `analytics.json`. A first draft guessed an
+offset from an external table with different bit conventions; independent
+iteration rejected it. The correct offset 179 is now kernel/independently
+checked, and the incorrect value is not used in any theorem.
+
+Remaining obstructions are substantive. A recurrence for exact inverse maps
+is not a recurrence for reduced primitive minimizers: odd gcd cancellations
+and competing rational approximants must be controlled. The shadow minima
+agree with the exact engine at five levels, but this does not prove that they
+are always minimal, nor that no other subsequence has smaller exponent.
+Generic whole-lattice short vectors can have even denominators. Neither
+automaticity of w nor classical digit-complexity theorems for w determine the
+complexity of the different digit sequence of Phi(w). Known Mahler measures
+cannot simply be transferred across this unequal-weight substitution.
+
+The strongest unresolved question is now the **exact value of B**, plausibly
+the shadow bound c but unproved. The existence of a limit is no longer an
+open conjecture under the written proof above. No claim of transcendence,
+novelty or an optimal measure is made here.

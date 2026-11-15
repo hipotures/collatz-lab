@@ -7,8 +7,12 @@
   `93647176a526eb8660b4dbf2ac428b0053117659` (checked 2026-11-15).
 - Checkpoint A pushed normally:
   [`25eaf8e992108bf4bc3aeccfd4b020551951d2a7`](https://github.com/hipotures/collatz-lab/commit/25eaf8e992108bf4bc3aeccfd4b020551951d2a7).
-- Checkpoint B: two independent exact engines and first 1,024-bit datasets.
-  Its SHA is recorded in the next immutable journal update.
+- Checkpoint B pushed normally:
+  [`282b3715c95c26bac1077fecd0df457bd277cb57`](https://github.com/hipotures/collatz-lab/commit/282b3715c95c26bac1077fecd0df457bd277cb57).
+- Checkpoint C/D: ten families through 16,384 bits, 1,688 independently
+  checked minimum certificates; written all-level substituted-shadow theorem
+  proves nonconvergence. Exact constant B remains unresolved. Its pushed SHA
+  is recorded at the next journal update.
 - Main checkout `/home/user/DEV/collatz-lab` and the manuscript worktree are
   untouched. No agents were spawned. Do not switch those checkouts.
 - Gate 0 found direct prior coverage: Klapper–Goresky 1997 minimizes exactly
@@ -20,12 +24,11 @@
 - Engine obligation completed: reference floor-sum search, adaptive odd-coset
   search, independent minimality verifier, all small residues and signed parity
   cylinders. H_11=3 / H_12=513 reproduced by actual numerator scans.
-- Next: extend experiments, saving both sides of large jumps. The dense
-  4,096-bit exploratory scan has systematic frontierSix jumps at
-  N=12,68,404,2420, obeying `n_next=6*n-4`. Investigate substituted rational
-  shadows from `100111...` (seed -3), and pursue finite drift lower bounds.
-  Then formalize a selected meaningful subset in Lean. A preliminary known
-  lemma is not the conclusion of this program.
+- Next: complete the scoped Lean formalization, independent signatures and
+  CI audit wiring; validate the full inherited matrix and clean build. The
+  untracked `CollatzLab/RationalHeight.lean` already compiles locally but is
+  not part of this data/report checkpoint. Do not mistake written all-level
+  asymptotics for a kernel theorem. A reviewable PR must explain this boundary.
 - Current CI expected audit count is 593, read from live CI. No Lean/source
   changes or proof checks at this documentation checkpoint. No remote branch
   CI is triggered by pushes under the present workflow (PRs trigger it).
@@ -81,3 +84,41 @@ agent or process survives a session.
   exposure occurred. Automatic local Git committer metadata was used; no
   manuscript identity/contact details were selected.
 - No Lean changes yet; inherited validation is due at the theorem checkpoint.
+
+## Checkpoint C/D research and validation
+
+Read the theory report Sections 5–7 before resuming analytical work. The exact
+first failures are L_k=(56*6^k-1)/5 and the shadow height is at most
+T_k=14*6^k*3^((20*6^k-6*(-1)^k)/7). The retained-height determinant gives
+H_(L_k)<=T_k and 2^L_k<=2*T_k*H_(L_k+1). Thus B<=c and limsup>=1-c,
+c=(25/98)log2(3)<1/2: the normalized profile **cannot converge**. Choosing
+the last failed shadow also gives B>=(1-c)/6. The exact B and infinite
+minimality/gcd pattern are open. All are written deductions, with generic
+kernel support under development; no novelty or optimality assertion.
+
+Two serious approaches: height/exponent transfer and finite drift/confinement
+(the latter needs finite state distinctness), and noncommutative substitution
+inverse products / explicit rational shadows. The finite drift bound is
+weaker, so it is retained as an attributed alternative, not a competing
+headline. Primary source re-triage classifies the headline as a known-method
+specialization. The nonconvergence claim was not inferred from a chart.
+
+Actual commands/results:
+
+- `experiments.py --write --max-bits 16384`: complete for all ten families;
+  both sides of large jumps recorded. Highest primary failure is 14,516.
+- Independent verifier: all **1,688** records pass primitive witness, actual
+  parity, independent residue, determinant and no-smaller-height checks.
+- `verify_analytics.py --write`: passes five exact shadow levels and first
+  failures, all corresponding minimum/crossing checks and pressure controls.
+- A first matrix-offset guess 89 was rejected by independent iteration.
+  The correct literal 100111 offset is **179**; no theorem or data used 89.
+  The noncommutative matrix entry is -28454. This illustrates the bit-order
+  hazard in external tables; preserve this failed route as a regression.
+- A 4,096-bit floor-sum reference search was cancelled by `timeout 55s`, exit
+  124, without a result. Only the completed 2,048-bit comparison is claimed.
+- Quotient transcripts at 16,384 bits were 58 MB as indented JSON; standard
+  deterministic-time gzip stores the same exact evidence in 3.0 MB.
+- Inherited clean baseline `lake build` completed successfully while the new
+  module was developed separately. New-module direct compilation succeeds.
+  Final full validation, axiom inventory and clean rebuild remain required.

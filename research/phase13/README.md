@@ -5,7 +5,7 @@ Run from the repository root with Python 3. No new dependencies are required.
 ```bash
 python3 research/phase13/test_height.py
 python3 research/phase13/experiments.py --check
-python3 research/phase13/verify_certificates.py research/phase13/heights.json
+python3 research/phase13/verify_certificates.py research/phase13/heights.json.gz
 ```
 
 `height_reference.py` uses two Euclidean floor sums for bounded-box existence,
@@ -14,7 +14,7 @@ then binary search for the least height and a witness. It is independent of
 algorithm on the **ordinary digits of the seed residue**. Both accept
 arbitrary-precision integers; no float participates in minimization.
 
-`heights.json` is deterministic evidence. Each selected N includes the exact
+`heights.json.gz` is deterministic JSON evidence (gzip timestamp zero). Each selected N includes the exact
 residue, height, primitive witness, odd denominator, basis and determinant,
 transition, plateau age, and a no-smaller-height certificate. Ratios are
 approximate display values. `benchmark.json` records machine-dependent
@@ -41,7 +41,8 @@ their certificates. A partially computed family restarts. No job is assumed
 to survive a session. `--check` uses the committed dataset's own size and
 recomputes all families; it never silently accepts a smaller run.
 
-Selected checkpoints include all N through 128, powers of 2,3,4,6 and the
-cap. Dense transitions are processed even between saved checkpoints. The
+Selected checkpoints include all N through 128, powers of 2,3,4,6, the cap,
+and both sides of every jump exceeding eight height bits. Dense transitions
+are processed even between saved checkpoints. The
 reports distinguish finite observations, written theorems, kernel theorems
 and imported source statements. See the journal for current obligations.
