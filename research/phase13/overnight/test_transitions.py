@@ -72,6 +72,36 @@ def chain_controls(records, hashes, links, replayed):
             assert right == left + direct[left]
             assert all(row["source_N"] not in (left, right) for row in tied)
 
+        # Use complete height runs for eligibility and raw vector multiplication
+        # for inequality of updates, independently of comparing coordinate rows.
+        eligible = [row for row in result["intervals"]
+                    if direct.get(row["source_N"]) == row["interval_length"]]
+        pairs, expected = 0, []
+        for index, left in enumerate(eligible):
+            for right in eligible[index + 1:]:
+                if direct[left["source_N"]] != direct[right["source_N"]]:
+                    continue
+                pairs += 1
+                f, g = pattern.basis(records[right["source_N"]])
+                predicted = [[alpha * f[i] + beta * g[i] for i in range(2)]
+                             for alpha, beta in left["basis_update_rows"]]
+                if predicted != pattern.basis(records[right["next_prefix_N"]]):
+                    expected.append((left["source_N"], right["source_N"]))
+        update_test = result["width_determines_basis_update_test"]
+        assert pairs > 0 and expected
+        assert update_test["equal_width_pairs_checked"] == pairs
+        assert update_test["hypothesis_falsified"]
+        assert [(row["from_source_N"], row["to_source_N"])
+                for row in update_test["counterexamples"]] == expected
+        for row in update_test["counterexamples"]:
+            assert row["interval_length"] == direct[row["from_source_N"]] == direct[row["to_source_N"]]
+            for key, start_key in (("from_basis_update_rows", "from_source_N"),
+                                   ("to_basis_update_rows", "to_source_N")):
+                start = row[start_key]
+                f, g = pattern.basis(records[start])
+                assert [[alpha * f[i] + beta * g[i] for i in range(2)]
+                        for alpha, beta in row[key]] == pattern.basis(records[chain[start]["target_N"]])
+
         # A strict right boundary alone cannot establish a maximal plateau.
         row = next(row for row in result["intervals"]
                    if row["strict_height_increase_at_next_prefix"])
@@ -82,6 +112,8 @@ def chain_controls(records, hashes, links, replayed):
         assert not isolated["hypothesis_falsified"]
         assert not isolated["nondecreasing_width_test"]["hypothesis_falsified"]
         assert isolated["nondecreasing_width_test"]["adjacent_maximal_plateau_pairs_checked"] == 0
+        assert not isolated["width_determines_basis_update_test"]["hypothesis_falsified"]
+        assert isolated["width_determines_basis_update_test"]["equal_width_pairs_checked"] == 0
 
         bad_replay = deepcopy(replay)
         bad_replay["results"][0]["constant_minimum_through_N"] += 1
@@ -269,6 +301,7 @@ def main():
           f"{len(mutations)} rejected corruptions; {resume} publication/resumption controls; H_11=3, H_12=513")
     print(f"PASS: {chain_count} independently certified small chain links ({chain_ties} ties); "
           f"width decreases agree with direct complete height runs; "
+          f"equal-width update comparisons agree with raw vector multiplication; "
           f"unknown left boundary stays unclassified; {chain_bad} malformed chains rejected")
 
 

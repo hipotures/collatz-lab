@@ -243,18 +243,18 @@ Commands for one new obligation (read the journal before choosing parameters):
 
 ```bash
 ulimit -v 1048576
-timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87102 --through 90000 --seconds 180 --write
+timeout 185s python3 -B research/phase13/overnight/witness_transition.py --start 87103 --through 90000 --seconds 180 --write
 timeout 180s python3 -B research/phase13/overnight/verify_transitions.py --write
 python3 -B research/phase13/overnight/summarize.py --write
 timeout 35s python3 -B research/phase13/overnight/probe_basis_pattern.py --write
 ```
 
 The new source above is intentional: transitions from `87092`, `87094`,
-`87096`, `87099` and `87100` have been certified, with failures at indices
-`87093`, `87095`, `87098`, `87099` and `87101`, and strict height increases
-at prefixes `87094`, `87096`, `87099`, `87100` and `87102`.
+`87096`, `87099`, `87100` and `87102` have been certified, with failures at
+indices `87093`, `87095`, `87098`, `87099`, `87101` and `87102`, and strict
+height increases at prefixes `87094`, `87096`, `87099`, `87100`, `87102` and `87103`.
 All endpoint heights have 51,875 bits. The exact consecutive maximal plateaux
-have lengths 2, 2, 3, 1, 2. The actual `87102` witness has not been scanned beyond
+have lengths 2, 2, 3, 1, 2, 1. The actual `87103` witness has not been scanned beyond
 its certified prefix; it differs from the stored `90000` witness and has
 smaller height. No dense height profile or general plateau rule follows.
 
@@ -297,20 +297,31 @@ replayed transition certificates. It checks source hashes, replay fields,
 contiguous intervals, lattice membership, denominator parity and basis
 determinants. Cramer's coordinates are checked by direct vector multiplication.
 The third selected-basis update is `f'=8*f, g'=4*f+g`, the fourth is
-`f'=2*f, g'=g-f`, and the fifth returns to `f'=4*f, g'=2*f+g`.
+`f'=2*f, g'=g-f`, the fifth returns to `f'=4*f, g'=2*f+g`, and the sixth is
+`f'=2*f, g'=f+g`.
 A constant interval is classified as a maximal plateau only when certificates
 give strict height changes on both sides. This gives the finite lengths
-2, 2, 3, 1, 2 and rejects the precise claim that each maximal plateau in this
+2, 2, 3, 1, 2, 1 and rejects the precise claim that each maximal plateau in this
 chain has length two. These fields are derived metadata, not an additional
 minimum certificate.
 
 The derived `nondecreasing_width_test` compares adjacent intervals only when
-both have certified strict height changes on both sides. The four adjacent
-pairs include a decrease from width 3 at 87096 to width 1 at 87099. This
+both have certified strict height changes on both sides. The five adjacent
+pairs include decreases from width 3 at 87096 to width 1 at 87099 and from
+width 2 at 87100 to width 1 at 87102. This
 falsifies the explicit finite claim that consecutive maximal plateau widths
 never decrease on this chain. A tied witness change or an unknown left
 boundary cannot establish a maximal plateau and is excluded from this test.
-No replacement rule or asymptotic behavior is inferred from five widths.
+No replacement rule or asymptotic behavior is inferred from six widths.
+
+The `width_determines_basis_update_test` compares all equal-width pairs of
+certified maximal plateaux. Four pairs are available on the current chain.
+The singleton plateaux starting at 87099 and 87102 have different selected
+basis updates: respectively `[[2,0],[-1,1]]` and `[[2,0],[1,1]]`. This rejects
+the explicit finite claim that equal plateau widths determine equal selected
+basis update matrices on this chain. The determinant remains 2 in each case;
+equal index growth does not fix the shear sign. These are coordinates of
+the stored algorithm-selected bases, not an invariant of all possible bases.
 
 `test_transitions.py`, already called by smoke, checks a 31-link small chain
 from independently verified minima and first failures. Two equal-height
@@ -320,5 +331,9 @@ reject changed replay intervals, source references, basis coordinates and a
 missing connecting link. The real certificates are independently replayed
 before the probe in smoke. A separate complete-height-run enumeration in the
 small profile checks the reported width decreases and their strict boundaries.
-The new 87102 witness remains the next bounded research obligation; no
-extrapolation from these five widths is justified.
+The equal-width controls use those complete height runs for eligibility and
+raw vector multiplication to check unequal updates, independently of comparing
+coordinate rows. Tied witness changes and unknown left boundaries remain
+excluded. Smoke already invokes these controls and the probe.
+The new 87103 witness remains the next bounded research obligation; no
+extrapolation from these six widths is justified.

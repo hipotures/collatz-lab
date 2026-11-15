@@ -113,6 +113,22 @@ def certified_chain(heights, hashes, transitions, replay):
                               "to_source_N": right["source_N"],
                               "from_length": left["interval_length"],
                               "to_length": right["interval_length"]})
+    # Equal index growth fixes a determinant, but need not fix the selected
+    # basis update. Compare all equal-width pairs with strict boundaries.
+    maximal = [row for row in chain if row["strict_height_increase_at_source"]
+               and row["strict_height_increase_at_next_prefix"]]
+    equal_width_pairs, different_updates = 0, []
+    for index, left in enumerate(maximal):
+        for right in maximal[index + 1:]:
+            if left["interval_length"] != right["interval_length"]:
+                continue
+            equal_width_pairs += 1
+            if left["basis_update_rows"] != right["basis_update_rows"]:
+                different_updates.append({
+                    "from_source_N": left["source_N"], "to_source_N": right["source_N"],
+                    "interval_length": left["interval_length"],
+                    "from_basis_update_rows": left["basis_update_rows"],
+                    "to_basis_update_rows": right["basis_update_rows"]})
     return {"classification": "derived exact finite metadata from separately replayed certificates",
             "intervals": chain,
             "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
@@ -121,7 +137,12 @@ def certified_chain(heights, hashes, transitions, replay):
             "nondecreasing_width_test": {
                 "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
                 "adjacent_maximal_plateau_pairs_checked": comparisons,
-                "hypothesis_falsified": bool(decreases), "decreases": decreases}}
+                "hypothesis_falsified": bool(decreases), "decreases": decreases},
+            "width_determines_basis_update_test": {
+                "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
+                "equal_width_pairs_checked": equal_width_pairs,
+                "hypothesis_falsified": bool(different_updates),
+                "counterexamples": different_updates}}
 
 
 def probe():
@@ -254,6 +275,9 @@ def main():
     width_test = chain["nondecreasing_width_test"]
     print(f"PASS: {width_test['adjacent_maximal_plateau_pairs_checked']} adjacent maximal plateau pairs; "
           f"nondecreasing widths falsified={width_test['hypothesis_falsified']}")
+    update_test = chain["width_determines_basis_update_test"]
+    print(f"PASS: {update_test['equal_width_pairs_checked']} equal-width maximal plateau pairs; "
+          f"width determines selected-basis update falsified={update_test['hypothesis_falsified']}")
 
 
 if __name__ == "__main__":
