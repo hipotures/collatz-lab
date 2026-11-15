@@ -1,0 +1,688 @@
+{
+  "baseline": {
+    "families": [
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "frontierSix",
+        "records": 168
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "phase11-110",
+        "records": 176
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "phase11-1011",
+        "records": 162
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "phase8-110",
+        "records": 171
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "thue-morse-10",
+        "records": 224
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 0,
+        "name": "alternating",
+        "records": 142
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 0,
+        "name": "all-one",
+        "records": 142
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 0,
+        "name": "all-zero",
+        "records": 142
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "sha256-control",
+        "records": 190
+      },
+      {
+        "max_N": 16384,
+        "max_shorter_coefficient_cap": 1,
+        "name": "near-rational",
+        "records": 174
+      }
+    ],
+    "sha256": "19b6def263de48ee2d669691012ad6e732ba7d6cdac43b0070798a4bc70818f8",
+    "total": 1691
+  },
+  "format": "phase13-independent-referee-v1",
+  "implementation_head": "65b087dc62e4950e1c504fe34865acaacb9188c9",
+  "lean_inventory": {
+    "audit_source_sha256": "070706bf4f17ded5ad5d95d3b6e3ed9ef4e0e83777c612a28c9d9968f5ae53c4",
+    "new_names": [
+      "CollatzLab.RationalHeight.Prefix",
+      "CollatzLab.RationalHeight.InLattice",
+      "CollatzLab.RationalHeight.height",
+      "CollatzLab.RationalHeight.odd_cancel",
+      "CollatzLab.RationalHeight.parity_cross_iff",
+      "CollatzLab.RationalHeight.cross_step",
+      "CollatzLab.RationalHeight.cross_step_dvd",
+      "CollatzLab.RationalHeight.prefix_cross_iff",
+      "CollatzLab.RationalHeight.cylinder_iff",
+      "CollatzLab.RationalHeight.lattice_representation",
+      "CollatzLab.RationalHeight.lattice_determinant",
+      "CollatzLab.RationalHeight.divide_odd",
+      "CollatzLab.RationalHeight.residue_exists",
+      "CollatzLab.RationalHeight.residue_unique",
+      "CollatzLab.RationalHeight.residue",
+      "CollatzLab.RationalHeight.residue_spec",
+      "CollatzLab.RationalHeight.parity_lattice_iff",
+      "CollatzLab.RationalHeight.minimum_exists",
+      "CollatzLab.RationalHeight.H",
+      "CollatzLab.RationalHeight.H_spec",
+      "CollatzLab.RationalHeight.H_mono",
+      "CollatzLab.RationalHeight.H_positive",
+      "CollatzLab.RationalHeight.H_zero",
+      "CollatzLab.RationalHeight.H_centered_bound",
+      "CollatzLab.RationalHeight.minimizer_primitive",
+      "CollatzLab.RationalHeight.height_bounds",
+      "CollatzLab.RationalHeight.cross_height_bound",
+      "CollatzLab.RationalHeight.same_prefix_height_separation",
+      "CollatzLab.RationalHeight.bounded_height_unique",
+      "CollatzLab.RationalHeight.shadow_crossing",
+      "CollatzLab.RationalHeight.bounded_iff_rational",
+      "CollatzLab.FrontierHeight.inflate",
+      "CollatzLab.FrontierHeight.baseShadow",
+      "CollatzLab.FrontierHeight.shadow",
+      "CollatzLab.FrontierHeight.matchLength",
+      "CollatzLab.FrontierHeight.fixed_inflate",
+      "CollatzLab.FrontierHeight.matchLength_formula",
+      "CollatzLab.FrontierHeight.inflate_first_failure",
+      "CollatzLab.FrontierHeight.shadow_first_failure",
+      "CollatzLab.FrontierHeight.inflate_period_after",
+      "CollatzLab.FrontierHeight.shadow_period_after",
+      "CollatzLab.FrontierHeight.shadow_tail_initial",
+      "CollatzLab.FrontierHeight.periodic_seed",
+      "CollatzLab.FrontierHeight.prepend_seed",
+      "CollatzLab.FrontierHeight.local_pressure",
+      "CollatzLab.FrontierHeight.prefix_pressure",
+      "CollatzLab.FrontierHeight.offset_of_pressure",
+      "CollatzLab.FrontierHeight.power_gap",
+      "CollatzLab.FrontierHeight.shadowNum",
+      "CollatzLab.FrontierHeight.shadowDen",
+      "CollatzLab.FrontierHeight.shadow_realized",
+      "CollatzLab.FrontierHeight.shadow_prefix",
+      "CollatzLab.FrontierHeight.shadow_failure",
+      "CollatzLab.FrontierHeight.shadow_weight_sum",
+      "CollatzLab.FrontierHeight.shadow_height_bound",
+      "CollatzLab.FrontierHeight.H_shadow_upper",
+      "CollatzLab.FrontierHeight.H_shadow_crossing",
+      "CollatzLab.FrontierHeight.H_after_shadow",
+      "CollatzLab.FrontierHeight.H_eleven",
+      "CollatzLab.FrontierHeight.H_twelve"
+    ],
+    "new_public": 60,
+    "total": 653
+  },
+  "modular_cycles": [
+    {
+      "cycle_start": 1,
+      "identity_level": 7,
+      "modulus": 347,
+      "period": 86,
+      "states_by_values_at_0_and_1": {
+        "1": [
+          [
+            319,
+            265
+          ],
+          [
+            182,
+            20
+          ]
+        ],
+        "7": [
+          [
+            27,
+            143
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "87": [
+          [
+            319,
+            265
+          ],
+          [
+            182,
+            20
+          ]
+        ]
+      }
+    },
+    {
+      "cycle_start": 62,
+      "identity_level": 5425,
+      "modulus": 120409,
+      "period": 14878,
+      "states_by_values_at_0_and_1": {
+        "14940": [
+          [
+            79025,
+            36253
+          ],
+          [
+            101205,
+            6675
+          ]
+        ],
+        "5425": [
+          [
+            34727,
+            115000
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "62": [
+          [
+            79025,
+            36253
+          ],
+          [
+            101205,
+            6675
+          ]
+        ]
+      }
+    }
+  ],
+  "overnight": {
+    "height_bytes": 8027076,
+    "height_sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3",
+    "heights": [
+      {
+        "N": 87090,
+        "coefficient_cap": 0,
+        "height_bits": 35217
+      },
+      {
+        "N": 87091,
+        "coefficient_cap": 0,
+        "height_bits": 35217
+      },
+      {
+        "N": 87092,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 80000,
+        "coefficient_cap": 0,
+        "height_bits": 35217
+      },
+      {
+        "N": 90000,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 522546,
+        "coefficient_cap": 0,
+        "height_bits": 211281
+      },
+      {
+        "N": 522547,
+        "coefficient_cap": 0,
+        "height_bits": 211281
+      },
+      {
+        "N": 522548,
+        "coefficient_cap": 1,
+        "height_bits": 311267
+      },
+      {
+        "N": 87094,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87096,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87099,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87100,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87102,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87103,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87104,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87109,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87112,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87113,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87116,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87118,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87120,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87121,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87122,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      },
+      {
+        "N": 87124,
+        "coefficient_cap": 1,
+        "height_bits": 51875
+      }
+    ],
+    "hostile_large_rejected": "corrupted large basis",
+    "provenance_finding": {
+      "actual_counts": {
+        "heights": 24,
+        "transitions": 16
+      },
+      "actual_stored_smoke_sha256": "e0aece65d185b92b7c9779b488c2c609178b7b302cf6396a20a3c1eb64d7feae",
+      "checkpoint_claimed_counts": {
+        "heights": 23,
+        "raw_shadow_levels": 9,
+        "transitions": 15
+      },
+      "mathematical_certificates_affected": false,
+      "stale_files": [
+        "overnight-summary.md",
+        "overnight/checkpoint-audit.json"
+      ],
+      "verdict_as_final_snapshot": "FAIL"
+    },
+    "transition_files": [
+      {
+        "path": "transitions.jsonl",
+        "records": 11,
+        "sha256": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7"
+      },
+      {
+        "path": "transitions-0002.jsonl",
+        "records": 5,
+        "sha256": "786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e"
+      }
+    ],
+    "transitions": [
+      {
+        "failure": 87093,
+        "source_N": 87092,
+        "target_N": 87094,
+        "width": 2
+      },
+      {
+        "failure": 87095,
+        "source_N": 87094,
+        "target_N": 87096,
+        "width": 2
+      },
+      {
+        "failure": 87098,
+        "source_N": 87096,
+        "target_N": 87099,
+        "width": 3
+      },
+      {
+        "failure": 87099,
+        "source_N": 87099,
+        "target_N": 87100,
+        "width": 1
+      },
+      {
+        "failure": 87101,
+        "source_N": 87100,
+        "target_N": 87102,
+        "width": 2
+      },
+      {
+        "failure": 87102,
+        "source_N": 87102,
+        "target_N": 87103,
+        "width": 1
+      },
+      {
+        "failure": 87103,
+        "source_N": 87103,
+        "target_N": 87104,
+        "width": 1
+      },
+      {
+        "failure": 87108,
+        "source_N": 87104,
+        "target_N": 87109,
+        "width": 5
+      },
+      {
+        "failure": 87111,
+        "source_N": 87109,
+        "target_N": 87112,
+        "width": 3
+      },
+      {
+        "failure": 87112,
+        "source_N": 87112,
+        "target_N": 87113,
+        "width": 1
+      },
+      {
+        "failure": 87115,
+        "source_N": 87113,
+        "target_N": 87116,
+        "width": 3
+      },
+      {
+        "failure": 87117,
+        "source_N": 87116,
+        "target_N": 87118,
+        "width": 2
+      },
+      {
+        "failure": 87119,
+        "source_N": 87118,
+        "target_N": 87120,
+        "width": 2
+      },
+      {
+        "failure": 87120,
+        "source_N": 87120,
+        "target_N": 87121,
+        "width": 1
+      },
+      {
+        "failure": 87121,
+        "source_N": 87121,
+        "target_N": 87122,
+        "width": 1
+      },
+      {
+        "failure": 87123,
+        "source_N": 87122,
+        "target_N": 87124,
+        "width": 2
+      }
+    ],
+    "unequal_singleton_updates": [
+      [
+        [
+          2,
+          0
+        ],
+        [
+          -1,
+          1
+        ]
+      ],
+      [
+        [
+          2,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ]
+    ],
+    "width_decreases": [
+      [
+        87096,
+        87099
+      ],
+      [
+        87100,
+        87102
+      ],
+      [
+        87104,
+        87109
+      ],
+      [
+        87109,
+        87112
+      ],
+      [
+        87113,
+        87116
+      ],
+      [
+        87118,
+        87120
+      ]
+    ]
+  },
+  "overnight_head": "76bf6136c334c1db9e52e399fcc33fd4c20b9c24",
+  "raw_shadows": [
+    {
+      "L": 11,
+      "gcd": 3,
+      "k": 0,
+      "p_abs_sha256": "2b4c342f5433ebe591a1da77e013d1b72475562d48578dca8b84bac6651c3cb9",
+      "q_sha256": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+      "raw_height_bits": 4,
+      "reduced_height_bits": 2,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 67,
+      "gcd": 1,
+      "k": 1,
+      "p_abs_sha256": "eb3fe765bd0ffc6fdcd5dd75517bcb2159cf751b99f732854754e2aeeb0b7a17",
+      "q_sha256": "b6295709e3a5d033101f469e94c5048e2c07e01b29da3a6bf7a7ebe427c4fe60",
+      "raw_height_bits": 29,
+      "reduced_height_bits": 29,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 403,
+      "gcd": 1,
+      "k": 2,
+      "p_abs_sha256": "af17179a29d94dc60d3bd264e851fd58003b4f47c24273fddb79b9c7110f3245",
+      "q_sha256": "be2cdfd67e121cce96c4a81c1b9e994cac668fb45a39c1e9dfccc98d42434955",
+      "raw_height_bits": 164,
+      "reduced_height_bits": 164,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 2419,
+      "gcd": 1,
+      "k": 3,
+      "p_abs_sha256": "501509f7f6d2cdb86b3282037f189790091e779c4b47fcdb7aa998262a5d8a83",
+      "q_sha256": "009659ec44705affdf09be34036574c17a25e9b006c84dd7083075792d664f3a",
+      "raw_height_bits": 982,
+      "reduced_height_bits": 982,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 14515,
+      "gcd": 1,
+      "k": 4,
+      "p_abs_sha256": "3a14d26c96fa4097119f3a1d81b894a62a9a7ab7268b21bf7443e9e960308a54",
+      "q_sha256": "9ec546f94cc1a189a1e100b29a299ce6b4c4ad6fef5a2865206e766ce72cfd49",
+      "raw_height_bits": 5870,
+      "reduced_height_bits": 5870,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 87091,
+      "gcd": 1,
+      "k": 5,
+      "p_abs_sha256": "999d9452f82e33f349d2e2e83733a39b214be41ba03a1c6885f7f1e929af24d6",
+      "q_sha256": "c9be3ca7f61c8b45be193dadf82c849c3388a9c2fe6287716eee56d287546f12",
+      "raw_height_bits": 35217,
+      "reduced_height_bits": 35217,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 522547,
+      "gcd": 1,
+      "k": 6,
+      "p_abs_sha256": "af3f86e32337ee8b36249bea9c68a58f8a8608d48c044d0d19653a31d55628f0",
+      "q_sha256": "33b1aa8e1b13b3ae7898493b73476ae94d10b3ee74ccc3b9ae483daba4ab7e76",
+      "raw_height_bits": 211281,
+      "reduced_height_bits": 211281,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 3135283,
+      "gcd": 347,
+      "k": 7,
+      "p_abs_sha256": "c5b396b615214852794f730119f6f52359a9114aff8902fd44b9df8eec143f16",
+      "q_sha256": "f68fb8ed283087554a68ae774d1895776d722c89e5d49eb4ac124e3b48994a97",
+      "raw_height_bits": 1267684,
+      "reduced_height_bits": 1267675,
+      "strict_uniqueness": true
+    },
+    {
+      "L": 18811699,
+      "gcd": 1,
+      "k": 8,
+      "p_abs_sha256": "31b62130b10bcc3daf549ee0bb2546e8626dc467ea2da54432594da647717192",
+      "q_sha256": "74af8e0729d5aa1a4d6b41a3fd696e2aefabc86ad1f85ff44f4700882c49b097",
+      "raw_height_bits": 7606082,
+      "reduced_height_bits": 7606082,
+      "strict_uniqueness": true
+    }
+  ],
+  "self_tests": {
+    "counts": {
+      "linear_intervals": 715,
+      "signed_semantics": 1500,
+      "small_residues": 511
+    },
+    "exact_small_minima": {
+      "11": {
+        "H": 3,
+        "p": -3,
+        "q": 1
+      },
+      "12": {
+        "H": 513,
+        "p": 509,
+        "q": 513
+      },
+      "13": {
+        "H": 513,
+        "p": 509,
+        "q": 513
+      }
+    },
+    "external_signed_gap_counterexample": {
+      "P": 1,
+      "Q": 3,
+      "a": 1,
+      "actual_2_adic_distance": "1/4",
+      "b": -1,
+      "printed_lower_bound": "1/2"
+    },
+    "false_square_root_claim": {
+      "A": 128,
+      "H": 128,
+      "N": 8,
+      "even_vector": [
+        0,
+        2
+      ]
+    },
+    "liouville_partial_height_bits_and_next_precision": [
+      [
+        3,
+        7,
+        24
+      ],
+      [
+        4,
+        25,
+        120
+      ],
+      [
+        5,
+        121,
+        720
+      ],
+      [
+        6,
+        721,
+        5040
+      ],
+      [
+        7,
+        5041,
+        40320
+      ]
+    ],
+    "rejected_corruptions": [
+      "wrong numerator",
+      "wrong residue",
+      "even denominator",
+      "wrong height",
+      "wrong lattice index",
+      "wrong argument order"
+    ]
+  },
+  "trust": "Python exact arithmetic; not a Lean proof"
+}

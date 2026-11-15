@@ -1,0 +1,160 @@
+{
+  "format": "phase13-referee-validation-v1",
+  "implementation_head": "65b087dc62e4950e1c504fe34865acaacb9188c9",
+  "records": [
+    {
+      "command": "lake build (initially absent .lake build directory)",
+      "exit_code": 0,
+      "log": "clean-lake-build.log",
+      "bytes": 3840,
+      "sha256": "338a1a4f49d1811f832133f6c89c01f0928970924fee13e0d30861da535bb1d2"
+    },
+    {
+      "command": "bash research/phase13/validate.sh",
+      "exit_code": 0,
+      "log": "full-validation.log",
+      "bytes": 39663,
+      "sha256": "ead2e21a076ac019b2f0235e304cb16c48e3316bca2bb8a8e9b4007728be8b32"
+    },
+    {
+      "command": "lake env lean research/lean-audit/FamilyAudit.lean | tee axioms.log | python3 research/lean-audit/check_axioms.py --expected-count 653 (pipefail)",
+      "exit_code": 0,
+      "log": "axioms.log",
+      "bytes": 59616,
+      "sha256": "f96445e541b3068b67e596f6e9fe8941ef739a238f67933a5849c5be15e2a926"
+    },
+    {
+      "command": "lake env lean research/phase13/referee/Signatures.lean",
+      "exit_code": 0,
+      "log": "referee-signatures.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "lake env lean research/phase13/referee/Declarations.lean",
+      "exit_code": 0,
+      "log": "declaration-types.log",
+      "bytes": 13409,
+      "sha256": "d6e423f38834b97e69d5796cefcd31840dba2c538611c1236f7a9da446c0c581"
+    },
+    {
+      "command": "python3 -B research/phase13/referee_checks.py --source PINNED_SOURCE --baseline --overnight PINNED_OVERNIGHT_DIRECTORY --raw-level 8 --output research/phase13/referee/independent-results.json",
+      "exit_code": 0,
+      "log": "independent-final.log",
+      "bytes": 4644,
+      "sha256": "e0f634c8ac0ecd73062c50c78166c6366798ef9d884a7e37e64f554f979af106"
+    },
+    {
+      "command": "python3 -B research/phase13/referee/audit_statements.py --source . --axioms EVIDENCE/axioms.log --output research/phase13/referee/lean-statements.json --checks research/phase13/referee/Declarations.lean",
+      "exit_code": 0,
+      "result": "653 exact records; 60 new signatures; 85 source files scanned"
+    }
+  ],
+  "full_wrapper_results": {
+    "lean_targets": 87,
+    "audit_records": 653,
+    "new_public_declarations": 60,
+    "baseline_names_preserved": 593,
+    "rust_tests": 94,
+    "baseline_minima": 1691,
+    "phase11_12_13_signatures": "PASS",
+    "all_current_ci_python_and_static_manuscript_checks": "PASS"
+  },
+  "actual_failures": [
+    {
+      "command": "initial SSH fetch in new isolated clone",
+      "exit_code": 128,
+      "resolution": "HTTPS fetch; later safely reuse existing per-repository SSH command for reviewer push"
+    },
+    {
+      "command": "exploratory decimal baseline JSON load",
+      "exit_code": 1,
+      "resolution": "finite 20000-digit parser limit, no truncation"
+    },
+    {
+      "command": "first referee Signatures.lean compilation",
+      "exit_code": 1,
+      "resolution": "renamed reserved Lean token prefix used as a local hypothesis; recompiled successfully"
+    },
+    {
+      "command": "first fresh full reproduce.sh in home filesystem",
+      "exit_code": 101,
+      "cause": "Rust build failed: No space left on device (os error 28)",
+      "log_sha256": "71988ce0f8c4d511385f696c4ecb8ab0deadbb59b7bc73310d675b0c0aa80c8b",
+      "resolution": "Removed only reviewer-created disposable target directories; full fresh /tmp reproduction passed, exit 0."
+    },
+    {
+      "command": "fresh /tmp full reproduce.sh final byte comparison",
+      "exit_code": 1,
+      "cause": "numeric versus string sorting of JSON modular-state keys after fixture round trip",
+      "mathematical_outputs_equal_after_JSON_parsing": true,
+      "resolution": "Explicit string keys; round-trip check and final fresh whole reproduction passed, exit 0."
+    }
+  ],
+  "environment": {
+    "Lean": "4.18.0, commit 11ccbced7964",
+    "rustc": "1.100.0 (0ef1bc386 2026-11-09)",
+    "Python": "3.14.4"
+  },
+  "implementation_ci": {
+    "run_id": 43663195328,
+    "url": "https://github.com/hipotures/collatz-lab/actions/runs/43663195328",
+    "head": "65b087dc62e4950e1c504fe34865acaacb9188c9",
+    "jobs": {
+      "lean": "completed/success; every step checked",
+      "check": "completed/success; every step checked"
+    }
+  },
+  "reproduction_status": "PASS: whole fresh canonical reproduce.sh, exit 0; both deterministic JSON comparisons passed.",
+  "final_fresh_reproduction": {
+    "command": "bash research/phase13/referee/reproduce.sh /tmp/collatz-phase13-final-reproduction-2",
+    "exit_code": 0,
+    "referee_code_commit": "deac930476c000b8aa8bfb1bb27201dcbcabcafc",
+    "referee_checks_sha256": "92fdb9adb69ddcc507630be0af9b93287ddb2d1b3d0cd9f3f5b7ad79ceca1888",
+    "outer_log_sha256": "aea9761a298a4e72aca4e0e7e54a01d2edeb227dc68a83c2e46455b2631e6e6c",
+    "independent_arithmetic_seconds": 193.793,
+    "results": [
+      {
+        "file": "clean-lake-build.log",
+        "bytes": 3840,
+        "sha256": "108c95ba880c81c0d206e2c6864df323b2cf9cb632ae6b851e34970f0aa99cdd"
+      },
+      {
+        "file": "full-validation.log",
+        "bytes": 39675,
+        "sha256": "c984846b054f6e167df7e93e7c62d7b9a6dc8423981c9e6ca45d220244fe6635"
+      },
+      {
+        "file": "axioms.log",
+        "bytes": 59616,
+        "sha256": "f96445e541b3068b67e596f6e9fe8941ef739a238f67933a5849c5be15e2a926"
+      },
+      {
+        "file": "signatures.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "types.log",
+        "bytes": 13409,
+        "sha256": "d6e423f38834b97e69d5796cefcd31840dba2c538611c1236f7a9da446c0c581"
+      },
+      {
+        "file": "independent.log",
+        "bytes": 4644,
+        "sha256": "e73985b853a04eb84e29972511d6410fb41f685e66a0030b598af4b6d34c9126"
+      },
+      {
+        "file": "independent-results.json",
+        "bytes": 16273,
+        "sha256": "332ec670f4dfef43f714dfff59c721e909be7587e2314d25b5f89290b2240360"
+      },
+      {
+        "file": "lean-statements.json",
+        "bytes": 34650,
+        "sha256": "664caee01ad7f3d5b972e7d15b077e6485b7b6842926a80b30faacfdfdcf9f8c"
+      }
+    ],
+    "limits": "Timings are local observations. No large optimizer rerun; full exact certificates re-proved by signed coefficient coverage."
+  }
+}
