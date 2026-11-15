@@ -186,7 +186,7 @@ while (( ROUND < MAX_ROUNDS )); do
       "$LOG_DIR/round-$TAG.jsonl"; then
     ERROR_EVENT=1
   fi
-  if (( RESULT != 0 || ERROR_EVENT != 0 )); then
+  if (( RESULT != 0 )); then
     if grep -Eiq 'authentication failed|unauthorized|invalid.?token|not logged in|login required|session expired|please run .*codex login' \
         "$LOG_DIR/round-$TAG.stderr" "$LOG_DIR/round-$TAG.jsonl"; then
       echo "Authentication expired; unattended login is not possible. Stopping."
