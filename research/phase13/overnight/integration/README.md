@@ -77,3 +77,14 @@ this output directory to avoid a self-hash cycle. Narrative handoff updates
 therefore do not invalidate an unchanged successful arithmetic run. No PDF
 build or visual inspection is claimed; static manuscript checks preserve the
 existing matrix and are not a publication-readiness assertion.
+
+## Completed frozen-code run
+
+All four final commands passed with unchanged input fingerprints. The combined
+matrix took 269.91 seconds; the independent interfaces 9.52 seconds; smoke
+467.32 seconds at peak RSS 102,696 KiB; the complete pinned reproduction
+585.64 seconds at peak RSS 6,288,872 KiB. Its independent arithmetic stage
+took 193.739 seconds. Both reviewer JSON comparisons passed byte-for-byte.
+The new final audit/summary were then generated, checked, and all six hostile
+metadata/CI-cache regressions passed against the real final audit. The prior
+attempts remain distinct from this completed validation.

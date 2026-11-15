@@ -1,0 +1,3 @@
+653 exact declarations; only approved standard foundations
+PASS: 653 exact foundation records; 60 public signatures; 85 trusted source files scanned
+PASS: current combined interfaces and independent axiom audit reproduce the pinned statements

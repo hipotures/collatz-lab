@@ -1,52 +1,75 @@
 # Phase 13 overnight integration — issue #33
 
-## Resume here — current owner handoff
+## Resume here — current final handoff
 
-- Active task: <https://github.com/hipotures/collatz-lab/issues/33>.
+- Task: <https://github.com/hipotures/collatz-lab/issues/33>. No PR may be
+  merged and no issue may be closed by this task.
 - Isolated checkout: `/tmp/collatz-lab-phase13-overnight-integration`, branch
-  `codex/phase13-overnight-integration`. Started at exactly pinned overnight
-  `76bf6136c334c1db9e52e399fcc33fd4c20b9c24`, then merged current main
-  `0190d57f43164ce2ec6016b3d3314c94ff98e06b` locally without conflicts.
-  The combined parent checkpoint is `d6466ed71f2036f39cb0506a4a659bfecc7a0791`.
-- Main matches issue #33 and contains merged PRs #29/#32. The original
-  overnight, implementation and reviewer branch tips match their pinned refs.
-  No protected branch, reviewer report, mathematical source or paper is edited.
-- All final evidence hashes were freshly checked: 24 height records, 11+5
-  transitions, nine raw-shadow records. Certificate data and original
-  certification scripts are unchanged. Source hashes/caps are enforced by
-  `overnight/finalize_provenance.py`.
-- The old summary/audit are preserved byte-for-byte under `overnight/history/`
-  and explicitly labeled as the earlier 23/15 snapshot. The entire original
-  journal follows unchanged below. Its unfinished validation/next-experiment
-  instructions are historical, not this task's next obligation.
-- Original final smoke was already complete: exit 0, 24/16/9, 464.54 seconds,
-  RSS 102,832 KiB. It is retained as historical output. Fresh integration
-  validation has not yet been run at this checkpoint. No new result claimed.
-- Guard implementation and six bounded regression tests pass. Three early
-  attempts are retained in `overnight/integration/attempt-1/`, `attempt-2/`
-  and `attempt-3/`.
-  First: Lean hit the initial 4 GiB address-space cap (command exit 1).
-  Second: all mathematical checks passed (command exit 0), but the runner
-  rejected the input fingerprint because two metadata files were corrected
-  during validation. Third: the matrix, interfaces and 24/16/9 smoke all passed, but the runner
-  rejected metadata-input drift after the CI bytecode-cache portability fix.
-  None is claimed as completed final validation.
-- Current run uses 24 GiB address-space caps for the full matrix/referee
-  reproduction and 1 GiB for smoke/interfaces. The final code is frozen.
-  `validate_integration.py --reproduction /tmp/collatz-phase13-issue33-referee-reproduction`
-  is running. Its full matrix passed (269.91 seconds), as did the independent
-  combined interfaces (9.52 seconds). Final smoke and pinned reproduction
-  remain pending; no final successful attestation is claimed yet.
-- Checkpoint scope: tested metadata tooling, the unchanged original source
-  integration, exact historical copies and completed prior attempt records.
-  Current successful run outputs and corrected final summary/audit follow only
-  after all four commands finish. No PR is open yet.
-- Next: read the current run exit/logs, finalize metadata only after all four
-  commands pass with unchanged inputs, rerun the guard/regressions, commit
-  and push this branch, check actual CI and open an unmerged integration PR.
-- Original mathematical PASS verdict and all proof-status distinctions remain
-  unchanged. Exact B, asymptotic gcd growth and unsampled minima remain open.
-  No new transitions or k=9 computation is authorized by this issue.
+  `codex/phase13-overnight-integration`. Started at exactly overnight source
+  `76bf6136c334c1db9e52e399fcc33fd4c20b9c24`; locally merged current main
+  `0190d57f43164ce2ec6016b3d3314c94ff98e06b`, without conflicts, producing
+  parent checkpoint `d6466ed71f2036f39cb0506a4a659bfecc7a0791`.
+- First pushed/read-back tooling checkpoint:
+  [`5b2645ee8c40ed04adea1f8ae755ae9aa03c4a19`](https://github.com/hipotures/collatz-lab/commit/5b2645ee8c40ed04adea1f8ae755ae9aa03c4a19).
+  The final metadata/evidence commit follows; `git log -1 --format=%H` and
+  the integration PR identify the delivered head without a self-hash cycle.
+- **Repair and independent local validation complete.** All 24 height records,
+  11+5 transitions and nine raw-shadow records are unchanged byte-for-byte.
+  All original mathematical source, certificate checkers, original logs, the
+  merged referee report and manuscript files are unchanged. Only CI's new
+  metadata step changes an existing main file. The original driver now
+  requires finalization after successful smoke before any checkpoint commit.
+- The earlier summary/audit are preserved byte-for-byte under `overnight/history/`.
+  Fresh Git-object checks identify their actual artifact commit as
+  `caaa37cf68e399b48dae0fa975a45f9cc2447d9f` (23 minima, 15 transitions).
+  Its evidence bytes remain prefixes of the final source files. Its cached
+  entry HEAD `bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10` is not the final
+  artifact commit. The new v3 audit identifies source 76bf613, current-main
+  base, actual command outputs and a validated working-tree input manifest.
+- The original final smoke log is historical: exit 0, 24/16/9, 464.54 seconds,
+  RSS 102,832 KiB. It is not overwritten or confused with the fresh run below.
+- Actual current commands and observed results:
+
+| Executed validation | Exit | Wall seconds | Peak RSS KiB |
+|---|---:|---:|---:|
+| `combined-matrix` | 0 | 269.91 | 292976 |
+| `combined-interfaces` | 0 | 9.52 | 292848 |
+| `overnight-smoke` | 0 | 467.32 | 102696 |
+| `pinned-referee` | 0 | 585.64 | 6288872 |
+
+- The current matrix includes all existing CI checks: Lean build, exact 653-name
+  axiom allowlist, interfaces, Rust fmt/clippy/94 tests and every Python/static
+  manuscript/Lean-name checker. The separate interface audit also reproduces
+  all 60 declaration signatures and independently checks 85 trusted files.
+- Fresh `bash research/phase13/referee/reproduce.sh
+  /tmp/collatz-phase13-issue33-referee-reproduction` completed, exit 0. It
+  clean-built the exact pinned implementation, ran its full matrix and the
+  independent verifier, and byte-compared both committed reviewer JSON files.
+  All 1,691 baseline minima, 24 overnight minima, 16 transitions and raw gcds
+  k=0..8 passed; the independent arithmetic stage took 193.739 seconds.
+  Its historical provenance FAIL remains correct for the old 23/15 snapshots;
+  the merged report and verdicts are not rewritten.
+- `finalize_provenance.py --write`, `--check`, all six hostile/portability
+  regression tests, shell syntax and `git diff --check` passed. Current logs,
+  hashes, timestamps, exact commands and resource caps are in
+  `overnight/integration/validation.json` and the v3 audit. Full matrix/referee
+  commands use 24 GiB address-space caps and 1,200-second outer limits;
+  interfaces use 1 GiB/180 seconds; smoke uses 1 GiB/750 seconds.
+- Three earlier attempts are retained with honest outcomes in `integration/`:
+  attempt 1 failed Lean under the initial 4 GiB cap; attempts 2 and 3 passed
+  their mathematical commands but the runner correctly rejected metadata-input
+  drift after serializer/CI-cache corrections. No failure is relabeled as a
+  completed successful attestation. The final four-command run has all input
+  fingerprints unchanged. No required check is unavailable.
+- **Remaining delivery work:** bounded shallow-checkout/cache validation and
+  parallel independent acceptance/code review, then open/read back the new PR
+  against current main, verify actual head CI and record its final URL/SHA.
+  No mathematical computation remains necessary. Do not rerun the long exact
+  height optimizer or follow the historical next-experiment instructions.
+- Mathematical PASS verdict, known-method source attribution and open questions
+  are unchanged. Exact B, asymptotic gcd cancellation and unsampled minima
+  remain open; k=9 is unattempted. No new Lean theorem, research or publication
+  claim is introduced. Owner review/merge is the only intended next decision.
 
 ## Original journal, retained byte-for-byte from the pinned source
 

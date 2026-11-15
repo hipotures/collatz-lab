@@ -1,89 +1,99 @@
-# Phase 13 overnight computation — owner handoff
+# Phase 13 overnight computation — final owner handoff
 
-The fifteenth intermediate witness transition after `L_5` is certified:
-**`H_87120 < H_87121 < H_87122 < H_90000`**. The actual 87121 witness first
-fails at zero-based index 87121, making 87121 another maximal singleton
-plateau. Only the missing minimum at 87122 was computed. Its height has
-51,875 bits; the positive increase has 35,243 bits, with exact comparison
-`1 < H_87122/H_87121 < 2`. These are finite results.
+The frozen evidence contains **24 exact rational-height minima, 16 certified
+witness transitions, and nine raw-shadow levels k=0..8**. The sixteenth
+transition is from **N=87122**, whose witness first fails at zero-based index
+**87123**, to the certified minimum at **N=87124**:
+`H_87121 < H_87122 = H_87123 < H_87124 < H_90000`.
+The 87122..87123 plateau has width two. Both endpoint heights have 51,875
+bits; the positive increase has 35,247 bits and `1 < H_87124/H_87122 < 2`.
+These are finite results preserved from the original run, not new research.
 
-## Exact computation and independent finite certificate
+## Sources and corrected provenance
 
-The [producer](overnight/witness_transition.py) used literal substitution and
-actual numerator iteration. The [independent checker](overnight/verify_transitions.py)
-used indexed substitution, reverse branches and exact discrepancy valuation.
-They agree on failure index 87121 and the positive 63,386-bit failing numerator,
-SHA-256 `8695e637548448cef5fb72cb4990878965a4bf3bdebb208e095f0276fb500f38`.
-Both endpoint minima have checked primitive positive odd-denominator witnesses,
-every actual parity and no-smaller-height certificates. The new exclusion has
-coefficient bound 1 and one exhaustive odd row.
+The source is the immutable [overnight head 76bf613](https://github.com/hipotures/collatz-lab/commit/76bf6136c334c1db9e52e399fcc33fd4c20b9c24).
+The integration base is [main 0190d57](https://github.com/hipotures/collatz-lab/commit/0190d57f43164ce2ec6016b3d3314c94ff98e06b),
+which includes implementation PR #29 and independent referee PR #32.
+[Issue #33](https://github.com/hipotures/collatz-lab/issues/33) repairs the
+23-minima/15-transitions handoff identified in the
+[independent report](../phase13-independent-referee-report.md), sections 8, 12, 13.
+The old [summary](overnight/history/summary-at-76bf613.md) and
+[audit](overnight/history/checkpoint-audit-at-76bf613.json) are preserved
+byte-for-byte as historical snapshots; their entry HEAD, hashes and timing
+attest the older checkpoint, not the final source head. See the
+[history label](overnight/history/README.md).
 
-The [producer log](overnight/transition-87121-compute.log) passed, exit 0, in
-7.70s, peak 117,416 KiB. The [fifteen-link replay](overnight/transition-87121-replay.log)
-passed in 48.62s, peak 71,120 KiB. Producer signal/outer budgets were 180/185
-seconds; replay had a 180-second outer timeout. Both used a 1 GiB child cap.
-The [preflight](overnight/transition-87121-preflight.json),
-[completed checkpoint](overnight/transition-checkpoint.json),
+The new [final audit](overnight/checkpoint-audit.json) binds the unchanged
+source bytes, main's protected files, fresh command outputs and actual input
+hashes. Its validation entry HEAD is a parent checkpoint plus an explicit
+working-tree input manifest; it does not pretend to contain its own future
+commit SHA. The PR head identifies the committed handoff.
+
+## Unchanged evidence and capacity
+
+| Artifact | Records | Bytes | SHA-256 |
+|---|---:|---:|---|
+| [heights.jsonl](overnight/heights.jsonl) | 24 | 8,027,076 | `08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3` |
+| [raw-shadows.jsonl](overnight/raw-shadows.jsonl) | 9 | 6,288 | `72088c34e8e8ac6666da741466fd8c244168350de12c124be38b086d849acad7` |
+| [transitions-0002.jsonl](overnight/transitions-0002.jsonl) | 5 | 219,248 | `786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e` |
+| [transitions.jsonl](overnight/transitions.jsonl) | 11 | 481,400 | `24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7` |
+
+Heights retain the 8 MiB cap, with 361,532 bytes free. The sealed first
+transition segment retains all 11 records. Segment 2 retains five records;
+its 512 KiB cap has 305,040 bytes free. No record was appended, recomputed or
+rewritten, and no third segment was created. The final transition's positive
+63,384-bit failing numerator has magnitude SHA-256
+`4d36741dd00f16fa4a60d6f5c237bb03626c26401313dd2094ccea8ae8018324`.
+The [completed checkpoint](overnight/transition-checkpoint.json),
+[16-link replay](overnight/transition-verification.json),
 [inventory](overnight/height-inventory.json) and
-[replay manifest](overnight/transition-verification.json) bind the evidence.
+[final original replay log](overnight/transition-87122-replay.log) remain unchanged.
 
-## Preserved evidence and capacity
+## Historical and current validation
 
-The eleven-record [base segment](overnight/transitions.jsonl) remains sealed
-at 481,400 bytes. [Segment 2](overnight/transitions-0002.jsonl) has four records
-and 175,401 bytes, preserving all 131,553 preceding bytes. Its SHA-256 is
-`419f2b217ee31ada351742cf6a1b2c4d2f04f5cafda79ba31b362d66c8bc8be5`.
-The fixed 512 KiB cap leaves **348,887 bytes**; no third segment is supported.
+The unchanged original [smoke.log](overnight/smoke.log) passed **24/16/9**,
+exit 0, **464.54 seconds**, peak **102,832 KiB**, under the recorded
+750-second outer timeout and 1 GiB child address-space cap. These are
+historical observations, not the timing of the fresh integration checks.
 
-[heights.jsonl](overnight/heights.jsonl) has twenty-three records and 7,901,178
-bytes, SHA-256 `49b40df14814fa054a292c1d196324c3d301d3f1d2d3801557d8b2990fd9c026`.
-All 7,775,280 previous bytes are preserved; one 125,898-byte line was appended.
-The unchanged 8 MiB cap leaves **487,430 bytes**. Both exact proposed output
-sizes were checked before publishing the new minimum. No Python/shell
-implementation changed.
+| Current checked command | Exit | Wall seconds | Peak RSS KiB |
+|---|---:|---:|---:|
+| [combined-matrix](overnight/integration/combined-matrix.log) | 0 | 269.91 | 292976 |
+| [combined-interfaces](overnight/integration/combined-interfaces.log) | 0 | 9.52 | 292848 |
+| [overnight-smoke](overnight/integration/overnight-smoke.log) | 0 | 467.32 | 102696 |
+| [pinned-referee](overnight/integration/pinned-referee.log) | 0 | 585.64 | 6288872 |
 
-## Derived metadata and proof boundary
+The current smoke uses a 750-second outer timeout and 1 GiB address-space cap.
+The full current-main matrix checks Lean, the exact **653**-declaration axiom
+allowlist, research interfaces, Rust formatting/lints/**94 tests**, all current
+Python checkers and static manuscript/Lean-name consistency. Independent
+interface/axiom parsing checks the actual combined tree. The unchanged
+referee reproduction fetches its exact two pinned refs, checks all **1,691**
+baseline minima, all **24** overnight minima, **16** transitions and raw gcds
+through k=8, and byte-compares both committed reviewer result files.
+All logs, timestamps, exit codes, caps and input fingerprints are in the
+[validation ledger](overnight/integration/validation.json). CI status is
+reported separately in the integration journal/PR, never inferred from a local run.
 
-Fifteen maximal widths are **2,2,3,1,2,1,1,5,3,1,3,2,2,1,1**. The new
-selected-basis update is `[[2,0],[1,1]]`. The
-[probe](overnight/basis-87121-chain.log) passed in 2.05s, peak 71,524 KiB.
-Fourteen adjacent pairs retain six decreases; twenty-eight equal-width pairs
-include nine unequal updates. The earlier falsifications and fourteen prior
-intervals remain intact. No replacement law follows.
+## Evidence boundary and owner decision
 
-The new minimum/failure are exact computation plus independent finite
-certificates. Basis changes are derived integer metadata. Plateau maximality
-uses inherited written parity and monotonicity arguments. No new all-level
-written proof or Lean theorem was added. Python exact arithmetic and the
-written identities remain the trust boundary. `L_5` and `L_6` triplets and
-raw-shadow levels 0..8 remain complete; gcds stay `[3,1,1,1,1,1,1,347,1]`.
-Level 9 is unattempted. Exact `B`, asymptotic cancellation and remaining
-intermediate minima remain open. No asymptotic or originality claim is made.
+Primitive positive odd-denominator witnesses, actual signed numerator parities,
+complete lattice exclusions and independent failure checks certify the finite
+minima/transitions. Plateau maximality uses inherited written parity and
+monotonicity arguments. The producer and original independent certification
+scripts are unchanged. The merged mathematical referee report is unchanged;
+the existing Lean statements and proofs are unchanged. No new Lean theorem,
+mathematical priority, asymptotic law or publication readiness is claimed.
+The general methods retain the source attribution in that report.
 
-## Validation and continuation
+Widths remain `2,2,3,1,2,1,1,5,3,1,3,2,2,1,1,2`; earlier finite
+counterexamples to nondecreasing widths and width-determined basis updates
+remain intact. Raw gcds remain `[3,1,1,1,1,1,1,347,1]`. Exact B, asymptotic
+gcd cancellation, remaining intermediate minima and the next failure of the
+N=87124 witness are unresolved. Level 9 was not attempted.
 
-The full [overnight smoke test](overnight/smoke.log) **passed, exit 0**, in
-**457.37s**, peak **102,176 KiB**, under a 750-second outer timeout and 1 GiB
-child cap. It checked all twenty-three heights, fifteen transitions, nine
-raw-shadow levels and existing arithmetic, parity, corruption, resumption,
-segment and basis controls. Shell syntax, overnight Python compilation and
-`git diff --check` passed. The [final audit](overnight/checkpoint-audit.json)
-records scope, unchanged refs and sources, exact references/hashes, all prior
-certificates and 63 historical command logs. No computation remains running.
-No Lean, Rust or remote CI check was run or claimed.
-
-Next reread local files and capacity, then locate the first actual failure of
-the stored **`N=87122`** witness through 90000 and certify only its first
-missing failing prefix. Its next failure is unresolved; its height is below
-`H_90000`. Preserve both caps and the sealed base segment. Useful bounded
-work remains; no `COMPLETE` marker is justified.
-
-Branch: `codex/phase13-overnight`; entry HEAD/cached origin ref:
-`bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10`. No commit, push, remote access,
-issue/PR edit, integration or publication occurred. The host driver owns
-checkpoints. All edits stay within the authorized paths. Original Phase 13
-engines, PR #29, main, CI, papers and other worktrees are untouched.
-Remote [issue #30](https://github.com/hipotures/collatz-lab/issues/30) and
-[PR #29](https://github.com/hipotures/collatz-lab/pull/29) state was neither
-queried nor changed. The [journal](overnight-progress.md) records exact commands,
-verified outcomes and the next obligation.
+The repair is ready for owner review after successful PR CI on the actual
+integration head. No further computation is required for issue #33. Do not
+resume the historical next-experiment instructions. No PR was merged, no issue
+was closed, and the original branches were not moved. See the
+[current journal](overnight-progress.md) and [finalization instructions](overnight/README.md#final-state-provenance).

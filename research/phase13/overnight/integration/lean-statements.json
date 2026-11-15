@@ -1,0 +1,789 @@
+{
+  "format": "phase13-referee-statements-v1",
+  "total_records": 653,
+  "allowed_foundations": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+  ],
+  "forbidden_scan_files": 85,
+  "declarations": [
+    {
+      "name": "CollatzLab.RationalHeight.Prefix",
+      "kind": "def",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 7,
+      "exact_source_header": "def Prefix (q p : Int) (v : Nat \u2192 Bool) (N : Nat) : Prop",
+      "axioms": [],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.InLattice",
+      "kind": "def",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 10,
+      "exact_source_header": "def InLattice (A : Int) (N : Nat) (p q : Int) : Prop",
+      "axioms": [],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.height",
+      "kind": "def",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 13,
+      "exact_source_header": "def height (p q : Int) : Nat",
+      "axioms": [],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.odd_cancel",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 15,
+      "exact_source_header": "theorem odd_cancel (N : Nat) {d x : Int} (hd : d % 2 = 1)\n    (h : (2 : Int) ^ N \u2223 d * x) : (2 : Int) ^ N \u2223 x",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.parity_cross_iff",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 20,
+      "exact_source_header": "theorem parity_cross_iff {p q r s : Int} (hq : q % 2 = 1) (hs : s % 2 = 1) :\n    p % 2 = r % 2 \u2194 (2 : Int) \u2223 p * s - r * q",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.cross_step",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 34,
+      "exact_source_header": "theorem cross_step {p q r s : Int} (hq : q % 2 = 1) (hs : s % 2 = 1)\n    (hp : p % 2 = r % 2) :\n    \u2203 c : Int, c % 2 = 1 \u2227\n      2 * (numStep q p * s - numStep s r * q) = c * (p * s - r * q)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.cross_step_dvd",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 54,
+      "exact_source_header": "theorem cross_step_dvd (N : Nat) {p q r s : Int}\n    (hq : q % 2 = 1) (hs : s % 2 = 1) (hp : p % 2 = r % 2) :\n    (2 : Int) ^ (N + 1) \u2223 p * s - r * q \u2194\n      (2 : Int) ^ N \u2223 numStep q p * s - numStep s r * q",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.prefix_cross_iff",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 73,
+      "exact_source_header": "theorem prefix_cross_iff : \u2200 N (p q r s : Int), q % 2 = 1 \u2192 s % 2 = 1 \u2192\n    ((\u2200 j, j < N \u2192 seedParity q p j = seedParity s r j) \u2194\n      (2 : Int) ^ N \u2223 p * s - r * q)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.cylinder_iff",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 99,
+      "exact_source_header": "theorem cylinder_iff {v : Nat \u2192 Bool} {N : Nat} {A p q : Int}\n    (hA : Prefix 1 A v N) (hq : q % 2 = 1) :\n    Prefix q p v N \u2194 InLattice A N p q",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.lattice_representation",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 110,
+      "exact_source_header": "theorem lattice_representation (A : Int) (N : Nat) (p q : Int) :\n    InLattice A N p q \u2194 \u2203 k : Int, p = (2 : Int) ^ N * k + A * q",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.lattice_determinant",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 116,
+      "exact_source_header": "theorem lattice_determinant (A : Int) (N : Nat) :\n    (2 : Int) ^ N * 1 - 0 * A = (2 : Int) ^ N",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.divide_odd",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 120,
+      "exact_source_header": "theorem divide_odd (A : Int) (N : Nat) {p q d : Int} (hd : d % 2 = 1)\n    (h : InLattice A N (d * p) (d * q)) : InLattice A N p q",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.residue_exists",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 127,
+      "exact_source_header": "theorem residue_exists (v : Nat \u2192 Bool) (N : Nat) :\n    \u2203 A : Int, 0 \u2264 A \u2227 A < (2 : Int) ^ N \u2227 Prefix 1 A v N",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.residue_unique",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 147,
+      "exact_source_header": "theorem residue_unique {v : Nat \u2192 Bool} {N : Nat} {A B : Int}\n    (hA : 0 \u2264 A \u2227 A < (2 : Int) ^ N \u2227 Prefix 1 A v N)\n    (hB : 0 \u2264 B \u2227 B < (2 : Int) ^ N \u2227 Prefix 1 B v N) : A = B",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.residue",
+      "kind": "def",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 157,
+      "exact_source_header": "noncomputable def residue (v : Nat \u2192 Bool) (N : Nat) : Int",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.residue_spec",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 160,
+      "exact_source_header": "theorem residue_spec (v : Nat \u2192 Bool) (N : Nat) :\n    0 \u2264 residue v N \u2227 residue v N < (2 : Int) ^ N \u2227 Prefix 1 (residue v N) v N",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.parity_lattice_iff",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 164,
+      "exact_source_header": "theorem parity_lattice_iff (v : Nat \u2192 Bool) (N : Nat) (p q : Int)\n    (hq : q % 2 = 1) : Prefix q p v N \u2194 InLattice (residue v N) N p q",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.minimum_exists",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 168,
+      "exact_source_header": "theorem minimum_exists (v : Nat \u2192 Bool) (N : Nat) :\n    \u2203 B : Nat, (\u2203 p q : Int, 0 < q \u2227 q % 2 = 1 \u2227 Prefix q p v N \u2227 height p q = B) \u2227\n      \u2200 p q : Int, 0 < q \u2192 q % 2 = 1 \u2192 Prefix q p v N \u2192 B \u2264 height p q",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.H",
+      "kind": "def",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 191,
+      "exact_source_header": "noncomputable def H (v : Nat \u2192 Bool) (N : Nat) : Nat",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.H_spec",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 194,
+      "exact_source_header": "theorem H_spec (v : Nat \u2192 Bool) (N : Nat) :\n    (\u2203 p q : Int, 0 < q \u2227 q % 2 = 1 \u2227 Prefix q p v N \u2227 height p q = H v N) \u2227\n      \u2200 p q : Int, 0 < q \u2192 q % 2 = 1 \u2192 Prefix q p v N \u2192 H v N \u2264 height p q",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.H_mono",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 199,
+      "exact_source_header": "theorem H_mono (v : Nat \u2192 Bool) {N M : Nat} (hnm : N \u2264 M) : H v N \u2264 H v M",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.H_positive",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 204,
+      "exact_source_header": "theorem H_positive (v : Nat \u2192 Bool) (N : Nat) : 1 \u2264 H v N",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.H_zero",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 210,
+      "exact_source_header": "theorem H_zero (v : Nat \u2192 Bool) : H v 0 = 1",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.H_centered_bound",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 216,
+      "exact_source_header": "theorem H_centered_bound (v : Nat \u2192 Bool) (N : Nat) : H v (N + 1) \u2264 2 ^ N",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.minimizer_primitive",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 246,
+      "exact_source_header": "theorem minimizer_primitive {v : Nat \u2192 Bool} {N : Nat} {p q : Int}\n    (hp : 0 < q) (hq : q % 2 = 1) (hv : Prefix q p v N)\n    (hh : height p q = H v N) : p.gcd q = 1",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.height_bounds",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 298,
+      "exact_source_header": "theorem height_bounds (p q : Int) :\n    absInt p \u2264 (height p q : Int) \u2227 absInt q \u2264 (height p q : Int)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.cross_height_bound",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 304,
+      "exact_source_header": "theorem cross_height_bound (p q r s : Int) :\n    absInt (p * s - r * q) \u2264 2 * (height p q : Int) * (height r s : Int)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.same_prefix_height_separation",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 316,
+      "exact_source_header": "theorem same_prefix_height_separation {v : Nat \u2192 Bool} {N : Nat} {p q r s : Int}\n    (hq : q % 2 = 1) (hs : s % 2 = 1)\n    (hp : Prefix q p v N) (hr : Prefix s r v N) (hne : p * s \u2260 r * q) :\n    (2 : Int) ^ N \u2264 2 * (height p q : Int) * (height r s : Int)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.bounded_height_unique",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 332,
+      "exact_source_header": "theorem bounded_height_unique {v : Nat \u2192 Bool} {N B : Nat} {p q r s : Int}\n    (hq : q % 2 = 1) (hs : s % 2 = 1) (hp : Prefix q p v N) (hr : Prefix s r v N)\n    (h1 : height p q \u2264 B) (h2 : height r s \u2264 B)\n    (hsmall : 2 * B * B < 2 ^ N) : p * s = r * q",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.shadow_crossing",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 348,
+      "exact_source_header": "theorem shadow_crossing {v : Nat \u2192 Bool} {N : Nat} {p q : Int}\n    (hq : q % 2 = 1) (hp : Prefix q p v N)\n    (hfail : seedParity q p N \u2260 bit (v N)) :\n    (2 : Int) ^ N \u2264 2 * (height p q : Int) * (H v (N + 1) : Int)",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.RationalHeight.bounded_iff_rational",
+      "kind": "theorem",
+      "file": "CollatzLab/RationalHeight.lean",
+      "line": 362,
+      "exact_source_header": "theorem bounded_iff_rational (v : Nat \u2192 Bool) :\n    (\u2203 B K : Nat, \u2200 N, K \u2264 N \u2192 H v N \u2264 B) \u2194\n      \u2203 p q : Int, RealizesWord p q (fun j => bit (v j))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1b44d68afcba6777fca989a57797291dbf0cfb617fc530abfb631fa49e77cb8f",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.inflate",
+      "kind": "def",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 8,
+      "exact_source_header": "def inflate (v : Nat \u2192 Bool) (n : Nat) : Bool",
+      "axioms": [],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.baseShadow",
+      "kind": "def",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 11,
+      "exact_source_header": "def baseShadow (n : Nat) : Bool",
+      "axioms": [],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow",
+      "kind": "def",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 13,
+      "exact_source_header": "def shadow : Nat \u2192 Nat \u2192 Bool",
+      "axioms": [],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.matchLength",
+      "kind": "def",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 17,
+      "exact_source_header": "def matchLength : Nat \u2192 Nat",
+      "axioms": [],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.fixed_inflate",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 21,
+      "exact_source_header": "theorem fixed_inflate (n : Nat) : inflate (word frontierSix) n = word frontierSix n",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.matchLength_formula",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 24,
+      "exact_source_header": "theorem matchLength_formula (k : Nat) : 5 * matchLength k + 1 = 56 * 6 ^ k",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.inflate_first_failure",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 30,
+      "exact_source_header": "theorem inflate_first_failure {v : Nat \u2192 Bool} {m : Nat}\n    (he : \u2200 j, j < m \u2192 v j = word frontierSix j) (hne : v m \u2260 word frontierSix m) :\n    (\u2200 j, j < 6 * m + 1 \u2192 inflate v j = word frontierSix j) \u2227\n      inflate v (6 * m + 1) \u2260 word frontierSix (6 * m + 1)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_first_failure",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 51,
+      "exact_source_header": "theorem shadow_first_failure : \u2200 k,\n    (\u2200 j, j < matchLength k \u2192 shadow k j = word frontierSix j) \u2227\n      shadow k (matchLength k) \u2260 word frontierSix (matchLength k)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.inflate_period_after",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 63,
+      "exact_source_header": "theorem inflate_period_after {v : Nat \u2192 Bool} {u s : Nat}\n    (h : \u2200 n, u \u2264 n \u2192 v (n + s) = v n) :\n    \u2200 n, 6 * u \u2264 n \u2192 inflate v (n + 6 * s) = inflate v n",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_period_after",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 71,
+      "exact_source_header": "theorem shadow_period_after : \u2200 k n, 3 * 6 ^ k \u2264 n \u2192\n    shadow k (n + 6 ^ k) = shadow k n",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_tail_initial",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 80,
+      "exact_source_header": "theorem shadow_tail_initial (k j : Nat) (hj : j < 6 ^ k) :\n    shadow k (3 * 6 ^ k + j) = word frontierSix j",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.periodic_seed",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 92,
+      "exact_source_header": "theorem periodic_seed (v : Nat \u2192 Bool) (s : Nat) (hs : 1 \u2264 s)\n    (hper : \u2200 n, v (n + s) = v n)\n    (hgap : (2 : Int) ^ s < (3 : Int) ^ weight v s) :\n    RealizesWord (-offset v s) ((3 : Int) ^ weight v s - (2 : Int) ^ s)\n      (fun j => bit (v j))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.prepend_seed",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 136,
+      "exact_source_header": "theorem prepend_seed (v : Nat \u2192 Bool) (u : Nat) {p q : Int}\n    (hr : RealizesWord p q (fun j => bit (v (u + j)))) :\n    RealizesWord ((2 : Int) ^ u * p - offset v u * q)\n      ((3 : Int) ^ weight v u * q) (fun j => bit (v j))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.local_pressure",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 180,
+      "exact_source_header": "theorem local_pressure (n t : Nat) (ht : t < 6) :\n    (2 : Int) ^ t \u2264 4 * (3 : Int) ^ weight (fun j => word frontierSix (6 * n + j)) t",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.prefix_pressure",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 190,
+      "exact_source_header": "theorem prefix_pressure (n : Nat) :\n    (2 : Int) ^ n \u2264 4 * (3 : Int) ^ weight (word frontierSix) n",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.offset_of_pressure",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 220,
+      "exact_source_header": "theorem offset_of_pressure (v : Nat \u2192 Bool)\n    (hp : \u2200 n, (2 : Int) ^ n \u2264 4 * (3 : Int) ^ weight v n) : \u2200 n,\n    offset v n \u2264 2 * (n : Int) * (3 : Int) ^ weight v n",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.power_gap",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 236,
+      "exact_source_header": "theorem power_gap : \u2200 k,\n    (2 : Int) ^ (6 ^ k) < (3 : Int) ^ weight (word frontierSix) (6 ^ k)",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadowNum",
+      "kind": "def",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 258,
+      "exact_source_header": "def shadowNum (k : Nat) : Int",
+      "axioms": [],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadowDen",
+      "kind": "def",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 263,
+      "exact_source_header": "def shadowDen (k : Nat) : Int",
+      "axioms": [],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_realized",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 268,
+      "exact_source_header": "theorem shadow_realized (k : Nat) :\n    RealizesWord (shadowNum k) (shadowDen k) (fun j => bit (shadow k j))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_prefix",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 292,
+      "exact_source_header": "theorem shadow_prefix (k : Nat) :\n    Prefix (shadowDen k) (shadowNum k) (word frontierSix) (matchLength k)",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_failure",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 299,
+      "exact_source_header": "theorem shadow_failure (k : Nat) :\n    seedParity (shadowDen k) (shadowNum k) (matchLength k) \u2260\n      bit (word frontierSix (matchLength k))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_weight_sum",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 308,
+      "exact_source_header": "theorem shadow_weight_sum (k : Nat) :\n    7 * ((weight (word frontierSix) (3 * 6 ^ k) + weight (word frontierSix) (6 ^ k) : Nat) : Int) =\n      20 * (6 ^ k : Nat) - 6 * (-1 : Int) ^ k",
+      "axioms": [
+        "propext",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.shadow_height_bound",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 328,
+      "exact_source_header": "theorem shadow_height_bound (k : Nat) :\n    height (shadowNum k) (shadowDen k) \u2264\n      14 * 6 ^ k * 3 ^ (weight (word frontierSix) (3 * 6 ^ k) + weight (word frontierSix) (6 ^ k))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.H_shadow_upper",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 380,
+      "exact_source_header": "theorem H_shadow_upper (k : Nat) :\n    H (word frontierSix) (matchLength k) \u2264\n      14 * 6 ^ k * 3 ^ (weight (word frontierSix) (3 * 6 ^ k) + weight (word frontierSix) (6 ^ k))",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.H_shadow_crossing",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 386,
+      "exact_source_header": "theorem H_shadow_crossing (k : Nat) :\n    (2 : Int) ^ matchLength k \u2264 2 *\n      (14 * (6 ^ k : Nat) * (3 : Int) ^\n        (weight (word frontierSix) (3 * 6 ^ k) + weight (word frontierSix) (6 ^ k))) *\n          (H (word frontierSix) (matchLength k + 1) : Int)",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.H_after_shadow",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 408,
+      "exact_source_header": "theorem H_after_shadow (k N : Nat) (hn : matchLength k < N) :\n    (2 : Int) ^ matchLength k \u2264 2 *\n      (14 * (6 ^ k : Nat) * (3 : Int) ^\n        (weight (word frontierSix) (3 * 6 ^ k) + weight (word frontierSix) (6 ^ k))) *\n          (H (word frontierSix) N : Int)",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.H_eleven",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 422,
+      "exact_source_header": "theorem H_eleven : H (word frontierSix) 11 = 3",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    },
+    {
+      "name": "CollatzLab.FrontierHeight.H_twelve",
+      "kind": "theorem",
+      "file": "CollatzLab/FrontierHeight.lean",
+      "line": 438,
+      "exact_source_header": "theorem H_twelve : H (word frontierSix) 12 = 513",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "source_sha256": "1e441469acc169e597264f2dcdd6c503ec15471f3f2f8fea97c3f8f11734d181",
+      "semantic_verdict": "PASS; see the per-declaration table in the report"
+    }
+  ]
+}
