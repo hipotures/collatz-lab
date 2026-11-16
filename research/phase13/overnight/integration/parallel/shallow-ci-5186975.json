@@ -1,0 +1,410 @@
+{
+  "baseline_caches": {
+    "research/phase13/overnight/__pycache__/finalize_provenance.cpython-314.pyc": {
+      "bytes": 24058,
+      "sha256": "7a952cf8290cd3a1aa35d2a8980a9555a0c6c7854bca2c39f84b9126dc7f3bab"
+    }
+  },
+  "blockers": [],
+  "branch": "codex/phase13-overnight-integration",
+  "caches_after_import": {
+    "research/phase10/__pycache__/verify_spectral.cpython-314.pyc": {
+      "bytes": 5546,
+      "sha256": "66a78ac36da9be5a21ea8ee456b2c59760a5c7d3db5c36ce7496f46e6276bf00"
+    },
+    "research/phase11/__pycache__/verify_spectral_boundary.cpython-314.pyc": {
+      "bytes": 6968,
+      "sha256": "dbcd8891f541aa6c31901ac1d50ffd0b0c332c3ed2a09116082df4b8cb932075"
+    },
+    "research/phase13/overnight/__pycache__/finalize_provenance.cpython-314.pyc": {
+      "bytes": 24058,
+      "sha256": "7a952cf8290cd3a1aa35d2a8980a9555a0c6c7854bca2c39f84b9126dc7f3bab"
+    }
+  },
+  "clone_command": [
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "--single-branch",
+    "--branch",
+    "codex/phase13-overnight-integration",
+    "file:///tmp/collatz-lab-phase13-overnight-integration",
+    "repo"
+  ],
+  "clone_exit_code": 0,
+  "commands": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/head.log",
+      "log_sha256": "0074dc835467e73ede66af964ae20241834ebef53e56206e0e9e7e2f18873faa",
+      "name": "head",
+      "started_utc": "2026-11-15T23:26:39.126902+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.00123
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/branch.log",
+      "log_sha256": "c4bc9c451c1e2e7285d41f75aacd8a1e001435e298050237431539ed35e0b105",
+      "name": "branch",
+      "started_utc": "2026-11-15T23:26:39.128228+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001112
+    },
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "--is-shallow-repository"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/shallow.log",
+      "log_sha256": "a17fcf0a2f50e2d495e4f90ce263410edc183add6c62699a2facbccf60410f74",
+      "name": "shallow",
+      "started_utc": "2026-11-15T23:26:39.129405+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001036
+    },
+    {
+      "command": [
+        "git",
+        "rev-list",
+        "--count",
+        "HEAD"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/commit-count.log",
+      "log_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "name": "commit-count",
+      "started_utc": "2026-11-15T23:26:39.130502+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001263
+    },
+    {
+      "command": [
+        "cat",
+        ".git/shallow"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/shallow-boundary.log",
+      "log_sha256": "0074dc835467e73ede66af964ae20241834ebef53e56206e0e9e7e2f18873faa",
+      "name": "shallow-boundary",
+      "started_utc": "2026-11-15T23:26:39.131829+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001832
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/initial-status.log",
+      "log_sha256": "9a6aa5cef29d78a8876987842189df7175c43d128d168568eed3ff86e8dcd57d",
+      "name": "initial-status",
+      "started_utc": "2026-11-15T23:26:39.133722+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.002292
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "HEAD",
+        "--"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/initial-diff.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "initial-diff",
+      "started_utc": "2026-11-15T23:26:39.136082+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001707
+    },
+    {
+      "command": [
+        "git",
+        "ls-files",
+        "-z"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/before-tracked-paths.log",
+      "log_sha256": "edb77ec5cf3150f900763b73bc64a16a9ef9d4a04b58485e9e95ac671832f0fd",
+      "name": "before-tracked-paths",
+      "started_utc": "2026-11-15T23:26:39.137889+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001167
+    },
+    {
+      "command": [
+        "python3",
+        "research/phase13/overnight/finalize_provenance.py",
+        "--check"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/baseline-guard.log",
+      "log_sha256": "8273ed855566686b371093dc0a59060c34896a5f8b208407cb6240ca804d1575",
+      "name": "baseline-guard",
+      "started_utc": "2026-11-15T23:26:39.156809+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.075073
+    },
+    {
+      "command": [
+        "python3",
+        "research/phase13/overnight/test_provenance.py"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/baseline-unit-tests.log",
+      "log_sha256": "6f8a987ff9d3dcb6541362dcfb63b18ec406e6a8b06eb1797ce44daef9fbd18f",
+      "name": "baseline-unit-tests",
+      "started_utc": "2026-11-15T23:26:39.232039+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.134435
+    },
+    {
+      "command": [
+        "env",
+        "-u",
+        "PYTHONDONTWRITEBYTECODE",
+        "-u",
+        "PYTHONPYCACHEPREFIX",
+        "python3",
+        "-c",
+        "import importlib, json, pathlib, sys; assert not sys.dont_write_bytecode; assert sys.pycache_prefix is None; sys.path.insert(0, 'research/phase10'); m = importlib.import_module('verify_spectral'); assert pathlib.Path(m.__cached__).is_file(); print(json.dumps({'module': m.__name__, 'source': m.__file__, 'cache': m.__cached__, 'cache_exists': pathlib.Path(m.__cached__).is_file()}))"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/import-verify_spectral.log",
+      "log_sha256": "207ca90b5f23278a67681cbdaaa403d42e63c35b127754841c0959a44a2b8f82",
+      "name": "import-verify_spectral",
+      "started_utc": "2026-11-15T23:26:39.367555+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.019401
+    },
+    {
+      "command": [
+        "env",
+        "-u",
+        "PYTHONDONTWRITEBYTECODE",
+        "-u",
+        "PYTHONPYCACHEPREFIX",
+        "python3",
+        "-c",
+        "import importlib, json, pathlib, sys; assert not sys.dont_write_bytecode; assert sys.pycache_prefix is None; sys.path.insert(0, 'research/phase11'); m = importlib.import_module('verify_spectral_boundary'); assert pathlib.Path(m.__cached__).is_file(); print(json.dumps({'module': m.__name__, 'source': m.__file__, 'cache': m.__cached__, 'cache_exists': pathlib.Path(m.__cached__).is_file()}))"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/import-verify_spectral_boundary.log",
+      "log_sha256": "66be358ae8469e2cc63c25727c612de3c7d4d413c50a7249a0df3044efcb315c",
+      "name": "import-verify_spectral_boundary",
+      "started_utc": "2026-11-15T23:26:39.387068+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.018697
+    },
+    {
+      "command": [
+        "git",
+        "ls-files",
+        "--others",
+        "--exclude-standard"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/untracked-after-import.log",
+      "log_sha256": "4b9f8878de3ef794517394859a83b8de2ca2bb795817cb3891d770a8cbdab42a",
+      "name": "untracked-after-import",
+      "started_utc": "2026-11-15T23:26:39.407124+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001578
+    },
+    {
+      "command": [
+        "python3",
+        "research/phase13/overnight/finalize_provenance.py",
+        "--check"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/cached-guard.log",
+      "log_sha256": "8273ed855566686b371093dc0a59060c34896a5f8b208407cb6240ca804d1575",
+      "name": "cached-guard",
+      "started_utc": "2026-11-15T23:26:39.408842+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.073945
+    },
+    {
+      "command": [
+        "python3",
+        "research/phase13/overnight/test_provenance.py"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/cached-unit-tests.log",
+      "log_sha256": "160633ca336f772613a032b60c2aa43d19cd24e0d2d6ba15a363b5c9143164fa",
+      "name": "cached-unit-tests",
+      "started_utc": "2026-11-15T23:26:39.482902+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.131583
+    },
+    {
+      "command": [
+        "git",
+        "ls-files",
+        "-z"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/after-tracked-paths.log",
+      "log_sha256": "edb77ec5cf3150f900763b73bc64a16a9ef9d4a04b58485e9e95ac671832f0fd",
+      "name": "after-tracked-paths",
+      "started_utc": "2026-11-15T23:26:39.614584+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001422
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "HEAD",
+        "--"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/final-diff.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "final-diff",
+      "started_utc": "2026-11-15T23:26:39.632305+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.002144
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--exit-code",
+        "HEAD",
+        "--"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/final-index-diff.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "final-index-diff",
+      "started_utc": "2026-11-15T23:26:39.634565+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.001311
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--branch",
+        "--untracked-files=all"
+      ],
+      "cwd": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+      "exit_code": 0,
+      "log": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/final-status.log",
+      "log_sha256": "f6b5424a733d9a50cc1b90943838442040514bf908a03f65f532f805a1f56501",
+      "name": "final-status",
+      "started_utc": "2026-11-15T23:26:39.635973+00:00",
+      "timeout_seconds": 90,
+      "wall_seconds": 0.002575
+    }
+  ],
+  "commit": "518697503580f632d19bdab4b92c6f4d9e5caffe",
+  "commit_url": "https://github.com/hipotures/collatz-lab/commit/518697503580f632d19bdab4b92c6f4d9e5caffe",
+  "generated_caches_outside_phase13": {
+    "research/phase10/__pycache__/verify_spectral.cpython-314.pyc": {
+      "bytes": 5546,
+      "sha256": "66a78ac36da9be5a21ea8ee456b2c59760a5c7d3db5c36ce7496f46e6276bf00"
+    },
+    "research/phase11/__pycache__/verify_spectral_boundary.cpython-314.pyc": {
+      "bytes": 6968,
+      "sha256": "dbcd8891f541aa6c31901ac1d50ffd0b0c332c3ed2a09116082df4b8cb932075"
+    }
+  },
+  "harness_sha256": "f56d13935dc2d7de2fc2fe4d6885e94856e6b276729e7d560bc7f71d828c679d",
+  "initial_caches": {},
+  "isolated_clone": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/repo",
+  "issue_state_read": "open",
+  "issue_url": "https://github.com/hipotures/collatz-lab/issues/33",
+  "limits": "Ran only the provenance guard, its six unit tests twice, ordinary imports, Git inspection, and byte hashing. Did not rerun Lean/Rust, smoke, referee reproduction, or arithmetic optimizers.",
+  "pr_mutated_by_this_agent": false,
+  "preflight": "Read active issue #33 and comments, isolated-clone AGENTS.md, current handoff journal and CI; inspected clean status, exact HEAD and relevant refs. No parent edits or Git mutations.",
+  "pushed_by_this_agent": false,
+  "python": {
+    "command": [
+      "python3",
+      "--version"
+    ],
+    "exit_code": 0,
+    "log_sha256": "63990b3ee50c49ab28d70e29c0f967f0c71330e39243ffeb4d3a8d5878c8a978",
+    "output": "Python 3.14.4"
+  },
+  "remaining_owner_decisions": "No decision for this engineering check; owner controls PR integration.",
+  "result": "PASS",
+  "scope": "Engineering portability verification only; no mathematical claim or heavy test rerun.",
+  "snapshots": {
+    "after": {
+      "manifest_sha256": "893ffa751a11918dad00fc7a12dbfe102fe922f8866e2ba35c2b576eac856178",
+      "path": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/after.tracked-sha256.json",
+      "tracked_files": 374
+    },
+    "before": {
+      "manifest_sha256": "893ffa751a11918dad00fc7a12dbfe102fe922f8866e2ba35c2b576eac856178",
+      "path": "/tmp/collatz-issue33-shallow-ci-4akfm7mp/before.tracked-sha256.json",
+      "tracked_files": 374
+    }
+  },
+  "source": "file:///tmp/collatz-lab-phase13-overnight-integration",
+  "tracked_file_count": 374,
+  "tracked_manifest_sha256": "893ffa751a11918dad00fc7a12dbfe102fe922f8866e2ba35c2b576eac856178",
+  "tracked_source_bytes_unchanged": true,
+  "unchanged_evidence": {
+    "heights.jsonl": {
+      "bytes": 8027076,
+      "sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3"
+    },
+    "raw-shadows.jsonl": {
+      "bytes": 6288,
+      "sha256": "72088c34e8e8ac6666da741466fd8c244168350de12c124be38b086d849acad7"
+    },
+    "transitions-0002.jsonl": {
+      "bytes": 219248,
+      "sha256": "786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e"
+    },
+    "transitions.jsonl": {
+      "bytes": 481400,
+      "sha256": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7"
+    }
+  },
+  "untracked_caches_confirmed": true
+}

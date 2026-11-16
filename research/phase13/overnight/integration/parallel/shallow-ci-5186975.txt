@@ -1,0 +1,44 @@
+PASS: issue #33 bounded shallow-checkout / CI-cache verification
+Branch: codex/phase13-overnight-integration
+Checked commit: 518697503580f632d19bdab4b92c6f4d9e5caffe
+Issue: https://github.com/hipotures/collatz-lab/issues/33 (open when read)
+Clone: /tmp/collatz-issue33-shallow-ci-4akfm7mp/repo
+Clone command: git clone --depth 1 --single-branch --branch codex/phase13-overnight-integration file:///tmp/collatz-lab-phase13-overnight-integration repo (exit 0)
+Shallow proof: git rev-parse --is-shallow-repository = true; git rev-list --count HEAD = 1; .git/shallow names checked commit (all exits 0).
+Python: Python 3.14.4
+
+Command: python3 research/phase13/overnight/finalize_provenance.py --check
+Stage: baseline-guard; exit 0; output SHA-256 8273ed855566686b371093dc0a59060c34896a5f8b208407cb6240ca804d1575
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+
+Command: python3 research/phase13/overnight/test_provenance.py
+Stage: baseline-unit-tests; exit 0; output SHA-256 6f8a987ff9d3dcb6541362dcfb63b18ec406e6a8b06eb1797ce44daef9fbd18f
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.095s
+
+OK
+
+Command: python3 research/phase13/overnight/finalize_provenance.py --check
+Stage: cached-guard; exit 0; output SHA-256 8273ed855566686b371093dc0a59060c34896a5f8b208407cb6240ca804d1575
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+
+Command: python3 research/phase13/overnight/test_provenance.py
+Stage: cached-unit-tests; exit 0; output SHA-256 160633ca336f772613a032b60c2aa43d19cd24e0d2d6ba15a363b5c9143164fa
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.097s
+
+OK
+
+Ordinary imports: each ran in a fresh Python process with PYTHONDONTWRITEBYTECODE and PYTHONPYCACHEPREFIX unset, bytecode initially enabled, and a temporary sys.path entry for its directory.
+Created untracked caches outside phase13:
+  research/phase10/__pycache__/verify_spectral.cpython-314.pyc: 5546 bytes; SHA-256 66a78ac36da9be5a21ea8ee456b2c59760a5c7d3db5c36ce7496f46e6276bf00
+  research/phase11/__pycache__/verify_spectral_boundary.cpython-314.pyc: 6968 bytes; SHA-256 dbcd8891f541aa6c31901ac1d50ffd0b0c332c3ed2a09116082df4b8cb932075
+Both provenance checks and all six unit tests passed before and after caches existed.
+374 tracked files have identical before/after sizes and SHA-256 values.
+Tracked manifest SHA-256: 893ffa751a11918dad00fc7a12dbfe102fe922f8866e2ba35c2b576eac856178
+Final git diff HEAD and cached diff both exited 0; final status contains only the two external cache files.
+No parent checkout changes, commits, pushes, PR mutations or heavy mathematical checks.
+Blockers: none. Limits: local Python/cache portability check; does not independently certify GitHub Actions or mathematical results.
+Resume here: verification complete; parent may use report.json and sibling logs/manifests. Owner controls final PR integration.
