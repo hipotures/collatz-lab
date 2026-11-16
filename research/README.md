@@ -4,7 +4,7 @@
 |---|---|
 | [`phase13-progress.md`](phase13-progress.md) | Phase 13 resume point, exact pushed checkpoints, validation and remaining rational-height questions |
 | [`phase13-prior-art.md`](phase13-prior-art.md) | Primary-source comparison: approximation lattices, odd-denominator reconstruction, 2-adic complexity and Collatz shadows |
-| [`phase13-theory.md`](phase13-theory.md) | Exact finite heights and substituted rational shadows; integer bounds in Lean and written nonconvergence / exponent deductions |
+| [`phase13-theory.md`](phase13-theory.md) | Exact finite heights and substituted rational shadows; integer bounds, 3-adic non-cancellation, exact shadow minima/plateaux and two-shadow dichotomy in Lean; written nonconvergence and unconditional `B >= (1-c)/(1+5c)` deductions |
 | [`phase13-experiments.md`](phase13-experiments.md) | 16,384-bit profiles, 1,691 independent minimum certificates, benchmarks and falsified conjectures |
 | [`phase13/README.md`](phase13/README.md) | Algorithms, exact certificate format and bounded reproduction commands |
 | [`phase13/overnight-summary.md`](phase13/overnight-summary.md) | Phase 13 overnight handoff: 24 exact height minima, 16 certified transitions, raw shadows `k=0..8`, corrected provenance (issues #30, #33) |

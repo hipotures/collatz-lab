@@ -47,6 +47,7 @@ jobs:
           python3 research/phase13/verify_certificates.py research/phase13/heights.json.gz
           python3 research/phase13/verify_analytics.py --check
           python3 research/phase13/verify_modular.py --check
+          python3 research/phase13/verify_shadow_cancellation.py
 
       - name: Verify finite general-polynomial regressions
         run: python3 research/phase8/verify_polynomial.py
@@ -78,7 +79,7 @@ jobs:
             exit 1
           fi
       - name: Build Lean 4 formalization
-        run: lake build
+        run: lake build CollatzLab CollatzLab.ShadowCancellation
       - name: Audit theorem axioms
         run: |
           if ! output=$(lake env lean research/lean-audit/FamilyAudit.lean); then
@@ -90,6 +91,12 @@ jobs:
           # Lean's wrapping only when continuation tokens name those foundations.
           python3 research/lean-audit/check_axioms.py --self-test
           printf '%s\n' "$output" | python3 research/lean-audit/check_axioms.py --expected-count 653
+          if ! shadow_output=$(lake env lean research/lean-audit/ShadowCancellationAudit.lean); then
+            printf '%s\n' "$shadow_output"
+            exit 1
+          fi
+          echo "$shadow_output"
+          printf '%s\n' "$shadow_output" | python3 research/lean-audit/check_shadow_axioms.py --expected-shadow-count 48
       - name: Check Lean declarations named in the manuscript
         run: |
           python3 paper/check_tex.py --lean-names > "$RUNNER_TEMP/NameCheck.lean"
@@ -99,3 +106,4 @@ jobs:
           lake env lean research/phase11/Signatures.lean
           lake env lean research/phase12/Signatures.lean
           lake env lean research/phase13/Signatures.lean
+          lake env lean research/phase13/ShadowCancellationSignatures.lean

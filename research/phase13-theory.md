@@ -366,6 +366,13 @@ H_(L_k) = max(|P_k|,Q_k) / gcd(|P_k|,Q_k)  for every k>=0.
 This is an explicit infinite subsequence formula with a remaining integer gcd,
 not an assertion that its normalized logarithm has limit c. Its general
 uniqueness mechanism is classical rational reconstruction, already audited.
+The integer inequality `2*T_k^2<2^L_k` for `k>=2` and the exact all-`k`
+subsequence minimum identity `gcd(|P_k|,Q_k)*H_(L_k)=max(|P_k|,Q_k)` are now
+also kernel-verified in `CollatzLab/ShadowCancellation.lean`
+(`shadow_strict_uniqueness_ge_two`, `H_shadow_exact`), together with the
+plateau constancy theorem `H_N=H_(L_k)` for all `N<=L_k` satisfying
+`2*height(P_k,Q_k)^2<2^N` (`H_shadow_plateau`, `H_sixty_seven`,
+`H_level_one_plateau`, `H_after_sixty_seven`).
 
 The first seven positive levels disprove the simplest way to drop the gcd:
 for k=1..6 it is 1, but **gcd(|P_7|,Q_7)=347**. Here S_7=279936 and
@@ -401,34 +408,85 @@ at every k=5425+14878j**.
 This is an explicit certified obstruction to raw coprimality, using a known
 finite-state congruence mechanism. No priority claim is made for the particular
 cycles. Constant-size common factors, even at infinitely many levels, do not
-prove cancellation exponential in S_k or change an exponent. The possibility
-`log2 gcd(|P_k|,Q_k)=o(S_k)` remains unresolved, as does control of all other
-prefix lengths. No corresponding claim about unrestricted Collatz orbits is
-implied by these shadow calculations.
+prove cancellation exponential in S_k or change an exponent.
 
-There is a useful **conditional** refinement of the lower bound. Suppose
-`log2(height(y_k))/L_k -> c`; the unresolved subexponential-gcd condition
-would imply this, since the raw denominator already has exponent c. Put
-`a=(1-c)/6`. For `L_(k-1)<N<=L_k`, a minimum r either equals y_k, giving
-`log2(H_N)/N>=c-o(1)`, or differs from y_k. In the latter case the two
-determinant comparisons with y_(k-1) and y_k give
+### 3-adic non-cancellation, exact tail-GCD reduction, and unconditional two-shadow bound
 
-```
-log2 H_N >= max((a-o(1))*L_k, N-(c+o(1))*L_k).
-```
+In `CollatzLab/ShadowCancellation.lean`, the 3-adic structure of the raw shadow
+coordinates is kernel-verified for all `k>=1`:
 
-Writing x=N/L_k, the minimum of `max(a/x,1-c/x)` occurs at x=a+c.
-Consequently the conditional conclusion is
-`B>=(1-c)/(1+5c)=0.19713587687...`, still below c. This known two-approximant
-principle shows precisely why controlling the gcd alone would not determine
-the global B: intermediate best approximants also need control. This is a
-written conditional theorem, not an unconditional improvement or Lean result.
+1. **Parent-bit congruence (`offset_six_block_mod_three`).** Because column 4 of
+   every 6-bit substituted block is `1` and column 5 equals the parent bit `w_n`,
+   `offset(w, 6*(n+1)) mod 3` equals `2` when `w_n=1` and `1` when `w_n=0`.
+2. **Preperiod and period endpoints (`offset_period_mod_three`,
+   `offset_preperiod_mod_three`, `shadowNum_mod_three`).** By induction through
+   column 5, `w_(6^k-1)=1` and `w_(3*6^k-1)=0` for all `k>=0`. Hence for all
+   `k>=1`, `d_k = offset(w, 6^k) = 2 (mod 3)`,
+   `c_k = offset(w, 3*6^k) = 1 (mod 3)`, and `P_k = shadowNum k = 2 (mod 3)`
+   (i.e. `|P_k| = 1 mod 3`).
+3. **Exact preperiod non-cancellation (`isBezout_preperiod_shadowNum`,
+   `preperiod_dvd_of_shadow_eq`, `shadow_gcd_eq_tail_gcd`, `shadow_gcd_bound`,
+   `H_shadow_lower`).** Because `3` never divides `P_k` for `k>=1`, `P_k` is
+   coprime to the entire preperiod factor `a_k = 3^(r_(U_k))` of
+   `Q_k = a_k*(b_k-2^(6^k))`. Consequently, for all `k>=1`:
+
+   ```
+   gcd(|P_k|, Q_k) = gcd(d_k, b_k - 2^(6^k)) <= b_k - 2^(6^k) < 3^(r_(V_k)),
+   a_k divides q_k = Q_k / gcd(|P_k|, Q_k),
+   3^(r_(U_k)) <= H_(L_k) <= T_k.
+   ```
+
+   An integer `m>=1` therefore divides `gcd(|P_k|,Q_k)` (`k>=1`) **if and only
+   if** `gcd(m,6)=1` and the periodic-tail inverse map `f_1` is the identity
+   modulo `m`. In logarithmic terms, `limsup log2 gcd(|P_k|,Q_k) / L_k <= c/4`
+   and `(3/4)*c <= liminf log2(H_(L_k))/L_k <= limsup log2(H_(L_k))/L_k <= c`,
+   unconditionally. Whether `log2 gcd(d_k, b_k-2^(6^k)) = o(S_k)` remains open.
+4. **Unconditional two-shadow global lower bound (`H_two_shadow_dichotomy`).**
+   Previously, the two-shadow refinement `B >= (1-c)/(1+5c)` was stated
+   conditionally on `log2(height(y_k))/L_k -> c`. That hypothesis is only used
+   in the case where a minimizer `r = p/q` at `N in (L_(k-1), L_k]` equals `y_k`,
+   to ensure `log2(height(y_k))/N >= (1-c)/(1+5c) - o(1)`. Because
+   `(3/4)*c = 0.30324538... > (1-c)/(1+5c) = 0.19713587...` (indeed `c > 3/8`
+   gives `15*c^2 + 7*c - 4 > 47/64 > 0`), the unconditional preperiod bound
+   `height(y_k) >= 3^(r_(U_k))` already suffices in the `r = y_k` branch!
+   Specifically, `H_two_shadow_dichotomy` proves in the Lean 4 kernel that for
+   every `k>=0` and `L_k < N <= L_(k+1)`, unconditionally either:
+   - `3^(r_(U_(k+1))) <= H_N` (when the minimizer at `N` equals `y_(k+1)`), or
+   - both `2^L_k <= 2*T_k*H_N` and `2^N <= 2*T_(k+1)*H_N` hold simultaneously
+     (when the minimizer at `N` differs from `y_(k+1)`).
+
+   With `a=(1-c)/6` and `x=N/L_(k+1) in (1/6, 1]`, the second branch gives
+   `log2(H_N)/N >= max(a/x, 1-c/x) - o(1) >= (1-c)/(1+5c) - o(1)`, while the
+   first branch gives `log2(H_N)/N >= (3/4)*c/x - o(1) >= (3/4)*c - o(1)`.
+   Therefore, **unconditionally**:
+
+   ```
+   (1-c)/(1+5c) = 0.19713587687... <= B = liminf log2(H_N)/N <= c = 0.40432716855...,
+   1/c = 2.47324467... <= mu_2(Phi(w)) <= (1+5c)/(1-c) = 5.07264320...
+   ```
+
+   Whether `B = c` (which requires both `log2 gcd(d_k, b_k-2^(6^k)) = o(S_k)`
+   and ruling out intermediate approximants below exponent `c`) remains open.
+
+   **Evidence levels and attribution.** Items 1–4 are kernel-verified integer
+   statements. The divisor characterization in item 3 (`m | gcd` iff
+   `gcd(m,6)=1` and `f_1` is the identity modulo `m`), every `liminf`/`limsup`
+   and `mu_2` statement, and the final value `(1-c)/(1+5c)` are written
+   deductions from those integer theorems, not Lean real-limit theorems. The
+   mechanism is the known two-approximant determinant principle (Section 8
+   and the source matrix) combined with an elementary mod-3 congruence; no
+   novelty or priority claim is made for this refinement. It has not yet had
+   an independent referee review.
 
 ## 9. Exact verification boundary
 
-`RationalHeight.lean` and `FrontierHeight.lean` export 60 new audited declarations.
-The exact CI manifest has 653 entries, preserving the 593 baseline names.
-Separate `phase13/Signatures.lean` examples state the key interfaces afresh.
+`RationalHeight.lean` and `FrontierHeight.lean` export 60 audited declarations
+in the frozen 653-entry `FamilyAudit.lean` manifest. `ShadowCancellation.lean`
+exports 48 additional declarations audited by `ShadowCancellationAudit.lean`
+and `check_shadow_axioms.py` (701 total audited declarations across both
+manifests). Separate `phase13/Signatures.lean` and
+`phase13/ShadowCancellationSignatures.lean` examples state the key interfaces
+afresh.
 
 | Claim | Evidence |
 |---|---|
@@ -437,10 +495,13 @@ Separate `phase13/Signatures.lean` examples state the key interfaces afresh.
 | Bounded heights iff an infinite rational realization; height separation | **Lean kernel**, no Periodicity Conjecture premise |
 | All-level actual rational shadows, exact first mismatch, pressure and weights | **Lean kernel** |
 | H_(L_k)<=T_k and 2^L_k<=2*T_k*H_N whenever N>L_k | **Lean kernel** |
-| H_11=3, H_12=513 | **Lean kernel**, plus independent exhaustive Python iteration |
-| Exponent interval, nonconvergence, exact reduced-shadow minima for all k | **Written deductions** from the displayed finite theorems, not formal real-limit theorems |
-| Modular cycle identities and full gcd computations through k=7 | **Exact independent Python certificates**, with written infinite-cycle deduction |
-| B=c, asymptotic gcd size, no better intermediate approximants | **Open / conjectural**, no convergence claim |
+| H_11=3, H_12=513, H_67=297087259, H_N=297087259 on 59<=N<=67, H_N>=248368026765 for N>67 | **Lean kernel**, plus independent Python checks |
+| 3-adic non-cancellation (`shadowNum_mod_three`), `gcd(|P_k|,Q_k)=gcd(d_k,b_k-2^(6^k))<=b_k-2^(6^k)`, and `3^(r_(U_k))<=H_(L_k)` for all `k>=1` | **Lean kernel** (`ShadowCancellation.lean`) |
+| Strict uniqueness `2*T_k^2<2^L_k` (`k>=2`), exact subsequence formula `gcd(|P_k|,Q_k)*H_(L_k)=max(|P_k|,Q_k)` (`k>=0`), and plateau constancy `H_N=H_(L_k)` (`2*height(P_k,Q_k)^2<2^N<=2^L_k`) | **Lean kernel** (`ShadowCancellation.lean`) |
+| Unconditional two-shadow integer dichotomy (`H_two_shadow_dichotomy`) for all `L_k<N<=L_(k+1)` | **Lean kernel** (`ShadowCancellation.lean`), with written logarithmic deduction `B>=(1-c)/(1+5c)` |
+| Exponent interval, nonconvergence, `B>=(1-c)/(1+5c)` and `(3/4)*c<=liminf log2(H_(L_k))/L_k<=c` | **Written deductions** from the kernel-verified integer theorems, not formal real-limit theorems |
+| Modular cycle identities and full gcd computations through k=8 | **Exact independent Python certificates**, with written infinite-cycle deduction |
+| Exact B=c, whether `log2 gcd(d_k,b_k-2^(6^k))=o(S_k)`, and intermediate approximants between L_k and plateau entry | **Open / conjectural**, no convergence claim |
 
 The mathematical result is an attributed quantitative specialization
 and repository formalization. It is not advertised as a newly discovered

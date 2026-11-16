@@ -38,14 +38,42 @@
   cycles prove infinite common factors 347 and 347^2. All are known-method
   specializations, with no priority claim. Real-limit / modular-cycle deductions
   are written proofs, not separate Lean limit theorems.
-- **Next mathematical obligation:** determine B, controlling odd gcd growth
-  and possible better approximants between L_k. A precise conditional bound
-  `(1-c)/(1+5c)<=B` is proved if shadow heights have exponent c; that premise
-  is not assumed unconditionally. Do not redo the completed engine or known
-  irrationality proof. Read theory Sections 6–9 and `modular.json` first.
-- **Next command after fetching/checking status:** `bash research/phase13/validate.sh`.
-  It reproduces all inherited checks and bounded new evidence. The audit has
-  **653** exact entries (60 new, 593 baseline preserved), wired to CI.
+- **Post-integration Checkpoint F (on `main`):**
+  `CollatzLab/ShadowCancellation.lean` (48 new kernel-verified declarations,
+  audited via `ShadowCancellationAudit.lean` and `check_shadow_axioms.py`,
+  bringing the total CI-audited declaration count to 653 + 48 = 701) proves:
+  1. `offset(w, 6*(n+1)) mod 3` equals `2` when `w_n=1` and `1` when `w_n=0`;
+     `w_(6^k-1)=1` and `w_(3*6^k-1)=0` for all `k>=0`; hence for all `k>=1`,
+     `offset(w,6^k) = 2 (mod 3)`, `offset(w,3*6^k) = 1 (mod 3)`, and
+     `shadowNum k = 2 (mod 3)`.
+  2. `shadowNum k` is coprime to the entire preperiod power
+     `a_k = 3^weight(w, 3*6^k)` for all `k>=1`, so
+     `gcd(|P_k|, Q_k) = gcd(offset(w,6^k), 3^weight(w,6^k)-2^(6^k)) <= 3^weight(w,6^k)-2^(6^k)`
+     (`shadow_gcd_eq_tail_gcd`, `shadow_gcd_bound`).
+  3. All-level strict uniqueness `2*T_k^2 < 2^L_k` (`k>=2`), the exact
+     all-level subsequence minimum identity
+     `gcd(|P_k|,Q_k) * H(w, L_k) = height(P_k, Q_k)` (`H_shadow_exact`),
+     the unconditional subsequence lower bound `3^weight(w,3*6^k) <= H(w,L_k)`
+     for `k>=1` (`H_shadow_lower`, giving `(3/4)*c <= liminf log2(H_(L_k))/L_k <= c`),
+     and the plateau constancy theorem `H(w,N) = H(w,L_k)` for
+     `2*height(P_k,Q_k)^2 < 2^N <= 2^L_k` (`H_shadow_plateau`, `H_sixty_seven`,
+     `H_level_one_plateau`, `H_after_sixty_seven`).
+  4. The unconditional two-shadow integer dichotomy (`H_two_shadow_dichotomy`)
+     for all `L_k < N <= L_(k+1)`, which upgrades the global lower bound
+     `B = liminf log2(H_N)/N >= (1-c)/(1+5c) = 0.19713587687...` (and
+     `mu_2(Phi(w)) <= (1+5c)/(1-c) = 5.07264320...`) from conditional to
+     **unconditional**, because `(3/4)*c > (1-c)/(1+5c)` closes the equal-shadow
+     branch without assuming subexponential tail-gcd cancellation.
+  5. Independent verification in `research/phase13/verify_shadow_cancellation.py`
+     and `research/phase13/ShadowCancellationSignatures.lean`.
+- **Remaining open mathematical obligations:** determine whether `B = c` (which
+  requires both `log2 gcd(offset(w,6^k), 3^weight(w,6^k)-2^(6^k)) = o(6^k)` and
+  ruling out intermediate best approximants below exponent `c` between `L_k`
+  and the plateau entry `~2*c*L_(k+1)`).
+- **Next command after fetching/checking status:** `bash research/phase13/validate.sh`
+  and `python3 research/phase13/verify_shadow_cancellation.py`. The frozen
+  baseline audit has **653** exact entries (`FamilyAudit.lean`), plus **48**
+  entries in `ShadowCancellationAudit.lean` (**701** total), wired to CI.
 - All gates have a reviewable conclusion at PR #29. Integration, issue closure
   and any publication remain owner decisions. The final handoff below records
   PR/head CI without merging anything. Check live PR head/CI before continuing;

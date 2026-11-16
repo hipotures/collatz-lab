@@ -16,9 +16,14 @@ kind of statement it is.
 
 Phase 13 adds [exact signed rational reconstruction heights](research/phase13-theory.md)
 for finite parity prefixes, with [independently certified 16,384-bit data](research/phase13-experiments.md).
-Lean verifies the finite lattice bridge and all-level rational-shadow integer
-bounds. Written deductions show that the normalized height profile of
-`1->100111,0->111110` does not converge; the exact liminf remains open.
+Lean verifies the finite lattice bridge, all-level rational-shadow integer
+bounds, exact 3-adic preperiod non-cancellation (`shadowNum k % 3 = 2` for
+`k>=1`), exact tail-GCD reduction, all-level shadow subsequence minima and
+plateaux, and the unconditional two-shadow dichotomy (`CollatzLab/ShadowCancellation.lean`).
+Written deductions show that the normalized height profile of
+`1->100111,0->111110` does not converge and satisfies
+`(1-c)/(1+5c) <= B = liminf log2(H_N)/N <= c` (`c = (25/98) log2 3`)
+unconditionally; whether `B = c` remains open.
 The [source audit](research/phase13-prior-art.md) attributes the general
 reconstruction and approximation methods to earlier work; no novelty claim
 is made. Start from the [resume journal](research/phase13-progress.md).
@@ -26,9 +31,11 @@ A supplementary overnight run adds 24 exact height minima and 16 certified
 witness transitions; these are finite results only, see the
 [overnight handoff](research/phase13/overnight-summary.md).
 
-The CI Lean audit currently covers 653 declarations, using only standard Lean
-foundation axioms (`research/lean-audit/check_axioms.py`). Declaration counts
-quoted in the phase sections below are historical snapshots of each phase.
+The CI Lean audit currently covers 701 declarations (653 in `FamilyAudit.lean`
+plus 48 in `ShadowCancellationAudit.lean`), using only standard Lean foundation
+axioms (`research/lean-audit/check_axioms.py`,
+`research/lean-audit/check_shadow_axioms.py`). Declaration counts quoted in the
+phase sections below are historical snapshots of each phase.
 
 ## What is here
 
