@@ -1,0 +1,89 @@
+PASS: 25432 signed floor sums; 4095 exhaustive residues; 31750 signed parity cylinders; 262400 direct H_12 exclusions; 7 rejected corrupt certificates; H_11=3, H_12=513
+PASS: 511 brute-force residues; 20 baseline minima and certificates; four independent prefix/residue controls; 7 rejected corruptions; H_11=3, H_12=513
+{"adversarial": {"explicit_cap_rejection": true, "floor_sum_fallback_verified": true, "rejected_malformed_cases": 13}, "classification": "finite exact regression, not a universal formal proof", "exhaustive": {"all_coordinate_signs": [-1, 0, 1], "boxes": 27540, "empty": 18792, "largest_coefficient_bound": 24, "nonempty": 8748, "zero_coordinate_positions": [[0, 0], [0, 1], [1, 0]]}, "format": "phase13-overnight-basis-tests-v1", "regression": {"historical_records": 20, "historical_source_sha256": "19b6def263de48ee2d669691012ad6e732ba7d6cdac43b0070798a4bc70818f8", "largest_historical_coefficient_bound": 1, "note": "Alternative compact proofs of the stored exact minima; no sample recomputed.", "overnight_sample_ids": [80000, 87090, 87091, 87092, 87094, 87096, 87099, 87100, 87102, 87103, 87104, 87109, 87112, 87113, 87116, 87118, 87120, 87121, 87122, 87124, 90000, 522546, 522547, 522548], "overnight_source_sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3"}}
+PASS: independent compact-box exclusions, direct nonempty/empty boxes, signed/zero coordinates, adversarial mutations, cap/fallback, stored minima
+VERIFIED N=87090 height_bits=35217
+VERIFIED N=87091 height_bits=35217
+VERIFIED N=87092 height_bits=51875
+VERIFIED N=80000 height_bits=35217
+VERIFIED N=90000 height_bits=51875
+VERIFIED N=522546 height_bits=211281
+VERIFIED N=522547 height_bits=211281
+VERIFIED N=522548 height_bits=311267
+VERIFIED N=87094 height_bits=51875
+VERIFIED N=87096 height_bits=51875
+VERIFIED N=87099 height_bits=51875
+VERIFIED N=87100 height_bits=51875
+VERIFIED N=87102 height_bits=51875
+VERIFIED N=87103 height_bits=51875
+VERIFIED N=87104 height_bits=51875
+VERIFIED N=87109 height_bits=51875
+VERIFIED N=87112 height_bits=51875
+VERIFIED N=87113 height_bits=51875
+VERIFIED N=87116 height_bits=51875
+VERIFIED N=87118 height_bits=51875
+VERIFIED N=87120 height_bits=51875
+VERIFIED N=87121 height_bits=51875
+VERIFIED N=87122 height_bits=51875
+VERIFIED N=87124 height_bits=51875
+PASS: 24 independent primitive witnesses, actual parity prefixes, and zero box counts at H-1
+PASS: 24 height inventory entries; exact witness and jump comparisons; inherited shadow hashes at sampled boundaries
+PASS: 10 literal inverse maps; 5 matrix/offset shadow controls; 37800 split gcds; 20 corruptions rejected; resumable checkpoint controls
+VERIFIED k=0 gcd=0x3 elapsed_seconds=0.000
+VERIFIED k=1 gcd=0x1 elapsed_seconds=0.000
+VERIFIED k=2 gcd=0x1 elapsed_seconds=0.000
+VERIFIED k=3 gcd=0x1 elapsed_seconds=0.000
+VERIFIED k=4 gcd=0x1 elapsed_seconds=0.000
+VERIFIED k=5 gcd=0x1 elapsed_seconds=0.002
+VERIFIED k=6 gcd=0x1 elapsed_seconds=0.039
+VERIFIED k=7 gcd=0x15b elapsed_seconds=1.202
+VERIFIED k=8 gcd=0x1 elapsed_seconds=39.516
+PASS: 9 independently replayed levels; 10 literal controls; inherited signs/gcds/hashes agree
+PASS: 5404 signed Fraction/valuation controls (1364 no-failure cases); 68 small transition certificates (2 ties, 66 strict increases); 18 rejected corruptions; 3 publication/resumption controls; H_11=3, H_12=513
+PASS: 31 independently certified small chain links (2 ties); width decreases agree with direct complete height runs; equal-width update comparisons agree with raw vector multiplication; unknown left boundary stays unclassified; 4 malformed chains rejected
+PASS: legacy and two-segment fixtures independently replayed; 36 malformed-reader rejections; 9 publication/resumption/cap controls; base segment preserved; no repeated scan/minimum on durable resume; exact sizes checked before height publication
+{"constant_minimum_through_N": 87093, "first_failure_index": 87093, "source_N": 87092, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87094, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87095, "first_failure_index": 87095, "source_N": 87094, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87096, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87098, "first_failure_index": 87098, "source_N": 87096, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87099, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87099, "first_failure_index": 87099, "source_N": 87099, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87100, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87101, "first_failure_index": 87101, "source_N": 87100, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87102, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87102, "first_failure_index": 87102, "source_N": 87102, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87103, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87103, "first_failure_index": 87103, "source_N": 87103, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87104, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87108, "first_failure_index": 87108, "source_N": 87104, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87109, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87111, "first_failure_index": 87111, "source_N": 87109, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87112, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87112, "first_failure_index": 87112, "source_N": 87112, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87113, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87115, "first_failure_index": 87115, "source_N": 87113, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87116, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87117, "first_failure_index": 87117, "source_N": 87116, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87118, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87119, "first_failure_index": 87119, "source_N": 87118, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87120, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87120, "first_failure_index": 87120, "source_N": 87120, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87121, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87121, "first_failure_index": 87121, "source_N": 87121, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87122, "target_height_bits": 51875}
+{"constant_minimum_through_N": 87123, "first_failure_index": 87123, "source_N": 87122, "source_height_bits": 51875, "strict_height_increase_at_target": true, "target_N": 87124, "target_height_bits": 51875}
+PASS: 16 independently verified witness failures and exact height comparisons
+PASS: two exact basis links; 1454 proposed updates checked by two routes; prediction_falsified=True first_failure_index=87097
+PASS: 16 certified chain intervals; two-prefix plateau claim falsified=True
+PASS: 15 adjacent maximal plateau pairs; nondecreasing widths falsified=True
+PASS: 33 equal-width maximal plateau pairs; width determines selected-basis update falsified=True
+PASS: overnight smoke checks
+	Command being timed: "bash research/phase13/overnight/smoke.sh"
+	User time (seconds): 463.99
+	System time (seconds): 0.52
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:44.54
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 102832
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 261317
+	Voluntary context switches: 60
+	Involuntary context switches: 2603
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 3264
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

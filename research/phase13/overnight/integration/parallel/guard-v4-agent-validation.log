@@ -1,0 +1,28 @@
+$ git clone --quiet --no-hardlinks /tmp/collatz-guard-review-sYxYPK /tmp/collatz-guard-v4-fixture-xrh8b3tb
+exit=0
+$ python3 -B research/phase13/overnight/finalize_provenance.py --write
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+exit=0
+$ python3 -B research/phase13/overnight/finalize_provenance.py --check
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+exit=0
+$ python3 -B research/phase13/overnight/test_provenance.py
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.139s
+
+OK
+exit=0
+$ python3 -B research/phase13/overnight/finalize_provenance.py --check
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+exit=0
+$ python3 -B research/phase13/overnight/finalize_provenance.py --write
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+exit=0
+PASS: unrelated Rust/CI/README and new-file edits pass both check/write without changing audit bytes
+$ python3 -B research/phase13/overnight/finalize_provenance.py --check
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+exit=0
+PASS: original ledger and all eight command log/resource files unchanged
+v4 frozen input paths=217 protected paths=215
+Synthetic fixture retained at /tmp/collatz-guard-v4-fixture-xrh8b3tb

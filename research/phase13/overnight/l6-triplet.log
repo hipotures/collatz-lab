@@ -1,0 +1,44 @@
+REUSE VERIFIED N=87090; skipping recomputation
+REUSE VERIFIED N=87091; skipping recomputation
+REUSE VERIFIED N=87092; skipping recomputation
+REUSE VERIFIED N=80000; skipping recomputation
+REUSE VERIFIED N=90000; skipping recomputation
+START N=522546 seconds_budget=180
+RESIDUE N=522546 elapsed_seconds=8.519
+CANDIDATE N=522546 height_bits=211281 elapsed_seconds=53.128
+TRANSCRIPT N=522546 type=odd-box-basis-interval-v1 elapsed_seconds=53.134
+CERTIFIED N=522546 height_bits=211281 nonhold_updates=201178 elapsed_seconds=90.710
+START N=522547 seconds_budget=180
+RESIDUE N=522547 elapsed_seconds=8.458
+CANDIDATE N=522547 height_bits=211281 elapsed_seconds=53.029
+TRANSCRIPT N=522547 type=odd-box-basis-interval-v1 elapsed_seconds=53.034
+CERTIFIED N=522547 height_bits=211281 nonhold_updates=201178 elapsed_seconds=90.771
+START N=522548 seconds_budget=180
+RESIDUE N=522548 elapsed_seconds=8.490
+CANDIDATE N=522548 height_bits=311267 elapsed_seconds=53.654
+TRANSCRIPT N=522548 type=odd-box-basis-interval-v1 elapsed_seconds=53.667
+CERTIFIED N=522548 height_bits=311267 nonhold_updates=201179 elapsed_seconds=105.667
+Checkpoint: heights.jsonl; existing samples were verified and skipped
+	Command being timed: "python3 -B -u research/phase13/overnight/extended_height.py --samples 522546 522547 522548 --seconds-per-sample 180 --certificate basis --write"
+	User time (seconds): 499.11
+	System time (seconds): 0.13
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 8:19.28
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 123024
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 87159
+	Voluntary context switches: 1
+	Involuntary context switches: 2943
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 31192
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

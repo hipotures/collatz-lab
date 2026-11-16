@@ -1,0 +1,597 @@
+Build completed successfully.
+audit parser: 2 valid and 8 adversarial cases passed
+653 exact declarations; only approved standard foundations
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running unittests src/lib.rs (target/debug/build/collatz-lab/90771ed7d8c8679a/out/collatz_lab-90771ed7d8c8679a)
+
+running 16 tests
+test certificate::tests::expanding_prefixes_get_no_certificate ... ok
+test collatz::tests::orbit_of_seven ... ok
+test certificate::tests::non_minimal_prefix_threshold_is_exact ... ok
+test collatz::tests::u64_step_reports_overflow ... ok
+test certificate::tests::even_class_descends_immediately ... ok
+test counting::tests::crossing_lengths_are_exact ... ok
+test counting::tests::smallest_cases_by_hand ... ok
+test certificate::tests::one_mod_four_has_the_trivial_cycle_as_exception ... ok
+test prefix::tests::known_small_cylinders ... ok
+test envelope::tests::ratios_reduce_compare_and_handle_zero_without_overflow ... ok
+test prefix::tests::parse_and_display_round_trip ... ok
+test prefix::tests::least_member_at_least_is_tight ... ok
+test collatz::tests::trivial_cycle_never_descends ... ok
+test collatz::tests::fast_path_survives_overflow ... ok
+test nogo::tests::witness_is_least_and_in_class ... ok
+test certificate::tests::cover_partitions_the_integers ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/build/collatz-lab/04112aaa58f203bb/out/collatz_lab-04112aaa58f203bb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adversarial.rs (target/debug/build/collatz-lab/30095a718d775318/out/adversarial-30095a718d775318)
+
+running 9 tests
+test regression_paradoxical_seven_is_not_a_first_crossing_exception ... ok
+test exception_list_must_match_exactly ... ok
+test regression_cleared_exception_list_is_rejected ... ok
+test threshold_exception_premise_is_checked_in_full ... ok
+test bogus_threshold_exceptions_are_rejected ... ok
+test tampered_exception_lists_are_rejected ... ok
+test verify_ledger_rejects_the_fake_refutation_and_keeps_genuine_cases ... ok
+test exception_lists_of_small_cylinders_survive_no_tampering ... ok
+test no_paradoxical_prefix_of_a_small_seed_passes_as_first_crossing_exception ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.62s
+
+     Running tests/counts.rs (target/debug/build/collatz-lab/dad15895471945a8/out/counts-dad15895471945a8)
+
+running 5 tests
+test both_recurrences_match_the_oeis_terms ... ok
+test partition_identity_holds_for_the_recurrence ... ok
+test walker_matches_recurrences_at_every_depth_up_to_16 ... ok
+test recurrences_agree_with_each_other_far_beyond_the_walker ... ok
+test recorded_counts_reconcile_at_depths_4_to_24 ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.78s
+
+     Running tests/envelope.rs (target/debug/build/collatz-lab/d99f2e3a1beea151/out/envelope-d99f2e3a1beea151)
+
+running 3 tests
+test r6_keeps_the_p1a_refutation_and_r1_excludes_seed_one ... ok
+test cli_reproduces_committed_evidence_and_report_and_has_fixed_bounds ... ok
+test all_extrema_ties_counts_and_fractions_match_an_independent_residue_scan ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s
+
+     Running tests/exact_arithmetic.rs (target/debug/build/collatz-lab/fddb45a121dc8c52/out/exact_arithmetic-fddb45a121dc8c52)
+
+running 13 tests
+test affine_composition_identity ... ok
+test fast_stopping_time_matches_biguint_exhaustively ... ok
+test first_descent_leaves_have_stopping_time_equal_to_their_length ... ok
+test seeded_large_integers_respect_their_descent_certificate ... ok
+test no_fixed_window_survives_its_witness ... ok
+test seeded_large_integers_beyond_u128 ... ok
+test u64_step_matches_biguint_on_small_range ... ok
+test uncovered_counts_match_brute_force ... ok
+test range_oracle_agrees_with_total_stopping_times ... ok
+test prefixes_and_residues_are_in_bijection_up_to_length_10 ... ok
+test mersenne_identity_and_all_odd_prefix ... ok
+test descent_thresholds_are_exact_for_every_prefix_up_to_length_10 ... ok
+test affine_form_matches_direct_iteration_exhaustively ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+     Running tests/mahler.rs (target/debug/build/collatz-lab/b687d05992e0fab9/out/mahler-b687d05992e0fab9)
+
+running 9 tests
+test independent_pade_identities_and_cancelled_vs_uncancelled_mahler_tower ... ok
+test negative_test_1_detects_perturbed_parity_block ... ok
+test independent_periodic_control_minus_19_over_11_and_finite_divergence ... ok
+test negative_test_3_detects_incorrect_modular_inverse ... ok
+test cli_reproduces_committed_mahler_evidence_and_summary ... ok
+test negative_test_2_detects_wrong_parity_offset ... ok
+test independent_word_survival_and_five_way_checkpoints_up_to_1024 ... ok
+test negative_test_4_detects_falsely_inferred_infinite_theorem_from_finite_checks ... ok
+test regression_test_unnormalized_u0_fails_mod16_and_repaired_tower_succeeds_on_checkpoint_seeds ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.56s
+
+     Running tests/mahler_family.rs (target/debug/build/collatz-lab/d083a8fe4ffb8506/out/mahler_family-d083a8fe4ffb8506)
+
+running 12 tests
+test block_offsets_match_the_closed_forms ... ok
+test inverse_branches_prepend_a_prefix_of_w5_to_a_rational_seed ... ok
+test periodic_approximant_has_order_l_squared_minus_two_with_unit_leading_coefficient ... ok
+test l5_level0_integer_congruence_uses_the_shared_prefix_sum ... ok
+test uncancelled_denominator_loses_oddness_but_cancelled_one_keeps_it ... ok
+test family_word_matches_recurrence_and_the_phase3_word ... ok
+test height_ledger_closes_on_the_tested_range_only ... ok
+test wrong_constants_are_rejected ... ok
+test family_prefixes_never_cross_the_coefficient_threshold ... ok
+test l5_explicit_constants_and_periodic_control ... ok
+test seed_identity_agrees_with_parity_positions_and_direct_iteration ... ok
+test cancelled_tower_and_linear_form_valuations ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+
+     Running tests/mahler_uncovered.rs (target/debug/build/collatz-lab/9252c3f2b7956cb1/out/mahler_uncovered-9252c3f2b7956cb1)
+
+running 4 tests
+test periodic_catalogue_is_complete_and_every_finite_control_closes_its_ledger ... ok
+test both_seed_identities_agree_with_actual_collatz_iteration ... ok
+test improved_unit_leading_pairs_have_exact_valuations_at_three_levels ... ok
+test every_pade_pair_has_the_claimed_exact_order_content_and_ledger ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/p1a_refutation.rs (target/debug/build/collatz-lab/dfbbc926cc659fae/out/p1a_refutation-dfbbc926cc659fae)
+
+running 4 tests
+test both_triples_hold_by_direct_iteration ... ok
+test both_words_are_first_coefficient_crossings ... ok
+test the_cylinder_with_the_larger_member_has_the_larger_ratio ... ok
+test enumeration_of_the_r6_family_refutes_p1a ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/paradoxical.rs (target/debug/build/collatz-lab/c07f6f4950714092/out/paradoxical-c07f6f4950714092)
+
+running 1 test
+test paradoxical_prefixes_up_to_length_14_are_five_seeds_at_length_eight ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/primary_sources.rs (target/debug/build/collatz-lab/d778b90e5a02351b/out/primary_sources-d778b90e5a02351b)
+
+running 3 tests
+test garner_times_convert_using_the_number_of_odd_steps ... ok
+test terras_maximal_remainders_match_all_words_through_length_14 ... ok
+test terras_2592_cutoff_has_a_small_exact_exception_bound ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+     Running tests/properties.rs (target/debug/build/collatz-lab/9ee9833b6b86bcf0/out/properties-9ee9833b6b86bcf0)
+
+running 7 tests
+test fast_stopping_time_agrees_near_the_u64_boundary ... ok
+test u64_step_agrees_or_reports_overflow ... ok
+test tampered_certificates_are_rejected ... ok
+test every_integer_lies_in_the_cylinder_of_its_own_prefix ... ok
+test descent_threshold_is_an_exact_boundary ... ok
+test affine_maps_compose ... ok
+test prefix_residue_round_trip ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/workflow.rs (target/debug/build/collatz-lab/58a6858a11d8eaba/out/workflow-58a6858a11d8eaba)
+
+running 8 tests
+test verifier_rejects_false_failure_cases ... ok
+test cli_refuses_large_bounds_without_opt_in ... ok
+test cli_small_commands_succeed ... ok
+test experiment_assigns_the_expected_statuses ... ok
+test bounded_statements_are_not_promoted_when_the_domain_is_too_small ... ok
+test counterexamples_are_minimal_and_reverifiable ... ok
+test ledger_entries_round_trip_through_json ... ok
+test cli_experiment_is_reproducible_and_its_ledger_verifies ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+144 exact integer null vectors, including zero and deficient-rank matrices
+Uniform degree-six coefficient/height bounds; leading valuation <70; safe level 6
+First worst-parameter ledger failures for degrees 0..5: [2, 2, 2, 7, 16, 101]
+Six exact nonsingular prefix systems; hard length-1000 degree-six pair; degree-two/order-201 pair
+5635 signed-alphabet encodings; singleton, signed periodic and unbounded rational identities
+Actual coefficient-24 premature valuation: 68 instead of 66; safe next level: 192
+Literal substitution and signed/unreduced rational prefixes at L=2..6; five degree-six pairs
+686 exact convolution identities; signed height checks; coefficient-8 valuations [29, 55]
+48 exact Pade rows; 8 checkpoints; 32800 signed candidates; 144 control certificates; all checks passed
+T1-T4, T6: 144 admissible substitutions with 2 <= L <= 5 passed
+  largest first-residual order: 30 ; largest leading 2-adic valuation: 3
+  Thue-Morse 10/01: N = 13, leading valuation = 3
+T5: degree six closes for 2 <= L <= 400; degrees 0..5 first fail at [2, 2, 2, 7, 16, 101]
+T6: unequal-weight control 101/010 is periodic and realised by the seed 1
+T7: lower-bound example L=1000: determinants [1, -1, 1, -1, -1, -1] ; inequality fails for degrees 0..5 and holds for degree 6
+T8: explicit Thue-Morse pair has order 13 and leading coefficient 8
+T9: pulled-back linear forms verified for 34 substitutions with 2 <= L <= 4
+all independent checks passed
+paper check passed: 49 labels, 46 distinct references, 21 bibliography entries (all cited), 32 Lean names
+100/110: seven exact nine-step rows, 243 < 512; offset caps 19171 and 761
+Literal iterates through 81 bits; positive, negative, unreduced and sign-normalized prefixes
+Rational 101/010 control preserved; no seed interval enumerated
+{"column_aperiodicity_data_found": 348, "contracting_with_column_data": 222, "contracting_with_expanding_image": 688, "equal_weight_skipped": 636, "languages_tested": 16736, "no_certificate_at_h_le_8": 808, "pairs_with_contraction": 1284, "unequal_pairs_tested": 2092}
+1->100, 0->110: first h=3, Lean exclusion=True
+1->101, 0->010: first h=2, Lean exclusion=False
+1->110, 0->100: first h=3, Lean exclusion=True
+1->1000, 0->1110: first h=4, Lean exclusion=True
+1->1100, 0->1110: first h=4, Lean exclusion=True
+1->10000, 0->11110: first h=None, Lean exclusion=True
+1->100000, 0->111110: first h=None, Lean exclusion=True
+Five exact spectral certificates; literal counts and signed balances at levels 0..5
+1000/1110: 3^10 < 2^16; 10000/11110: 3^76 < 2^125; signed 81-bit witnesses
+Sparse family L=3..16: exact signed balances, binomial gap and uniform 5/8 margin
+All L>=3 are covered by the symbolic Lean theorem; no huge Collatz powers evaluated
+222 finite Lean entries reproduced: lengths 3/4/5/6 with counts 6/10/58/148
+All 222 literal words checked against positive and signed/unreduced 81-step prefixes
+Actual rational exclusion follows only after all finite Valid proofs compile
+254 exhaustive small square blocks: signed congruence and height PASS
+Phase 11 finite checks: literal levels 0..8, all prefix discrepancies,
+windows/group obstruction, signed 81-bit witnesses and rational controls: PASS
+715 spectral parameter cases: exact counts, negative/zero eigenvalues PASS
+Effective separating-slope witness levels [81, 241, 481, 9, 19, 29]; degenerate controls PASS
+Noncommuting cocycles and finite two-step prefix-height/seed transport PASS
+Analytic Mahler convergence/transcendence is NOT established by these finite checks
+1011/1111: literal levels 0..7, partial returns and signed balances PASS
+Exact height ledger 8192>6561; signed/unreduced 81-bit prefixes PASS
+finite witness: 475541435535248609609897 1 2026003878711805313935167780941
+finite witness: -1942310203694009739802455 1 -8275047582165732140038379486902
+finite witness: 2377707177676243048049485 5 10130019393559026569675838904705
+finite witness: -40144461553015301362867 5 -171032067318510884297708363138
+CollatzLab.FiniteLinear.integer_null_vector : ∀ (m : Nat) (A : Nat → Nat → Int),
+  ∃ x, (∃ j, j < m + 1 ∧ x j ≠ 0) ∧ ∀ (i : Nat), i < m → CollatzLab.FiniteLinear.dot (A i) x (m + 1) = 0
+CollatzLab.MinimalCertificate.universal_certificate_degree_iff : ∀ (d : Nat),
+  CollatzLab.MinimalCertificate.UniversalCertificateDegree d ↔ 6 ≤ d
+CollatzLab.Morphism.affine_prefix : ∀ (v : Nat → Bool) (q p : Int),
+  q % 2 = 1 →
+    ∀ (m n : Nat),
+      (∀ (j : Nat), j < n → CollatzLab.seedParity q p (m + j) = CollatzLab.Morphism.bit (v j)) →
+        2 ^ n * CollatzLab.numIter q p (m + n) =
+          3 ^ CollatzLab.Morphism.weight v n * CollatzLab.numIter q p m + CollatzLab.Morphism.offset v n * q
+@CollatzLab.Morphism.degree_six_ledger : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+        M.zero ≠ M.one → CollatzLab.Morphism.m M ^ (6 * (L - 1) + L + CollatzLab.Morphism.e M) < 2 ^ (L * (L - 1) * 13)
+@CollatzLab.Morphism.denominator_odd : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+        M.zero ≠ M.one → ∀ (q : Int), q % 2 = 1 → ∀ (k : Nat), CollatzLab.Morphism.D M q k % 2 = 1
+@CollatzLab.Morphism.height_step : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ {p q : Int},
+              CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M) →
+                ∀ (k : Nat),
+                  CollatzLab.Morphism.H M p q (k + 1) ≤
+                    2 * ↑L * CollatzLab.Morphism.mk M k ^ (L + CollatzLab.Morphism.e M) * CollatzLab.Morphism.H M p q k
+@CollatzLab.Morphism.initial_exact : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ {p q : Int},
+              CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M) →
+                2 ^ CollatzLab.Morphism.s M * CollatzLab.Morphism.u M p q 0 =
+                  CollatzLab.Morphism.B M * CollatzLab.Morphism.g M p q 0
+@CollatzLab.Morphism.kappa_spec : ∀ {L : Nat} (M : CollatzLab.Morphism.Images L),
+  CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+      CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+    M.zero ≠ M.one →
+      CollatzLab.Morphism.kappa M % 2 = 1 ∧
+        CollatzLab.Morphism.c M false - CollatzLab.Morphism.c M true =
+          2 ^ CollatzLab.Morphism.s M * CollatzLab.Morphism.kappa M
+@CollatzLab.Morphism.not_eventually_periodic : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one → ¬CollatzLab.EventuallyPeriodic (CollatzLab.Morphism.parityWord M)
+@CollatzLab.Morphism.offsets_odd_multiple : ∀ {L : Nat} (M : CollatzLab.Morphism.Images L),
+  CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+      CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+    M.zero ≠ M.one →
+      ∃ kappa,
+        kappa % 2 = 1 ∧
+          CollatzLab.Morphism.c M false - CollatzLab.Morphism.c M true = 2 ^ CollatzLab.Morphism.s M * kappa
+@CollatzLab.Morphism.tower_exact : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ {p q : Int},
+              CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M) →
+                ∀ (k : Nat),
+                  CollatzLab.Morphism.a M k ^ CollatzLab.Morphism.s M ∣
+                      CollatzLab.Morphism.delta M (CollatzLab.Morphism.a M k) (CollatzLab.Morphism.b M k)
+                        (CollatzLab.Morphism.u M p q k) (CollatzLab.Morphism.D M q k) ∧
+                    CollatzLab.Morphism.a M k ^ CollatzLab.Morphism.s M * CollatzLab.Morphism.u M p q (k + 1) =
+                      CollatzLab.Morphism.b M k ^ CollatzLab.Morphism.e M *
+                        CollatzLab.Morphism.delta M (CollatzLab.Morphism.a M k) (CollatzLab.Morphism.b M k)
+                          (CollatzLab.Morphism.u M p q k) (CollatzLab.Morphism.D M q k)
+CollatzLab.Morphism.unequalAlternating_realized : CollatzLab.RealizesWord 1 1
+  (CollatzLab.Morphism.parityWord CollatzLab.Morphism.unequalAlternating)
+@CollatzLab.Morphism.universal_bounded_degree_six_certificate : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∃ P N val c,
+              P.degree = 6 ∧
+                13 ≤ N ∧
+                  (∃ j, j ≤ 6 ∧ P.p1 j ≠ 0) ∧
+                    (∀ (j : Nat), j ≤ 6 → CollatzLab.absInt (P.p1 j) ≤ 103762935414616227840) ∧
+                      P.heightConstant < 2 ^ 76 ∧
+                        P.First (CollatzLab.Morphism.parityWord M) N ∧
+                          CollatzLab.PolynomialPair.Gap M P N ∧
+                            val < 70 ∧
+                              c % 2 = 1 ∧
+                                P.residual (CollatzLab.Morphism.parityWord M) N = 2 ^ val * c ∧
+                                  ∀ (k : Nat), 6 ≤ k → val < L ^ (k + 1)
+@CollatzLab.Morphism.universal_degree_six_valuation : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∃ P N val,
+              P.degree = 6 ∧
+                13 ≤ N ∧
+                  val < 70 ∧
+                    P.heightConstant < 2 ^ 76 ∧
+                      P.First (CollatzLab.Morphism.parityWord M) N ∧
+                        CollatzLab.PolynomialPair.Gap M P N ∧
+                          ∀ (p q : Int) (k : Nat),
+                            CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M) →
+                              6 ≤ k →
+                                let exponent := N * L ^ (k + 1) + val;
+                                CollatzLab.PolynomialPair.E M P p q k ≠ 0 ∧
+                                  2 ^ exponent ∣ CollatzLab.PolynomialPair.E M P p q k ∧
+                                    ¬2 ^ (exponent + 1) ∣ CollatzLab.PolynomialPair.E M P p q k ∧
+                                      2 ^ exponent ≤ CollatzLab.absInt (CollatzLab.PolynomialPair.E M P p q k)
+@CollatzLab.Morphism.word_block : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        ∀ (n j : Nat),
+          j < L → CollatzLab.Morphism.word M (L * n + j) = CollatzLab.Morphism.image M (CollatzLab.Morphism.word M n) j
+@CollatzLab.Morphism.word_unique : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        ∀ (v : Nat → Bool),
+          v 0 = true →
+            (∀ (n j : Nat), j < L → v (L * n + j) = CollatzLab.Morphism.image M (v n) j) →
+              v = CollatzLab.Morphism.word M
+@CollatzLab.PolynomialPair.form_power_bound : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ (P : CollatzLab.PolynomialPair) {p q : Int},
+              CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M) →
+                ∀ (k : Nat),
+                  CollatzLab.absInt (CollatzLab.PolynomialPair.E M P p q k) ^ (L - 1) ≤
+                    P.heightConstant ^ (L - 1) * CollatzLab.Morphism.H M p q 0 ^ (L - 1) * ((2 * ↑L) ^ (L - 1)) ^ k *
+                      CollatzLab.Morphism.m M ^ ((P.degree * (L - 1) + L + CollatzLab.Morphism.e M) * L ^ k)
+CollatzLab.PolynomialPair.polynomial_pair_exists : ∀ (d : Nat) (v : Nat → Int),
+  ∃ P, P.degree = d ∧ (∃ j, j ≤ P.degree ∧ P.p1 j ≠ 0) ∧ ∀ (n : Nat), n < 2 * d + 1 → P.residual v n = 0
+CollatzLab.PolynomialPair.thueMorseSix_finite_valuation : List.map (CollatzLab.seedParity 1 3195543223027673837)
+      (List.range 64) =
+    List.map (CollatzLab.Morphism.parityWord CollatzLab.Morphism.thueMorse) (List.range 64) ∧
+  CollatzLab.PolynomialPair.E CollatzLab.Morphism.thueMorse CollatzLab.PolynomialPair.thueMorseSix 3195543223027673837 1
+        0 =
+      69953636695298807955456 ∧
+    CollatzLab.PolynomialPair.E CollatzLab.Morphism.thueMorse CollatzLab.PolynomialPair.thueMorseSix 3195543223027673837
+          1 1 =
+        -7357915019712427889214357504 ∧
+      69953636695298807955456 % 2 ^ 29 = 0 ∧
+        69953636695298807955456 % 2 ^ 30 ≠ 0 ∧
+          -7357915019712427889214357504 % 2 ^ 55 = 0 ∧ -7357915019712427889214357504 % 2 ^ 56 ≠ 0
+CollatzLab.PolynomialPair.thueMorseSix_first : CollatzLab.PolynomialPair.thueMorseSix.First
+    (CollatzLab.Morphism.parityWord CollatzLab.Morphism.thueMorse) 13 ∧
+  CollatzLab.PolynomialPair.thueMorseSix.residual (CollatzLab.Morphism.parityWord CollatzLab.Morphism.thueMorse) 13 = 8
+@CollatzLab.PolynomialPair.valuation : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ (P : CollatzLab.PolynomialPair) (N v : Nat),
+              P.degree ≤ N →
+                (∀ (j : Nat), j < N → P.residual (CollatzLab.Morphism.parityWord M) j = 0) →
+                  ∀ (c : Int),
+                    c % 2 = 1 →
+                      P.residual (CollatzLab.Morphism.parityWord M) N = 2 ^ v * c →
+                        ∀ {p q : Int},
+                          CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M) →
+                            ∀ (k : Nat),
+                              v < L ^ (k + 1) →
+                                let exponent := N * L ^ (k + 1) + v;
+                                CollatzLab.PolynomialPair.E M P p q k ≠ 0 ∧
+                                  2 ^ exponent ∣ CollatzLab.PolynomialPair.E M P p q k ∧
+                                    ¬2 ^ (exponent + 1) ∣ CollatzLab.PolynomialPair.E M P p q k ∧
+                                      2 ^ exponent ≤ CollatzLab.absInt (CollatzLab.PolynomialPair.E M P p q k)
+CollatzLab.RationalSeries.nonzero_residual : ∀ (v : Nat → Int),
+  (∀ (n : Nat), v n = 0 ∨ v n = 1) →
+    ¬CollatzLab.EventuallyPeriodic v →
+      ∀ (P : CollatzLab.PolynomialPair), (∃ j, j ≤ P.degree ∧ P.p1 j ≠ 0) → ∃ n, P.residual v n ≠ 0
+CollatzLab.RationalSeries.rational_binary_eventually_periodic : ∀ (v : Nat → Int),
+  (∀ (n : Nat), v n = 0 ∨ v n = 1) →
+    ∀ (P : CollatzLab.PolynomialPair),
+      (∃ j, j ≤ P.degree ∧ P.p1 j ≠ 0) → (∀ (n : Nat), P.residual v n = 0) → CollatzLab.EventuallyPeriodic v
+CollatzLab.degree_six_numerical_gap : ∀ (L r e : Nat),
+  2 ≤ L → r < L → e < L → max (2 ^ L) (3 ^ r) ^ (6 * (L - 1) + L + e) < 2 ^ (13 * L * (L - 1))
+CollatzLab.no_eventual_doubly_exponential_bound : ∀ (L : Nat),
+  2 ≤ L →
+    ∀ (A B K D : Int),
+      1 ≤ B → B < A → 1 ≤ K → 1 ≤ D → ∀ (k0 : Nat), (∀ (k : Nat), k0 ≤ k → A ^ L ^ k ≤ K * D ^ k * B ^ L ^ k) → False
+@CollatzLab.no_eventually_shifted_all_equal_weight_itinerary : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ (s t : Nat) (p q : Int),
+              0 < q →
+                q % 2 = 1 → ¬∀ (j : Nat), CollatzLab.seedParity q p (s + j) = CollatzLab.Morphism.parityWord M (t + j)
+@CollatzLab.no_rational_seed_realizes_all_equal_weight : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one → ∀ (p q : Int), ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M)
+@CollatzLab.no_rational_seed_realizes_shifted_all_equal_weight : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ (t : Nat) (p q : Int),
+              ¬CollatzLab.RealizesWord p q (CollatzLab.shiftWord (CollatzLab.Morphism.parityWord M) t)
+@CollatzLab.no_rational_seed_realizes_subcritical_equal_weight : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            CollatzLab.Morphism.B M < CollatzLab.Morphism.A L →
+              ∀ (p q : Int), ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M)
+CollatzLab.no_rational_seed_realizes_thueMorse : ∀ (p q : Int),
+  ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord CollatzLab.Morphism.thueMorse)
+@CollatzLab.no_rational_seed_with_polynomial_pair : ∀ {L : Nat},
+  2 ≤ L →
+    ∀ (M : CollatzLab.Morphism.Images L),
+      CollatzLab.Morphism.image M true 0 = true →
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L =
+            CollatzLab.Morphism.weight (CollatzLab.Morphism.image M true) L →
+          M.zero ≠ M.one →
+            ∀ (P : CollatzLab.PolynomialPair) (N : Nat),
+              P.degree ≤ N →
+                P.First (CollatzLab.Morphism.parityWord M) N →
+                  CollatzLab.PolynomialPair.Gap M P N →
+                    ∀ (p q : Int), ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M)
+CollatzLab.nonunit_leading_valuation : ∀ (v m : Nat),
+  v < m →
+    ∀ (c t : Int),
+      c % 2 = 1 →
+        let E := 2 ^ v * c + 2 ^ m * t;
+        E ≠ 0 ∧ 2 ^ v ∣ E ∧ ¬2 ^ (v + 1) ∣ E ∧ 2 ^ v ≤ CollatzLab.absInt E
+CollatzLab.Morphism.nonContracting_images :
+  List.ofFn CollatzLab.Morphism.nonContracting110111.one = [true, true, false] ∧
+    List.ofFn CollatzLab.Morphism.nonContracting110111.zero = [true, true, true] ∧
+      CollatzLab.Morphism.image CollatzLab.Morphism.nonContracting110111 true 0 = true ∧
+        CollatzLab.Morphism.weight (CollatzLab.Morphism.image CollatzLab.Morphism.nonContracting110111 true) 3 = 2 ∧
+          CollatzLab.Morphism.weight (CollatzLab.Morphism.image CollatzLab.Morphism.nonContracting110111 false) 3 = 3
+CollatzLab.Morphism.nonContracting_not_eventually_periodic :
+  ¬CollatzLab.EventuallyPeriodic (CollatzLab.Morphism.parityWord CollatzLab.Morphism.nonContracting110111)
+CollatzLab.Morphism.nonContracting_group_expands (h R : Nat) (hh : 1 ≤ h) (hR : 2 * h ≤ R) : 2 ^ (3 * h) < 3 ^ R
+CollatzLab.Morphism.nonContracting_no_uniform_chunks (t k R : Nat) (hk : 1 ≤ k)
+  (hw :
+    ∀ (n : Nat),
+      CollatzLab.Morphism.weight
+          (fun j => CollatzLab.Morphism.word CollatzLab.Morphism.nonContracting110111 (t + k * n + j)) k ≤
+        R) :
+  ¬3 ^ R < 2 ^ k
+CollatzLab.Morphism.nonContracting_prefix_discrepancy (k n : Nat) :
+  n < 3 ^ k →
+    -2 * ↑k ≤
+        4 * ↑(CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.nonContracting110111) n) -
+          3 * ↑n ∧
+      4 * ↑(CollatzLab.Morphism.weight (CollatzLab.Morphism.word CollatzLab.Morphism.nonContracting110111) n) - 3 * ↑n ≤
+        2 * ↑k
+CollatzLab.Morphism.nonContracting_power_count (k a : Nat) :
+  4 *
+      ↑(CollatzLab.Morphism.weight
+          (fun j => CollatzLab.Morphism.word CollatzLab.Morphism.nonContracting110111 (3 ^ k * a + j)) (3 ^ k)) =
+    3 * ↑(3 ^ k) +
+      (-1) ^ k * (4 * CollatzLab.Morphism.bit (CollatzLab.Morphism.word CollatzLab.Morphism.nonContracting110111 a) - 3)
+CollatzLab.Morphism.uniform_contraction_iff_subcritical {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+  (h1 : CollatzLab.Morphism.image M true 0 = true) (d : Nat) (hd : 1 ≤ d)
+  (hD : CollatzLab.Morphism.frequencyDen M = ↑d) :
+  (∃ t k R,
+      1 ≤ k ∧
+        (∀ (n : Nat), CollatzLab.Morphism.weight (fun j => CollatzLab.Morphism.word M (t + k * n + j)) k ≤ R) ∧
+          3 ^ R < 2 ^ k) ↔
+    3 ^ CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L < 2 ^ d
+CollatzLab.Morphism.subcritical_has_contracting_power {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+  (h1 : CollatzLab.Morphism.image M true 0 = true) (d : Nat) (hd : 1 ≤ d) (hD : CollatzLab.Morphism.frequencyDen M = ↑d)
+  (hgap : 3 ^ CollatzLab.Morphism.weight (CollatzLab.Morphism.image M false) L < 2 ^ d) :
+  ∃ k R,
+    3 ^ R < 2 ^ L ^ k ∧
+      ∀ (a : Nat), CollatzLab.Morphism.weight (fun j => CollatzLab.Morphism.word M (L ^ k * a + j)) (L ^ k) ≤ R
+CollatzLab.Morphism.frequencyDen_zero_word {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+  (hD : CollatzLab.Morphism.frequencyDen M = 0) (n : Nat) : CollatzLab.Morphism.word M n = true
+CollatzLab.matching_prefix_divisibility (v : Nat → Bool) (m ell : Nat) {p q : Int}
+  (hr : CollatzLab.RealizesWord p q fun j => CollatzLab.Morphism.bit (v j))
+  (hmatch : ∀ (j : Nat), j < ell → v (m + j) = v j) : 2 ^ (m + ell) ∣ CollatzLab.prefixCycleForm v m p q
+CollatzLab.offset_weight_upper (v : Nat → Bool) (m : Nat) :
+  CollatzLab.Morphism.offset v m ≤ 2 ^ (m - CollatzLab.Morphism.weight v m) * 3 ^ CollatzLab.Morphism.weight v m - 2 ^ m
+CollatzLab.rational_matching_prefix_weight_bound (v : Nat → Bool) (m ell : Nat) (hm : 1 ≤ m) {p q : Int}
+  (hr : CollatzLab.RealizesWord p q fun j => CollatzLab.Morphism.bit (v j))
+  (haper : ¬CollatzLab.EventuallyPeriodic fun j => CollatzLab.Morphism.bit (v j))
+  (hmatch : ∀ (j : Nat), j < ell → v (m + j) = v j) :
+  2 ^ (ell + CollatzLab.Morphism.weight v m) ≤ (CollatzLab.absInt p + q) * 3 ^ CollatzLab.Morphism.weight v m
+CollatzLab.no_rational_seed_unbounded_square_prefix (v : Nat → Bool)
+  (hsquares : ∀ (K : Nat), ∃ m, K ≤ m ∧ 1 ≤ m ∧ ∀ (j : Nat), j < m → v (m + j) = v j)
+  (haper : ¬CollatzLab.EventuallyPeriodic fun j => CollatzLab.Morphism.bit (v j)) (p q : Int) :
+  ¬CollatzLab.RealizesWord p q fun j => CollatzLab.Morphism.bit (v j)
+CollatzLab.no_rational_seed_morphism_initial_double {L : Nat} (hL : 2 ≤ L) (M : CollatzLab.Morphism.Images L)
+  (h1 : CollatzLab.Morphism.image M true 0 = true) (hdouble : CollatzLab.Morphism.word M 1 = true)
+  (haper : ¬CollatzLab.EventuallyPeriodic (CollatzLab.Morphism.parityWord M)) (p q : Int) :
+  ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord M)
+CollatzLab.no_rational_seed_realizes_nonContracting110111 (p q : Int) :
+  ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord CollatzLab.Morphism.nonContracting110111)
+CollatzLab.no_eventually_shifted_nonContracting110111_signed (s t : Nat) (p q : Int) (ho : q % 2 = 1) :
+  ¬∀ (j : Nat),
+      CollatzLab.seedParity q p (s + j) =
+        CollatzLab.Morphism.parityWord CollatzLab.Morphism.nonContracting110111 (t + j)
+CollatzLab.Morphism.nonContracting1011_no_uniform_chunks (t k R : Nat) (hk : 1 ≤ k)
+  (hb :
+    ∀ (n : Nat),
+      CollatzLab.Morphism.weight
+          (fun j => CollatzLab.Morphism.word CollatzLab.Morphism.nonContracting1011 (t + k * n + j)) k ≤
+        R) :
+  ¬3 ^ R < 2 ^ k
+CollatzLab.no_rational_seed_realizes_nonContracting1011 (p q : Int) :
+  ¬CollatzLab.RealizesWord p q (CollatzLab.Morphism.parityWord CollatzLab.Morphism.nonContracting1011)
+CollatzLab.no_eventually_shifted_nonContracting1011_signed (s t : Nat) (p q : Int) (ho : q % 2 = 1) :
+  ¬∀ (j : Nat),
+      CollatzLab.seedParity q p (s + j) = CollatzLab.Morphism.parityWord CollatzLab.Morphism.nonContracting1011 (t + j)
+CollatzLab.NonContractingChecks.rational_control_preserved :
+  CollatzLab.RealizesWord 1 1 (CollatzLab.Morphism.parityWord CollatzLab.Morphism.unequalAlternating)
+CollatzLab.NonContractingChecks.all_one_rational_control :
+  (CollatzLab.RealizesWord (-1) 1 fun x => 1) ∧ CollatzLab.EventuallyPeriodic fun x => 1
+Phase 12 finite evidence matches evidence.json; all assertions passed
+Phase 12 declaration inventory agrees with the 653-entry audit
+PASS: 25432 signed floor sums; 4095 exhaustive residues; 31750 signed parity cylinders; 262400 direct H_12 exclusions; 7 rejected corrupt certificates; H_11=3, H_12=513
+frontierSix N 16384 height bits 8646
+phase11-110 N 16384 height bits 7801
+phase11-1011 N 16384 height bits 8192
+phase8-110 N 16384 height bits 8193
+thue-morse-10 N 16384 height bits 8193
+alternating N 16384 height bits 1
+all-one N 16384 height bits 1
+all-zero N 16384 height bits 1
+sha256-control N 16384 height bits 8192
+near-rational N 16384 height bits 8192
+Exact height evidence reproduced
+Independent verification: 1691 primitive witnesses, parity prefixes, and optimality certificates
+PASS: five independently constructed rational shadow levels, exact first failures, height/minimum/crossing checks, pressure controls and false-multiplier counterexample
+PASS: raw gcds at levels 0..7; first positive-level noncoprime pair at k=7; exact recurrence cycles modulo 347 and 347^2
+Phase 13 inventory: 60 new declarations, 593 baseline entries preserved, 653 total

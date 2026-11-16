@@ -51,6 +51,11 @@ jobs:
       - name: Verify finite general-polynomial regressions
         run: python3 research/phase8/verify_polynomial.py
 
+      - name: Check final overnight provenance and stale-metadata controls
+        run: |
+          python3 research/phase13/overnight/test_provenance.py
+          python3 research/phase13/overnight/finalize_provenance.py --check
+
       - name: Independent Phase 9 cross-checks of the written proof
         run: python3 research/phase9/verify_independent.py
 

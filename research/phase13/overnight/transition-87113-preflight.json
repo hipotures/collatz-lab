@@ -1,0 +1,30 @@
+{
+  "format": "phase13-transition-preflight-v1",
+  "entry_branch": "codex/phase13-overnight",
+  "entry_head": "1b2161ccc62cf4d7a183ae676f71a1a083b2e8d5",
+  "cached_origin_ref": "1b2161ccc62cf4d7a183ae676f71a1a083b2e8d5",
+  "remote_access": false,
+  "requested_source_N": 87113,
+  "search_end_N": 90000,
+  "source_already_certified": true,
+  "transition_already_certified": false,
+  "previous_checkpoint_complete": true,
+  "files": {
+    "heights.jsonl": {
+      "bytes": 7271692,
+      "sha256": "c0f45c58a69a54d0aea8f66bfcb52cf0f40b49c956b1a5d977c26a54211f755b",
+      "records": 18,
+      "cap_bytes": 8388608,
+      "reserved_bytes": 131072,
+      "headroom_bytes": 1116916
+    },
+    "transitions.jsonl": {
+      "bytes": 437647,
+      "sha256": "6884af2c1af24d7e6a4097fe931cabf1655c5dc4de6fff3392bf356fd9403485",
+      "records": 10,
+      "cap_bytes": 524288,
+      "reserved_bytes": 49152,
+      "headroom_bytes": 86641
+    }
+  }
+}

@@ -1,0 +1,42 @@
+PASS: issue #33 final v4 shallow-checkout / CI-cache check
+Branch: codex/phase13-overnight-integration
+Commit: d5859449613ba559c00dc3614237bbdd448eb834
+Clone: /tmp/collatz-issue33-shallow-ci-v4-aap4k4k9/repo
+Clone command: git clone --depth 1 --single-branch --branch codex/phase13-overnight-integration file:///tmp/collatz-lab-phase13-overnight-integration repo; exit 0
+Shallow: true; reachable commit count: 1; shallow boundary equals checked commit; all inspection exits 0.
+Python: Python 3.14.4
+
+Command: python3 research/phase13/overnight/finalize_provenance.py --check
+Stage: baseline-guard; exit 0; output SHA-256 8273ed855566686b371093dc0a59060c34896a5f8b208407cb6240ca804d1575
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+
+Command: python3 research/phase13/overnight/test_provenance.py
+Stage: baseline-unit-tests; exit 0; output SHA-256 4f0378b7a036f47dfc108ae27ba0cc6d2db700c0bd0fcd81388ef618b38480d7
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.137s
+
+OK
+
+Command: python3 research/phase13/overnight/finalize_provenance.py --check
+Stage: cached-guard; exit 0; output SHA-256 8273ed855566686b371093dc0a59060c34896a5f8b208407cb6240ca804d1575
+PASS: frozen final provenance, source pins, unchanged bytes, actual run hashes, smoke 24/16/9 and owner summary
+
+Command: python3 research/phase13/overnight/test_provenance.py
+Stage: cached-unit-tests; exit 0; output SHA-256 d65271f57c9a179cbaa20fd2f3185846039f34fa1d9e54236d255b2d12b19ca3
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.153s
+
+OK
+
+Fresh bytecode-enabled imports created these confirmed untracked files outside phase13:
+research/phase10/__pycache__/verify_spectral.cpython-314.pyc; bytes 5549; SHA-256 b43df568ebfbe5e7c423b33091381638c403b8940568e26cbdd8fa95a91c41be
+research/phase11/__pycache__/verify_spectral_boundary.cpython-314.pyc; bytes 6971; SHA-256 9670f2eb20c8a0cae11ada57ae0b1b2da393c9457c638f4c091579fa317b6f28
+
+All 378 tracked-file byte counts and hashes are unchanged.
+Before/after tracked-manifest SHA-256: e3e73d1fc1bb3232152010cb76deec037e9384f05a50f67f1d14406e043ced72
+Final tracked and index diff commands exited 0. Final status contains only those two external cache files.
+Blockers: none. No parent edits, commits, pushes, PR mutations or heavy checks.
+Limits: local Python/cache engineering verification; GitHub Actions and mathematical results are outside this check.
+Resume here: final v4 verification complete. Parent owns final PR/CI handoff and owner controls merge.

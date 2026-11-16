@@ -1,0 +1,25 @@
+{"adversarial": {"explicit_cap_rejection": true, "floor_sum_fallback_verified": true, "rejected_malformed_cases": 13}, "classification": "finite exact regression, not a universal formal proof", "exhaustive": {"all_coordinate_signs": [-1, 0, 1], "boxes": 27540, "empty": 18792, "largest_coefficient_bound": 24, "nonempty": 8748, "zero_coordinate_positions": [[0, 0], [0, 1], [1, 0]]}, "format": "phase13-overnight-basis-tests-v1", "regression": {"historical_records": 1691, "historical_source_sha256": "19b6def263de48ee2d669691012ad6e732ba7d6cdac43b0070798a4bc70818f8", "largest_historical_coefficient_bound": 1, "note": "Alternative compact proofs of the stored exact minima; no sample recomputed.", "overnight_sample_ids": [80000, 87090, 87091, 87092, 90000, 522546, 522547, 522548], "overnight_source_sha256": "fb2cc65ea9500a2d84f69c5c9db483143455d5058548400701e596f1f297db94"}}
+PASS: independent compact-box exclusions, direct nonempty/empty boxes, signed/zero coordinates, adversarial mutations, cap/fallback, stored minima
+	Command being timed: "python3 -B -u research/phase13/overnight/test_basis.py --write"
+	User time (seconds): 1.89
+	System time (seconds): 0.03
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.93
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 83700
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 29557
+	Voluntary context switches: 1
+	Involuntary context switches: 16
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

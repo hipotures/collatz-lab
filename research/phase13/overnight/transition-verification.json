@@ -1,0 +1,168 @@
+{
+  "format": "phase13-transition-replay-v2",
+  "classification": "independent finite certificate; no asymptotic inference",
+  "source_sha256": "ddc4f5e45e338ef708cd3cf84b5920064e202165e8becaaa0b9ed2a0ca908f93",
+  "source_bytes": 700648,
+  "sources": [
+    {
+      "path": "transitions.jsonl",
+      "bytes": 481400,
+      "records": 11,
+      "sha256": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7"
+    },
+    {
+      "path": "transitions-0002.jsonl",
+      "bytes": 219248,
+      "records": 5,
+      "sha256": "786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e"
+    }
+  ],
+  "height_source_sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3",
+  "results": [
+    {
+      "source_N": 87092,
+      "first_failure_index": 87093,
+      "target_N": 87094,
+      "constant_minimum_through_N": 87093,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87094,
+      "first_failure_index": 87095,
+      "target_N": 87096,
+      "constant_minimum_through_N": 87095,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87096,
+      "first_failure_index": 87098,
+      "target_N": 87099,
+      "constant_minimum_through_N": 87098,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87099,
+      "first_failure_index": 87099,
+      "target_N": 87100,
+      "constant_minimum_through_N": 87099,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87100,
+      "first_failure_index": 87101,
+      "target_N": 87102,
+      "constant_minimum_through_N": 87101,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87102,
+      "first_failure_index": 87102,
+      "target_N": 87103,
+      "constant_minimum_through_N": 87102,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87103,
+      "first_failure_index": 87103,
+      "target_N": 87104,
+      "constant_minimum_through_N": 87103,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87104,
+      "first_failure_index": 87108,
+      "target_N": 87109,
+      "constant_minimum_through_N": 87108,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87109,
+      "first_failure_index": 87111,
+      "target_N": 87112,
+      "constant_minimum_through_N": 87111,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87112,
+      "first_failure_index": 87112,
+      "target_N": 87113,
+      "constant_minimum_through_N": 87112,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87113,
+      "first_failure_index": 87115,
+      "target_N": 87116,
+      "constant_minimum_through_N": 87115,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87116,
+      "first_failure_index": 87117,
+      "target_N": 87118,
+      "constant_minimum_through_N": 87117,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87118,
+      "first_failure_index": 87119,
+      "target_N": 87120,
+      "constant_minimum_through_N": 87119,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87120,
+      "first_failure_index": 87120,
+      "target_N": 87121,
+      "constant_minimum_through_N": 87120,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87121,
+      "first_failure_index": 87121,
+      "target_N": 87122,
+      "constant_minimum_through_N": 87121,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    },
+    {
+      "source_N": 87122,
+      "first_failure_index": 87123,
+      "target_N": 87124,
+      "constant_minimum_through_N": 87123,
+      "strict_height_increase_at_target": true,
+      "source_height_bits": 51875,
+      "target_height_bits": 51875
+    }
+  ],
+  "failure_method": "reverse inverse branches and exact 2-adic cylinder valuation"
+}

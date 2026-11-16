@@ -1,0 +1,53 @@
+Cloning into '/tmp/collatz-phase13-issue33-referee-reproduction/source'...
+From https://github.com/hipotures/collatz-lab
+ * branch            65b087dc62e4950e1c504fe34865acaacb9188c9 -> FETCH_HEAD
+ * branch            76bf6136c334c1db9e52e399fcc33fd4c20b9c24 -> FETCH_HEAD
+HEAD is now at 65b087d Phase 13: record review handoff and passing proof-head CI
+653 exact declarations; only approved standard foundations
+PASS: 653 exact foundation records; 60 public signatures; 85 trusted source files scanned
+SELF TESTS and independent modular cycles PASS
+BASELINE frontierSix 168 exact minima
+BASELINE phase11-110 176 exact minima
+BASELINE phase11-1011 162 exact minima
+BASELINE phase8-110 171 exact minima
+BASELINE thue-morse-10 224 exact minima
+BASELINE alternating 142 exact minima
+BASELINE all-one 142 exact minima
+BASELINE all-zero 142 exact minima
+BASELINE sha256-control 190 exact minima
+BASELINE near-rational 174 exact minima
+OVERNIGHT {'N': 87090, 'height_bits': 35217, 'coefficient_cap': 0}
+OVERNIGHT {'N': 87091, 'height_bits': 35217, 'coefficient_cap': 0}
+OVERNIGHT {'N': 87092, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 80000, 'height_bits': 35217, 'coefficient_cap': 0}
+OVERNIGHT {'N': 90000, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 522546, 'height_bits': 211281, 'coefficient_cap': 0}
+OVERNIGHT {'N': 522547, 'height_bits': 211281, 'coefficient_cap': 0}
+OVERNIGHT {'N': 522548, 'height_bits': 311267, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87094, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87096, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87099, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87100, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87102, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87103, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87104, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87109, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87112, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87113, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87116, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87118, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87120, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87121, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87122, 'height_bits': 51875, 'coefficient_cap': 1}
+OVERNIGHT {'N': 87124, 'height_bits': 51875, 'coefficient_cap': 1}
+SHADOW {'k': 0, 'L': 11, 'gcd': 3, 'raw_height_bits': 4, 'reduced_height_bits': 2, 'p_abs_sha256': '2b4c342f5433ebe591a1da77e013d1b72475562d48578dca8b84bac6651c3cb9', 'q_sha256': '084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5', 'strict_uniqueness': True}
+SHADOW {'k': 1, 'L': 67, 'gcd': 1, 'raw_height_bits': 29, 'reduced_height_bits': 29, 'p_abs_sha256': 'eb3fe765bd0ffc6fdcd5dd75517bcb2159cf751b99f732854754e2aeeb0b7a17', 'q_sha256': 'b6295709e3a5d033101f469e94c5048e2c07e01b29da3a6bf7a7ebe427c4fe60', 'strict_uniqueness': True}
+SHADOW {'k': 2, 'L': 403, 'gcd': 1, 'raw_height_bits': 164, 'reduced_height_bits': 164, 'p_abs_sha256': 'af17179a29d94dc60d3bd264e851fd58003b4f47c24273fddb79b9c7110f3245', 'q_sha256': 'be2cdfd67e121cce96c4a81c1b9e994cac668fb45a39c1e9dfccc98d42434955', 'strict_uniqueness': True}
+SHADOW {'k': 3, 'L': 2419, 'gcd': 1, 'raw_height_bits': 982, 'reduced_height_bits': 982, 'p_abs_sha256': '501509f7f6d2cdb86b3282037f189790091e779c4b47fcdb7aa998262a5d8a83', 'q_sha256': '009659ec44705affdf09be34036574c17a25e9b006c84dd7083075792d664f3a', 'strict_uniqueness': True}
+SHADOW {'k': 4, 'L': 14515, 'gcd': 1, 'raw_height_bits': 5870, 'reduced_height_bits': 5870, 'p_abs_sha256': '3a14d26c96fa4097119f3a1d81b894a62a9a7ab7268b21bf7443e9e960308a54', 'q_sha256': '9ec546f94cc1a189a1e100b29a299ce6b4c4ad6fef5a2865206e766ce72cfd49', 'strict_uniqueness': True}
+SHADOW {'k': 5, 'L': 87091, 'gcd': 1, 'raw_height_bits': 35217, 'reduced_height_bits': 35217, 'p_abs_sha256': '999d9452f82e33f349d2e2e83733a39b214be41ba03a1c6885f7f1e929af24d6', 'q_sha256': 'c9be3ca7f61c8b45be193dadf82c849c3388a9c2fe6287716eee56d287546f12', 'strict_uniqueness': True}
+SHADOW {'k': 6, 'L': 522547, 'gcd': 1, 'raw_height_bits': 211281, 'reduced_height_bits': 211281, 'p_abs_sha256': 'af3f86e32337ee8b36249bea9c68a58f8a8608d48c044d0d19653a31d55628f0', 'q_sha256': '33b1aa8e1b13b3ae7898493b73476ae94d10b3ee74ccc3b9ae483daba4ab7e76', 'strict_uniqueness': True}
+SHADOW {'k': 7, 'L': 3135283, 'gcd': 347, 'raw_height_bits': 1267684, 'reduced_height_bits': 1267675, 'p_abs_sha256': 'c5b396b615214852794f730119f6f52359a9114aff8902fd44b9df8eec143f16', 'q_sha256': 'f68fb8ed283087554a68ae774d1895776d722c89e5d49eb4ac124e3b48994a97', 'strict_uniqueness': True}
+SHADOW {'k': 8, 'L': 18811699, 'gcd': 1, 'raw_height_bits': 7606082, 'reduced_height_bits': 7606082, 'p_abs_sha256': '31b62130b10bcc3daf549ee0bb2546e8626dc467ea2da54432594da647717192', 'q_sha256': '74af8e0729d5aa1a4d6b41a3fd696e2aefabc86ad1f85ff44f4700882c49b097', 'strict_uniqueness': True}
+PASS: independent exact checks completed in 193.739s
+PASS: pinned full validation and referee evidence reproduced in /tmp/collatz-phase13-issue33-referee-reproduction

@@ -1,0 +1,655 @@
+{
+  "format": "phase13-basis-pattern-probe-v1",
+  "classification": "exact finite extrapolation test; no new minimum or asymptotic inference",
+  "height_source_sha256": "08bcbb623aee8fd0bf8d6e6bcf919feed9e0cf171e2dafcb5ce89afbfc6c74a3",
+  "transition_source_sha256": "ddc4f5e45e338ef708cd3cf84b5920064e202165e8becaaa0b9ed2a0ca908f93",
+  "transition_sources": [
+    {
+      "path": "transitions.jsonl",
+      "bytes": 481400,
+      "records": 11,
+      "sha256": "24ef2b65c32e804663b20833a7bb330e85a305674fd8f5ae725e7c4fb91a38a7"
+    },
+    {
+      "path": "transitions-0002.jsonl",
+      "bytes": 219248,
+      "records": 5,
+      "sha256": "786cf600dc93222ab38fa1ef70cac3cb810840b188f6396f70b981ee0892e23e"
+    }
+  ],
+  "observed_links": [
+    {
+      "from_N": 87092,
+      "to_N": 87094,
+      "basis_update_rows": [
+        [
+          4,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "from_N": 87094,
+      "to_N": 87096,
+      "basis_update_rows": [
+        [
+          4,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    }
+  ],
+  "certified_transition_chain": {
+    "classification": "derived exact finite metadata from separately replayed certificates",
+    "intervals": [
+      {
+        "source_N": 87092,
+        "constant_minimum_through_N": 87093,
+        "next_prefix_N": 87094,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87094,
+        "constant_minimum_through_N": 87095,
+        "next_prefix_N": 87096,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87096,
+        "constant_minimum_through_N": 87098,
+        "next_prefix_N": 87099,
+        "interval_length": 3,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            8,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87099,
+        "constant_minimum_through_N": 87099,
+        "next_prefix_N": 87100,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87100,
+        "constant_minimum_through_N": 87101,
+        "next_prefix_N": 87102,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87102,
+        "constant_minimum_through_N": 87102,
+        "next_prefix_N": 87103,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87103,
+        "constant_minimum_through_N": 87103,
+        "next_prefix_N": 87104,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87104,
+        "constant_minimum_through_N": 87108,
+        "next_prefix_N": 87109,
+        "interval_length": 5,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            32,
+            0
+          ],
+          [
+            16,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87109,
+        "constant_minimum_through_N": 87111,
+        "next_prefix_N": 87112,
+        "interval_length": 3,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            8,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87112,
+        "constant_minimum_through_N": 87112,
+        "next_prefix_N": 87113,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87113,
+        "constant_minimum_through_N": 87115,
+        "next_prefix_N": 87116,
+        "interval_length": 3,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            8,
+            0
+          ],
+          [
+            4,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87116,
+        "constant_minimum_through_N": 87117,
+        "next_prefix_N": 87118,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87118,
+        "constant_minimum_through_N": 87119,
+        "next_prefix_N": 87120,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87120,
+        "constant_minimum_through_N": 87120,
+        "next_prefix_N": 87121,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            -1,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87121,
+        "constant_minimum_through_N": 87121,
+        "next_prefix_N": 87122,
+        "interval_length": 1,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "source_N": 87122,
+        "constant_minimum_through_N": 87123,
+        "next_prefix_N": 87124,
+        "interval_length": 2,
+        "strict_height_increase_at_source": true,
+        "strict_height_increase_at_next_prefix": true,
+        "basis_update_rows": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      }
+    ],
+    "hypothesis_tested": "each maximal minimum plateau in this certified chain has length two",
+    "hypothesis_falsified": true,
+    "counterexample_source_N": [
+      87096,
+      87099,
+      87102,
+      87103,
+      87104,
+      87109,
+      87112,
+      87113,
+      87120,
+      87121
+    ],
+    "nondecreasing_width_test": {
+      "hypothesis_tested": "widths of consecutive certified maximal plateaux never decrease",
+      "adjacent_maximal_plateau_pairs_checked": 15,
+      "hypothesis_falsified": true,
+      "decreases": [
+        {
+          "from_source_N": 87096,
+          "to_source_N": 87099,
+          "from_length": 3,
+          "to_length": 1
+        },
+        {
+          "from_source_N": 87100,
+          "to_source_N": 87102,
+          "from_length": 2,
+          "to_length": 1
+        },
+        {
+          "from_source_N": 87104,
+          "to_source_N": 87109,
+          "from_length": 5,
+          "to_length": 3
+        },
+        {
+          "from_source_N": 87109,
+          "to_source_N": 87112,
+          "from_length": 3,
+          "to_length": 1
+        },
+        {
+          "from_source_N": 87113,
+          "to_source_N": 87116,
+          "from_length": 3,
+          "to_length": 2
+        },
+        {
+          "from_source_N": 87118,
+          "to_source_N": 87120,
+          "from_length": 2,
+          "to_length": 1
+        }
+      ]
+    },
+    "width_determines_basis_update_test": {
+      "hypothesis_tested": "equal-width certified maximal plateaux have equal selected-basis update matrices",
+      "equal_width_pairs_checked": 33,
+      "hypothesis_falsified": true,
+      "counterexamples": [
+        {
+          "from_source_N": 87099,
+          "to_source_N": 87102,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87099,
+          "to_source_N": 87112,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87099,
+          "to_source_N": 87121,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87102,
+          "to_source_N": 87103,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87102,
+          "to_source_N": 87120,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87103,
+          "to_source_N": 87112,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87103,
+          "to_source_N": 87121,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87112,
+          "to_source_N": 87120,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ]
+        },
+        {
+          "from_source_N": 87120,
+          "to_source_N": 87121,
+          "interval_length": 1,
+          "from_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              -1,
+              1
+            ]
+          ],
+          "to_basis_update_rows": [
+            [
+              2,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "second_height_increment_is_four_times_first": false,
+  "hypothesis_tested": "repeat f'=4*f, g'=2*f+g every two bits from N=87092 through N=90000",
+  "prediction_start_N": 87092,
+  "prediction_end_N": 90000,
+  "prediction_steps": 1454,
+  "predicted_numerator_sign": 1,
+  "predicted_numerator_bits": 51875,
+  "predicted_denominator_bits": 51875,
+  "predicted_numerator_abs_sha256": "4bdd6dd8b80b0740f3460f6b76d034a857570fd884dbf0bcd589886cfa3899ef",
+  "predicted_denominator_sha256": "8626ce0c73692115671492942e21439af654587b34d30b03a14a128aa4ad337f",
+  "predicted_coordinate_gcd": "0x1",
+  "closed_formula_matches_iterated_updates": true,
+  "first_failure_index": 87097,
+  "prediction_falsified_by_actual_parity": true,
+  "first_failing_prefix_N": 87098,
+  "forward_and_reverse_failure_agree": true,
+  "failure_state_checked_by_two_routes": {
+    "numerator_sign": 1,
+    "numerator_bits": 63383,
+    "numerator_abs_sha256": "b1d83c763a1d289832b87909d158d01e83c8494d0709a3b31afaa2fbdebf221a"
+  },
+  "predicted_height_less_than_stored_minimum": true,
+  "predicted_witness_equals_stored_endpoint": false
+}

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/tmp/collatz-lab-phase13-overnight-integration/research/phase13/overnight/finalize_provenance.py", line 308, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/collatz-lab-phase13-overnight-integration/research/phase13/overnight/finalize_provenance.py", line 288, in main
+    counts = check_runs(ROOT, ledger)
+  File "/tmp/collatz-lab-phase13-overnight-integration/research/phase13/overnight/finalize_provenance.py", line 112, in check_runs
+    require(len(runs) == len(COMMANDS), "incomplete validation ledger")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/collatz-lab-phase13-overnight-integration/research/phase13/overnight/finalize_provenance.py", line 46, in require
+    raise ValueError(message)
+ValueError: incomplete validation ledger
