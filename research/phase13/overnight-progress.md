@@ -75,8 +75,18 @@
   self-reported execution timestamps is claimed. Nine bounded tests and
   v4 --write/--check pass; historical mathematical commands did not exercise
   these later metadata-tool changes. Current CI tests the final tooling.
-- **Remaining delivery work:** final cheap agent rechecks, then open/read back
-  the new PR against current main and verify actual head CI. Record its URL/SHA.
+- **Delivery:** [PR #34](https://github.com/hipotures/collatz-lab/pull/34) is
+  open and unmerged against unchanged main 0190d57. The validated code/metadata
+  head `d5859449613ba559c00dc3614237bbdd448eb834` is pushed and read back.
+  Final independent v4 acceptance and genuine depth-one/cache checks both
+  PASS at that head, all nine tests. Detailed reports are in
+  `integration/parallel/`. This final journal/report-only delivery commit is
+  identified by `git log -1 --format=%H` and PR #34, avoiding a self-hash cycle.
+- **Only remaining delivery check:** read actual CI on the delivered head.
+  Run 43786366720 on d585944 was in progress at this journal update; it is
+  not called passing here. The final completion response and PR body identify
+  the actual final-head CI result. No mathematical or metadata-code obligation
+  remains. Owner merge readiness requires successful final-head CI.
   No mathematical computation remains necessary. Do not rerun the long exact
   height optimizer or follow the historical next-experiment instructions.
 - Mathematical PASS verdict, known-method source attribution and open questions
