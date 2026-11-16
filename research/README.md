@@ -7,6 +7,20 @@
 | [`phase13-theory.md`](phase13-theory.md) | Exact finite heights and substituted rational shadows; integer bounds in Lean and written nonconvergence / exponent deductions |
 | [`phase13-experiments.md`](phase13-experiments.md) | 16,384-bit profiles, 1,691 independent minimum certificates, benchmarks and falsified conjectures |
 | [`phase13/README.md`](phase13/README.md) | Algorithms, exact certificate format and bounded reproduction commands |
+| [`phase13/overnight-summary.md`](phase13/overnight-summary.md) | Phase 13 overnight handoff: 24 exact height minima, 16 certified transitions, raw shadows `k=0..8`, corrected provenance (issues #30, #33) |
+| [`phase13-independent-referee-report.md`](phase13-independent-referee-report.md) | Independent Phase 13 referee: nonconvergence PASS; identified the stale overnight provenance later repaired in #33 |
+| [`phase12-findings.md`](phase12-findings.md) | Phase 12: no new rational exclusion; length-six candidate covered by prior art; kernel-checked two-return no-go |
+| [`phase12-prior-art-matrix.md`](phase12-prior-art-matrix.md) | Phase 12 source coverage matrix with exact versions and proof-access limits |
+| [`phase12-independent-referee-report.md`](phase12-independent-referee-report.md) | Independent Phase 12 referee report (PASS for the exact statements) |
+| [`phase12-progress.md`](phase12-progress.md) | Phase 12 checkpoints and resumption |
+| [`phase11-findings.md`](phase11-findings.md) | Phase 11: contraction iff subcritical, non-contracting `110/111` and `1011/1111` exclusions, repeated-square criterion, prior-art overlap |
+| [`phase11-independent-referee-report.md`](phase11-independent-referee-report.md) | Independent Phase 11 referee report (mathematical PASS; earlier overlap identified) |
+| [`phase11-progress.md`](phase11-progress.md) | Phase 11 checkpoints and resumption |
+| [`unequal-weight-contraction.md`](unequal-weight-contraction.md) | Phase 10: generic unequal-weight contraction criterion, concrete and family exclusions, 222 kernel-checked finite certificates |
+| [`phase10-progress.md`](phase10-progress.md) | Phase 10 checkpoints and resumption |
+| [`phase9-prior-art.md`](phase9-prior-art.md) | Phase 9 priority comparison (Molchanov 1983, Monks–Yazinski 2004, López–Stoll 2021) |
+| [`phase9-referee-report.md`](phase9-referee-report.md) | Phase 9 theorem and Lean audit |
+| [`phase9-progress.md`](phase9-progress.md) | Phase 9 journal; manuscript status and outstanding owner decisions (issue #15 open) |
 | [`phase0-report.md`](phase0-report.md) | hand-written report for the first milestone: what is proved, what is only checked, limitations, next questions |
 | [`literature-cst.md`](literature-cst.md) | how the lab's objects map to the Coefficient Stopping Time literature: sources, equivalence proof, count reconciliation, open obligations |
 | [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and the bounded Phase 2 experiment |

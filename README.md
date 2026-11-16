@@ -22,6 +22,13 @@ bounds. Written deductions show that the normalized height profile of
 The [source audit](research/phase13-prior-art.md) attributes the general
 reconstruction and approximation methods to earlier work; no novelty claim
 is made. Start from the [resume journal](research/phase13-progress.md).
+A supplementary overnight run adds 24 exact height minima and 16 certified
+witness transitions; these are finite results only, see the
+[overnight handoff](research/phase13/overnight-summary.md).
+
+The CI Lean audit currently covers 653 declarations, using only standard Lean
+foundation axioms (`research/lean-audit/check_axioms.py`). Declaration counts
+quoted in the phase sections below are historical snapshots of each phase.
 
 ## What is here
 
@@ -308,6 +315,59 @@ smaller certificates.
 This theorem concerns this specified class of itineraries. It does not prove
 the Collatz conjecture or the general 2-adic Periodicity Conjecture, and no
 novelty claim is made.
+
+## Phase 9: prior-art audit and manuscript draft (issue #15, open)
+
+The [prior-art comparison](research/phase9-prior-art.md) finds that the
+equal-weight irrationality statement is **not new**: it follows, in the
+stronger form of transcendence, from Molchanov's 1983 *p*-adic Mahler theorem;
+the case `3^r < 2^L` also follows from Monks–Yazinski (2004). The
+[referee report](research/phase9-referee-report.md) audits the theorem and its
+Lean statements. The [manuscript draft](paper/README.md) presents an elementary
+proof, a uniform certificate and the formalization, not a new theorem. It has
+not been submitted, posted or announced; the author line, a compiled and
+inspected PDF and owner review are still outstanding. Resume from the
+[Phase 9 journal](research/phase9-progress.md).
+
+## Phase 10: unequal-weight contraction (issue #16)
+
+A generic **kernel-checked** contraction criterion handles substitutions whose
+images have different weights. It proves exclusion of rational seeds for
+`1 -> 100, 0 -> 110`, `1 -> 110, 0 -> 100`, the family
+`1 -> 10^(L-1), 0 -> 1^(L-1)0` for every `L >= 3`
+(`no_rational_seed_realizes_unequalSparse`), and a catalogue of 222 finite
+certificates, each with finite-shift and eventual-tail corollaries. Finite
+search results are kept separate from these proofs. See
+[`research/unequal-weight-contraction.md`](research/unequal-weight-contraction.md)
+and the [Phase 10 journal](research/phase10-progress.md).
+
+## Phase 11: beyond uniform contraction (issue #19)
+
+[Findings](research/phase11-findings.md), all kernel-checked: the contraction
+method applies **if and only if** a stated subcritical spectral condition holds
+(`uniform_contraction_iff_subcritical`); the supercritical word
+`1 -> 110, 0 -> 111` is aperiodic but defeats every fixed-length contraction
+certificate. Rational seeds for it are nevertheless excluded by a separate
+repeated-square-prefix criterion (`RepeatedPrefix.lean`), and for
+`1 -> 1011, 0 -> 1111` by a partial-return argument, with all shifted tails.
+These do not cover all supercritical or automatic words. The
+[independent referee report](research/phase11-independent-referee-report.md)
+gives a mathematical PASS, but identifies earlier overlap: the square criterion
+and offset bound already occur in Allikvere's 2026 preprint. These results are
+formalizations and applications, not first-discovery claims.
+
+## Phase 12: prior-art coverage and two-return limits (issue #24)
+
+[Findings](research/phase12-findings.md): **no new rational exclusion was
+found.** The length-six candidate `1 -> 100111, 0 -> 111110` is already covered
+by earlier density-sensitive criteria
+([coverage matrix](research/phase12-prior-art-matrix.md)). A kernel-checked
+no-go (`returnDet_small_iff_zero` in `TwoReturn.lean`) shows that the proposed
+two-return determinant cannot eliminate seeds: its congruence holds for every
+binary word with the two finite matches. Structural facts about the candidate
+word are formalized; their mathematical priority is unverified. The
+[independent referee report](research/phase12-independent-referee-report.md)
+gives a PASS for the exact mathematical statements.
 
 ## Epistemic statuses
 
