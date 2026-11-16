@@ -24,7 +24,7 @@
   `caaa37cf68e399b48dae0fa975a45f9cc2447d9f` (23 minima, 15 transitions).
   Its evidence bytes remain prefixes of the final source files. Its cached
   entry HEAD `bcfc2a7d9f57b8001b3041453ada7dc6ff08ae10` is not the final
-  artifact commit. The new v3 audit identifies source 76bf613, current-main
+  artifact commit. The new v4 audit identifies source 76bf613, current-main
   base, actual command outputs and a validated working-tree input manifest.
 - The original final smoke log is historical: exit 0, 24/16/9, 464.54 seconds,
   RSS 102,832 KiB. It is not overwritten or confused with the fresh run below.
@@ -49,10 +49,10 @@
   k=0..8 passed; the independent arithmetic stage took 193.739 seconds.
   Its historical provenance FAIL remains correct for the old 23/15 snapshots;
   the merged report and verdicts are not rewritten.
-- `finalize_provenance.py --write`, `--check`, all six hostile/portability
+- `finalize_provenance.py --write`, `--check`, all nine hostile/portability
   regression tests, shell syntax and `git diff --check` passed. Current logs,
   hashes, timestamps, exact commands and resource caps are in
-  `overnight/integration/validation.json` and the v3 audit. Full matrix/referee
+  `overnight/integration/validation.json` and the v4 audit. Full matrix/referee
   commands use 24 GiB address-space caps and 1,200-second outer limits;
   interfaces use 1 GiB/180 seconds; smoke uses 1 GiB/750 seconds.
 - Three earlier attempts are retained with honest outcomes in `integration/`:
@@ -61,9 +61,22 @@
   drift after serializer/CI-cache corrections. No failure is relabeled as a
   completed successful attestation. The final four-command run has all input
   fingerprints unchanged. No required check is unavailable.
-- **Remaining delivery work:** bounded shallow-checkout/cache validation and
-  parallel independent acceptance/code review, then open/read back the new PR
-  against current main, verify actual head CI and record its final URL/SHA.
+- Parallel independent agents confirmed acceptance and genuine depth-one/cache
+  compatibility at `518697503580f632d19bdab4b92c6f4d9e5caffe`. Reports are
+  retained in `integration/parallel/`. The adversarial code review found a
+  blanket future repository freeze; its scoped fix is cherry-picked as
+  `0bd17a49e2bd8c7544d0c0577c1fe8335b454b35` from agent commit
+  `2da6fb71facefeebfca8c5727d630714246016c6`.
+- V4 keeps the original full-run ledger and all logs/resources byte-for-byte,
+  pins its SHA-256 and exact recorded entry HEAD, selects 217 relevant frozen
+  dependencies, and binds four current metadata tools separately. Unrelated
+  Rust/CI/docs/new files no longer invalidate the frozen experiment. Resource
+  wall/RSS/exit values are parsed from hashed outputs. No authentication of
+  self-reported execution timestamps is claimed. Nine bounded tests and
+  v4 --write/--check pass; historical mathematical commands did not exercise
+  these later metadata-tool changes. Current CI tests the final tooling.
+- **Remaining delivery work:** final cheap agent rechecks, then open/read back
+  the new PR against current main and verify actual head CI. Record its URL/SHA.
   No mathematical computation remains necessary. Do not rerun the long exact
   height optimizer or follow the historical next-experiment instructions.
 - Mathematical PASS verdict, known-method source attribution and open questions

@@ -24,10 +24,15 @@ attest the older checkpoint, not the final source head. See the
 [history label](overnight/history/README.md).
 
 The new [final audit](overnight/checkpoint-audit.json) binds the unchanged
-source bytes, main's protected files, fresh command outputs and actual input
-hashes. Its validation entry HEAD is a parent checkpoint plus an explicit
-working-tree input manifest; it does not pretend to contain its own future
-commit SHA. The PR head identifies the committed handoff.
+certification sources/evidence and the original integration command outputs.
+The hash-pinned validation ledger retains its complete historical combined-tree
+input manifest and entry HEAD; unrelated future source, CI or documentation
+changes do not invalidate this frozen experiment. Current checks compare the
+explicit frozen certification subset and separately hash the metadata tools.
+The arithmetic runs did not execute the metadata regression tests; those are
+checked separately by the finalization procedure and CI. The PR head identifies
+the committed handoff without a self-hash cycle. These are recorded observations,
+not independent authentication of self-reported execution timestamps.
 
 ## Unchanged evidence and capacity
 
@@ -56,22 +61,22 @@ exit 0, **464.54 seconds**, peak **102,832 KiB**, under the recorded
 750-second outer timeout and 1 GiB child address-space cap. These are
 historical observations, not the timing of the fresh integration checks.
 
-| Current checked command | Exit | Wall seconds | Peak RSS KiB |
+| Recorded integration command | Exit | Wall seconds | Peak RSS KiB |
 |---|---:|---:|---:|
 | [combined-matrix](overnight/integration/combined-matrix.log) | 0 | 269.91 | 292976 |
 | [combined-interfaces](overnight/integration/combined-interfaces.log) | 0 | 9.52 | 292848 |
 | [overnight-smoke](overnight/integration/overnight-smoke.log) | 0 | 467.32 | 102696 |
 | [pinned-referee](overnight/integration/pinned-referee.log) | 0 | 585.64 | 6288872 |
 
-The current smoke uses a 750-second outer timeout and 1 GiB address-space cap.
-The full current-main matrix checks Lean, the exact **653**-declaration axiom
+The recorded integration smoke used a 750-second outer timeout and 1 GiB address-space cap.
+The recorded combined-tree matrix checked Lean, the exact **653**-declaration axiom
 allowlist, research interfaces, Rust formatting/lints/**94 tests**, all current
 Python checkers and static manuscript/Lean-name consistency. Independent
-interface/axiom parsing checks the actual combined tree. The unchanged
+interface/axiom parsing checked that combined tree. The unchanged
 referee reproduction fetches its exact two pinned refs, checks all **1,691**
 baseline minima, all **24** overnight minima, **16** transitions and raw gcds
 through k=8, and byte-compares both committed reviewer result files.
-All logs, timestamps, exit codes, caps and input fingerprints are in the
+All recorded logs, timestamps, exit codes, caps and input fingerprints are in the
 [validation ledger](overnight/integration/validation.json). CI status is
 reported separately in the integration journal/PR, never inferred from a local run.
 

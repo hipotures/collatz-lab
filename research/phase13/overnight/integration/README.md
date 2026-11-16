@@ -88,3 +88,18 @@ took 193.739 seconds. Both reviewer JSON comparisons passed byte-for-byte.
 The new final audit/summary were then generated, checked, and all six hostile
 metadata/CI-cache regressions passed against the real final audit. The prior
 attempts remain distinct from this completed validation.
+
+## Parallel audit and scoped v4 correction
+
+The 5186975 shallow/cache and acceptance reports are preserved under
+`parallel/`, labeled with their actual reviewed commit. An adversarial agent
+then found the v3 whole-repository equality check would block unrelated future
+development. The v4 correction changes only metadata tools/README and generated
+audit/summary. The mathematical sources, 24/16/9 evidence, full-run ledger and
+all eight full-run log/resource files remain unchanged. V4 pins that immutable
+ledger identity, checks 217 explicit relevant dependencies, binds four current
+metadata tools separately, and cross-checks wall/RSS/exit values from hashed
+resources. It permits unrelated existing/new Rust/CI/docs files without
+rewriting historical inputs. Root v4 generation/check and all nine tests pass.
+These are fresh bounded engineering checks, not a claim that the historical
+full matrix executed later guard code. Actual final-head CI is checked in the PR.
