@@ -28,6 +28,8 @@
 | [`envelope/evidence.json`](envelope/evidence.json) | exact Phase 2 evidence, all ties, independent counts and Terras offsets |
 | [`envelope-extended/summary.md`](envelope-extended/summary.md) | extended exhaustive mini-max envelope (`1 <= r <= 23`, 150,456,309 classes), third P1a counterexample (`r=14`), `E_r <= 3` refutation (`r=22`), and P1b refutation (`m=47, 63` at `r=34, k=54`) |
 | [`envelope-extended/evidence.json`](envelope-extended/evidence.json) | machine-readable exact evidence for `1 <= r <= 23` and verified P1b refutation witnesses |
+| [`lyapunov/summary.md`](lyapunov/summary.md) | finite-state modular Lyapunov contraction certificates (F3, `1 <= M <= 12`), exact `(M-1)/M` no-go on `G_M \ {2^M - 1}`, and F2 vs F3 excluded-density comparison |
+| [`lyapunov/evidence.json`](lyapunov/evidence.json) | machine-readable exact F3 Lyapunov certificates, horizons, and extremal cycles for `1 <= M <= 12` |
 | [`infinite-itineraries.md`](infinite-itineraries.md) | Phase 3 mathematical memo: all-prefix survival proof, aperiodicity proof, 2-adic Mahler reduction, `B(z) = z^2 - z^3` denominator analysis, Padé table (`1 <= m <= 16`), and literature audit |
 | [`mahler/summary.md`](mahler/summary.md) | generated Phase 3 summary: 5-way modular checkpoints up to `2^1024`, periodic control `(1110)^infinity`, and exact Padé table |
 | [`mahler/evidence.json`](mahler/evidence.json) | generated Phase 3 machine-readable evidence (arbitrary-precision integers as decimal strings) |
@@ -137,9 +139,28 @@ down here.
   the odd child of an uncovered class is uncovered). This family therefore
   cannot become a proof at any finite depth.
 
+### F3. Finite-state modular Lyapunov contraction certificate (modulus `2^M`)
+
+- **Construction.** On the transition graph `G_M` modulo `2^M` with excluded
+  residue set `S`, compute an exact integer potential `phi: V_M \ S -> Z`
+  satisfying `q * odd(u) + phi(v) - phi(u) <= p` on every active edge `(u -> v)`,
+  with `3^p < 2^q` (currently `p/q = 63/100`).
+- **Claim.** Any orbit segment of length `L` staying inside `V_M \ S` satisfies
+  `q * r_L + phi(u_L) - phi(u_0) <= p * L`, forcing a strict coefficient
+  crossing `3^(r_L) < 2^L` once `L >= L_0` (`2^(q*L_0) > 3^(p*L_0 + span)`).
+  Reproduce `1 <= M <= 12` with
+  `cargo run --locked --release -- lyapunov --max-m 12 --out-dir research/lyapunov`
+  (independent tests in `tests/lyapunov.rs`).
+- **Known gap / finite-state no-go.** On full `G_M` the self-loop at `2^M - 1`
+  gives odd density `1/1`, and on `G_M \ {2^M - 1}` the exact maximum odd cycle
+  density is `(M - 1)/M` (exceeding `1/log2(3)` for all `M >= 3`). Pruning F2
+  survivors reduces the excluded set substantially (e.g. `60/2048 = 2.93%` vs
+  `128/2048 = 6.25%` at `M = 11`, and `122/4096 = 2.98%` vs `226/4096 = 5.52%`
+  at `M = 12`), but F3 does not prevent an orbit from entering `S`.
+
 ### Not attempted
 
-Adaptive or unbounded-horizon certificates, potential (Lyapunov) functions,
-and finite-state contraction certificates are out of scope for this
-milestone. The no-go result recorded in `src/nogo.rs` concerns fixed descent
-windows only and must not be read as covering those.
+Adaptive or unbounded-horizon global certificates remain out of scope. The
+no-go result in `src/nogo.rs` concerns fixed descent windows only; the
+finite-state modular Lyapunov no-go in `src/lyapunov.rs` concerns uniform
+modular potentials on `G_M` and `G_M \ {2^M - 1}`.

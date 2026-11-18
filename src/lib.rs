@@ -32,6 +32,7 @@ pub mod collatz;
 pub mod counting;
 pub mod envelope;
 pub mod hypothesis;
+pub mod lyapunov;
 pub mod mahler;
 pub mod nogo;
 pub mod prefix;

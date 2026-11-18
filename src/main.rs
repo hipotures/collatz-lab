@@ -14,11 +14,12 @@ use collatz_lab::collatz;
 use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
 use collatz_lab::envelope::{run_envelope, run_envelope_extended, EXTENDED_MAX_ODD_STEPS};
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
+use collatz_lab::lyapunov::{run_lyapunov, DEFAULT_MAX_MODULUS_BITS};
 use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
 use collatz_lab::report::{
-    render_envelope, render_envelope_extended, render_mahler, render_summary,
+    render_envelope, render_envelope_extended, render_lyapunov, render_mahler, render_summary,
 };
 use collatz_lab::verifier;
 
@@ -61,6 +62,8 @@ enum Command {
     Envelope(EnvelopeArgs),
     /// Extended mini-max envelope (1 <= r <= MAX_R, up to 23) and P1b refutation witnesses.
     EnvelopeExtended(EnvelopeExtendedArgs),
+    /// Finite-state modular Lyapunov contraction certificates (F3) on G_M mod 2^M.
+    Lyapunov(LyapunovArgs),
     /// Investigate the aperiodic survivor itinerary mu(1)=1110, mu(0)=1101 via 2-adic Mahler reduction.
     Mahler(MahlerArgs),
 }
@@ -79,6 +82,16 @@ struct EnvelopeExtendedArgs {
     max_r: usize,
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/envelope-extended")]
+    out_dir: PathBuf,
+}
+
+#[derive(Args)]
+struct LyapunovArgs {
+    /// Maximum modulus bit-width M (1 <= max_m <= 12).
+    #[arg(long, default_value_t = DEFAULT_MAX_MODULUS_BITS)]
+    max_m: usize,
+    /// Output directory for evidence.json and summary.md.
+    #[arg(long, default_value = "research/lyapunov")]
     out_dir: PathBuf,
 }
 
@@ -752,6 +765,39 @@ fn cmd_envelope_extended(args: &EnvelopeExtendedArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_lyapunov(args: &LyapunovArgs) -> CliResult<()> {
+    let start = std::time::Instant::now();
+    let outcome = run_lyapunov(args.max_m)?;
+    let mut evidence = serde_json::to_vec_pretty(&outcome)?;
+    evidence.push(b'\n');
+    let summary = render_lyapunov(&outcome);
+    fs::create_dir_all(&args.out_dir)?;
+    let evidence_path = args.out_dir.join("evidence.json");
+    let summary_path = args.out_dir.join("summary.md");
+    fs::write(&evidence_path, evidence)?;
+    fs::write(&summary_path, summary)?;
+    for row in &outcome.rows {
+        println!(
+            "M={:>2} (2^M={:>4}): F2_excl={:>3}, F3_excl={:>3} (saved {:>2}), horizon L_0={}",
+            row.modulus_bits,
+            row.modulus,
+            row.f2_survivor_count,
+            row.f3_excluded_count,
+            row.f3_saved_vs_f2,
+            row.f3_contraction_horizon,
+        );
+    }
+    println!("wrote {}", evidence_path.display());
+    println!("wrote {}", summary_path.display());
+    println!("conditional finite-state contraction only; no Collatz proof is claimed");
+    eprintln!(
+        "[lyapunov] completed M=1..={} in {} ms",
+        outcome.max_modulus_bits,
+        start.elapsed().as_millis()
+    );
+    Ok(())
+}
+
 fn cmd_mahler(args: &MahlerArgs) -> CliResult<()> {
     let start = std::time::Instant::now();
     let outcome = run_mahler()?;
@@ -809,6 +855,7 @@ fn main() -> ExitCode {
         Command::Counts(args) => cmd_counts(args),
         Command::Envelope(args) => cmd_envelope(args),
         Command::EnvelopeExtended(args) => cmd_envelope_extended(args),
+        Command::Lyapunov(args) => cmd_lyapunov(args),
         Command::Mahler(args) => cmd_mahler(args),
     };
     match result {

@@ -7,6 +7,7 @@ use std::fmt::Write as _;
 
 use crate::envelope::{EnvelopeExperiment, ExtendedEnvelopeExperiment, Witness};
 use crate::hypothesis::{ExperimentOutcome, FailureCase, Status};
+use crate::lyapunov::LyapunovExperiment;
 use crate::mahler::MahlerExperiment;
 
 fn abbreviate_decimal(text: &str, max_len: usize) -> String {
@@ -166,6 +167,81 @@ pub fn render_envelope_extended(outcome: &ExtendedEnvelopeExperiment) -> String 
            frozen Phase 2 `run_envelope()`.\n\
          - All statements are finite exact computations; no all-`r` bound, CST proof, \
            or Collatz proof is claimed.\n",
+    );
+    out
+}
+
+pub fn render_lyapunov(outcome: &LyapunovExperiment) -> String {
+    let mut out = String::new();
+    let _ = write!(
+        out,
+        "# Finite-state modular Lyapunov contraction certificates (F3, 1 <= M <= {})\n\n\
+         Generated exact-arithmetic report for the accelerated map `T(n)=n/2` (even), \
+         `(3n+1)/2` (odd) on the finite-state transition graph `G_M` modulo `2^M`. \
+         No proof of the Collatz conjecture or CST is claimed.\n\n\
+         Reproduce this table and `evidence.json` from the repository root with:\n\n\
+         ```text\n\
+         cargo run --locked --release -- lyapunov --max-m {} --out-dir research/lyapunov\n\
+         ```\n\n\
+         ## Exact definitions and finite-state no-go results\n\n\
+         - **Transition graph `G_M`:** vertices `V_M = {{0, ..., 2^M - 1}}`, two outgoing edges \
+           per vertex corresponding to the next bit `t mod 2` of `n = u + 2^M t`.\n\
+         - **Exact contraction target:** `p/q = {}/{}` (verified `3^{} < 2^{}`, so `p/q < 1/log2(3)`).\n\
+         - **F3 certificate on `V_M \\ S`:** an integer potential `phi: V_M \\ S -> Z` satisfying \
+           `q * odd(u) + phi(v) - phi(u) <= p` on every active edge `(u -> v)`. Telescoping along \
+           any length-`L` orbit segment staying inside `V_M \\ S` yields \
+           `q * r_L + phi(u_L) - phi(u_0) <= p * L`, guaranteeing a strict coefficient crossing \
+           `3^(r_L) < 2^L` once `L >= L_0` (where `2^(q*L_0) > 3^(p*L_0 + span)`).\n\
+         - **Finite-state no-go on `G_M` and `G_M \\ {{2^M - 1}}`:**\n\
+           1. On full `G_M`, the self-loop `(2^M - 1) -> (2^M - 1)` has odd-step density `1/1`.\n\
+           2. On `G_M \\ {{2^M - 1}}`, the exact maximum odd-step cycle density is `(M - 1)/M` \
+              (upper bound certified by an integer potential at `(M - 1, M)`; lower bound \
+              witnessed by an explicit length-`M` cycle from `2^(M-1) - 1` through `2^M - 2`). \
+              Thus for every `M >= 3`, deleting only the Mersenne class `2^M - 1` still leaves \
+              an expanding cycle (`3^(M-1) > 2^M`), so no modular Lyapunov contraction exists on \
+              `G_M \\ {{2^M - 1}}`.\n\n\
+         ## F2 survivors vs. F3 pruned Lyapunov certificates\n\n\
+         Every F2 cover complement `V_M \\ Survivors_M` admits an exact integer F3 potential at \
+         `{}/{}`. Pruning redundant F2 survivors while preserving exact edge-by-edge contraction \
+         strictly reduces the excluded residue set for `M = 4` and all `M >= 6`.\n\n\
+         | M | `2^M` | max cycle `G_M\\{{-1}}` | F2 excluded (%) | F3 excluded (%) | saved vs F2 | F3 span | F3 horizon `L_0` |\n\
+         |---:|---:|---|---:|---:|---:|---:|---:|\n",
+        outcome.max_modulus_bits,
+        outcome.max_modulus_bits,
+        outcome.target_p,
+        outcome.target_q,
+        outcome.target_p,
+        outcome.target_q,
+        outcome.target_p,
+        outcome.target_q,
+    );
+    for row in &outcome.rows {
+        let f2_pct = 100.0 * (row.f2_survivor_count as f64) / (row.modulus as f64);
+        let f3_pct = 100.0 * (row.f3_excluded_count as f64) / (row.modulus as f64);
+        let _ = writeln!(
+            out,
+            "| {} | {} | `{}/{}` | {} ({:.2}%) | {} ({:.2}%) | {} | {} | {} |",
+            row.modulus_bits,
+            row.modulus,
+            row.minus_one_removed_max_cycle_r,
+            row.minus_one_removed_max_cycle_k,
+            row.f2_survivor_count,
+            f2_pct,
+            row.f3_excluded_count,
+            f3_pct,
+            row.f3_saved_vs_f2,
+            row.f3_potential_span,
+            row.f3_contraction_horizon,
+        );
+    }
+    out.push_str(
+        "\n## Evidence boundary and limitations\n\n\
+         - Every F2 survivor count is cross-checked against `count_by_length` in `src/counting.rs`.\n\
+         - Every F3 certificate is verified edge-by-edge in exact `i64` arithmetic with no \
+           floating-point decisions.\n\
+         - **What F3 does not claim:** staying inside `V_M \\ S` is a conditional hypothesis on \
+           an orbit segment; F3 does not prevent an integer orbit from entering the excluded \
+           residue set `S`, and does not prove global convergence.\n",
     );
     out
 }
