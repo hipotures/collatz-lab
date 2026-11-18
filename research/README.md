@@ -11,6 +11,7 @@
 | [`phase13/tail-gcd-primes.md`](phase13/tail-gcd-primes.md) | Phase 13 follow-up: bounded resonant-prime scan (`p <= 100,000`, `k <= 200`; `p <= 10,000`, `k <= 1,000`) and 13 certified infinite modular cycles for `gcd(|P_k|, Q_k)` |
 | [`phase13/intermediate-approximants.md`](phase13/intermediate-approximants.md) | Phase 13 follow-up: dense exact intermediate best approximants across `(L_k, L_{k+1}]` for `k = 0..3` (`12 <= N <= 14,515`), plateau entries, and certified deepest dips |
 | [`phase13/morphism-shadows.md`](phase13/morphism-shadows.md) | Phase 13 follow-up: cross-morphism rational shadows and 3-adic non-cancellation for `phase11-110` (`c = (1/4) log2(3)`), `phase11-1011` (`c = (1/5) log2(3)`), and equal-weight controls |
+| [`phase13/prime-obstructions.md`](phase13/prime-obstructions.md) | Phase 13 follow-up: exact 2-primary / 3-primary power-residue obstructions (`p == 5 mod 12` excluded for all `k >= 1`; `p = 10597 == 1 mod 12` witness at `k = 677`) and the post-identity abelian trap |
 | [`phase13-independent-referee-report.md`](phase13-independent-referee-report.md) | Independent Phase 13 referee: nonconvergence PASS; identified the stale overnight provenance later repaired in #33 |
 | [`phase12-findings.md`](phase12-findings.md) | Phase 12: no new rational exclusion; length-six candidate covered by prior art; kernel-checked two-return no-go |
 | [`phase12-prior-art-matrix.md`](phase12-prior-art-matrix.md) | Phase 12 source coverage matrix with exact versions and proof-access limits |
