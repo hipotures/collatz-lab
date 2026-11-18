@@ -34,6 +34,8 @@
 | [`envelope-extended/evidence.json`](envelope-extended/evidence.json) | machine-readable exact evidence for `1 <= r <= 23` and verified P1b refutation witnesses |
 | [`lyapunov/summary.md`](lyapunov/summary.md) | finite-state modular Lyapunov contraction certificates (F3, `1 <= M <= 15`), exact `(M-1)/M` no-go on `G_M \ {2^M - 1}`, and F2 vs F3 excluded-density comparison |
 | [`lyapunov/evidence.json`](lyapunov/evidence.json) | machine-readable exact F3 Lyapunov certificates, horizons, and extremal cycles for `1 <= M <= 15` |
+| [`lyapunov-exact/summary.md`](lyapunov-exact/summary.md) | exact global minimum `|S_M*|` (`1 <= M <= 8`), certified integer dual-LP brackets (`9 <= M <= 12`), heuristic gap, and `p/q` sensitivity (`5/8` through `94/149`) |
+| [`lyapunov-exact/evidence.json`](lyapunov-exact/evidence.json) | machine-readable exact optimal sets `S_M*`, certified dual lower bounds, and `p/q` sensitivity tables |
 | [`infinite-itineraries.md`](infinite-itineraries.md) | Phase 3 mathematical memo: all-prefix survival proof, aperiodicity proof, 2-adic Mahler reduction, `B(z) = z^2 - z^3` denominator analysis, Padé table (`1 <= m <= 16`), and literature audit |
 | [`mahler/summary.md`](mahler/summary.md) | generated Phase 3 summary: 5-way modular checkpoints up to `2^1024`, periodic control `(1110)^infinity`, and exact Padé table |
 | [`mahler/evidence.json`](mahler/evidence.json) | generated Phase 3 machine-readable evidence (arbitrary-precision integers as decimal strings) |

@@ -141,19 +141,36 @@ pub fn verify_contraction_target(p: i64, q: i64) -> Result<(), String> {
 }
 
 /// Exact least `L >= 1` such that `2^(q*L) > 3^(p*L + span)`.
+/// Uses an `f64` starting hint followed by exact `BigUint` stepping/verification
+/// (the returned value is 100% certified in `BigUint`, never trusting floats).
 pub fn contraction_horizon(p: i64, q: i64, span: i64) -> usize {
     assert!(p > 0 && q > 0 && span >= 0);
-    let pow2_q = BigUint::one() << (q as usize);
-    let pow3_p = BigUint::from(3u32).pow(p as u32);
-    let mut lhs = pow2_q.clone();
-    let mut rhs = BigUint::from(3u32).pow(span as u32) * &pow3_p;
-    let mut l = 1usize;
-    while lhs <= rhs {
-        lhs *= &pow2_q;
-        rhs *= &pow3_p;
-        l += 1;
+    let holds = |l: usize| -> bool {
+        let lhs = BigUint::one() << ((q as usize) * l);
+        let rhs = BigUint::from(3u32).pow(((p as usize) * l + (span as usize)) as u32);
+        lhs > rhs
+    };
+    if span == 0 || holds(1) {
+        return 1;
     }
-    l
+    let log2_3 = 3.0f64.log2();
+    let denom = (q as f64) - (p as f64) * log2_3;
+    let mut l = if denom > 0.0 {
+        (((span as f64) * log2_3) / denom).floor().max(1.0) as usize
+    } else {
+        1usize
+    };
+    if holds(l) {
+        while l > 1 && holds(l - 1) {
+            l -= 1;
+        }
+        l
+    } else {
+        while !holds(l) {
+            l += 1;
+        }
+        l
+    }
 }
 
 /// Solve `phi(v) <= phi(u) + (p - q * odd(u))` on the active induced subgraph

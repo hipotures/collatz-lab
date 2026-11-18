@@ -8,6 +8,7 @@ use std::fmt::Write as _;
 use crate::envelope::{EnvelopeExperiment, ExtendedEnvelopeExperiment, Witness};
 use crate::hypothesis::{ExperimentOutcome, FailureCase, Status};
 use crate::lyapunov::LyapunovExperiment;
+use crate::lyapunov_exact::{LyapunovExactExperiment, SENSITIVITY_TARGETS};
 use crate::mahler::MahlerExperiment;
 
 fn abbreviate_decimal(text: &str, max_len: usize) -> String {
@@ -244,6 +245,135 @@ pub fn render_lyapunov(outcome: &LyapunovExperiment) -> String {
          - **What F3 does not claim:** staying inside `V_M \\ S` is a conditional hypothesis on \
            an orbit segment; F3 does not prevent an integer orbit from entering the excluded \
            residue set `S`, and does not prove global convergence.\n",
+    );
+    out
+}
+
+pub fn render_lyapunov_exact(outcome: &LyapunovExactExperiment) -> String {
+    let mut out = String::new();
+    let _ = write!(
+        out,
+        "# Exact minimum excluded sets `|S_M*|` in F3, certified brackets, and `p/q` sensitivity\n\n\
+         Generated exact-arithmetic report for the accelerated Collatz transition graph `G_M` \
+         modulo `2^M` at baseline contraction target `{}/{}` (verified `3^{} < 2^{}`). \
+         No all-`M` asymptotic claim or proof of Collatz/CST is asserted.\n\n\
+         Reproduce this report and `evidence.json` from the repository root with:\n\n\
+         ```text\n\
+         cargo run --locked --release -- lyapunov-exact --out-dir research/lyapunov-exact\n\
+         ```\n\n\
+         ## Part A: Exact global minimum `|S_M*|` over all subsets `S <= V_M` (`1 <= M <= 8`)\n\n\
+         Computed by exact Branch-and-Cut with certified integer dual-LP lower bounds. Every \
+         optimal excluded set `S_M*` is independently verified by a fresh SPFA potential check \
+         edge-by-edge in `i64` arithmetic.\n\n\
+         | M | `2^M` | F2 excl | F3 heur (%) | **exact `|S_M*|`** (%) | heur gap | even in `S*` | non-F2 in `S*` | `S*` horizon `L_0` | B&C nodes |\n\
+         |---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n",
+        outcome.baseline_p, outcome.baseline_q, outcome.baseline_p, outcome.baseline_q,
+    );
+    for row in &outcome.exact_rows {
+        let h_pct = 100.0 * (row.f3_heuristic_count as f64) / (row.modulus as f64);
+        let e_pct = 100.0 * (row.exact_min_count as f64) / (row.modulus as f64);
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} | {} ({:.2}%) | **{} ({:.2}%)** | +{} | {} | {} | {} | {} |",
+            row.modulus_bits,
+            row.modulus,
+            row.f2_survivor_count,
+            row.f3_heuristic_count,
+            h_pct,
+            row.exact_min_count,
+            e_pct,
+            row.heuristic_gap,
+            row.exact_even_count,
+            row.exact_non_survivor_count,
+            row.exact_contraction_horizon,
+            row.branch_and_cut_nodes,
+        );
+    }
+    out.push_str(
+        "\n## Part B: Certified integer brackets `[LB_M, UB_M]` (`9 <= M <= 12`)\n\n\
+         Each lower bound `LB_M = 1 + ceil(sum_y / max_load)` is certified in exact `i64` \
+         arithmetic by an explicit collection of independently verified violating cycles \
+         in `G_M \\ {2^M - 1}` (`q * r(C) > p * |C|`). Each upper bound `UB_M` is certified \
+         by an edge-verified F3 integer potential.\n\n\
+         | M | `2^M` | certified `LB_M` (%) | verified `UB_M` (%) | dual cycles | `sum_y / max_load` |\n\
+         |---:|---:|---:|---:|---:|---:|\n",
+    );
+    for row in &outcome.bracket_rows {
+        let lb_pct = 100.0 * (row.certified_lb as f64) / (row.modulus as f64);
+        let ub_pct = 100.0 * (row.f3_ub as f64) / (row.modulus as f64);
+        let frac = 1.0 + (row.dual_sum_y as f64) / (row.dual_max_load as f64);
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} ({:.2}%) | {} ({:.2}%) | {} | {:.2} |",
+            row.modulus_bits,
+            row.modulus,
+            row.certified_lb,
+            lb_pct,
+            row.f3_ub,
+            ub_pct,
+            row.dual_cycle_count,
+            frac,
+        );
+    }
+
+    out.push_str(
+        "\n## Part C: Sensitivity to contraction target `p/q < 1/log2(3) ~= 0.630930`\n\n\
+         ### C1. Exact global minimum `|S_M*|` (`4 <= M <= 7`)\n\n\
+         | M | `5/8` (0.6250) | `17/27` (0.6296) | `63/100` (0.6300) | `41/65` (0.6308) | `94/149` (0.6309) |\n\
+         |---:|---:|---:|---:|---:|---:|\n",
+    );
+    for row in &outcome.exact_sensitivity_rows {
+        let _ = write!(out, "| {} |", row.modulus_bits);
+        for cell in &row.cells {
+            let _ = write!(
+                out,
+                " {} (`L_0={}`) |",
+                cell.excluded_count, cell.contraction_horizon
+            );
+        }
+        out.push('\n');
+    }
+
+    out.push_str(
+        "\n### C2. F3 ascending-pruned `|S_M|` and horizon `L_0` (`8 <= M <= 15`)\n\n\
+         | M | F2 |",
+    );
+    for &(p, q) in &SENSITIVITY_TARGETS {
+        let _ = write!(out, " `{p}/{q}` |");
+    }
+    out.push_str("\n|---:|---:|");
+    for _ in &SENSITIVITY_TARGETS {
+        out.push_str("---:|");
+    }
+    out.push('\n');
+    for row in &outcome.f3_sensitivity_rows {
+        let _ = write!(out, "| {} | {} |", row.modulus_bits, row.f2_survivor_count);
+        for cell in &row.cells {
+            let _ = write!(
+                out,
+                " {} (`L_0={}`) |",
+                cell.excluded_count, cell.contraction_horizon
+            );
+        }
+        out.push('\n');
+    }
+
+    out.push_str(
+        "\n## Key findings and evidence boundary\n\n\
+         - **Heuristic gap:** F3 pruning over `Survivors_M` is exact through `M = 6`, but \
+           misses the global optimum by `+1` at `M = 7` (`9` vs `8`) and `+2` at `M = 8` \
+           (`14` vs `12`), in part because the global minimum over `V_M` can exclude \
+           non-survivor (and even) bottleneck vertices.\n\
+         - **Real downward trend vs `M = 14 -> 15` bump:** The certified lower bound at \
+           `M = 11` (`45/2048 = 2.20%`) is strictly above the verified upper bound at \
+           `M = 14` (`314/16384 = 1.92%`), proving rigorously that `|S_14*|/2^14 < |S_11*|/2^11`. \
+           The small `1.92% -> 2.02%` bump at `M = 15` lies well inside the measured heuristic \
+           suboptimality gap (already `12%–17%` at `M = 7, 8`).\n\
+         - **`p/q` sensitivity:** Across the entire range from `5/8` (`0.6250`) through \
+           `17/27`, `63/100`, `41/65`, and `94/149` (`0.6309`), `|S_M|` is **100% identical** \
+           at every tested `M <= 15` (and exact `|S_M*|` for `M <= 7`), while the contraction \
+           horizon `L_0` spans a ~100x range (e.g. at `M = 15`: `2,109` at `5/8` vs `13,122` \
+           at `63/100` vs `212,111` at `94/149`).\n",
     );
     out
 }

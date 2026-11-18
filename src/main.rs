@@ -15,11 +15,15 @@ use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_le
 use collatz_lab::envelope::{run_envelope, run_envelope_extended, EXTENDED_MAX_ODD_STEPS};
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::lyapunov::{run_lyapunov, DEFAULT_MAX_MODULUS_BITS};
+use collatz_lab::lyapunov_exact::{
+    run_lyapunov_exact, BRACKET_MAX_M, EXACT_MAX_M, SENSITIVITY_MAX_M,
+};
 use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
 use collatz_lab::report::{
-    render_envelope, render_envelope_extended, render_lyapunov, render_mahler, render_summary,
+    render_envelope, render_envelope_extended, render_lyapunov, render_lyapunov_exact,
+    render_mahler, render_summary,
 };
 use collatz_lab::verifier;
 
@@ -64,6 +68,8 @@ enum Command {
     EnvelopeExtended(EnvelopeExtendedArgs),
     /// Finite-state modular Lyapunov contraction certificates (F3) on G_M mod 2^M.
     Lyapunov(LyapunovArgs),
+    /// Exact minimum excluded sets |S_M*| (M<=8), certified brackets (M<=12), and p/q sensitivity.
+    LyapunovExact(LyapunovExactArgs),
     /// Investigate the aperiodic survivor itinerary mu(1)=1110, mu(0)=1101 via 2-adic Mahler reduction.
     Mahler(MahlerArgs),
 }
@@ -92,6 +98,13 @@ struct LyapunovArgs {
     max_m: usize,
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/lyapunov")]
+    out_dir: PathBuf,
+}
+
+#[derive(Args)]
+struct LyapunovExactArgs {
+    /// Output directory for evidence.json and summary.md.
+    #[arg(long, default_value = "research/lyapunov-exact")]
     out_dir: PathBuf,
 }
 
@@ -798,6 +811,42 @@ fn cmd_lyapunov(args: &LyapunovArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_lyapunov_exact(args: &LyapunovExactArgs) -> CliResult<()> {
+    let start = std::time::Instant::now();
+    let outcome = run_lyapunov_exact(EXACT_MAX_M, BRACKET_MAX_M, SENSITIVITY_MAX_M)?;
+    let mut evidence = serde_json::to_vec_pretty(&outcome)?;
+    evidence.push(b'\n');
+    let summary = render_lyapunov_exact(&outcome);
+    fs::create_dir_all(&args.out_dir)?;
+    let evidence_path = args.out_dir.join("evidence.json");
+    let summary_path = args.out_dir.join("summary.md");
+    fs::write(&evidence_path, evidence)?;
+    fs::write(&summary_path, summary)?;
+    for row in &outcome.exact_rows {
+        println!(
+            "M={:>2} (2^M={:>3}): exact |S*|={:>2} (F3 heur={:>2}, gap=+{})",
+            row.modulus_bits,
+            row.modulus,
+            row.exact_min_count,
+            row.f3_heuristic_count,
+            row.heuristic_gap,
+        );
+    }
+    for row in &outcome.bracket_rows {
+        println!(
+            "M={:>2} (2^M={:>4}): certified bracket [{:>2}, {:>3}] ({} dual cycles)",
+            row.modulus_bits, row.modulus, row.certified_lb, row.f3_ub, row.dual_cycle_count,
+        );
+    }
+    println!("wrote {}", evidence_path.display());
+    println!("wrote {}", summary_path.display());
+    eprintln!(
+        "[lyapunov-exact] completed in {} ms",
+        start.elapsed().as_millis()
+    );
+    Ok(())
+}
+
 fn cmd_mahler(args: &MahlerArgs) -> CliResult<()> {
     let start = std::time::Instant::now();
     let outcome = run_mahler()?;
@@ -856,6 +905,7 @@ fn main() -> ExitCode {
         Command::Envelope(args) => cmd_envelope(args),
         Command::EnvelopeExtended(args) => cmd_envelope_extended(args),
         Command::Lyapunov(args) => cmd_lyapunov(args),
+        Command::LyapunovExact(args) => cmd_lyapunov_exact(args),
         Command::Mahler(args) => cmd_mahler(args),
     };
     match result {
