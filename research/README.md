@@ -9,6 +9,7 @@
 | [`phase13/README.md`](phase13/README.md) | Algorithms, exact certificate format and bounded reproduction commands |
 | [`phase13/overnight-summary.md`](phase13/overnight-summary.md) | Phase 13 overnight handoff: 24 exact height minima, 16 certified transitions, raw shadows `k=0..8`, corrected provenance (issues #30, #33) |
 | [`phase13/tail-gcd-primes.md`](phase13/tail-gcd-primes.md) | Phase 13 follow-up: bounded resonant-prime scan (`p <= 100,000`, `k <= 200`; `p <= 10,000`, `k <= 1,000`) and 13 certified infinite modular cycles for `gcd(|P_k|, Q_k)` |
+| [`phase13/intermediate-approximants.md`](phase13/intermediate-approximants.md) | Phase 13 follow-up: dense exact intermediate best approximants across `(L_k, L_{k+1}]` for `k = 0..3` (`12 <= N <= 14,515`), plateau entries, and certified deepest dips |
 | [`phase13-independent-referee-report.md`](phase13-independent-referee-report.md) | Independent Phase 13 referee: nonconvergence PASS; identified the stale overnight provenance later repaired in #33 |
 | [`phase12-findings.md`](phase12-findings.md) | Phase 12: no new rational exclusion; length-six candidate covered by prior art; kernel-checked two-return no-go |
 | [`phase12-prior-art-matrix.md`](phase12-prior-art-matrix.md) | Phase 12 source coverage matrix with exact versions and proof-access limits |
