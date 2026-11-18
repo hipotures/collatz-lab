@@ -87,7 +87,7 @@ struct EnvelopeExtendedArgs {
 
 #[derive(Args)]
 struct LyapunovArgs {
-    /// Maximum modulus bit-width M (1 <= max_m <= 12).
+    /// Maximum modulus bit-width M (1 <= max_m <= 15).
     #[arg(long, default_value_t = DEFAULT_MAX_MODULUS_BITS)]
     max_m: usize,
     /// Output directory for evidence.json and summary.md.

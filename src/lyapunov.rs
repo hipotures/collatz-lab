@@ -25,8 +25,8 @@ use serde::Serialize;
 
 use crate::counting::count_by_length;
 
-pub const DEFAULT_MAX_MODULUS_BITS: usize = 10;
-pub const MAX_SUPPORTED_MODULUS_BITS: usize = 12;
+pub const DEFAULT_MAX_MODULUS_BITS: usize = 12;
+pub const MAX_SUPPORTED_MODULUS_BITS: usize = 15;
 pub const TARGET_P: i64 = 63;
 pub const TARGET_Q: i64 = 100;
 
@@ -57,6 +57,8 @@ pub struct LyapunovRow {
     pub f2_survivor_count: usize,
     pub f2_potential_span: i64,
     pub f2_contraction_horizon: usize,
+    pub f3_ascending_excluded_count: usize,
+    pub f3_low_weight_excluded_count: usize,
     pub f3_excluded_count: usize,
     pub f3_saved_vs_f2: usize,
     pub f3_potential_span: i64,
@@ -324,6 +326,169 @@ pub fn construct_minus_one_extremal_cycle(m_bits: usize) -> Result<Vec<usize>, S
     Ok(cycle)
 }
 
+fn build_reverse_graph(adj: &[[usize; 2]]) -> Vec<Vec<usize>> {
+    let mut rev = vec![Vec::with_capacity(2); adj.len()];
+    for (u, edges) in adj.iter().enumerate() {
+        for &v in edges {
+            rev[v].push(u);
+        }
+    }
+    rev
+}
+
+fn prefix_odd_steps(mut x: u64, len: usize) -> usize {
+    let mut r = 0usize;
+    for _ in 0..len {
+        if (x & 1) == 1 {
+            x = (3 * x + 1) >> 1;
+            r += 1;
+        } else {
+            x >>= 1;
+        }
+    }
+    r
+}
+
+struct IncrementalSpfa<'a> {
+    adj: &'a [[usize; 2]],
+    rev: &'a [Vec<usize>],
+    active: Vec<bool>,
+    phi: Vec<i64>,
+    in_queue: Vec<bool>,
+    queue: VecDeque<usize>,
+    p: i64,
+    q: i64,
+}
+
+impl<'a> IncrementalSpfa<'a> {
+    fn new(
+        adj: &'a [[usize; 2]],
+        rev: &'a [Vec<usize>],
+        active_init: &[bool],
+        phi_init: &[i64],
+        p: i64,
+        q: i64,
+    ) -> Self {
+        let n = adj.len();
+        Self {
+            adj,
+            rev,
+            active: active_init.to_vec(),
+            phi: phi_init.to_vec(),
+            in_queue: vec![false; n],
+            queue: VecDeque::with_capacity(64),
+            p,
+            q,
+        }
+    }
+
+    /// Exact incremental warm-start SPFA for testing whether restoring a single
+    /// excluded vertex `u` preserves feasibility of `q * odd(x) + phi[y] - phi[x] <= p`.
+    fn try_restore(&mut self, u: usize) -> bool {
+        let w_u = self.p - self.q * ((u & 1) as i64);
+        if self.adj[u].contains(&u) && w_u < 0 {
+            return false;
+        }
+        let mut has_pred = false;
+        let mut init_u = i64::MAX;
+        for &x in &self.rev[u] {
+            if self.active[x] {
+                let w_x = self.p - self.q * ((x & 1) as i64);
+                let cand = self.phi[x]
+                    .checked_add(w_x)
+                    .expect("i64 potential overflow");
+                if cand < init_u {
+                    init_u = cand;
+                }
+                has_pred = true;
+            }
+        }
+        if !has_pred {
+            let mut safe_u = 0i64;
+            for &v in &self.adj[u] {
+                if self.active[v] {
+                    let need = self.phi[v]
+                        .checked_sub(w_u)
+                        .expect("i64 potential overflow");
+                    if need > safe_u {
+                        safe_u = need;
+                    }
+                }
+            }
+            self.active[u] = true;
+            self.phi[u] = safe_u;
+            return true;
+        }
+
+        self.active[u] = true;
+        let old_u = self.phi[u];
+        self.phi[u] = init_u;
+        let mut touched: Vec<(usize, i64)> = Vec::new();
+        self.queue.clear();
+        self.queue.push_back(u);
+        self.in_queue[u] = true;
+
+        let mut feasible = true;
+        'spfa: while let Some(x) = self.queue.pop_front() {
+            self.in_queue[x] = false;
+            let w_x = self.p - self.q * ((x & 1) as i64);
+            let dx = self.phi[x];
+            for &v in &self.adj[x] {
+                if !self.active[v] {
+                    continue;
+                }
+                let cand = dx.checked_add(w_x).expect("i64 potential overflow");
+                if cand < self.phi[v] {
+                    if v == u {
+                        feasible = false;
+                        break 'spfa;
+                    }
+                    touched.push((v, self.phi[v]));
+                    self.phi[v] = cand;
+                    if !self.in_queue[v] {
+                        self.queue.push_back(v);
+                        self.in_queue[v] = true;
+                    }
+                }
+            }
+        }
+
+        while let Some(x) = self.queue.pop_front() {
+            self.in_queue[x] = false;
+        }
+
+        if !feasible {
+            for (v, old_val) in touched.into_iter().rev() {
+                self.phi[v] = old_val;
+            }
+            self.phi[u] = old_u;
+            self.active[u] = false;
+            return false;
+        }
+        true
+    }
+}
+
+fn prune_survivors(
+    adj: &[[usize; 2]],
+    rev: &[Vec<usize>],
+    active_init: &[bool],
+    phi_init: &[i64],
+    order: &[usize],
+    p: i64,
+    q: i64,
+) -> (Vec<bool>, Vec<i64>, Vec<usize>) {
+    let mut spfa = IncrementalSpfa::new(adj, rev, active_init, phi_init, p, q);
+    let mut excluded = Vec::new();
+    for &u in order {
+        if !spfa.try_restore(u) {
+            excluded.push(u);
+        }
+    }
+    excluded.sort_unstable();
+    (spfa.active, spfa.phi, excluded)
+}
+
 /// Run the bounded modular Lyapunov experiment for `1 <= M <= max_m`.
 pub fn run_lyapunov(max_m: usize) -> Result<LyapunovExperiment, String> {
     if max_m == 0 || max_m > MAX_SUPPORTED_MODULUS_BITS {
@@ -344,6 +509,7 @@ pub fn run_lyapunov(max_m: usize) -> Result<LyapunovExperiment, String> {
     {
         let n = 1usize << m_bits;
         let adj = build_transition_graph(m_bits);
+        let rev = build_reverse_graph(&adj);
 
         // 1. Verify full-graph self-loop at 2^M - 1 (odd density 1/1).
         if !adj[n - 1].contains(&(n - 1)) {
@@ -381,17 +547,31 @@ pub fn run_lyapunov(max_m: usize) -> Result<LyapunovExperiment, String> {
         let (_, f2_span) = verify_integer_potential(&adj, &active_f2, &phi_f2, TARGET_P, TARGET_Q)?;
         let f2_horizon = contraction_horizon(TARGET_P, TARGET_Q, f2_span);
 
-        // 4. F3-pruned Lyapunov certificate: greedily restore redundant F2 survivors
-        //    while keeping exact integer contraction at (63, 100).
-        let mut active_f3 = active_f2;
-        let mut kept_excluded = Vec::new();
-        for &u in &surv {
-            active_f3[u] = true;
-            if solve_integer_potential(&adj, &active_f3, TARGET_P, TARGET_Q).is_none() {
-                active_f3[u] = false;
-                kept_excluded.push(u);
-            }
-        }
+        // 4. F3-pruned Lyapunov certificates using incremental warm-start SPFA:
+        //    compare ascending-residue order vs low-odd-weight-first order, and
+        //    keep the strictly smaller excluded set (breaking ties toward ascending).
+        let (active_asc, _, excl_asc) =
+            prune_survivors(&adj, &rev, &active_f2, &phi_f2, &surv, TARGET_P, TARGET_Q);
+        let mut surv_low_weight = surv.clone();
+        surv_low_weight.sort_by_key(|&u| (prefix_odd_steps(u as u64, m_bits), u));
+        let (active_lw, _, excl_lw) = prune_survivors(
+            &adj,
+            &rev,
+            &active_f2,
+            &phi_f2,
+            &surv_low_weight,
+            TARGET_P,
+            TARGET_Q,
+        );
+        let f3_ascending_excluded_count = excl_asc.len();
+        let f3_low_weight_excluded_count = excl_lw.len();
+        let (active_f3, kept_excluded) = if excl_lw.len() < excl_asc.len() {
+            (active_lw, excl_lw)
+        } else {
+            (active_asc, excl_asc)
+        };
+
+        // Independently recompute a tight canonical potential from scratch and verify every edge.
         let phi_f3 = solve_integer_potential(&adj, &active_f3, TARGET_P, TARGET_Q)
             .ok_or_else(|| format!("M={m_bits}: F3 pruned set failed final check"))?;
         let (f3_edges, f3_span) =
@@ -422,6 +602,8 @@ pub fn run_lyapunov(max_m: usize) -> Result<LyapunovExperiment, String> {
             f2_survivor_count: surv.len(),
             f2_potential_span: f2_span,
             f2_contraction_horizon: f2_horizon,
+            f3_ascending_excluded_count,
+            f3_low_weight_excluded_count,
             f3_excluded_count,
             f3_saved_vs_f2: surv.len() - f3_excluded_count,
             f3_potential_span: f3_span,

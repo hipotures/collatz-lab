@@ -204,8 +204,8 @@ pub fn render_lyapunov(outcome: &LyapunovExperiment) -> String {
          Every F2 cover complement `V_M \\ Survivors_M` admits an exact integer F3 potential at \
          `{}/{}`. Pruning redundant F2 survivors while preserving exact edge-by-edge contraction \
          strictly reduces the excluded residue set for `M = 4` and all `M >= 6`.\n\n\
-         | M | `2^M` | max cycle `G_M\\{{-1}}` | F2 excluded (%) | F3 excluded (%) | saved vs F2 | F3 span | F3 horizon `L_0` |\n\
-         |---:|---:|---|---:|---:|---:|---:|---:|\n",
+         | M | `2^M` | max cycle `G_M\\{{-1}}` | F2 excluded (%) | F3 asc | F3 low-wt | F3 best (%) | saved vs F2 | F3 span | F3 horizon `L_0` |\n\
+         |---:|---:|---|---:|---:|---:|---:|---:|---:|---:|\n",
         outcome.max_modulus_bits,
         outcome.max_modulus_bits,
         outcome.target_p,
@@ -220,13 +220,15 @@ pub fn render_lyapunov(outcome: &LyapunovExperiment) -> String {
         let f3_pct = 100.0 * (row.f3_excluded_count as f64) / (row.modulus as f64);
         let _ = writeln!(
             out,
-            "| {} | {} | `{}/{}` | {} ({:.2}%) | {} ({:.2}%) | {} | {} | {} |",
+            "| {} | {} | `{}/{}` | {} ({:.2}%) | {} | {} | {} ({:.2}%) | {} | {} | {} |",
             row.modulus_bits,
             row.modulus,
             row.minus_one_removed_max_cycle_r,
             row.minus_one_removed_max_cycle_k,
             row.f2_survivor_count,
             f2_pct,
+            row.f3_ascending_excluded_count,
+            row.f3_low_weight_excluded_count,
             row.f3_excluded_count,
             f3_pct,
             row.f3_saved_vs_f2,
