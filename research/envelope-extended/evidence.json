@@ -1,0 +1,1187 @@
+{
+  "schema": "collatz-lab-envelope-extended-v1",
+  "tool_version": "0.1.0",
+  "min_r": 1,
+  "max_r": 23,
+  "max_k": 37,
+  "total_classes_checked": "150456309",
+  "e_le_two_status": "refuted",
+  "first_counterexample_r": 11,
+  "e_le_three_status": "refuted",
+  "first_e_gt_three_r": 22,
+  "p1a_counterexample_rs": [
+    6,
+    8,
+    14
+  ],
+  "p1b_status": "refuted",
+  "p1b_counterexamples": [
+    {
+      "seed": "47",
+      "r": 34,
+      "k": 54,
+      "parity": "111101011011101111010011101101111110011110001010100010",
+      "c": "44834791551842521",
+      "d": "1337216809815415",
+      "endpoint": "46",
+      "drop": "1",
+      "rho": {
+        "numerator": "44834791551842521",
+        "denominator": "62849190061324505"
+      },
+      "r5_baseline": {
+        "numerator": "251",
+        "denominator": "507"
+      },
+      "cross_product_margin": "6956092611391707392"
+    },
+    {
+      "seed": "63",
+      "r": 34,
+      "k": 54,
+      "parity": "111111000110111011110100111011011111100111100010101000",
+      "c": "48215861999407177",
+      "d": "1337216809815415",
+      "endpoint": "61",
+      "drop": "2",
+      "rho": {
+        "numerator": "48215861999407177",
+        "denominator": "84244659018371145"
+      },
+      "r5_baseline": {
+        "numerator": "251",
+        "denominator": "507"
+      },
+      "cross_product_margin": "3300032620088281344"
+    }
+  ],
+  "rows": [
+    {
+      "r": 1,
+      "k": 2,
+      "family_count": "1",
+      "count_by_length": "1",
+      "count_by_odd_positions": "1",
+      "d": "1",
+      "max_c": "1",
+      "min_m": "5",
+      "terras_word": "10",
+      "terras_c": "1",
+      "max_c_witnesses": [
+        {
+          "parity": "10",
+          "residue": "1",
+          "m": "5",
+          "c": "1"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "10",
+          "residue": "1",
+          "m": "5",
+          "c": "1"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "10",
+          "residue": "1",
+          "m": "5",
+          "c": "1"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "1",
+        "denominator": "5"
+      },
+      "u_ratio": {
+        "numerator": "1",
+        "denominator": "5"
+      },
+      "e_ratio": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 2,
+      "k": 4,
+      "family_count": "1",
+      "count_by_length": "1",
+      "count_by_odd_positions": "1",
+      "d": "7",
+      "max_c": "5",
+      "min_m": "3",
+      "terras_word": "1100",
+      "terras_c": "5",
+      "max_c_witnesses": [
+        {
+          "parity": "1100",
+          "residue": "3",
+          "m": "3",
+          "c": "5"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1100",
+          "residue": "3",
+          "m": "3",
+          "c": "5"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1100",
+          "residue": "3",
+          "m": "3",
+          "c": "5"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "5",
+        "denominator": "21"
+      },
+      "u_ratio": {
+        "numerator": "5",
+        "denominator": "21"
+      },
+      "e_ratio": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 3,
+      "k": 5,
+      "family_count": "2",
+      "count_by_length": "2",
+      "count_by_odd_positions": "2",
+      "d": "5",
+      "max_c": "23",
+      "min_m": "11",
+      "terras_word": "11010",
+      "terras_c": "23",
+      "max_c_witnesses": [
+        {
+          "parity": "11010",
+          "residue": "11",
+          "m": "11",
+          "c": "23"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11010",
+          "residue": "11",
+          "m": "11",
+          "c": "23"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11010",
+          "residue": "11",
+          "m": "11",
+          "c": "23"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "23",
+        "denominator": "55"
+      },
+      "u_ratio": {
+        "numerator": "23",
+        "denominator": "55"
+      },
+      "e_ratio": {
+        "numerator": "1",
+        "denominator": "1"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 4,
+      "k": 7,
+      "family_count": "3",
+      "count_by_length": "3",
+      "count_by_odd_positions": "3",
+      "d": "47",
+      "max_c": "85",
+      "min_m": "7",
+      "terras_word": "1101100",
+      "terras_c": "85",
+      "max_c_witnesses": [
+        {
+          "parity": "1101100",
+          "residue": "59",
+          "m": "59",
+          "c": "85"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1110100",
+          "residue": "7",
+          "m": "7",
+          "c": "73"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1110100",
+          "residue": "7",
+          "m": "7",
+          "c": "73"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "73",
+        "denominator": "329"
+      },
+      "u_ratio": {
+        "numerator": "85",
+        "denominator": "329"
+      },
+      "e_ratio": {
+        "numerator": "85",
+        "denominator": "73"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 5,
+      "k": 8,
+      "family_count": "7",
+      "count_by_length": "7",
+      "count_by_odd_positions": "7",
+      "d": "13",
+      "max_c": "319",
+      "min_m": "39",
+      "terras_word": "11011010",
+      "terras_c": "319",
+      "max_c_witnesses": [
+        {
+          "parity": "11011010",
+          "residue": "123",
+          "m": "123",
+          "c": "319"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11101100",
+          "residue": "39",
+          "m": "39",
+          "c": "251"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11101100",
+          "residue": "39",
+          "m": "39",
+          "c": "251"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "251",
+        "denominator": "507"
+      },
+      "u_ratio": {
+        "numerator": "319",
+        "denominator": "507"
+      },
+      "e_ratio": {
+        "numerator": "319",
+        "denominator": "251"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 6,
+      "k": 10,
+      "family_count": "12",
+      "count_by_length": "12",
+      "count_by_odd_positions": "12",
+      "d": "295",
+      "max_c": "1085",
+      "min_m": "287",
+      "terras_word": "1101101100",
+      "terras_c": "1085",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101100",
+          "residue": "507",
+          "m": "507",
+          "c": "1085"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1111101000",
+          "residue": "287",
+          "m": "287",
+          "c": "697"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1101110100",
+          "residue": "347",
+          "m": "347",
+          "c": "989"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "989",
+        "denominator": "102365"
+      },
+      "u_ratio": {
+        "numerator": "31",
+        "denominator": "2419"
+      },
+      "e_ratio": {
+        "numerator": "53785",
+        "denominator": "40549"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 7,
+      "k": 12,
+      "family_count": "30",
+      "count_by_length": "30",
+      "count_by_odd_positions": "30",
+      "d": "1909",
+      "max_c": "3767",
+      "min_m": "231",
+      "terras_word": "110110110100",
+      "terras_c": "3767",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110100",
+          "residue": "1019",
+          "m": "1019",
+          "c": "3767"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111011101000",
+          "residue": "231",
+          "m": "231",
+          "c": "2707"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111011101000",
+          "residue": "231",
+          "m": "231",
+          "c": "2707"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "2707",
+        "denominator": "440979"
+      },
+      "u_ratio": {
+        "numerator": "3767",
+        "denominator": "440979"
+      },
+      "e_ratio": {
+        "numerator": "3767",
+        "denominator": "2707"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 8,
+      "k": 13,
+      "family_count": "85",
+      "count_by_length": "85",
+      "count_by_odd_positions": "85",
+      "d": "1631",
+      "max_c": "13349",
+      "min_m": "191",
+      "terras_word": "1101101101010",
+      "terras_c": "13349",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101010",
+          "residue": "3067",
+          "m": "3067",
+          "c": "13349"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1111110100010",
+          "residue": "191",
+          "m": "191",
+          "c": "8417"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1111001110100",
+          "residue": "207",
+          "m": "207",
+          "c": "9937"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "9937",
+        "denominator": "337617"
+      },
+      "u_ratio": {
+        "numerator": "1907",
+        "denominator": "44503"
+      },
+      "e_ratio": {
+        "numerator": "2763243",
+        "denominator": "1897967"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 9,
+      "k": 15,
+      "family_count": "173",
+      "count_by_length": "173",
+      "count_by_odd_positions": "173",
+      "d": "13085",
+      "max_c": "44143",
+      "min_m": "127",
+      "terras_word": "110110110101100",
+      "terras_c": "44143",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101100",
+          "residue": "7163",
+          "m": "7163",
+          "c": "44143"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111111101000100",
+          "residue": "127",
+          "m": "127",
+          "c": "23395"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111111101000100",
+          "residue": "127",
+          "m": "127",
+          "c": "23395"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "4679",
+        "denominator": "332359"
+      },
+      "u_ratio": {
+        "numerator": "44143",
+        "denominator": "1661795"
+      },
+      "e_ratio": {
+        "numerator": "44143",
+        "denominator": "23395"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 10,
+      "k": 16,
+      "family_count": "476",
+      "count_by_length": "476",
+      "count_by_odd_positions": "476",
+      "d": "6487",
+      "max_c": "148813",
+      "min_m": "359",
+      "terras_word": "1101101101011010",
+      "terras_c": "148813",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101011010",
+          "residue": "56315",
+          "m": "56315",
+          "c": "148813"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1110111110001010",
+          "residue": "359",
+          "m": "359",
+          "c": "100609"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1110111110001010",
+          "residue": "359",
+          "m": "359",
+          "c": "100609"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "100609",
+        "denominator": "2328833"
+      },
+      "u_ratio": {
+        "numerator": "148813",
+        "denominator": "2328833"
+      },
+      "e_ratio": {
+        "numerator": "148813",
+        "denominator": "100609"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 11,
+      "k": 18,
+      "family_count": "961",
+      "count_by_length": "961",
+      "count_by_odd_positions": "961",
+      "d": "84997",
+      "max_c": "479207",
+      "min_m": "511",
+      "terras_word": "110110110101101100",
+      "terras_c": "479207",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101101100",
+          "residue": "23547",
+          "m": "23547",
+          "c": "479207"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111111111010100000",
+          "residue": "511",
+          "m": "511",
+          "c": "179707"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111111111010100000",
+          "residue": "511",
+          "m": "511",
+          "c": "179707"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "16337",
+        "denominator": "3948497"
+      },
+      "u_ratio": {
+        "numerator": "479207",
+        "denominator": "43433467"
+      },
+      "e_ratio": {
+        "numerator": "479207",
+        "denominator": "179707"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 12,
+      "k": 20,
+      "family_count": "2652",
+      "count_by_length": "2652",
+      "count_by_odd_positions": "2652",
+      "d": "517135",
+      "max_c": "1568693",
+      "min_m": "239",
+      "terras_word": "11011011010110110100",
+      "terras_c": "1568693",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110100",
+          "residue": "416763",
+          "m": "416763",
+          "c": "1568693"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11110111110001010100",
+          "residue": "239",
+          "m": "239",
+          "c": "911873"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11110111110001010100",
+          "residue": "239",
+          "m": "239",
+          "c": "911873"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "911873",
+        "denominator": "123595265"
+      },
+      "u_ratio": {
+        "numerator": "1568693",
+        "denominator": "123595265"
+      },
+      "e_ratio": {
+        "numerator": "1568693",
+        "denominator": "911873"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 13,
+      "k": 21,
+      "family_count": "8045",
+      "count_by_length": "8045",
+      "count_by_odd_positions": "8045",
+      "d": "502829",
+      "max_c": "5230367",
+      "min_m": "159",
+      "terras_word": "110110110101101101010",
+      "terras_c": "5230367",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101101101010",
+          "residue": "941051",
+          "m": "941051",
+          "c": "5230367"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "111110111110001010100",
+          "residue": "159",
+          "m": "159",
+          "c": "2355187"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "111110111110001010100",
+          "residue": "159",
+          "m": "159",
+          "c": "2355187"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "2355187",
+        "denominator": "79949811"
+      },
+      "u_ratio": {
+        "numerator": "5230367",
+        "denominator": "79949811"
+      },
+      "e_ratio": {
+        "numerator": "5230367",
+        "denominator": "2355187"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 14,
+      "k": 23,
+      "family_count": "17637",
+      "count_by_length": "17637",
+      "count_by_odd_positions": "17637",
+      "d": "3605639",
+      "max_c": "16739677",
+      "min_m": "639",
+      "terras_word": "11011011010110110101100",
+      "terras_c": "16739677",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110101100",
+          "residue": "8281083",
+          "m": "8281083",
+          "c": "16739677"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11111110110111010010000",
+          "residue": "639",
+          "m": "639",
+          "c": "5524729"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11011101110101101101000",
+          "residue": "1115",
+          "m": "1115",
+          "c": "10532861"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "10532861",
+        "denominator": "4020287485"
+      },
+      "u_ratio": {
+        "numerator": "16739677",
+        "denominator": "2304003321"
+      },
+      "e_ratio": {
+        "numerator": "18664739855",
+        "denominator": "6730498179"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 15,
+      "k": 24,
+      "family_count": "51033",
+      "count_by_length": "51033",
+      "count_by_odd_positions": "51033",
+      "d": "2428309",
+      "max_c": "54413335",
+      "min_m": "283",
+      "terras_word": "110110110101101101011010",
+      "terras_c": "54413335",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101101101011010",
+          "residue": "4086779",
+          "m": "4086779",
+          "c": "54413335"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "110111111001111000101010",
+          "residue": "283",
+          "m": "283",
+          "c": "32900023"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "110111111001111000101010",
+          "residue": "283",
+          "m": "283",
+          "c": "32900023"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "2530771",
+        "denominator": "52862419"
+      },
+      "u_ratio": {
+        "numerator": "54413335",
+        "denominator": "687211447"
+      },
+      "e_ratio": {
+        "numerator": "54413335",
+        "denominator": "32900023"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 16,
+      "k": 26,
+      "family_count": "108950",
+      "count_by_length": "108950",
+      "count_by_odd_positions": "108950",
+      "d": "24062143",
+      "max_c": "171628613",
+      "min_m": "991",
+      "terras_word": "11011011010110110101101100",
+      "terras_c": "171628613",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110101101100",
+          "residue": "62807035",
+          "m": "62807035",
+          "c": "171628613"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11111001101110101101101000",
+          "residue": "991",
+          "m": "991",
+          "c": "89045857"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11111001101110101101101000",
+          "residue": "991",
+          "m": "991",
+          "c": "89045857"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "89045857",
+        "denominator": "23845583713"
+      },
+      "u_ratio": {
+        "numerator": "171628613",
+        "denominator": "23845583713"
+      },
+      "e_ratio": {
+        "numerator": "171628613",
+        "denominator": "89045857"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 17,
+      "k": 27,
+      "family_count": "312455",
+      "count_by_length": "312455",
+      "count_by_odd_positions": "312455",
+      "d": "5077565",
+      "max_c": "548440271",
+      "min_m": "251",
+      "terras_word": "110110110101101101011011010",
+      "terras_c": "548440271",
+      "max_c_witnesses": [
+        {
+          "parity": "110110110101101101011011010",
+          "residue": "96361467",
+          "m": "96361467",
+          "c": "548440271"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "110110111111001111000101010",
+          "residue": "251",
+          "m": "251",
+          "c": "334944719"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "110110111111001111000101010",
+          "residue": "251",
+          "m": "251",
+          "c": "334944719"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "334944719",
+        "denominator": "1274468815"
+      },
+      "u_ratio": {
+        "numerator": "2185021",
+        "denominator": "5077565"
+      },
+      "e_ratio": {
+        "numerator": "548440271",
+        "denominator": "334944719"
+      },
+      "e_le_two": true
+    },
+    {
+      "r": 18,
+      "k": 29,
+      "family_count": "663535",
+      "count_by_length": "663535",
+      "count_by_odd_positions": "663535",
+      "d": "149450423",
+      "max_c": "1712429677",
+      "min_m": "167",
+      "terras_word": "11011011010110110101101101100",
+      "terras_c": "1712429677",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110101101101100",
+          "residue": "431905787",
+          "m": "431905787",
+          "c": "1712429677"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11101101111110011110001010100",
+          "residue": "167",
+          "m": "167",
+          "c": "799029601"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11101101111110011110001010100",
+          "residue": "167",
+          "m": "167",
+          "c": "799029601"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "799029601",
+        "denominator": "24958220641"
+      },
+      "u_ratio": {
+        "numerator": "1712429677",
+        "denominator": "24958220641"
+      },
+      "e_ratio": {
+        "numerator": "1712429677",
+        "denominator": "799029601"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 19,
+      "k": 31,
+      "family_count": "1900470",
+      "count_by_length": "1900470",
+      "count_by_odd_positions": "1900470",
+      "d": "985222181",
+      "max_c": "5405724487",
+      "min_m": "111",
+      "terras_word": "1101101101011011010110110110100",
+      "terras_c": "5405724487",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101011011010110110110100",
+          "residue": "163470331",
+          "m": "163470331",
+          "c": "5405724487"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1111011011111100111100010101000",
+          "residue": "111",
+          "m": "111",
+          "c": "1985479691"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1111011011111100111100010101000",
+          "residue": "111",
+          "m": "111",
+          "c": "1985479691"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "1985479691",
+        "denominator": "109359662091"
+      },
+      "u_ratio": {
+        "numerator": "5405724487",
+        "denominator": "109359662091"
+      },
+      "e_ratio": {
+        "numerator": "5405724487",
+        "denominator": "1985479691"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 20,
+      "k": 32,
+      "family_count": "5936673",
+      "count_by_length": "5936673",
+      "count_by_odd_positions": "5936673",
+      "d": "808182895",
+      "max_c": "17290915285",
+      "min_m": "1695",
+      "terras_word": "11011011010110110101101101101010",
+      "terras_c": "17290915285",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110101101101101010",
+          "residue": "1237212155",
+          "m": "1237212155",
+          "c": "17290915285"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11111011101100101011110110001010",
+          "residue": "1695",
+          "m": "1695",
+          "c": "8365374193"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11111011101100101011110110001010",
+          "residue": "1695",
+          "m": "1695",
+          "c": "8365374193"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "8365374193",
+        "denominator": "1369870007025"
+      },
+      "u_ratio": {
+        "numerator": "3458183057",
+        "denominator": "273974001405"
+      },
+      "e_ratio": {
+        "numerator": "17290915285",
+        "denominator": "8365374193"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 21,
+      "k": 34,
+      "family_count": "13472296",
+      "count_by_length": "13472296",
+      "count_by_odd_positions": "13472296",
+      "d": "6719515981",
+      "max_c": "54020229503",
+      "min_m": "1307",
+      "terras_word": "1101101101011011010110110110101100",
+      "terras_c": "54020229503",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101011011010110110110101100",
+          "residue": "7679663099",
+          "m": "7679663099",
+          "c": "54020229503"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1101111110111111010001011011000100",
+          "residue": "1307",
+          "m": "1307",
+          "c": "20674103327"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1101111110111111010001011011000100",
+          "residue": "1307",
+          "m": "1307",
+          "c": "20674103327"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "20674103327",
+        "denominator": "8782407387167"
+      },
+      "u_ratio": {
+        "numerator": "54020229503",
+        "denominator": "8782407387167"
+      },
+      "e_ratio": {
+        "numerator": "54020229503",
+        "denominator": "20674103327"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 22,
+      "k": 35,
+      "family_count": "39993895",
+      "count_by_length": "39993895",
+      "count_by_odd_positions": "39993895",
+      "d": "2978678759",
+      "max_c": "170650623101",
+      "min_m": "871",
+      "terras_word": "11011011010110110101101101101011010",
+      "terras_c": "170650623101",
+      "max_c_witnesses": [
+        {
+          "parity": "11011011010110110101101101101011010",
+          "residue": "33449466875",
+          "m": "33449466875",
+          "c": "170650623101"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "11101111110111111010001011011000100",
+          "residue": "871",
+          "m": "871",
+          "c": "51808559857"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "11101111110111111010001011011000100",
+          "residue": "871",
+          "m": "871",
+          "c": "51808559857"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "51808559857",
+        "denominator": "2594429199089"
+      },
+      "u_ratio": {
+        "numerator": "24378660443",
+        "denominator": "370632742727"
+      },
+      "e_ratio": {
+        "numerator": "170650623101",
+        "denominator": "51808559857"
+      },
+      "e_le_two": false
+    },
+    {
+      "r": 23,
+      "k": 37,
+      "family_count": "87986917",
+      "count_by_length": "87986917",
+      "count_by_odd_positions": "87986917",
+      "d": "43295774645",
+      "max_c": "529131738487",
+      "min_m": "927",
+      "terras_word": "1101101101011011010110110110101101100",
+      "terras_c": "529131738487",
+      "max_c_witnesses": [
+        {
+          "parity": "1101101101011011010110110110101101100",
+          "residue": "119348812795",
+          "m": "119348812795",
+          "c": "529131738487"
+        }
+      ],
+      "min_m_witnesses": [
+        {
+          "parity": "1111101100011111001101110101101101000",
+          "residue": "927",
+          "m": "927",
+          "c": "277886589035"
+        }
+      ],
+      "max_ratio_witnesses": [
+        {
+          "parity": "1111101100011111001101110101101101000",
+          "residue": "927",
+          "m": "927",
+          "c": "277886589035"
+        }
+      ],
+      "r_ratio": {
+        "numerator": "55577317807",
+        "denominator": "8027036619183"
+      },
+      "u_ratio": {
+        "numerator": "529131738487",
+        "denominator": "40135183095915"
+      },
+      "e_ratio": {
+        "numerator": "48102885317",
+        "denominator": "25262417185"
+      },
+      "e_le_two": true
+    }
+  ]
+}

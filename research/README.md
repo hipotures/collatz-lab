@@ -26,6 +26,8 @@
 | [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and the bounded Phase 2 experiment |
 | [`envelope/summary.md`](envelope/summary.md) | generated Phase 2 table: all exact extrema and envelope factors for `1 <= r <= 12` |
 | [`envelope/evidence.json`](envelope/evidence.json) | exact Phase 2 evidence, all ties, independent counts and Terras offsets |
+| [`envelope-extended/summary.md`](envelope-extended/summary.md) | extended exhaustive mini-max envelope (`1 <= r <= 23`, 150,456,309 classes), third P1a counterexample (`r=14`), `E_r <= 3` refutation (`r=22`), and P1b refutation (`m=47, 63` at `r=34, k=54`) |
+| [`envelope-extended/evidence.json`](envelope-extended/evidence.json) | machine-readable exact evidence for `1 <= r <= 23` and verified P1b refutation witnesses |
 | [`infinite-itineraries.md`](infinite-itineraries.md) | Phase 3 mathematical memo: all-prefix survival proof, aperiodicity proof, 2-adic Mahler reduction, `B(z) = z^2 - z^3` denominator analysis, Padé table (`1 <= m <= 16`), and literature audit |
 | [`mahler/summary.md`](mahler/summary.md) | generated Phase 3 summary: 5-way modular checkpoints up to `2^1024`, periodic control `(1110)^infinity`, and exact Padé table |
 | [`mahler/evidence.json`](mahler/evidence.json) | generated Phase 3 machine-readable evidence (arbitrary-precision integers as decimal strings) |
@@ -72,6 +74,16 @@ This fixed experiment terminates at `r=12` or on the first invariant failure.
 Its first counterexample to the finite prediction `E_r<=2` is `r=11`, with
 `E_r=479207/179707`. It makes no all-`r` claim and does not prove P1b.
 Performance and independent verification are documented in the repository README.
+
+The extended mini-max envelope (`1 <= r <= 23`, `k <= 37`, 150,456,309 classes)
+and P1b refutation witnesses (`m=47` and `m=63` at `r=34, k=54`) are reproduced
+byte for byte with:
+
+```text
+cargo run --locked --release -- envelope-extended --max-r 23 --out-dir research/envelope-extended
+```
+
+Independent regression test: `tests/p1b_refutation.rs`.
 
 The Phase 3 Mahler summary and evidence are reproduced byte for byte with:
 

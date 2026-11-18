@@ -5,7 +5,7 @@
 
 use std::fmt::Write as _;
 
-use crate::envelope::{EnvelopeExperiment, Witness};
+use crate::envelope::{EnvelopeExperiment, ExtendedEnvelopeExperiment, Witness};
 use crate::hypothesis::{ExperimentOutcome, FailureCase, Status};
 use crate::mahler::MahlerExperiment;
 
@@ -56,6 +56,120 @@ fn format_poly(coeffs: &[String]) -> String {
 }
 
 /// Deterministic Phase 3 report for the aperiodic survivor itinerary and Mahler reduction.
+pub fn render_envelope_extended(outcome: &ExtendedEnvelopeExperiment) -> String {
+    let mut out = String::new();
+    let _ = write!(
+        out,
+        "# Extended mini-max envelope (1 <= r <= {}) and P1b refutation\n\n\
+         Generated finite exact-arithmetic report for the accelerated map `T(n)=n/2` (even), \
+         `(3n+1)/2` (odd). No originality claim, no all-`r` theorem, and no proof of CST or \
+         Collatz is asserted. **P1a**, **P1b**, **`E_r <= 2`**, and **`E_r <= 3`** are all \
+         **refuted** by explicit independently verified witnesses.\n\n\
+         Reproduce this table and `evidence.json` from the repository root with:\n\n\
+         ```text\n\
+         cargo run --locked --release -- envelope-extended --max-r {} --out-dir research/envelope-extended\n\
+         ```\n\n\
+         ## Refutation of P1b (`R_r <= R_5 = 251/507` for all `r > 5`)\n\n\
+         Recall that for any first coefficient crossing `p` of length `k` with `r` odd steps, \
+         `d = 2^k - 3^r`, integer offset `c`, and least class member `m >= 2`, we have \
+         `T^k(m) = (3^r * m + c) / 2^k` and `rho(p) = c / (d * m)`. Equivalently:\n\n\
+         ```text\n\
+         rho(p) = 1 - 2^k * (m - T^k(m)) / (d * m).\n\
+         ```\n\n\
+         Whenever `m < 2^k` and `m >= 2`, `m` is the exact least member `>= 2` of its \
+         residue class modulo `2^k`, so `R_r = max rho >= rho(p)`. At `r = 34`, `k = 54`, \
+         the following independently verified witnesses exceed `R_5 = 251/507`:\n\n\
+         | seed `m` | `r` | `k` | `T^k(m)` | drop `m - T^k(m)` | exact `rho(m)` | `rho(m) > 251/507` |\n\
+         |---:|---:|---:|---:|---:|---|---|\n",
+        outcome.max_r, outcome.max_r,
+    );
+    for cx in &outcome.p1b_counterexamples {
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} | {} | {} | `{}` | yes (margin `{}`) |",
+            cx.seed, cx.r, cx.k, cx.endpoint, cx.drop, cx.rho, cx.cross_product_margin,
+        );
+    }
+    let _ = write!(
+        out,
+        "\nEvery witness above is verified by direct `BigUint` iteration of `T`, exact \
+         affine identity, `Cylinder::from_prefix`, modular-inverse residue, `certify`, \
+         and `verifier::verify_certificate`. Independent regression test: \
+         `tests/p1b_refutation.rs`.\n\n\
+         ## Exhaustive mini-max envelope (`1 <= r <= {}`, `k <= {}`, {} classes)\n\n\
+         Across all {} first-crossing classes on `1 <= r <= {}`, `R_r <= R_5` holds \
+         everywhere (with `R_5 = 251/507` uniquely maximal on this range, and the `r > 5` \
+         peak occurring at `r = 17`, `k = 27`, `m = 251`). This illustrates sharply why \
+         exhaustive verification through `r = {}` does not establish P1b, which fails at \
+         `r = 34`.\n\n\
+         - **P1a counterexamples (`m_r != best_m`) on `1 <= r <= {}`:** `{:?}`\n\
+         - **`E_r <= 2` status:** {} (first counterexample: `{:?}`)\n\
+         - **`E_r <= 3` status:** {} (first counterexample: `{:?}`)\n\n\
+         | r | k | count | m_r | best_m | R_r | U_r | E_r | P1a? | E_r <= 2 |\n\
+         |---:|---:|---:|---:|---:|---|---|---|---|---|\n",
+        outcome.max_r,
+        outcome.max_k,
+        outcome.total_classes_checked,
+        outcome.total_classes_checked,
+        outcome.max_r,
+        outcome.max_r,
+        outcome.max_r,
+        outcome.p1a_counterexample_rs,
+        outcome.e_le_two_status.label(),
+        outcome.first_counterexample_r,
+        outcome.e_le_three_status.label(),
+        outcome.first_e_gt_three_r,
+    );
+    for row in &outcome.rows {
+        let e = row
+            .e_ratio
+            .as_ref()
+            .map_or_else(|| "N/A".into(), ToString::to_string);
+        let p1a = if row.max_ratio_witnesses.iter().any(|w| w.m == row.min_m) {
+            "holds"
+        } else {
+            "**fails**"
+        };
+        let comparison = match row.e_le_two {
+            Some(true) => "yes",
+            Some(false) => "no",
+            None => "N/A",
+        };
+        let best_m = row
+            .max_ratio_witnesses
+            .first()
+            .map_or_else(|| "N/A".into(), |w| w.m.to_string());
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} | {} | {} | `{}` | `{}` | `{}` | {} | {} |",
+            row.r,
+            row.k,
+            row.family_count,
+            row.min_m,
+            best_m,
+            row.r_ratio,
+            row.u_ratio,
+            e,
+            p1a,
+            comparison,
+        );
+    }
+    out.push_str(
+        "\n## Checks and evidence boundary\n\n\
+         - Every family count matches both independent recurrences (`count_by_length` and \
+           `count_by_odd_positions` in `src/counting.rs`).\n\
+         - Every `max_c` matches Terras's independent extremal-word recurrence.\n\
+         - Every reported extremizing witness (`C_r`, `m_r`, `R_r`, including ties) is \
+           re-verified in `BigUint` via modular inverse, `Cylinder::from_prefix`, `certify`, \
+           `verifier::verify_certificate`, and direct iteration of `T^k`.\n\
+         - For `1 <= r <= 12`, `run_envelope_extended(12)` agrees row-for-row with the \
+           frozen Phase 2 `run_envelope()`.\n\
+         - All statements are finite exact computations; no all-`r` bound, CST proof, \
+           or Collatz proof is claimed.\n",
+    );
+    out
+}
+
 pub fn render_mahler(outcome: &MahlerExperiment) -> String {
     let mut out = String::from(
         "# Phase 3: aperiodic survivor itinerary and exact 2-adic Mahler reduction\n\n\

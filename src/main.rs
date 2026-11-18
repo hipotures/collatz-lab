@@ -12,12 +12,14 @@ use num_bigint::BigUint;
 use collatz_lab::certificate::{certify, walk_first_descent, CoverNode};
 use collatz_lab::collatz;
 use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
-use collatz_lab::envelope::run_envelope;
+use collatz_lab::envelope::{run_envelope, run_envelope_extended, EXTENDED_MAX_ODD_STEPS};
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
-use collatz_lab::report::{render_envelope, render_mahler, render_summary};
+use collatz_lab::report::{
+    render_envelope, render_envelope_extended, render_mahler, render_summary,
+};
 use collatz_lab::verifier;
 
 type CliResult<T> = Result<T, Box<dyn Error>>;
@@ -57,6 +59,8 @@ enum Command {
     Counts(CountArgs),
     /// Measure Terras's mini-max envelope for exactly 1 <= r <= 12 (k <= 20).
     Envelope(EnvelopeArgs),
+    /// Extended mini-max envelope (1 <= r <= MAX_R, up to 23) and P1b refutation witnesses.
+    EnvelopeExtended(EnvelopeExtendedArgs),
     /// Investigate the aperiodic survivor itinerary mu(1)=1110, mu(0)=1101 via 2-adic Mahler reduction.
     Mahler(MahlerArgs),
 }
@@ -65,6 +69,16 @@ enum Command {
 struct EnvelopeArgs {
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/envelope")]
+    out_dir: PathBuf,
+}
+
+#[derive(Args)]
+struct EnvelopeExtendedArgs {
+    /// Maximum odd-step count r (1 <= max_r <= 23).
+    #[arg(long, default_value_t = EXTENDED_MAX_ODD_STEPS)]
+    max_r: usize,
+    /// Output directory for evidence.json and summary.md.
+    #[arg(long, default_value = "research/envelope-extended")]
     out_dir: PathBuf,
 }
 
@@ -703,6 +717,41 @@ fn cmd_envelope(args: &EnvelopeArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_envelope_extended(args: &EnvelopeExtendedArgs) -> CliResult<()> {
+    let start = std::time::Instant::now();
+    let outcome = run_envelope_extended(args.max_r)?;
+    let mut evidence = serde_json::to_vec_pretty(&outcome)?;
+    evidence.push(b'\n');
+    let summary = render_envelope_extended(&outcome);
+    fs::create_dir_all(&args.out_dir)?;
+    let evidence_path = args.out_dir.join("evidence.json");
+    let summary_path = args.out_dir.join("summary.md");
+    fs::write(&evidence_path, evidence)?;
+    fs::write(&summary_path, summary)?;
+    println!(
+        "exhausted 1 <= r <= {} ({} classes): P1a counterexamples {:?}, E_r<=2 {}, E_r<=3 {}",
+        outcome.max_r,
+        outcome.total_classes_checked,
+        outcome.p1a_counterexample_rs,
+        outcome.e_le_two_status.label(),
+        outcome.e_le_three_status.label(),
+    );
+    println!(
+        "P1b (R_r <= R_5 = 251/507 for all r > 5): {} ({} verified witnesses at r=34, k=54)",
+        outcome.p1b_status.label(),
+        outcome.p1b_counterexamples.len(),
+    );
+    println!("wrote {}", evidence_path.display());
+    println!("wrote {}", summary_path.display());
+    println!("bounded exact computation only; no CST or Collatz proof is claimed");
+    eprintln!(
+        "[envelope-extended] completed r=1..={} in {} ms",
+        outcome.max_r,
+        start.elapsed().as_millis()
+    );
+    Ok(())
+}
+
 fn cmd_mahler(args: &MahlerArgs) -> CliResult<()> {
     let start = std::time::Instant::now();
     let outcome = run_mahler()?;
@@ -759,6 +808,7 @@ fn main() -> ExitCode {
         Command::Experiment(args) => cmd_experiment(args),
         Command::Counts(args) => cmd_counts(args),
         Command::Envelope(args) => cmd_envelope(args),
+        Command::EnvelopeExtended(args) => cmd_envelope_extended(args),
         Command::Mahler(args) => cmd_mahler(args),
     };
     match result {
