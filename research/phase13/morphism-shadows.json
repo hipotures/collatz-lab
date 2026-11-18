@@ -1,0 +1,281 @@
+{
+  "format": "phase13-morphism-shadows-v1",
+  "unequal_weight_families": [
+    {
+      "name": "phase11-110",
+      "spec": {
+        "kind": "morphism",
+        "one": "110",
+        "zero": "111"
+      },
+      "c_exact": "(1/4)*log2(3)",
+      "c_numeric": 0.3962406252,
+      "one_minus_c_numeric": 0.6037593748,
+      "nonconvergent": true,
+      "levels": [
+        {
+          "k": 0,
+          "L_k": 2,
+          "min_preperiod_len": 0,
+          "period_len": 1,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 1,
+          "ratio_at_L_k": 0.0,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.52832083
+        },
+        {
+          "k": 1,
+          "L_k": 8,
+          "min_preperiod_len": 0,
+          "period_len": 3,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 3,
+          "ratio_at_L_k": 0.29024101,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.60291831
+        },
+        {
+          "k": 2,
+          "L_k": 26,
+          "min_preperiod_len": 0,
+          "period_len": 9,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 12,
+          "ratio_at_L_k": 0.45298716,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.51068194
+        },
+        {
+          "k": 3,
+          "L_k": 80,
+          "min_preperiod_len": 0,
+          "period_len": 27,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 33,
+          "ratio_at_L_k": 0.40929825,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.57659448
+        },
+        {
+          "k": 4,
+          "L_k": 242,
+          "min_preperiod_len": 0,
+          "period_len": 81,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 98,
+          "ratio_at_L_k": 0.40406561,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.59121032
+        },
+        {
+          "k": 5,
+          "L_k": 728,
+          "min_preperiod_len": 0,
+          "period_len": 243,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 290,
+          "ratio_at_L_k": 0.39775325,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.6006634
+        },
+        {
+          "k": 6,
+          "L_k": 2186,
+          "min_preperiod_len": 0,
+          "period_len": 729,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 869,
+          "ratio_at_L_k": 0.3971069,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.60236502
+        },
+        {
+          "k": 7,
+          "L_k": 6560,
+          "min_preperiod_len": 0,
+          "period_len": 2187,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 2601,
+          "ratio_at_L_k": 0.39640849,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.60341538
+        },
+        {
+          "k": 8,
+          "L_k": 19682,
+          "min_preperiod_len": 0,
+          "period_len": 6561,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 1,
+          "reduced_height_bits": 7801,
+          "ratio_at_L_k": 0.39633684,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": null,
+          "ratio_at_L_k_plus_1": null
+        }
+      ]
+    },
+    {
+      "name": "phase11-1011",
+      "spec": {
+        "kind": "morphism",
+        "one": "1011",
+        "zero": "1111"
+      },
+      "c_exact": "(1/5)*log2(3)",
+      "c_numeric": 0.3169925001,
+      "one_minus_c_numeric": 0.6830074999,
+      "nonconvergent": true,
+      "levels": [
+        {
+          "k": 0,
+          "L_k": 9,
+          "min_preperiod_len": 2,
+          "period_len": 1,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 0,
+          "reduced_height_bits": 3,
+          "ratio_at_L_k": 0.25799201,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.60660892
+        },
+        {
+          "k": 1,
+          "L_k": 37,
+          "min_preperiod_len": 6,
+          "period_len": 4,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 0,
+          "reduced_height_bits": 13,
+          "ratio_at_L_k": 0.33184214,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.63422979
+        },
+        {
+          "k": 2,
+          "L_k": 149,
+          "min_preperiod_len": 22,
+          "period_len": 16,
+          "raw_gcd": 13,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 0,
+          "reduced_height_bits": 45,
+          "ratio_at_L_k": 0.29985635,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.69132724
+        },
+        {
+          "k": 3,
+          "L_k": 597,
+          "min_preperiod_len": 86,
+          "period_len": 64,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 0,
+          "reduced_height_bits": 192,
+          "ratio_at_L_k": 0.3200774,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.67774495
+        },
+        {
+          "k": 4,
+          "L_k": 2389,
+          "min_preperiod_len": 342,
+          "period_len": 256,
+          "raw_gcd": 13,
+          "raw_p_mod_3": 1,
+          "raw_q_mod_3": 0,
+          "reduced_height_bits": 755,
+          "ratio_at_L_k": 0.31594908,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": true,
+          "ratio_at_L_k_plus_1": 0.68350432
+        },
+        {
+          "k": 5,
+          "L_k": 9557,
+          "min_preperiod_len": 1366,
+          "period_len": 1024,
+          "raw_gcd": 1,
+          "raw_p_mod_3": 2,
+          "raw_q_mod_3": 0,
+          "reduced_height_bits": 3032,
+          "ratio_at_L_k": 0.31718521,
+          "strict_uniqueness": true,
+          "matches_lattice_minimizer": null,
+          "ratio_at_L_k_plus_1": null
+        }
+      ]
+    }
+  ],
+  "equal_weight_controls": [
+    {
+      "name": "phase8-110",
+      "spec": {
+        "kind": "morphism",
+        "one": "110",
+        "zero": "011"
+      },
+      "max_n": 4096,
+      "min_ratio_from_128": [
+        0.47112592,
+        156
+      ],
+      "max_ratio_from_128": [
+        0.5201985,
+        141
+      ],
+      "spread": 0.04907257
+    },
+    {
+      "name": "thue-morse-10",
+      "spec": {
+        "kind": "morphism",
+        "one": "10",
+        "zero": "01"
+      },
+      "max_n": 4096,
+      "min_ratio_from_128": [
+        0.4692354,
+        192
+      ],
+      "max_ratio_from_128": [
+        0.52796918,
+        193
+      ],
+      "spread": 0.05873378
+    }
+  ]
+}
