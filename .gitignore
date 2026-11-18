@@ -1,3 +1,5 @@
 /target
 /research/runs
 /.lake
+__pycache__/
+*.py[cod]
