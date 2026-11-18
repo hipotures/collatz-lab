@@ -1,0 +1,586 @@
+{
+  "format": "phase13-tail-gcd-primes-v1",
+  "scan_100k_k200": {
+    "prime_bound": 100000,
+    "primes_scanned": 9590,
+    "k_max": 200,
+    "resonant_prime_count": 4,
+    "divisible_level_count": 13,
+    "max_level_product": {
+      "k": 49,
+      "primes": [
+        47,
+        619
+      ],
+      "product": 29093,
+      "bit_length": 15
+    },
+    "multi_prime_levels": [
+      {
+        "k": 49,
+        "primes": [
+          47,
+          619
+        ],
+        "product": 29093
+      },
+      {
+        "k": 93,
+        "primes": [
+          47,
+          347
+        ],
+        "product": 16309
+      }
+    ],
+    "resonant_primes": [
+      {
+        "prime": 47,
+        "levels": [
+          27,
+          49,
+          71,
+          93,
+          115,
+          137,
+          159,
+          181
+        ]
+      },
+      {
+        "prime": 227,
+        "levels": [
+          160
+        ]
+      },
+      {
+        "prime": 347,
+        "levels": [
+          7,
+          93,
+          179
+        ]
+      },
+      {
+        "prime": 619,
+        "levels": [
+          49,
+          100,
+          151
+        ]
+      }
+    ]
+  },
+  "scan_10k_k1000": {
+    "prime_bound": 10000,
+    "primes_scanned": 1227,
+    "k_max": 1000,
+    "resonant_prime_count": 13,
+    "divisible_level_count": 93,
+    "max_level_product": {
+      "k": 944,
+      "primes": [
+        227,
+        2963
+      ],
+      "product": 672601,
+      "bit_length": 20
+    },
+    "multi_prime_levels": [
+      {
+        "k": 49,
+        "primes": [
+          47,
+          619
+        ],
+        "product": 29093
+      },
+      {
+        "k": 93,
+        "primes": [
+          47,
+          347
+        ],
+        "product": 16309
+      },
+      {
+        "k": 944,
+        "primes": [
+          227,
+          2963
+        ],
+        "product": 672601
+      }
+    ],
+    "resonant_primes": [
+      {
+        "prime": 47,
+        "hit_count": 45,
+        "first_levels": [
+          27,
+          49,
+          71,
+          93,
+          115,
+          137,
+          159,
+          181,
+          203,
+          225
+        ]
+      },
+      {
+        "prime": 227,
+        "hit_count": 8,
+        "first_levels": [
+          160,
+          272,
+          384,
+          496,
+          608,
+          720,
+          832,
+          944
+        ]
+      },
+      {
+        "prime": 347,
+        "hit_count": 12,
+        "first_levels": [
+          7,
+          93,
+          179,
+          265,
+          351,
+          437,
+          523,
+          609,
+          695,
+          781
+        ]
+      },
+      {
+        "prime": 619,
+        "hit_count": 19,
+        "first_levels": [
+          49,
+          100,
+          151,
+          202,
+          253,
+          304,
+          355,
+          406,
+          457,
+          508
+        ]
+      },
+      {
+        "prime": 1163,
+        "hit_count": 2,
+        "first_levels": [
+          507,
+          794
+        ]
+      },
+      {
+        "prime": 1187,
+        "hit_count": 2,
+        "first_levels": [
+          294,
+          886
+        ]
+      },
+      {
+        "prime": 1367,
+        "hit_count": 2,
+        "first_levels": [
+          659,
+          1000
+        ]
+      },
+      {
+        "prime": 1439,
+        "hit_count": 1,
+        "first_levels": [
+          710
+        ]
+      },
+      {
+        "prime": 1667,
+        "hit_count": 1,
+        "first_levels": [
+          758
+        ]
+      },
+      {
+        "prime": 1823,
+        "hit_count": 1,
+        "first_levels": [
+          768
+        ]
+      },
+      {
+        "prime": 2963,
+        "hit_count": 1,
+        "first_levels": [
+          944
+        ]
+      },
+      {
+        "prime": 3203,
+        "hit_count": 1,
+        "first_levels": [
+          727
+        ]
+      },
+      {
+        "prime": 3739,
+        "hit_count": 1,
+        "first_levels": [
+          542
+        ]
+      }
+    ]
+  },
+  "certified_cycles": [
+    {
+      "prime": 47,
+      "cycle_start": 15,
+      "period": 22,
+      "identity_level": 27,
+      "start_state": [
+        [
+          28,
+          30
+        ],
+        [
+          37,
+          40
+        ]
+      ],
+      "identity_state": [
+        [
+          16,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 227,
+      "cycle_start": 60,
+      "period": 112,
+      "identity_level": 160,
+      "start_state": [
+        [
+          188,
+          20
+        ],
+        [
+          214,
+          7
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          226
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 347,
+      "cycle_start": 1,
+      "period": 86,
+      "identity_level": 7,
+      "start_state": [
+        [
+          293,
+          319
+        ],
+        [
+          185,
+          182
+        ]
+      ],
+      "identity_state": [
+        [
+          116,
+          27
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 619,
+      "cycle_start": 41,
+      "period": 102,
+      "identity_level": 49,
+      "start_state": [
+        [
+          50,
+          584
+        ],
+        [
+          150,
+          601
+        ]
+      ],
+      "identity_state": [
+        [
+          413,
+          590
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 1163,
+      "cycle_start": 450,
+      "period": 574,
+      "identity_level": 507,
+      "start_state": [
+        [
+          668,
+          1129
+        ],
+        [
+          998,
+          1161
+        ]
+      ],
+      "identity_state": [
+        [
+          388,
+          397
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 1187,
+      "cycle_start": 146,
+      "period": 592,
+      "identity_level": 294,
+      "start_state": [
+        [
+          846,
+          212
+        ],
+        [
+          282,
+          41
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          89
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 1367,
+      "cycle_start": 423,
+      "period": 682,
+      "identity_level": 659,
+      "start_state": [
+        [
+          356,
+          1237
+        ],
+        [
+          1068,
+          880
+        ]
+      ],
+      "identity_state": [
+        [
+          456,
+          488
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 1439,
+      "cycle_start": 372,
+      "period": 718,
+      "identity_level": 710,
+      "start_state": [
+        [
+          1417,
+          1195
+        ],
+        [
+          952,
+          141
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          772
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 1667,
+      "cycle_start": 590,
+      "period": 784,
+      "identity_level": 758,
+      "start_state": [
+        [
+          985,
+          1243
+        ],
+        [
+          884,
+          1666
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          1246
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 1823,
+      "cycle_start": 752,
+      "period": 910,
+      "identity_level": 768,
+      "start_state": [
+        [
+          1726,
+          1080
+        ],
+        [
+          1183,
+          851
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          350
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 2963,
+      "cycle_start": 585,
+      "period": 1480,
+      "identity_level": 944,
+      "start_state": [
+        [
+          920,
+          2776
+        ],
+        [
+          2760,
+          1228
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          1789
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 3203,
+      "cycle_start": 86,
+      "period": 1600,
+      "identity_level": 727,
+      "start_state": [
+        [
+          1140,
+          1997
+        ],
+        [
+          380,
+          1106
+        ]
+      ],
+      "identity_state": [
+        [
+          1068,
+          1508
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    },
+    {
+      "prime": 3739,
+      "cycle_start": 20,
+      "period": 616,
+      "identity_level": 542,
+      "start_state": [
+        [
+          3438,
+          2475
+        ],
+        [
+          1146,
+          3579
+        ]
+      ],
+      "identity_state": [
+        [
+          3,
+          2955
+        ],
+        [
+          1,
+          0
+        ]
+      ]
+    }
+  ]
+}
