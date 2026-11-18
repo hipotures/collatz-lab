@@ -1,0 +1,46 @@
+import CollatzLab.PrimeObstructions
+
+/-! Axiom audit for `CollatzLab.PrimeObstructions` (43 declarations). -/
+#print axioms CollatzLab.PrimeObstructions.neg_one_pow_cases
+#print axioms CollatzLab.PrimeObstructions.weight_pow_six_formula
+#print axioms CollatzLab.PrimeObstructions.four_dvd_pow_six
+#print axioms CollatzLab.PrimeObstructions.weight_pow_six_mod_four
+#print axioms CollatzLab.PrimeObstructions.weight_pow_six_mod_three_ne_zero
+#print axioms CollatzLab.PrimeObstructions.int_pow_mod_eq_one_of_dvd
+#print axioms CollatzLab.PrimeObstructions.int_pow_congr_mod
+#print axioms CollatzLab.PrimeObstructions.int_dvd_sub_iff_emod_eq
+#print axioms CollatzLab.PrimeObstructions.pow_two_dvd_pow_six
+#print axioms CollatzLab.PrimeObstructions.pow_three_dvd_pow_six
+#print axioms CollatzLab.PrimeObstructions.int_pow_one
+#print axioms CollatzLab.PrimeObstructions.int_one_pow
+#print axioms CollatzLab.PrimeObstructions.nat_gcd_sub_left
+#print axioms CollatzLab.PrimeObstructions.mod_eq_one_of_pow_coprime
+#print axioms CollatzLab.PrimeObstructions.mod_eq_one_of_pow_odd_and_pow_two
+#print axioms CollatzLab.PrimeObstructions.mod_eq_one_of_pow_not_three_and_pow_three
+#print axioms CollatzLab.PrimeObstructions.two_primary_obstruction
+#print axioms CollatzLab.PrimeObstructions.three_primary_obstruction
+#print axioms CollatzLab.PrimeObstructions.shadow_gcd_level_one
+#print axioms CollatzLab.PrimeObstructions.shadow_gcd_not_dvd_of_mod_four_nonresidue
+#print axioms CollatzLab.PrimeObstructions.AffMap
+#print axioms CollatzLab.PrimeObstructions.AffMap.Reduced
+#print axioms CollatzLab.PrimeObstructions.AffMap.id
+#print axioms CollatzLab.PrimeObstructions.AffMap.comp
+#print axioms CollatzLab.PrimeObstructions.AffMap.pow
+#print axioms CollatzLab.PrimeObstructions.AffMap.id_reduced
+#print axioms CollatzLab.PrimeObstructions.AffMap.comp_reduced
+#print axioms CollatzLab.PrimeObstructions.AffMap.pow_reduced
+#print axioms CollatzLab.PrimeObstructions.AffMap.comp_id_left
+#print axioms CollatzLab.PrimeObstructions.AffMap.comp_id_right
+#print axioms CollatzLab.PrimeObstructions.AffMap.comp_assoc
+#print axioms CollatzLab.PrimeObstructions.AffMap.pow_one
+#print axioms CollatzLab.PrimeObstructions.AffMap.pow_add
+#print axioms CollatzLab.PrimeObstructions.AffMap.pow_mul
+#print axioms CollatzLab.PrimeObstructions.AffMap.pow_id
+#print axioms CollatzLab.PrimeObstructions.subStep
+#print axioms CollatzLab.PrimeObstructions.subIter
+#print axioms CollatzLab.PrimeObstructions.uvSeq
+#print axioms CollatzLab.PrimeObstructions.uSeq
+#print axioms CollatzLab.PrimeObstructions.vSeq
+#print axioms CollatzLab.PrimeObstructions.uSeq_vSeq_closed_form
+#print axioms CollatzLab.PrimeObstructions.abelian_trap
+#print axioms CollatzLab.PrimeObstructions.abelian_trap_id_of_dvd

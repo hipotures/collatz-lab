@@ -86,7 +86,9 @@ levels, and explains both why `full_period == slope_period` and why `p = 619` hi
 
 ## Evidence boundary
 
-- Theorems 1 and 2 are elementary written algebraic proofs (not yet Lean-formalized).
+- Theorems 1 and 2 are **Lean 4 kernel-verified** in `CollatzLab/PrimeObstructions.lean`
+  (43 audited declarations via `research/lean-audit/PrimeObstructionsAudit.lean` and
+  `research/phase13/PrimeObstructionsSignatures.lean`, using only standard Lean foundations).
 - All 22 resonant primes above (and all 667 primes `<= 5,000`, plus all 568 primes
   `p == 5 (mod 12) <= 20,000`) are verified by exact modular arithmetic.
 - These results explain the observed `p mod 12` and period structure, but do not

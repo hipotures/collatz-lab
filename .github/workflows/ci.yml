@@ -79,7 +79,7 @@ jobs:
             exit 1
           fi
       - name: Build Lean 4 formalization
-        run: lake build CollatzLab CollatzLab.ShadowCancellation
+        run: lake build CollatzLab CollatzLab.ShadowCancellation CollatzLab.PrimeObstructions
       - name: Audit theorem axioms
         run: |
           if ! output=$(lake env lean research/lean-audit/FamilyAudit.lean); then
@@ -97,6 +97,12 @@ jobs:
           fi
           echo "$shadow_output"
           printf '%s\n' "$shadow_output" | python3 research/lean-audit/check_shadow_axioms.py --expected-shadow-count 48
+          if ! prime_output=$(lake env lean research/lean-audit/PrimeObstructionsAudit.lean); then
+            printf '%s\n' "$prime_output"
+            exit 1
+          fi
+          echo "$prime_output"
+          printf '%s\n' "$prime_output" | python3 research/lean-audit/check_prime_obstructions_axioms.py --expected-count 43
       - name: Check Lean declarations named in the manuscript
         run: |
           python3 paper/check_tex.py --lean-names > "$RUNNER_TEMP/NameCheck.lean"
@@ -107,3 +113,4 @@ jobs:
           lake env lean research/phase12/Signatures.lean
           lake env lean research/phase13/Signatures.lean
           lake env lean research/phase13/ShadowCancellationSignatures.lean
+          lake env lean research/phase13/PrimeObstructionsSignatures.lean
