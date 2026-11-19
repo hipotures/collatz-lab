@@ -4,7 +4,9 @@ use collatz_lab::lyapunov::{
     build_transition_graph, solve_integer_potential, verify_integer_potential, TARGET_P, TARGET_Q,
 };
 use collatz_lab::lyapunov_exact::solve_exact_minimum;
-use collatz_lab::lyapunov_lift::{lift_excluded_set, run_lyapunov_lift, LIFT_MAX_SUPPORTED_M};
+use collatz_lab::lyapunov_lift::{
+    lift_excluded_set, run_lyapunov_lift, run_lyapunov_lift_with, LIFT_MAX_SUPPORTED_M,
+};
 
 #[allow(clippy::manual_div_ceil)]
 fn direct_t(n: u64) -> u64 {
@@ -112,4 +114,18 @@ fn lift_chain_is_verified_monotone_and_reproducible() {
 fn lift_chain_rejects_out_of_range_depth() {
     assert!(run_lyapunov_lift(0, 0).is_err());
     assert!(run_lyapunov_lift(LIFT_MAX_SUPPORTED_M + 1, 0).is_err());
+}
+
+#[test]
+fn lift_chain_is_independent_of_thread_count_and_reports_every_row() {
+    let serial = run_lyapunov_lift(11, 6).expect("serial lift chain");
+    for threads in [2usize, 5] {
+        let mut seen = Vec::new();
+        let parallel = run_lyapunov_lift_with(11, 6, TARGET_P, TARGET_Q, threads, &mut |row| {
+            seen.push(row.clone())
+        })
+        .expect("parallel lift chain");
+        assert_eq!(serial, parallel, "threads={threads} changed the result");
+        assert_eq!(seen, parallel.rows, "callback must see every row in order");
+    }
 }

@@ -22,6 +22,9 @@
 //! optimality for `M > 8`, an asymptotic density limit, or the Collatz
 //! conjecture.
 
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Mutex;
+
 use serde::Serialize;
 
 use crate::lyapunov::{
@@ -158,11 +161,17 @@ fn survivor_heuristic(
 }
 
 /// Run the monotone lift chain for `1 <= M <= max_m` at target `p/q`.
-pub fn run_lyapunov_lift_at(
+///
+/// The pruning jobs of each depth run on `threads` worker threads (`0` is
+/// treated as `1`); the result does not depend on `threads`. `on_row` is called
+/// once per completed depth, before the next depth starts (checkpointing).
+pub fn run_lyapunov_lift_with(
     max_m: usize,
     exact_seed_max_m: usize,
     p: i64,
     q: i64,
+    threads: usize,
+    on_row: &mut dyn FnMut(&LiftRow),
 ) -> Result<LyapunovLiftExperiment, String> {
     if max_m == 0 || max_m > LIFT_MAX_SUPPORTED_M {
         return Err(format!(
@@ -206,31 +215,57 @@ pub fn run_lyapunov_lift_at(
             .map(|s| s.to_string())
             .chain((0..LIFT_RANDOM_ORDERS).map(|k| format!("random-{k}")))
             .collect();
-        let mut order_results = Vec::with_capacity(LIFT_BASES.len() * order_names.len());
-        let mut lift_best: Option<Vec<usize>> = None;
-        for base in LIFT_BASES {
-            let (base_set, base_active, base_phi) = match base {
-                "lift" => (&lifted, &lifted_active, &lifted_phi),
-                _ => (&union, &union_active, &union_phi),
-            };
-            for name in &order_names {
-                let order = order_for(name, base_set, m_bits);
-                let (_, _, excl) = prune_survivors(&adj, &rev, base_active, base_phi, &order, p, q);
-                order_results.push(LiftOrderResult {
-                    base: base.to_string(),
-                    order: name.clone(),
-                    excluded_count: excl.len(),
+        // Every (base, order) job is independent; run them on `threads` worker
+        // threads together with the survivors-only heuristic. Results are
+        // stored by job index and reduced sequentially, so the outcome is
+        // identical for every thread count.
+        let jobs: Vec<(&str, &String)> = LIFT_BASES
+            .iter()
+            .flat_map(|&base| order_names.iter().map(move |name| (base, name)))
+            .collect();
+        let next_job = AtomicUsize::new(0);
+        let slots: Vec<Mutex<Option<Vec<usize>>>> = jobs.iter().map(|_| Mutex::new(None)).collect();
+        let workers = threads.max(1).min(jobs.len());
+        let survivor = std::thread::scope(|scope| {
+            let survivor_handle = scope.spawn(|| survivor_heuristic(&adj, &rev, m_bits, p, q));
+            for _ in 0..workers {
+                scope.spawn(|| loop {
+                    let j = next_job.fetch_add(1, Ordering::Relaxed);
+                    let Some(&(base, name)) = jobs.get(j) else {
+                        break;
+                    };
+                    let (base_set, base_active, base_phi) = match base {
+                        "lift" => (&lifted, &lifted_active, &lifted_phi),
+                        _ => (&union, &union_active, &union_phi),
+                    };
+                    let order = order_for(name, base_set, m_bits);
+                    let (_, _, excl) =
+                        prune_survivors(&adj, &rev, base_active, base_phi, &order, p, q);
+                    *slots[j].lock().expect("job slot") = Some(excl);
                 });
-                if lift_best.as_ref().is_none_or(|b| excl.len() < b.len()) {
-                    lift_best = Some(excl);
-                }
+            }
+            survivor_handle.join().expect("survivor heuristic thread")
+        });
+        let mut order_results = Vec::with_capacity(jobs.len());
+        let mut lift_best: Option<Vec<usize>> = None;
+        for (&(base, name), slot) in jobs.iter().zip(slots) {
+            let excl = slot
+                .into_inner()
+                .expect("job slot")
+                .expect("every job completed");
+            order_results.push(LiftOrderResult {
+                base: base.to_string(),
+                order: name.clone(),
+                excluded_count: excl.len(),
+            });
+            if lift_best.as_ref().is_none_or(|b| excl.len() < b.len()) {
+                lift_best = Some(excl);
             }
         }
         let lift_best = lift_best.expect("at least one order");
         let lift_best_count = lift_best.len();
 
         // 3. Comparison candidates: survivors-only F3 heuristic and exact optimum.
-        let survivor = survivor_heuristic(&adj, &rev, m_bits, p, q);
         let survivor_heuristic_count = survivor.as_ref().map(Vec::len);
         let exact = if m_bits <= exact_seed_max_m {
             let (opt, _, _, _) = solve_exact_minimum(m_bits, p, q)?;
@@ -307,6 +342,7 @@ pub fn run_lyapunov_lift_at(
             chain_contraction_horizon: horizon,
             chain_excluded: chain.clone(),
         });
+        on_row(rows.last().expect("row just pushed"));
 
         parent_excluded = chain;
         parent_phi = phi;
@@ -321,6 +357,16 @@ pub fn run_lyapunov_lift_at(
         exact_seed_max_m,
         rows,
     })
+}
+
+/// Run the monotone lift chain for `1 <= M <= max_m` at target `p/q` on one thread.
+pub fn run_lyapunov_lift_at(
+    max_m: usize,
+    exact_seed_max_m: usize,
+    p: i64,
+    q: i64,
+) -> Result<LyapunovLiftExperiment, String> {
+    run_lyapunov_lift_with(max_m, exact_seed_max_m, p, q, 1, &mut |_| {})
 }
 
 /// Run the monotone lift chain at the baseline target `63/100`.

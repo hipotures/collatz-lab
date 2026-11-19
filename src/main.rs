@@ -15,11 +15,12 @@ use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_le
 use collatz_lab::envelope::{run_envelope, run_envelope_extended, EXTENDED_MAX_ODD_STEPS};
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::lyapunov::{run_lyapunov, DEFAULT_MAX_MODULUS_BITS};
+use collatz_lab::lyapunov::{TARGET_P, TARGET_Q};
 use collatz_lab::lyapunov_exact::{
     run_lyapunov_exact, BRACKET_MAX_M, EXACT_MAX_M, SENSITIVITY_MAX_M,
 };
 use collatz_lab::lyapunov_lift::{
-    run_lyapunov_lift, LIFT_DEFAULT_EXACT_SEED_MAX_M, LIFT_DEFAULT_MAX_M,
+    run_lyapunov_lift_with, LIFT_DEFAULT_EXACT_SEED_MAX_M, LIFT_DEFAULT_MAX_M,
 };
 use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
@@ -121,6 +122,10 @@ struct LyapunovLiftArgs {
     /// Seed the chain with the exact optimum |S_M*| for M <= this value (0 disables, max 8).
     #[arg(long, default_value_t = LIFT_DEFAULT_EXACT_SEED_MAX_M)]
     exact_seed_max_m: usize,
+    /// Worker threads for the pruning jobs (0 = all available cores); the
+    /// output does not depend on this value.
+    #[arg(long, default_value_t = 0)]
+    threads: usize,
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/lyapunov-lift")]
     out_dir: PathBuf,
@@ -873,12 +878,49 @@ fn cmd_lyapunov_lift(args: &LyapunovLiftArgs) -> CliResult<()> {
         )
         .into());
     }
+    let threads = if args.threads == 0 {
+        std::thread::available_parallelism().map_or(1, |n| n.get())
+    } else {
+        args.threads
+    };
     let start = std::time::Instant::now();
-    let outcome = run_lyapunov_lift(args.max_m, args.exact_seed_max_m)?;
+    fs::create_dir_all(&args.out_dir)?;
+    // Checkpoint: one JSON line per completed depth, so partial results of a
+    // long run survive an interruption. Timings go only to this log and stderr,
+    // never into the deterministic evidence.json.
+    let progress_path = args.out_dir.join("progress.jsonl");
+    let mut progress = fs::File::create(&progress_path)?;
+    let mut last = std::time::Instant::now();
+    let mut on_row = |row: &collatz_lab::lyapunov_lift::LiftRow| {
+        use std::io::Write as _;
+        let depth_ms = last.elapsed().as_millis();
+        last = std::time::Instant::now();
+        let line = serde_json::json!({
+            "depth_wall_ms": depth_ms as u64,
+            "threads": threads,
+            "row": row,
+        });
+        let _ = writeln!(progress, "{line}");
+        let _ = progress.flush();
+        eprintln!(
+            "[lyapunov-lift] M={} chain={} ({:.4}%) in {} ms",
+            row.modulus_bits,
+            row.chain_count,
+            100.0 * (row.chain_count as f64) / (row.modulus as f64),
+            depth_ms
+        );
+    };
+    let outcome = run_lyapunov_lift_with(
+        args.max_m,
+        args.exact_seed_max_m,
+        TARGET_P,
+        TARGET_Q,
+        threads,
+        &mut on_row,
+    )?;
     let mut evidence = serde_json::to_vec_pretty(&outcome)?;
     evidence.push(b'\n');
     let summary = render_lyapunov_lift(&outcome);
-    fs::create_dir_all(&args.out_dir)?;
     let evidence_path = args.out_dir.join("evidence.json");
     let summary_path = args.out_dir.join("summary.md");
     fs::write(&evidence_path, evidence)?;
