@@ -34,6 +34,7 @@ pub mod envelope;
 pub mod hypothesis;
 pub mod lyapunov;
 pub mod lyapunov_exact;
+pub mod lyapunov_lift;
 pub mod mahler;
 pub mod nogo;
 pub mod prefix;

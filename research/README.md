@@ -36,6 +36,8 @@
 | [`lyapunov/evidence.json`](lyapunov/evidence.json) | machine-readable exact F3 Lyapunov certificates, horizons, and extremal cycles for `1 <= M <= 15` |
 | [`lyapunov-exact/summary.md`](lyapunov-exact/summary.md) | exact global minimum `|S_M*|` (`1 <= M <= 8`), certified integer dual-LP brackets (`9 <= M <= 12`), heuristic gap, and `p/q` sensitivity (`5/8` through `94/149`) |
 | [`lyapunov-exact/evidence.json`](lyapunov-exact/evidence.json) | machine-readable exact optimal sets `S_M*`, certified dual lower bounds, and `p/q` sensitivity tables |
+| [`lyapunov-lift/summary.md`](lyapunov-lift/summary.md) | monotone lift chain of F3 excluded sets (`1 <= M <= 18`): lifting lemma `|S_{M+1}*| <= 2|S_M*|`, pruning over all vertices, improved upper bounds `UB_M` |
+| [`lyapunov-lift/evidence.json`](lyapunov-lift/evidence.json) | machine-readable lift-chain certificates (excluded sets, spans, horizons, per-order pruning counts) |
 | [`infinite-itineraries.md`](infinite-itineraries.md) | Phase 3 mathematical memo: all-prefix survival proof, aperiodicity proof, 2-adic Mahler reduction, `B(z) = z^2 - z^3` denominator analysis, Padé table (`1 <= m <= 16`), and literature audit |
 | [`mahler/summary.md`](mahler/summary.md) | generated Phase 3 summary: 5-way modular checkpoints up to `2^1024`, periodic control `(1110)^infinity`, and exact Padé table |
 | [`mahler/evidence.json`](mahler/evidence.json) | generated Phase 3 machine-readable evidence (arbitrary-precision integers as decimal strings) |
@@ -161,9 +163,22 @@ down here.
   gives odd density `1/1`, and on `G_M \ {2^M - 1}` the exact maximum odd cycle
   density is `(M - 1)/M` (exceeding `1/log2(3)` for all `M >= 3`). Pruning F2
   survivors via incremental warm-start SPFA reduces the excluded set substantially
-  (e.g. `314/16384 = 1.92%` vs `734/16384 = 4.48%` at `M = 14`, and
-  `662/32768 = 2.02%` vs `1295/32768 = 3.95%` at `M = 15`), but F3 does not
-  prevent an orbit from entering `S`.
+  (e.g. `314/16384 = 1.92%` vs `734/16384 = 4.48%` at `M = 14`), but F3 does
+  not prevent an orbit from entering `S`.
+- **Lifting bound (correction of the `M = 14 -> 15` "bump").** Reduction modulo
+  `2^M` is an odd-label-preserving homomorphism `G_{M+1} -> G_M`, so an F3
+  certificate lifts with `|lift(S)| = 2|S|` and the exact optimum density
+  `|S_M*| / 2^M` is non-increasing in `M` (written argument, checked per depth).
+  The survivors-only value `662/32768 = 2.02%` at `M = 15` is a heuristic
+  artifact: the lifted `M = 14` set gives `628`, and the monotone lift chain in
+  `lyapunov-lift/` gives verified upper bounds `599/32768 = 1.83%` (`M = 15`),
+  `1143/65536 = 1.74%` (`M = 16`), `1908/131072 = 1.46%` (`M = 17`) and
+  `3490/262144 = 1.33%` (`M = 18`); it also improves `UB_10` to `37` and
+  `UB_12` to `110` (the `lyapunov-exact` brackets list `38` and `114`).
+  Reproduce with
+  `cargo run --locked --release -- lyapunov-lift --max-m 18 --exact-seed-max-m 8 --out-dir research/lyapunov-lift`
+  (about 8 minutes; independent tests in `tests/lyapunov_lift.rs`). These are
+  upper bounds only, with no claim about the limit of the density.
 
 ### Not attempted
 

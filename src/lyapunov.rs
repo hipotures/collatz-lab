@@ -27,6 +27,9 @@ use crate::counting::count_by_length;
 
 pub const DEFAULT_MAX_MODULUS_BITS: usize = 12;
 pub const MAX_SUPPORTED_MODULUS_BITS: usize = 15;
+/// Largest modulus depth accepted by [`build_transition_graph`] (used by the
+/// lift-chain experiment, which scales beyond the F2/F3 table of `run_lyapunov`).
+pub const GRAPH_MAX_MODULUS_BITS: usize = 22;
 pub const TARGET_P: i64 = 63;
 pub const TARGET_Q: i64 = 100;
 
@@ -81,7 +84,7 @@ pub struct LyapunovExperiment {
 /// Build the exact transition graph `G_M` on `{0, ..., 2^M - 1}`.
 pub fn build_transition_graph(m_bits: usize) -> Vec<[usize; 2]> {
     assert!(
-        (1..=MAX_SUPPORTED_MODULUS_BITS).contains(&m_bits),
+        (1..=GRAPH_MAX_MODULUS_BITS).contains(&m_bits),
         "modulus bits {m_bits} out of range"
     );
     let n = 1usize << m_bits;
@@ -343,7 +346,7 @@ pub fn construct_minus_one_extremal_cycle(m_bits: usize) -> Result<Vec<usize>, S
     Ok(cycle)
 }
 
-fn build_reverse_graph(adj: &[[usize; 2]]) -> Vec<Vec<usize>> {
+pub(crate) fn build_reverse_graph(adj: &[[usize; 2]]) -> Vec<Vec<usize>> {
     let mut rev = vec![Vec::with_capacity(2); adj.len()];
     for (u, edges) in adj.iter().enumerate() {
         for &v in edges {
@@ -353,7 +356,7 @@ fn build_reverse_graph(adj: &[[usize; 2]]) -> Vec<Vec<usize>> {
     rev
 }
 
-fn prefix_odd_steps(mut x: u64, len: usize) -> usize {
+pub(crate) fn prefix_odd_steps(mut x: u64, len: usize) -> usize {
     let mut r = 0usize;
     for _ in 0..len {
         if (x & 1) == 1 {
@@ -486,7 +489,7 @@ impl<'a> IncrementalSpfa<'a> {
     }
 }
 
-fn prune_survivors(
+pub(crate) fn prune_survivors(
     adj: &[[usize; 2]],
     rev: &[Vec<usize>],
     active_init: &[bool],

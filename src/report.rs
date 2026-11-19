@@ -9,6 +9,7 @@ use crate::envelope::{EnvelopeExperiment, ExtendedEnvelopeExperiment, Witness};
 use crate::hypothesis::{ExperimentOutcome, FailureCase, Status};
 use crate::lyapunov::LyapunovExperiment;
 use crate::lyapunov_exact::{LyapunovExactExperiment, SENSITIVITY_TARGETS};
+use crate::lyapunov_lift::{LyapunovLiftExperiment, LIFT_BASES, LIFT_ORDERS, LIFT_RANDOM_ORDERS};
 use crate::mahler::MahlerExperiment;
 
 fn abbreviate_decimal(text: &str, max_len: usize) -> String {
@@ -237,6 +238,36 @@ pub fn render_lyapunov(outcome: &LyapunovExperiment) -> String {
             row.f3_contraction_horizon,
         );
     }
+    let non_monotone: Vec<String> = outcome
+        .rows
+        .windows(2)
+        .filter(|w| w[1].f3_excluded_count > 2 * w[0].f3_excluded_count)
+        .map(|w| {
+            format!(
+                "`M = {}` (`{} > 2 * {} = {}`)",
+                w[1].modulus_bits,
+                w[1].f3_excluded_count,
+                w[0].f3_excluded_count,
+                2 * w[0].f3_excluded_count
+            )
+        })
+        .collect();
+    let _ = write!(
+        out,
+        "\n## Lifting bound\n\n\
+         Reduction modulo `2^M` is an odd-label-preserving graph homomorphism \
+         `G_{{M+1}} -> G_M`, so an F3 certificate on `V_M \\ S` lifts to one on \
+         `V_{{M+1}} \\ lift(S)` with `|lift(S)| = 2|S|` (written argument, checked per depth in \
+         `research/lyapunov-lift`). The F3 column above is a survivors-only greedy upper bound \
+         that does not use this; it exceeds the lifted bound `2 * F3(M - 1)` at: {}. Such \
+         density increases are artifacts of the heuristic, not of `|S_M*| / 2^M`, which is \
+         non-increasing in `M`.\n",
+        if non_monotone.is_empty() {
+            "no tabulated depth".to_string()
+        } else {
+            non_monotone.join(", ")
+        }
+    );
     out.push_str(
         "\n## Evidence boundary and limitations\n\n\
          - Every F2 survivor count is cross-checked against `count_by_length` in `src/counting.rs`.\n\
@@ -245,6 +276,178 @@ pub fn render_lyapunov(outcome: &LyapunovExperiment) -> String {
          - **What F3 does not claim:** staying inside `V_M \\ S` is a conditional hypothesis on \
            an orbit segment; F3 does not prevent an integer orbit from entering the excluded \
            residue set `S`, and does not prove global convergence.\n",
+    );
+    out
+}
+
+pub fn render_lyapunov_lift(outcome: &LyapunovLiftExperiment) -> String {
+    let pct = |c: usize, n: usize| 100.0 * (c as f64) / (n as f64);
+    let mut out = String::new();
+    let _ = write!(
+        out,
+        "# Monotone lift chain for F3 excluded sets (`1 <= M <= {max_m}`)\n\n\
+         Generated exact-arithmetic report for the accelerated Collatz transition graph `G_M` \
+         modulo `2^M` at contraction target `{p}/{q}` (verified `3^{p} < 2^{q}`). \
+         No asymptotic density limit, optimality for `M > {seed}`, or proof of Collatz/CST is \
+         claimed.\n\n\
+         Reproduce this report and `evidence.json` from the repository root with:\n\n\
+         ```text\n\
+         cargo run --locked --release -- lyapunov-lift --max-m {max_m} --exact-seed-max-m {seed} \
+         --out-dir research/lyapunov-lift\n\
+         ```\n\n\
+         ## Lifting lemma (written proof; checked concretely at every depth here)\n\n\
+         Reduction modulo `2^M` maps every edge `u -> v` of `G_{{M+1}}` to an edge \
+         `u mod 2^M -> v mod 2^M` of `G_M` (both are `T(n)` reduced, for the same `n`), and it \
+         preserves the odd-step label `odd(u)`. Therefore, if `phi` is an F3 potential on \
+         `V_M \\ S`, then `u -> phi(u mod 2^M)` is an F3 potential on `V_{{M+1}} \\ lift(S)`, \
+         where `lift(S) = {{u : u mod 2^M in S}}` has exactly `2|S|` elements. In particular the \
+         exact optimum density `|S_M*| / 2^M` is **non-increasing in `M`**, and any \
+         `UB_M` yields `UB_{{M+1}} <= 2 UB_M`. This is a short paper argument, not a Lean \
+         theorem; the column `lifted edges` records the finite edge-by-edge verification of the \
+         lifted potential performed at each depth.\n\n\
+         ## Method\n\n\
+         1. Lift the chain element of depth `M - 1` (for `M = 1`, the set `{{0}}` mod `1`) and \
+         verify the lifted potential on every active edge.\n\
+         2. Prune two starting bases, the lifted set (`lift`) and its union with the F2 \
+         survivors (`lift+F2`), by exact incremental warm-start SPFA, trying to restore *every* \
+         excluded vertex (odd or even, inside or outside the F2 survivors). Orders: {orders}, \
+         plus {rand} pseudo-random orders from fixed xorshift seeds. Feasibility is monotone \
+         under restoration, so one pass per order suffices.\n\
+         3. Compare with the survivors-only F3 heuristic of `lyapunov` (min of ascending and \
+         low-odd-weight orders over `Survivors_M`) and, for `M <= {seed}`, with the exact \
+         optimum `|S_M*|` from `lyapunov-exact`. The smallest set becomes the chain element.\n\
+         4. Re-solve a fresh potential for the chain element from scratch and verify every \
+         active edge in exact `i64` arithmetic.\n\n\
+         ## Results\n\n\
+         | M | `2^M` | parent | lifted (`2x`) | lifted edges | lift-pruned (%) | survivor heur (%) | exact `|S_M*|` | **chain `UB_M`** (%) | source | even | non-F2 | span | `L_0` |\n\
+         |---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|\n",
+        max_m = outcome.max_modulus_bits,
+        p = outcome.target_p,
+        q = outcome.target_q,
+        seed = outcome.exact_seed_max_m,
+        orders = LIFT_ORDERS
+            .iter()
+            .map(|o| format!("`{o}`"))
+            .collect::<Vec<_>>()
+            .join(", "),
+        rand = LIFT_RANDOM_ORDERS,
+    );
+    for row in &outcome.rows {
+        let survivor = row.survivor_heuristic_count.map_or_else(
+            || "n/a".to_string(),
+            |c| format!("{c} ({:.3}%)", pct(c, row.modulus)),
+        );
+        let exact = row
+            .exact_count
+            .map_or_else(|| "-".to_string(), |c| c.to_string());
+        let _ = writeln!(
+            out,
+            "| {} | {} | {} | {} | {} | {} ({:.3}%) | {} | {} | **{} ({:.3}%)** | {} | {} | {} | {} | {} |",
+            row.modulus_bits,
+            row.modulus,
+            row.parent_count,
+            row.lifted_count,
+            row.lifted_potential_edges,
+            row.lift_best_count,
+            pct(row.lift_best_count, row.modulus),
+            survivor,
+            exact,
+            row.chain_count,
+            pct(row.chain_count, row.modulus),
+            row.chain_source,
+            row.chain_even_count,
+            row.chain_non_survivor_count,
+            row.chain_potential_span,
+            row.chain_contraction_horizon,
+        );
+    }
+
+    out.push_str(
+        "\n### Pruning results by starting base and restoration order\n\n\
+         Minimum excluded count per base over the deterministic orders and over the \
+         seeded pseudo-random orders.\n\n\
+         | M |",
+    );
+    for base in LIFT_BASES {
+        let _ = write!(out, " `{base}` named | `{base}` random |");
+    }
+    out.push_str("\n|---:|");
+    for _ in LIFT_BASES {
+        out.push_str("---:|---:|");
+    }
+    out.push('\n');
+    for row in &outcome.rows {
+        let _ = write!(out, "| {} |", row.modulus_bits);
+        for base in LIFT_BASES {
+            let best = |random: bool| {
+                row.order_results
+                    .iter()
+                    .filter(|r| r.base == base && r.order.starts_with("random-") == random)
+                    .map(|r| r.excluded_count)
+                    .min()
+                    .map_or_else(|| "-".to_string(), |c| c.to_string())
+            };
+            let _ = write!(out, " {} | {} |", best(false), best(true));
+        }
+        out.push('\n');
+    }
+
+    // Data-derived observations.
+    let improved: Vec<String> = outcome
+        .rows
+        .iter()
+        .filter_map(|r| {
+            r.survivor_heuristic_count
+                .filter(|&s| r.chain_count < s)
+                .map(|s| format!("`M={}` ({} vs {})", r.modulus_bits, r.chain_count, s))
+        })
+        .collect();
+    let survivor_wins: Vec<String> = outcome
+        .rows
+        .iter()
+        .filter(|r| r.chain_source == "survivor-heuristic")
+        .map(|r| format!("`M={}`", r.modulus_bits))
+        .collect();
+    let strict_drops = outcome
+        .rows
+        .iter()
+        .filter(|r| r.chain_count < r.lifted_count)
+        .count();
+    out.push_str("\n## Observations (derived from the table above)\n\n");
+    let _ = writeln!(
+        out,
+        "- The chain is strictly smaller than the survivors-only F3 heuristic at: {}.",
+        if improved.is_empty() {
+            "no depth".to_string()
+        } else {
+            improved.join(", ")
+        }
+    );
+    let _ = writeln!(
+        out,
+        "- The survivors-only heuristic supplied the chain element at: {}.",
+        if survivor_wins.is_empty() {
+            "no depth".to_string()
+        } else {
+            survivor_wins.join(", ")
+        }
+    );
+    let _ = writeln!(
+        out,
+        "- The chain density strictly decreased from `M - 1` to `M` at {strict_drops} of {} \
+         depths; by construction it never increased.",
+        outcome.rows.len()
+    );
+    out.push_str(
+        "\n## Evidence boundary and limitations\n\n\
+         - For `M` above the exact-seed range, every chain value is an **upper bound** \
+           `UB_M >= |S_M*|` only; the pruning is greedy and order-dependent.\n\
+         - The monotonicity of `|S_M*| / 2^M` is a written lifting argument with a finite \
+           per-depth check, not a Lean-verified theorem and not a statement about the limit \
+           of the density as `M -> infinity`.\n\
+         - **What F3 does not claim:** staying inside `V_M \\ S` is a conditional hypothesis \
+           on an orbit segment; F3 does not prevent an integer orbit from entering the \
+           excluded residue set `S`, and does not prove global convergence.\n",
     );
     out
 }
@@ -364,11 +567,16 @@ pub fn render_lyapunov_exact(outcome: &LyapunovExactExperiment) -> String {
            misses the global optimum by `+1` at `M = 7` (`9` vs `8`) and `+2` at `M = 8` \
            (`14` vs `12`), in part because the global minimum over `V_M` can exclude \
            non-survivor (and even) bottleneck vertices.\n\
-         - **Real downward trend vs `M = 14 -> 15` bump:** The certified lower bound at \
-           `M = 11` (`45/2048 = 2.20%`) is strictly above the verified upper bound at \
-           `M = 14` (`314/16384 = 1.92%`), proving rigorously that `|S_14*|/2^14 < |S_11*|/2^11`. \
-           The small `1.92% -> 2.02%` bump at `M = 15` lies well inside the measured heuristic \
-           suboptimality gap (already `12%–17%` at `M = 7, 8`).\n\
+         - **Downward trend and the `M = 14 -> 15` bump (corrected):** reduction modulo \
+           `2^M` is an odd-label-preserving graph homomorphism `G_{M+1} -> G_M`, so lifting an \
+           F3 certificate gives `|S_{M+1}*| <= 2 |S_M*|`: the exact optimum density \
+           `|S_M*| / 2^M` is non-increasing in `M` (written lifting argument, checked per \
+           depth in `research/lyapunov-lift`). The comparison of `LB_11 = 45/2048 = 2.20%` with \
+           `UB_14 = 314/16384 = 1.92%` is correct but not needed for this. The survivors-only \
+           F3 value `662/32768 = 2.02%` at `M = 15` is not a real increase: the lifted `M = 14` \
+           certificate alone gives a verified `628/32768 = 1.92%`, i.e. the survivors-only \
+           heuristic is not even monotone in density; see `research/lyapunov-lift` for the \
+           improved monotone chain.\n\
          - **`p/q` sensitivity:** Across the entire range from `5/8` (`0.6250`) through \
            `17/27`, `63/100`, `41/65`, and `94/149` (`0.6309`), `|S_M|` is **100% identical** \
            at every tested `M <= 15` (and exact `|S_M*|` for `M <= 7`), while the contraction \

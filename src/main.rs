@@ -18,12 +18,15 @@ use collatz_lab::lyapunov::{run_lyapunov, DEFAULT_MAX_MODULUS_BITS};
 use collatz_lab::lyapunov_exact::{
     run_lyapunov_exact, BRACKET_MAX_M, EXACT_MAX_M, SENSITIVITY_MAX_M,
 };
+use collatz_lab::lyapunov_lift::{
+    run_lyapunov_lift, LIFT_DEFAULT_EXACT_SEED_MAX_M, LIFT_DEFAULT_MAX_M,
+};
 use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
 use collatz_lab::prefix::{residue_by_inverse, Cylinder, ParityPrefix};
 use collatz_lab::report::{
     render_envelope, render_envelope_extended, render_lyapunov, render_lyapunov_exact,
-    render_mahler, render_summary,
+    render_lyapunov_lift, render_mahler, render_summary,
 };
 use collatz_lab::verifier;
 
@@ -70,6 +73,8 @@ enum Command {
     Lyapunov(LyapunovArgs),
     /// Exact minimum excluded sets |S_M*| (M<=8), certified brackets (M<=12), and p/q sensitivity.
     LyapunovExact(LyapunovExactArgs),
+    /// Monotone lift chain of F3 excluded sets (lifted from M-1 and pruned over all vertices).
+    LyapunovLift(LyapunovLiftArgs),
     /// Investigate the aperiodic survivor itinerary mu(1)=1110, mu(0)=1101 via 2-adic Mahler reduction.
     Mahler(MahlerArgs),
 }
@@ -105,6 +110,19 @@ struct LyapunovArgs {
 struct LyapunovExactArgs {
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/lyapunov-exact")]
+    out_dir: PathBuf,
+}
+
+#[derive(Args)]
+struct LyapunovLiftArgs {
+    /// Maximum modulus bit-width M (1 <= max_m <= 22).
+    #[arg(long, default_value_t = LIFT_DEFAULT_MAX_M)]
+    max_m: usize,
+    /// Seed the chain with the exact optimum |S_M*| for M <= this value (0 disables, max 8).
+    #[arg(long, default_value_t = LIFT_DEFAULT_EXACT_SEED_MAX_M)]
+    exact_seed_max_m: usize,
+    /// Output directory for evidence.json and summary.md.
+    #[arg(long, default_value = "research/lyapunov-lift")]
     out_dir: PathBuf,
 }
 
@@ -847,6 +865,49 @@ fn cmd_lyapunov_exact(args: &LyapunovExactArgs) -> CliResult<()> {
     Ok(())
 }
 
+fn cmd_lyapunov_lift(args: &LyapunovLiftArgs) -> CliResult<()> {
+    if args.exact_seed_max_m > EXACT_MAX_M {
+        return Err(format!(
+            "exact_seed_max_m={} exceeds the exact solver range 0..={EXACT_MAX_M}",
+            args.exact_seed_max_m
+        )
+        .into());
+    }
+    let start = std::time::Instant::now();
+    let outcome = run_lyapunov_lift(args.max_m, args.exact_seed_max_m)?;
+    let mut evidence = serde_json::to_vec_pretty(&outcome)?;
+    evidence.push(b'\n');
+    let summary = render_lyapunov_lift(&outcome);
+    fs::create_dir_all(&args.out_dir)?;
+    let evidence_path = args.out_dir.join("evidence.json");
+    let summary_path = args.out_dir.join("summary.md");
+    fs::write(&evidence_path, evidence)?;
+    fs::write(&summary_path, summary)?;
+    for row in &outcome.rows {
+        println!(
+            "M={:>2} (2^M={:>7}): lifted={:>5} -> lift-pruned={:>5}, survivor-heur={:>5}, chain={:>5} ({:.4}%, {})",
+            row.modulus_bits,
+            row.modulus,
+            row.lifted_count,
+            row.lift_best_count,
+            row.survivor_heuristic_count
+                .map_or_else(|| "n/a".to_string(), |c| c.to_string()),
+            row.chain_count,
+            100.0 * (row.chain_count as f64) / (row.modulus as f64),
+            row.chain_source,
+        );
+    }
+    println!("wrote {}", evidence_path.display());
+    println!("wrote {}", summary_path.display());
+    println!("upper bounds only for M > exact seed range; no Collatz proof is claimed");
+    eprintln!(
+        "[lyapunov-lift] completed M=1..={} in {} ms",
+        outcome.max_modulus_bits,
+        start.elapsed().as_millis()
+    );
+    Ok(())
+}
+
 fn cmd_mahler(args: &MahlerArgs) -> CliResult<()> {
     let start = std::time::Instant::now();
     let outcome = run_mahler()?;
@@ -906,6 +967,7 @@ fn main() -> ExitCode {
         Command::EnvelopeExtended(args) => cmd_envelope_extended(args),
         Command::Lyapunov(args) => cmd_lyapunov(args),
         Command::LyapunovExact(args) => cmd_lyapunov_exact(args),
+        Command::LyapunovLift(args) => cmd_lyapunov_lift(args),
         Command::Mahler(args) => cmd_mahler(args),
     };
     match result {

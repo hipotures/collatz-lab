@@ -39,6 +39,10 @@ Every F2 cover complement `V_M \ Survivors_M` admits an exact integer F3 potenti
 | 14 | 16384 | `13/14` | 734 (4.48%) | 327 | 314 | 314 (1.92%) | 420 | 636 | 6841 |
 | 15 | 32768 | `14/15` | 1295 (3.95%) | 662 | 696 | 662 (2.02%) | 633 | 1220 | 13122 |
 
+## Lifting bound
+
+Reduction modulo `2^M` is an odd-label-preserving graph homomorphism `G_{M+1} -> G_M`, so an F3 certificate on `V_M \ S` lifts to one on `V_{M+1} \ lift(S)` with `|lift(S)| = 2|S|` (written argument, checked per depth in `research/lyapunov-lift`). The F3 column above is a survivors-only greedy upper bound that does not use this; it exceeds the lifted bound `2 * F3(M - 1)` at: `M = 15` (`662 > 2 * 314 = 628`). Such density increases are artifacts of the heuristic, not of `|S_M*| / 2^M`, which is non-increasing in `M`.
+
 ## Evidence boundary and limitations
 
 - Every F2 survivor count is cross-checked against `count_by_length` in `src/counting.rs`.
