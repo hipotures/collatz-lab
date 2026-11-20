@@ -5,7 +5,8 @@ use collatz_lab::lyapunov::{
 };
 use collatz_lab::lyapunov_exact::solve_exact_minimum;
 use collatz_lab::lyapunov_lift::{
-    lift_excluded_set, run_lyapunov_lift, run_lyapunov_lift_with, LIFT_MAX_SUPPORTED_M,
+    lift_excluded_set, run_lyapunov_lift, run_lyapunov_lift_resume, run_lyapunov_lift_with,
+    LIFT_MAX_SUPPORTED_M,
 };
 
 #[allow(clippy::manual_div_ceil)]
@@ -128,4 +129,43 @@ fn lift_chain_is_independent_of_thread_count_and_reports_every_row() {
         assert_eq!(serial, parallel, "threads={threads} changed the result");
         assert_eq!(seen, parallel.rows, "callback must see every row in order");
     }
+}
+
+#[test]
+fn resume_reproduces_the_chain_and_rejects_tampered_rows() {
+    let full = run_lyapunov_lift(11, 6).expect("full lift chain");
+    let prior = full.rows[..7].to_vec();
+    let resumed =
+        run_lyapunov_lift_resume(prior.clone(), 11, 6, TARGET_P, TARGET_Q, 2, &mut |_| {})
+            .expect("resumed lift chain");
+    assert_eq!(
+        full, resumed,
+        "resume must reproduce the uninterrupted chain"
+    );
+
+    // Restoring one excluded vertex of the M = 7 element breaks a recorded statistic.
+    let mut bad = prior.clone();
+    bad[6].chain_excluded.pop();
+    bad[6].chain_count -= 1;
+    assert!(run_lyapunov_lift_resume(bad, 11, 6, TARGET_P, TARGET_Q, 1, &mut |_| {}).is_err());
+
+    // An empty exclusion at M = 6 is infeasible (the self-loop at 2^M - 1).
+    let mut infeasible = prior[..6].to_vec();
+    infeasible[5].chain_excluded.clear();
+    infeasible[5].chain_count = 0;
+    assert!(
+        run_lyapunov_lift_resume(infeasible, 11, 6, TARGET_P, TARGET_Q, 1, &mut |_| {}).is_err()
+    );
+
+    // Rows out of sequence are rejected.
+    assert!(run_lyapunov_lift_resume(
+        prior[1..].to_vec(),
+        11,
+        6,
+        TARGET_P,
+        TARGET_Q,
+        1,
+        &mut |_| {}
+    )
+    .is_err());
 }

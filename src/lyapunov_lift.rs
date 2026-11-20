@@ -25,7 +25,7 @@
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Mutex;
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::lyapunov::{
     build_reverse_graph, build_transition_graph, contraction_horizon, f2_survivors,
@@ -46,14 +46,14 @@ pub const LIFT_RANDOM_ORDERS: usize = 16;
 /// set united with the F2 survivors (both are feasible exclusions).
 pub const LIFT_BASES: [&str; 2] = ["lift", "lift+F2"];
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LiftOrderResult {
     pub base: String,
     pub order: String,
     pub excluded_count: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LiftRow {
     pub modulus_bits: usize,
     pub modulus: usize,
@@ -162,10 +162,92 @@ fn survivor_heuristic(
 
 /// Run the monotone lift chain for `1 <= M <= max_m` at target `p/q`.
 ///
+/// Equivalent to [`run_lyapunov_lift_resume`] with no prior rows.
+pub fn run_lyapunov_lift_with(
+    max_m: usize,
+    exact_seed_max_m: usize,
+    p: i64,
+    q: i64,
+    threads: usize,
+    on_row: &mut dyn FnMut(&LiftRow),
+) -> Result<LyapunovLiftExperiment, String> {
+    run_lyapunov_lift_resume(Vec::new(), max_m, exact_seed_max_m, p, q, threads, on_row)
+}
+
+/// Re-check a previously computed row against the chain element of depth
+/// `M - 1` and return a from-scratch potential for its chain element.
+fn recheck_prior_row(
+    row: &LiftRow,
+    m_bits: usize,
+    parent_excluded: &[usize],
+    parent_phi: &[i64],
+    p: i64,
+    q: i64,
+) -> Result<Vec<i64>, String> {
+    let n = 1usize << m_bits;
+    let fail = |what: &str| Err(format!("resumed row M={m_bits}: {what}"));
+    if row.modulus_bits != m_bits || row.modulus != n {
+        return fail("depth out of sequence");
+    }
+    if row.parent_count != parent_excluded.len() || row.lifted_count != 2 * parent_excluded.len() {
+        return fail("parent/lifted count does not match the previous chain element");
+    }
+    let chain = &row.chain_excluded;
+    if row.chain_count != chain.len()
+        || chain.windows(2).any(|w| w[0] >= w[1])
+        || chain.last().is_some_and(|&u| u >= n)
+    {
+        return fail("chain set is not a sorted subset of the residues");
+    }
+    if chain.len() > 2 * parent_excluded.len() {
+        return fail("chain density increased");
+    }
+    let adj = build_transition_graph(m_bits);
+    let (lifted, lifted_phi) = lift_excluded_set(m_bits, parent_excluded, parent_phi);
+    let mut lifted_active = vec![true; n];
+    for &u in &lifted {
+        lifted_active[u] = false;
+    }
+    let (lifted_edges, _) = verify_integer_potential(&adj, &lifted_active, &lifted_phi, p, q)
+        .map_err(|e| format!("resumed row M={m_bits}: lifted potential failed: {e}"))?;
+    if lifted_edges != row.lifted_potential_edges {
+        return fail("lifted edge count differs");
+    }
+    let mut active = vec![true; n];
+    for &u in chain {
+        active[u] = false;
+    }
+    let phi = solve_integer_potential(&adj, &active, p, q)
+        .ok_or_else(|| format!("resumed row M={m_bits}: chain element is infeasible"))?;
+    let (edges, span) = verify_integer_potential(&adj, &active, &phi, p, q)?;
+    let surv_set = f2_survivors(m_bits);
+    let non_survivor = chain
+        .iter()
+        .filter(|u| surv_set.binary_search(u).is_err())
+        .count();
+    let even = chain.iter().filter(|&&u| u & 1 == 0).count();
+    if edges != row.chain_active_edges
+        || span != row.chain_potential_span
+        || contraction_horizon(p, q, span) != row.chain_contraction_horizon
+        || non_survivor != row.chain_non_survivor_count
+        || even != row.chain_even_count
+    {
+        return fail("recomputed chain statistics differ");
+    }
+    Ok(phi)
+}
+
+/// Continue the monotone lift chain from previously computed rows
+/// `prior` (depths `1..=prior.len()`, e.g. read back from a checkpoint) up to
+/// `max_m`. Every prior row is re-checked from scratch: its lifted potential,
+/// a freshly solved potential for its chain element, and all derived
+/// statistics. Pruning-order counts of prior rows are carried over as recorded.
+///
 /// The pruning jobs of each depth run on `threads` worker threads (`0` is
 /// treated as `1`); the result does not depend on `threads`. `on_row` is called
 /// once per completed depth, before the next depth starts (checkpointing).
-pub fn run_lyapunov_lift_with(
+pub fn run_lyapunov_lift_resume(
+    prior: Vec<LiftRow>,
     max_m: usize,
     exact_seed_max_m: usize,
     p: i64,
@@ -183,8 +265,18 @@ pub fn run_lyapunov_lift_with(
     let mut parent_excluded: Vec<usize> = vec![0];
     let mut parent_phi: Vec<i64> = vec![0];
     let mut rows = Vec::with_capacity(max_m);
+    if prior.len() > max_m {
+        return Err(format!("{} resumed rows exceed max_m={max_m}", prior.len()));
+    }
+    let start_m = prior.len() + 1;
+    for (i, row) in prior.into_iter().enumerate() {
+        let phi = recheck_prior_row(&row, i + 1, &parent_excluded, &parent_phi, p, q)?;
+        parent_excluded = row.chain_excluded.clone();
+        parent_phi = phi;
+        rows.push(row);
+    }
 
-    for m_bits in 1..=max_m {
+    for m_bits in start_m..=max_m {
         let n = 1usize << m_bits;
         let adj = build_transition_graph(m_bits);
         let rev = build_reverse_graph(&adj);

@@ -1,11 +1,11 @@
-# Monotone lift chain for F3 excluded sets (`1 <= M <= 18`)
+# Monotone lift chain for F3 excluded sets (`1 <= M <= 21`)
 
 Generated exact-arithmetic report for the accelerated Collatz transition graph `G_M` modulo `2^M` at contraction target `63/100` (verified `3^63 < 2^100`). No asymptotic density limit, optimality for `M > 8`, or proof of Collatz/CST is claimed.
 
 Reproduce this report and `evidence.json` from the repository root with:
 
 ```text
-cargo run --locked --release -- lyapunov-lift --max-m 18 --exact-seed-max-m 8 --out-dir research/lyapunov-lift
+cargo run --locked --release -- lyapunov-lift --max-m 21 --exact-seed-max-m 8 --out-dir research/lyapunov-lift
 ```
 
 ## Lifting lemma (written proof; checked concretely at every depth here)
@@ -41,6 +41,9 @@ Reduction modulo `2^M` maps every edge `u -> v` of `G_{M+1}` to an edge `u mod 2
 | 16 | 65536 | 599 | 1198 | 126284 | 1143 (1.744%) | 1254 (1.913%) | - | **1143 (1.744%)** | lift | 0 | 546 | 1172 | 12606 |
 | 17 | 131072 | 1143 | 2286 | 253002 | 2046 (1.561%) | 1908 (1.456%) | - | **1908 (1.456%)** | survivor-heuristic | 0 | 0 | 2835 | 30492 |
 | 18 | 262144 | 1908 | 3816 | 509062 | 3490 (1.331%) | 3926 (1.498%) | - | **3490 (1.331%)** | lift | 0 | 961 | 2979 | 32041 |
+| 19 | 524288 | 3490 | 6980 | 1020660 | 6426 (1.226%) | 6469 (1.234%) | - | **6426 (1.226%)** | lift | 0 | 1922 | 3630 | 39043 |
+| 20 | 1048576 | 6426 | 12852 | 2045746 | 12627 (1.204%) | 12929 (1.233%) | - | **12627 (1.204%)** | lift | 0 | 5535 | 4675 | 50283 |
+| 21 | 2097152 | 12627 | 25254 | 4093290 | 22691 (1.082%) | 22691 (1.082%) | - | **22691 (1.082%)** | lift | 0 | 0 | 4185 | 45012 |
 
 ### Pruning results by starting base and restoration order
 
@@ -66,12 +69,15 @@ Minimum excluded count per base over the deterministic orders and over the seede
 | 16 | 1143 | 1143 | 1247 | 1240 |
 | 17 | 2176 | 2176 | 2046 | 2174 |
 | 18 | 3490 | 3490 | 3659 | 3704 |
+| 19 | 6426 | 6426 | 6927 | 6864 |
+| 20 | 12628 | 12627 | 12882 | 13547 |
+| 21 | 24590 | 24585 | 22691 | 25967 |
 
 ## Observations (derived from the table above)
 
-- The chain is strictly smaller than the survivors-only F3 heuristic at: `M=7` (8 vs 9), `M=8` (12 vs 14), `M=10` (37 vs 38), `M=12` (110 vs 114), `M=15` (599 vs 662), `M=16` (1143 vs 1254), `M=18` (3490 vs 3926).
+- The chain is strictly smaller than the survivors-only F3 heuristic at: `M=7` (8 vs 9), `M=8` (12 vs 14), `M=10` (37 vs 38), `M=12` (110 vs 114), `M=15` (599 vs 662), `M=16` (1143 vs 1254), `M=18` (3490 vs 3926), `M=19` (6426 vs 6469), `M=20` (12627 vs 12929).
 - The survivors-only heuristic supplied the chain element at: `M=11`, `M=17`.
-- The chain density strictly decreased from `M - 1` to `M` at 16 of 18 depths; by construction it never increased.
+- The chain density strictly decreased from `M - 1` to `M` at 19 of 21 depths; by construction it never increased.
 
 ## Evidence boundary and limitations
 

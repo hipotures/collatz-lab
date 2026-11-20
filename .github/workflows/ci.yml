@@ -40,6 +40,9 @@ jobs:
       - name: Verify Phase 12 finite return evidence
         run: python3 research/phase12/verify_returns.py --check
 
+      - name: Independently re-check F3 lift-chain sets (M <= 16)
+        run: python3 research/lyapunov-lift/verify_chain.py --max-m 16
+
       - name: Verify Phase 13 exact heights and rational shadows
         run: |
           python3 research/phase13/test_height.py

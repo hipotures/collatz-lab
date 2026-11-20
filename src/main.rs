@@ -20,7 +20,7 @@ use collatz_lab::lyapunov_exact::{
     run_lyapunov_exact, BRACKET_MAX_M, EXACT_MAX_M, SENSITIVITY_MAX_M,
 };
 use collatz_lab::lyapunov_lift::{
-    run_lyapunov_lift_with, LIFT_DEFAULT_EXACT_SEED_MAX_M, LIFT_DEFAULT_MAX_M,
+    run_lyapunov_lift_resume, LiftRow, LIFT_DEFAULT_EXACT_SEED_MAX_M, LIFT_DEFAULT_MAX_M,
 };
 use collatz_lab::mahler::run_mahler;
 use collatz_lab::nogo;
@@ -126,6 +126,10 @@ struct LyapunovLiftArgs {
     /// output does not depend on this value.
     #[arg(long, default_value_t = 0)]
     threads: usize,
+    /// Resume from a progress.jsonl checkpoint of an earlier run (rows are
+    /// re-checked from scratch, then the chain continues up to max_m).
+    #[arg(long)]
+    resume: Option<PathBuf>,
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/lyapunov-lift")]
     out_dir: PathBuf,
@@ -883,6 +887,18 @@ fn cmd_lyapunov_lift(args: &LyapunovLiftArgs) -> CliResult<()> {
     } else {
         args.threads
     };
+    let prior: Vec<LiftRow> = match &args.resume {
+        None => Vec::new(),
+        Some(path) => fs::read_to_string(path)?
+            .lines()
+            .filter(|l| !l.trim().is_empty())
+            .map(|l| {
+                let mut v: serde_json::Value = serde_json::from_str(l)?;
+                Ok(serde_json::from_value(v["row"].take())?)
+            })
+            .collect::<CliResult<_>>()?,
+    };
+    let prior: Vec<LiftRow> = prior.into_iter().take(args.max_m).collect();
     let start = std::time::Instant::now();
     fs::create_dir_all(&args.out_dir)?;
     // Checkpoint: one JSON line per completed depth, so partial results of a
@@ -890,6 +906,12 @@ fn cmd_lyapunov_lift(args: &LyapunovLiftArgs) -> CliResult<()> {
     // never into the deterministic evidence.json.
     let progress_path = args.out_dir.join("progress.jsonl");
     let mut progress = fs::File::create(&progress_path)?;
+    // Re-emit resumed rows into the new checkpoint before continuing.
+    for row in &prior {
+        use std::io::Write as _;
+        let line = serde_json::json!({ "depth_wall_ms": null, "threads": threads, "row": row });
+        writeln!(progress, "{line}")?;
+    }
     let mut last = std::time::Instant::now();
     let mut on_row = |row: &collatz_lab::lyapunov_lift::LiftRow| {
         use std::io::Write as _;
@@ -910,7 +932,8 @@ fn cmd_lyapunov_lift(args: &LyapunovLiftArgs) -> CliResult<()> {
             depth_ms
         );
     };
-    let outcome = run_lyapunov_lift_with(
+    let outcome = run_lyapunov_lift_resume(
+        prior,
         args.max_m,
         args.exact_seed_max_m,
         TARGET_P,

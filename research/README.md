@@ -36,7 +36,8 @@
 | [`lyapunov/evidence.json`](lyapunov/evidence.json) | machine-readable exact F3 Lyapunov certificates, horizons, and extremal cycles for `1 <= M <= 15` |
 | [`lyapunov-exact/summary.md`](lyapunov-exact/summary.md) | exact global minimum `|S_M*|` (`1 <= M <= 8`), certified integer dual-LP brackets (`9 <= M <= 12`), heuristic gap, and `p/q` sensitivity (`5/8` through `94/149`) |
 | [`lyapunov-exact/evidence.json`](lyapunov-exact/evidence.json) | machine-readable exact optimal sets `S_M*`, certified dual lower bounds, and `p/q` sensitivity tables |
-| [`lyapunov-lift/summary.md`](lyapunov-lift/summary.md) | monotone lift chain of F3 excluded sets (`1 <= M <= 18`): lifting lemma `|S_{M+1}*| <= 2|S_M*|`, pruning over all vertices, improved upper bounds `UB_M` |
+| [`lyapunov-lift/summary.md`](lyapunov-lift/summary.md) | monotone lift chain of F3 excluded sets (`1 <= M <= 21`): lifting lemma `|S_{M+1}*| <= 2|S_M*|`, pruning over all vertices, improved upper bounds `UB_M` |
+| [`lyapunov-lift/analysis-m21.md`](lyapunov-lift/analysis-m21.md) | `M <= 21` run record, independent Python re-check (`verify_chain.py`), and finite-range comparison `UB_M / surv_M ~ 0.43-0.55` with the F2 survivors |
 | [`lyapunov-lift/evidence.json`](lyapunov-lift/evidence.json) | machine-readable lift-chain certificates (excluded sets, spans, horizons, per-order pruning counts) |
 | [`infinite-itineraries.md`](infinite-itineraries.md) | Phase 3 mathematical memo: all-prefix survival proof, aperiodicity proof, 2-adic Mahler reduction, `B(z) = z^2 - z^3` denominator analysis, Padé table (`1 <= m <= 16`), and literature audit |
 | [`mahler/summary.md`](mahler/summary.md) | generated Phase 3 summary: 5-way modular checkpoints up to `2^1024`, periodic control `(1110)^infinity`, and exact Padé table |
@@ -173,12 +174,18 @@ down here.
   artifact: the lifted `M = 14` set gives `628`, and the monotone lift chain in
   `lyapunov-lift/` gives verified upper bounds `599/32768 = 1.83%` (`M = 15`),
   `1143/65536 = 1.74%` (`M = 16`), `1908/131072 = 1.46%` (`M = 17`) and
-  `3490/262144 = 1.33%` (`M = 18`); it also improves `UB_10` to `37` and
-  `UB_12` to `110` (the `lyapunov-exact` brackets list `38` and `114`).
-  Reproduce with
-  `cargo run --locked --release -- lyapunov-lift --max-m 18 --exact-seed-max-m 8 --out-dir research/lyapunov-lift`
-  (about 8 minutes; independent tests in `tests/lyapunov_lift.rs`). These are
-  upper bounds only, with no claim about the limit of the density.
+  `3490/262144 = 1.33%` (`M = 18`), extended to `6426` (`M = 19`, 1.23%),
+  `12627` (`M = 20`, 1.20%) and `22691` (`M = 21`, 1.08%); it also improves
+  `UB_10` to `37` and `UB_12` to `110` (the `lyapunov-exact` brackets list
+  `38` and `114`). Reproduce with
+  `cargo run --locked --release -- lyapunov-lift --max-m 21 --exact-seed-max-m 8 --out-dir research/lyapunov-lift`
+  (about 10.5 h on 8 cores; `--max-m 18` takes about 1.5 min and reproduces
+  the first 18 rows; independent tests in `tests/lyapunov_lift.rs`, independent
+  re-check `research/lyapunov-lift/verify_chain.py`). For `9 <= M <= 21` the
+  chain stays at about 43–55% of the F2 survivor count, so the density decrease
+  matches the classical F2 survivor decay
+  ([analysis](lyapunov-lift/analysis-m21.md)). These are upper bounds only,
+  with no claim about the limit of the density.
 
 ### Not attempted
 
