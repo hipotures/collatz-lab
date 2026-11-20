@@ -7,6 +7,7 @@
 
 use std::cmp::Ordering;
 use std::fmt;
+use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
 
 use num_bigint::BigUint;
 use num_traits::{One, Zero};
@@ -21,8 +22,25 @@ use crate::{serde_dec, verifier};
 
 pub const MAX_ODD_STEPS: usize = 12;
 pub const MAX_LENGTH: usize = 20;
+/// Default `max_r` of the committed extended table.
 pub const EXTENDED_MAX_ODD_STEPS: usize = 23;
-pub const EXTENDED_MAX_LENGTH: usize = 37;
+/// Largest `r` the exact `u64`/`u128` fast scan supports (`k = 54`): parity
+/// words fit in `u64`, and `c * m < 2^128` holds with a wide margin there.
+pub const EXTENDED_SUPPORTED_MAX_ODD_STEPS: usize = 34;
+pub const EXTENDED_MAX_LENGTH: usize = 54;
+/// Depth at which the fast scan is split into independent subtrees.
+const FAST_SPLIT_DEPTH: usize = 22;
+
+/// One node of the fast Hensel-lift DFS (see `FastFamilyScan::dfs`).
+#[derive(Clone, Copy, Debug)]
+struct DfsState {
+    j: usize,
+    r: usize,
+    bits: u64,
+    res: u128,
+    y: u128,
+    c: u128,
+}
 
 /// A nonnegative reduced rational. Private fields keep the denominator
 /// positive and equality consistent with exact cross-product ordering.
@@ -463,6 +481,8 @@ struct FastFamilyScan {
     best_words: Vec<u64>,
     pow3: Vec<u128>,
     pow2: Vec<u128>,
+    /// When set, nodes reached at this depth are recorded instead of explored.
+    split: Option<(usize, Vec<DfsState>)>,
 }
 
 impl FastFamilyScan {
@@ -482,6 +502,46 @@ impl FastFamilyScan {
             best_words: Vec::new(),
             pow3,
             pow2,
+            split: None,
+        }
+    }
+
+    /// Fold the results of a scan over a disjoint part of the same family.
+    /// Witness lists are sorted by parity word afterwards, so the merged
+    /// outcome does not depend on how the family was partitioned.
+    fn merge(&mut self, other: FastFamilyScan) {
+        self.count += other.count;
+        if other.count == 0 {
+            return;
+        }
+        if other.max_c > self.max_c {
+            self.max_c = other.max_c;
+            self.max_c_words = other.max_c_words;
+        } else if other.max_c == self.max_c {
+            self.max_c_words.extend(other.max_c_words);
+        }
+        if other.min_m < self.min_m {
+            self.min_m = other.min_m;
+            self.min_m_words = other.min_m_words;
+        } else if other.min_m == self.min_m {
+            self.min_m_words.extend(other.min_m_words);
+        }
+        if !other.best_words.is_empty() {
+            let lhs = other
+                .best_c
+                .checked_mul(self.best_m)
+                .expect("u128 cross-product overflow");
+            let rhs = self
+                .best_c
+                .checked_mul(other.best_m)
+                .expect("u128 cross-product overflow");
+            if self.best_words.is_empty() || lhs > rhs {
+                self.best_c = other.best_c;
+                self.best_m = other.best_m;
+                self.best_words = other.best_words;
+            } else if lhs == rhs {
+                self.best_words.extend(other.best_words);
+            }
         }
     }
 
@@ -533,6 +593,19 @@ impl FastFamilyScan {
         if r + rem - 1 < self.target_r {
             return;
         }
+        if let Some((depth, frontier)) = &mut self.split {
+            if j == *depth {
+                frontier.push(DfsState {
+                    j,
+                    r,
+                    bits,
+                    res,
+                    y,
+                    c,
+                });
+                return;
+            }
+        }
         // Odd branch: only possible if more odd steps are needed and not at the last step.
         if r < self.target_r && rem > 1 {
             let b = 1u128 ^ (y & 1);
@@ -564,9 +637,48 @@ fn witness_from_bits(bits: u64, len: usize) -> Result<Witness, String> {
     checked_witness(&prefix, &affine)
 }
 
-fn summarize_fast_family(r: usize, k: usize) -> Result<EnvelopeRow, String> {
+/// Run the fast scan on `threads` workers: nodes above `FAST_SPLIT_DEPTH` are
+/// explored once, the subtrees below are distributed dynamically, and the
+/// partial scans are merged. The result does not depend on `threads`.
+fn fast_scan_parallel(r: usize, k: usize, threads: usize) -> FastFamilyScan {
     let mut scan = FastFamilyScan::new(r, k);
+    scan.split = Some((FAST_SPLIT_DEPTH, Vec::new()));
     scan.dfs(0, 0, 0, 0, 0, 0);
+    let (_, frontier) = scan.split.take().expect("split frontier");
+    if frontier.is_empty() {
+        return scan;
+    }
+    let next = AtomicUsize::new(0);
+    let workers = threads.max(1).min(frontier.len());
+    let parts: Vec<FastFamilyScan> = std::thread::scope(|scope| {
+        let handles: Vec<_> = (0..workers)
+            .map(|_| {
+                scope.spawn(|| {
+                    let mut part = FastFamilyScan::new(r, k);
+                    loop {
+                        let i = next.fetch_add(1, AtomicOrdering::Relaxed);
+                        let Some(st) = frontier.get(i) else {
+                            break;
+                        };
+                        part.dfs(st.j, st.r, st.bits, st.res, st.y, st.c);
+                    }
+                    part
+                })
+            })
+            .collect();
+        handles
+            .into_iter()
+            .map(|h| h.join().expect("fast scan worker"))
+            .collect()
+    });
+    for part in parts {
+        scan.merge(part);
+    }
+    scan
+}
+
+fn summarize_fast_family(r: usize, k: usize, threads: usize) -> Result<EnvelopeRow, String> {
+    let scan = fast_scan_parallel(r, k, threads);
     if scan.count == 0 {
         return Err(format!("r={r}: empty family"));
     }
@@ -666,9 +778,19 @@ fn summarize_fast_family(r: usize, k: usize) -> Result<EnvelopeRow, String> {
 /// exact incremental Hensel lifting, and independently verify the `n = 47`
 /// and `n = 63` P1b refutation witnesses at `r = 34, k = 54`.
 pub fn run_envelope_extended(max_r: usize) -> Result<ExtendedEnvelopeExperiment, String> {
-    if max_r == 0 || max_r > EXTENDED_MAX_ODD_STEPS {
+    run_envelope_extended_with(max_r, 1, &mut |_| {})
+}
+
+/// As [`run_envelope_extended`], on `threads` worker threads (the output does
+/// not depend on `threads`), calling `on_row` after each completed `r`.
+pub fn run_envelope_extended_with(
+    max_r: usize,
+    threads: usize,
+    on_row: &mut dyn FnMut(&EnvelopeRow),
+) -> Result<ExtendedEnvelopeExperiment, String> {
+    if max_r == 0 || max_r > EXTENDED_SUPPORTED_MAX_ODD_STEPS {
         return Err(format!(
-            "max_r={max_r} out of supported range 1..={EXTENDED_MAX_ODD_STEPS}"
+            "max_r={max_r} out of supported range 1..={EXTENDED_SUPPORTED_MAX_ODD_STEPS}"
         ));
     }
     let mut rows = Vec::with_capacity(max_r);
@@ -680,8 +802,9 @@ pub fn run_envelope_extended(max_r: usize) -> Result<ExtendedEnvelopeExperiment,
                 "r={r}: crossing length {k} exceeds {EXTENDED_MAX_LENGTH}"
             ));
         }
-        let row = summarize_fast_family(r, k)?;
+        let row = summarize_fast_family(r, k, threads)?;
         total_classes_checked += &row.family_count;
+        on_row(&row);
         rows.push(row);
     }
     let first_counterexample_r = rows

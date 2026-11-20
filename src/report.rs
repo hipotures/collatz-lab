@@ -59,6 +59,66 @@ fn format_poly(coeffs: &[String]) -> String {
 }
 
 /// Deterministic Phase 3 report for the aperiodic survivor itinerary and Mahler reduction.
+/// Data-derived comparison of every exhaustively computed `R_r` with `R_5`.
+fn r5_paragraph(outcome: &ExtendedEnvelopeExperiment) -> String {
+    let Some(r5) = outcome.rows.iter().find(|row| row.r == 5) else {
+        return format!(
+            "The exhaustive range `1 <= r <= {}` does not reach `r = 5`.",
+            outcome.max_r
+        );
+    };
+    let peak = outcome
+        .rows
+        .iter()
+        .filter(|row| row.r > 5)
+        .max_by(|a, b| a.r_ratio.cmp(&b.r_ratio).then(b.r.cmp(&a.r)));
+    let peak_text = peak.map_or_else(String::new, |row| {
+        let m = row
+            .max_ratio_witnesses
+            .first()
+            .map_or_else(|| "?".to_string(), |w| w.m.to_string());
+        format!(
+            "the `r > 5` peak occurring at `r = {}`, `k = {}`, `m = {}`",
+            row.r, row.k, m
+        )
+    });
+    let exceed: Vec<usize> = outcome
+        .rows
+        .iter()
+        .filter(|row| row.r != 5 && row.r_ratio > r5.r_ratio)
+        .map(|row| row.r)
+        .collect();
+    let ties = outcome
+        .rows
+        .iter()
+        .any(|row| row.r != 5 && row.r_ratio == r5.r_ratio);
+    if exceed.is_empty() {
+        format!(
+            "Across all {total} first-crossing classes on `1 <= r <= {max_r}`, `R_r <= R_5` holds \
+             everywhere (with `R_5 = {r5v}` {uniq} on this range, and {peak_text}). This \
+             illustrates sharply why exhaustive verification through `r = {max_r}` does not \
+             establish P1b, which fails at `r = 34`.",
+            total = outcome.total_classes_checked,
+            max_r = outcome.max_r,
+            r5v = r5.r_ratio,
+            uniq = if ties {
+                "maximal (with ties)"
+            } else {
+                "uniquely maximal"
+            },
+        )
+    } else {
+        format!(
+            "Across all {total} first-crossing classes on `1 <= r <= {max_r}`, the exhaustive \
+             maximum `R_r` exceeds `R_5 = {r5v}` exactly at `r` in `{exceed:?}` (P1b fails there, \
+             independently of the seed witnesses above), with {peak_text}.",
+            total = outcome.total_classes_checked,
+            max_r = outcome.max_r,
+            r5v = r5.r_ratio,
+        )
+    }
+}
+
 pub fn render_envelope_extended(outcome: &ExtendedEnvelopeExperiment) -> String {
     let mut out = String::new();
     let _ = write!(
@@ -100,11 +160,7 @@ pub fn render_envelope_extended(outcome: &ExtendedEnvelopeExperiment) -> String 
          and `verifier::verify_certificate`. Independent regression test: \
          `tests/p1b_refutation.rs`.\n\n\
          ## Exhaustive mini-max envelope (`1 <= r <= {}`, `k <= {}`, {} classes)\n\n\
-         Across all {} first-crossing classes on `1 <= r <= {}`, `R_r <= R_5` holds \
-         everywhere (with `R_5 = 251/507` uniquely maximal on this range, and the `r > 5` \
-         peak occurring at `r = 17`, `k = 27`, `m = 251`). This illustrates sharply why \
-         exhaustive verification through `r = {}` does not establish P1b, which fails at \
-         `r = 34`.\n\n\
+         {}\n\n\
          - **P1a counterexamples (`m_r != best_m`) on `1 <= r <= {}`:** `{:?}`\n\
          - **`E_r <= 2` status:** {} (first counterexample: `{:?}`)\n\
          - **`E_r <= 3` status:** {} (first counterexample: `{:?}`)\n\n\
@@ -113,9 +169,7 @@ pub fn render_envelope_extended(outcome: &ExtendedEnvelopeExperiment) -> String 
         outcome.max_r,
         outcome.max_k,
         outcome.total_classes_checked,
-        outcome.total_classes_checked,
-        outcome.max_r,
-        outcome.max_r,
+        r5_paragraph(outcome),
         outcome.max_r,
         outcome.p1a_counterexample_rs,
         outcome.e_le_two_status.label(),

@@ -11,7 +11,10 @@
 //! only as a cross-check.
 
 use collatz_lab::certificate::certify;
-use collatz_lab::envelope::{run_envelope, run_envelope_extended, verify_p1b_counterexample};
+use collatz_lab::envelope::{
+    run_envelope, run_envelope_extended, run_envelope_extended_with, verify_p1b_counterexample,
+    EXTENDED_SUPPORTED_MAX_ODD_STEPS,
+};
 use collatz_lab::hypothesis::Status;
 use collatz_lab::prefix::{Cylinder, ParityPrefix};
 use collatz_lab::verifier;
@@ -125,4 +128,19 @@ fn extended_envelope_r14_refutes_p1a_again() {
     assert_eq!(row14.min_m, BigUint::from(639u32));
     assert_eq!(row14.max_ratio_witnesses.len(), 1);
     assert_eq!(row14.max_ratio_witnesses[0].m, BigUint::from(1115u32));
+}
+
+#[test]
+fn extended_envelope_is_independent_of_thread_count() {
+    // r = 14..17 have k = 23..27 > the split depth, so the parallel merge is exercised.
+    let serial = run_envelope_extended(17).expect("serial scan");
+    for threads in [2usize, 7] {
+        let mut seen = Vec::new();
+        let parallel = run_envelope_extended_with(17, threads, &mut |row| seen.push(row.clone()))
+            .expect("parallel scan");
+        assert_eq!(serial, parallel, "threads={threads} changed the result");
+        assert_eq!(seen, parallel.rows, "callback must see every row in order");
+    }
+    assert_eq!(serial.rows[16].family_count, BigUint::from(312_455u32));
+    assert!(run_envelope_extended(EXTENDED_SUPPORTED_MAX_ODD_STEPS + 1).is_err());
 }

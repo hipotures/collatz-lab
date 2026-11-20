@@ -12,7 +12,9 @@ use num_bigint::BigUint;
 use collatz_lab::certificate::{certify, walk_first_descent, CoverNode};
 use collatz_lab::collatz;
 use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
-use collatz_lab::envelope::{run_envelope, run_envelope_extended, EXTENDED_MAX_ODD_STEPS};
+use collatz_lab::envelope::{
+    run_envelope, run_envelope_extended_with, EnvelopeRow, EXTENDED_MAX_ODD_STEPS,
+};
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::lyapunov::{run_lyapunov, DEFAULT_MAX_MODULUS_BITS};
 use collatz_lab::lyapunov::{TARGET_P, TARGET_Q};
@@ -68,7 +70,7 @@ enum Command {
     Counts(CountArgs),
     /// Measure Terras's mini-max envelope for exactly 1 <= r <= 12 (k <= 20).
     Envelope(EnvelopeArgs),
-    /// Extended mini-max envelope (1 <= r <= MAX_R, up to 23) and P1b refutation witnesses.
+    /// Extended mini-max envelope (1 <= r <= MAX_R, up to 34) and P1b refutation witnesses.
     EnvelopeExtended(EnvelopeExtendedArgs),
     /// Finite-state modular Lyapunov contraction certificates (F3) on G_M mod 2^M.
     Lyapunov(LyapunovArgs),
@@ -89,9 +91,13 @@ struct EnvelopeArgs {
 
 #[derive(Args)]
 struct EnvelopeExtendedArgs {
-    /// Maximum odd-step count r (1 <= max_r <= 23).
+    /// Maximum odd-step count r (1 <= max_r <= 34; default reproduces the committed table).
     #[arg(long, default_value_t = EXTENDED_MAX_ODD_STEPS)]
     max_r: usize,
+    /// Worker threads for the exhaustive scan (0 = all available cores); the
+    /// output does not depend on this value.
+    #[arg(long, default_value_t = 0)]
+    threads: usize,
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/envelope-extended")]
     out_dir: PathBuf,
@@ -771,8 +777,30 @@ fn cmd_envelope(args: &EnvelopeArgs) -> CliResult<()> {
 }
 
 fn cmd_envelope_extended(args: &EnvelopeExtendedArgs) -> CliResult<()> {
+    let threads = if args.threads == 0 {
+        std::thread::available_parallelism().map_or(1, |n| n.get())
+    } else {
+        args.threads
+    };
     let start = std::time::Instant::now();
-    let outcome = run_envelope_extended(args.max_r)?;
+    fs::create_dir_all(&args.out_dir)?;
+    // Checkpoint: one JSON line per completed r (timings only here and on
+    // stderr, never in the deterministic evidence.json).
+    let mut progress = fs::File::create(args.out_dir.join("progress.jsonl"))?;
+    let mut last = std::time::Instant::now();
+    let mut on_row = |row: &EnvelopeRow| {
+        use std::io::Write as _;
+        let ms = last.elapsed().as_millis() as u64;
+        last = std::time::Instant::now();
+        let line = serde_json::json!({ "wall_ms": ms, "threads": threads, "row": row });
+        let _ = writeln!(progress, "{line}");
+        let _ = progress.flush();
+        eprintln!(
+            "[envelope-extended] r={} k={} classes={} R_r={} in {} ms",
+            row.r, row.k, row.family_count, row.r_ratio, ms
+        );
+    };
+    let outcome = run_envelope_extended_with(args.max_r, threads, &mut on_row)?;
     let mut evidence = serde_json::to_vec_pretty(&outcome)?;
     evidence.push(b'\n');
     let summary = render_envelope_extended(&outcome);
