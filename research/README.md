@@ -30,8 +30,9 @@
 | [`phase1-next-questions.md`](phase1-next-questions.md) | P1a refutation, audit of earlier proposals, and the bounded Phase 2 experiment |
 | [`envelope/summary.md`](envelope/summary.md) | generated Phase 2 table: all exact extrema and envelope factors for `1 <= r <= 12` |
 | [`envelope/evidence.json`](envelope/evidence.json) | exact Phase 2 evidence, all ties, independent counts and Terras offsets |
-| [`envelope-extended/summary.md`](envelope-extended/summary.md) | extended exhaustive mini-max envelope (`1 <= r <= 23`, 150,456,309 classes), third P1a counterexample (`r=14`), `E_r <= 3` refutation (`r=22`), and P1b refutation (`m=47, 63` at `r=34, k=54`) |
-| [`envelope-extended/evidence.json`](envelope-extended/evidence.json) | machine-readable exact evidence for `1 <= r <= 23` and verified P1b refutation witnesses |
+| [`envelope-extended/summary.md`](envelope-extended/summary.md) | extended exhaustive mini-max envelope (`1 <= r <= 33`, 3,044,240,375,549 classes), third P1a counterexample (`r=14`), `E_r <= 3` refutation (`r=22`, again `r=31`), `R_r <= R_5` on all of `r <= 33` (so `r = 34` is the least `r > 5` where P1b fails), and P1b refutation (`m=47, 63` at `r=34, k=54`) |
+| [`envelope-extended/analysis-r33.md`](envelope-extended/analysis-r33.md) | `r <= 33` run record, resume provenance, independent Python check (`verify_envelope.py`: witnesses all rows, exhaustive `r <= 21`), and finite observations |
+| [`envelope-extended/evidence.json`](envelope-extended/evidence.json) | machine-readable exact evidence for `1 <= r <= 33` and verified P1b refutation witnesses |
 | [`lyapunov/summary.md`](lyapunov/summary.md) | finite-state modular Lyapunov contraction certificates (F3, `1 <= M <= 15`), exact `(M-1)/M` no-go on `G_M \ {2^M - 1}`, and F2 vs F3 excluded-density comparison |
 | [`lyapunov/evidence.json`](lyapunov/evidence.json) | machine-readable exact F3 Lyapunov certificates, horizons, and extremal cycles for `1 <= M <= 15` |
 | [`lyapunov-exact/summary.md`](lyapunov-exact/summary.md) | exact global minimum `|S_M*|` (`1 <= M <= 8`), certified integer dual-LP brackets (`9 <= M <= 12`), heuristic gap, and `p/q` sensitivity (`5/8` through `94/149`) |
@@ -86,15 +87,18 @@ Its first counterexample to the finite prediction `E_r<=2` is `r=11`, with
 `E_r=479207/179707`. It makes no all-`r` claim and does not prove P1b.
 Performance and independent verification are documented in the repository README.
 
-The extended mini-max envelope (`1 <= r <= 23`, `k <= 37`, 150,456,309 classes)
-and P1b refutation witnesses (`m=47` and `m=63` at `r=34, k=54`) are reproduced
-byte for byte with:
+The extended mini-max envelope (`1 <= r <= 33`, `k <= 53`,
+3,044,240,375,549 classes) and P1b refutation witnesses (`m=47` and `m=63` at
+`r=34, k=54`) are reproduced byte for byte with:
 
 ```text
-cargo run --locked --release -- envelope-extended --max-r 23 --out-dir research/envelope-extended
+cargo run --locked --release -- envelope-extended --max-r 33 --out-dir research/envelope-extended
 ```
 
-Independent regression test: `tests/p1b_refutation.rs`.
+(about 2.7 h on 8 cores; `--max-r 23` takes under a second and reproduces the
+first 23 rows). Independent regression test: `tests/p1b_refutation.rs`;
+independent Python check: `research/envelope-extended/verify_envelope.py`; run
+record and observations: [`envelope-extended/analysis-r33.md`](envelope-extended/analysis-r33.md).
 
 The Phase 3 Mahler summary and evidence are reproduced byte for byte with:
 

@@ -12,8 +12,8 @@
 
 use collatz_lab::certificate::certify;
 use collatz_lab::envelope::{
-    run_envelope, run_envelope_extended, run_envelope_extended_with, verify_p1b_counterexample,
-    EXTENDED_SUPPORTED_MAX_ODD_STEPS,
+    run_envelope, run_envelope_extended, run_envelope_extended_resume, run_envelope_extended_with,
+    verify_p1b_counterexample, EXTENDED_SUPPORTED_MAX_ODD_STEPS,
 };
 use collatz_lab::hypothesis::Status;
 use collatz_lab::prefix::{Cylinder, ParityPrefix};
@@ -143,4 +143,25 @@ fn extended_envelope_is_independent_of_thread_count() {
     }
     assert_eq!(serial.rows[16].family_count, BigUint::from(312_455u32));
     assert!(run_envelope_extended(EXTENDED_SUPPORTED_MAX_ODD_STEPS + 1).is_err());
+}
+
+#[test]
+fn extended_envelope_resume_reproduces_and_rejects_tampering() {
+    let full = run_envelope_extended(16).expect("full scan");
+    let prior = full.rows[..10].to_vec();
+    let resumed = run_envelope_extended_resume(prior.clone(), 16, 2, &mut |_| {}).expect("resume");
+    assert_eq!(
+        full, resumed,
+        "resume must reproduce the uninterrupted scan"
+    );
+
+    let mut bad_count = prior.clone();
+    bad_count[9].family_count += 1u32;
+    assert!(run_envelope_extended_resume(bad_count, 16, 1, &mut |_| {}).is_err());
+
+    let mut bad_witness = prior.clone();
+    bad_witness[7].min_m_witnesses[0].m += 2u32;
+    assert!(run_envelope_extended_resume(bad_witness, 16, 1, &mut |_| {}).is_err());
+
+    assert!(run_envelope_extended_resume(prior[1..].to_vec(), 16, 1, &mut |_| {}).is_err());
 }

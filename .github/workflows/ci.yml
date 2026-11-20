@@ -43,6 +43,9 @@ jobs:
       - name: Independently re-check F3 lift-chain sets (M <= 16)
         run: python3 research/lyapunov-lift/verify_chain.py --max-m 16
 
+      - name: Independently re-check extended envelope witnesses (exhaustive r <= 14)
+        run: python3 research/envelope-extended/verify_envelope.py --exhaustive-max-r 14
+
       - name: Verify Phase 13 exact heights and rational shadows
         run: |
           python3 research/phase13/test_height.py

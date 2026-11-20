@@ -11,7 +11,7 @@ use std::sync::atomic::{AtomicUsize, Ordering as AtomicOrdering};
 
 use num_bigint::BigUint;
 use num_traits::{One, Zero};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::certificate::certify;
 use crate::collatz;
@@ -23,7 +23,7 @@ use crate::{serde_dec, verifier};
 pub const MAX_ODD_STEPS: usize = 12;
 pub const MAX_LENGTH: usize = 20;
 /// Default `max_r` of the committed extended table.
-pub const EXTENDED_MAX_ODD_STEPS: usize = 23;
+pub const EXTENDED_MAX_ODD_STEPS: usize = 33;
 /// Largest `r` the exact `u64`/`u128` fast scan supports (`k = 54`): parity
 /// words fit in `u64`, and `c * m < 2^128` holds with a wide margin there.
 pub const EXTENDED_SUPPORTED_MAX_ODD_STEPS: usize = 34;
@@ -44,7 +44,7 @@ struct DfsState {
 
 /// A nonnegative reduced rational. Private fields keep the denominator
 /// positive and equality consistent with exact cross-product ordering.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Ratio {
     #[serde(with = "serde_dec")]
     numerator: BigUint,
@@ -98,7 +98,7 @@ impl fmt::Display for Ratio {
 }
 
 /// One class, with normalized residue and least member `m >= 2`.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Witness {
     pub parity: String,
     #[serde(with = "serde_dec")]
@@ -110,7 +110,7 @@ pub struct Witness {
 }
 
 /// All extremizers are retained in lexicographic parity order, including ties.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct EnvelopeRow {
     pub r: usize,
     pub k: usize,
@@ -788,14 +788,129 @@ pub fn run_envelope_extended_with(
     threads: usize,
     on_row: &mut dyn FnMut(&EnvelopeRow),
 ) -> Result<ExtendedEnvelopeExperiment, String> {
+    run_envelope_extended_resume(Vec::new(), max_r, threads, on_row)
+}
+
+/// Rebuild one recorded witness from its parity word and require the full
+/// `checked_witness` verification to reproduce it exactly.
+fn recheck_witness(w: &Witness, r: usize, k: usize) -> Result<(), String> {
+    let mut prefix = ParityPrefix::empty();
+    let mut affine = AffineMap::identity();
+    for ch in w.parity.chars() {
+        let odd = match ch {
+            '1' => true,
+            '0' => false,
+            _ => return Err(format!("bad parity word {}", w.parity)),
+        };
+        prefix.push(odd);
+        affine.push(odd);
+    }
+    if prefix.len() != k || affine.odd_steps() != r || prefix.to_string() != w.parity {
+        return Err(format!("parity word {} has wrong shape", w.parity));
+    }
+    if &checked_witness(&prefix, &affine)? != w {
+        return Err(format!("witness {} does not reproduce", w.parity));
+    }
+    Ok(())
+}
+
+/// Re-check a row read back from a checkpoint. Everything is recomputed
+/// except the exhaustive extremality of `min_m` and of the best ratio, which
+/// rests on the logged scan: the class count against both counting
+/// recurrences, `d`, the Terras extremal word and `max_c` (Terras's
+/// recurrence certifies `max_c` independently), every witness by
+/// `checked_witness`, witness consistency and order, and all ratios.
+fn recheck_envelope_row(row: &EnvelopeRow, r: usize) -> Result<(), String> {
+    let fail = |what: &str| Err(format!("resumed row r={r}: {what}"));
+    let k = crossing_length(r);
+    if row.r != r || row.k != k {
+        return fail("depth out of sequence");
+    }
+    let by_len = count_by_length(k).first_crossings[k].clone();
+    let by_odd = count_by_odd_positions(k).first_crossings_by_odd_steps[r].clone();
+    if row.family_count != by_len
+        || row.count_by_length != by_len
+        || row.count_by_odd_positions != by_odd
+        || by_len != by_odd
+    {
+        return fail("class count disagrees with the counting recurrences");
+    }
+    let d = (BigUint::one() << k) - BigUint::from(3u32).pow(r as u32);
+    let (terras_word, terras_c, terras_r) = terras_extremal(k);
+    if row.d != d
+        || terras_r != r
+        || row.terras_word != terras_word
+        || row.terras_c != terras_c
+        || row.max_c != terras_c
+    {
+        return fail("d or Terras extremal data differ");
+    }
+    for list in [
+        &row.max_c_witnesses,
+        &row.min_m_witnesses,
+        &row.max_ratio_witnesses,
+    ] {
+        if list.is_empty() || list.windows(2).any(|w| w[0].parity >= w[1].parity) {
+            return fail("witness list empty or not strictly sorted");
+        }
+        for w in list {
+            recheck_witness(w, r, k).map_err(|e| format!("resumed row r={r}: {e}"))?;
+        }
+    }
+    let best = &row.max_ratio_witnesses[0];
+    if row.max_c_witnesses.iter().any(|w| w.c != row.max_c)
+        || !row.max_c_witnesses.iter().any(|w| w.parity == terras_word)
+        || row.min_m_witnesses.iter().any(|w| w.m != row.min_m)
+        || row
+            .max_ratio_witnesses
+            .iter()
+            .any(|w| &w.c * &best.m != &best.c * &w.m)
+    {
+        return fail("witness values inconsistent");
+    }
+    let r_ratio = Ratio::new(best.c.clone(), &d * &best.m).ok_or("zero R denominator")?;
+    let u_ratio = Ratio::new(row.max_c.clone(), &d * &row.min_m).ok_or("zero U denominator")?;
+    let e_ratio = u_ratio.checked_div(&r_ratio);
+    let e_le_two = e_ratio
+        .as_ref()
+        .map(|e| e.numerator <= &e.denominator * 2u32);
+    if row.r_ratio != r_ratio
+        || row.u_ratio != u_ratio
+        || row.e_ratio != e_ratio
+        || row.e_le_two != e_le_two
+    {
+        return fail("recomputed ratios differ");
+    }
+    Ok(())
+}
+
+/// Continue the extended envelope from rows `prior` (`r = 1..=prior.len()`,
+/// e.g. read back from a checkpoint) up to `max_r`. Prior rows are re-checked
+/// by `recheck_envelope_row`; their exhaustive extremality is carried over
+/// from the recorded scan.
+pub fn run_envelope_extended_resume(
+    prior: Vec<EnvelopeRow>,
+    max_r: usize,
+    threads: usize,
+    on_row: &mut dyn FnMut(&EnvelopeRow),
+) -> Result<ExtendedEnvelopeExperiment, String> {
     if max_r == 0 || max_r > EXTENDED_SUPPORTED_MAX_ODD_STEPS {
         return Err(format!(
             "max_r={max_r} out of supported range 1..={EXTENDED_SUPPORTED_MAX_ODD_STEPS}"
         ));
     }
+    if prior.len() > max_r {
+        return Err(format!("{} resumed rows exceed max_r={max_r}", prior.len()));
+    }
     let mut rows = Vec::with_capacity(max_r);
     let mut total_classes_checked = BigUint::zero();
-    for r in 1..=max_r {
+    let start_r = prior.len() + 1;
+    for (i, row) in prior.into_iter().enumerate() {
+        recheck_envelope_row(&row, i + 1)?;
+        total_classes_checked += &row.family_count;
+        rows.push(row);
+    }
+    for r in start_r..=max_r {
         let k = crossing_length(r);
         if k > EXTENDED_MAX_LENGTH {
             return Err(format!(

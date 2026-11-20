@@ -1,11 +1,11 @@
-# Extended mini-max envelope (1 <= r <= 23) and P1b refutation
+# Extended mini-max envelope (1 <= r <= 33) and P1b refutation
 
 Generated finite exact-arithmetic report for the accelerated map `T(n)=n/2` (even), `(3n+1)/2` (odd). No originality claim, no all-`r` theorem, and no proof of CST or Collatz is asserted. **P1a**, **P1b**, **`E_r <= 2`**, and **`E_r <= 3`** are all **refuted** by explicit independently verified witnesses.
 
 Reproduce this table and `evidence.json` from the repository root with:
 
 ```text
-cargo run --locked --release -- envelope-extended --max-r 23 --out-dir research/envelope-extended
+cargo run --locked --release -- envelope-extended --max-r 33 --out-dir research/envelope-extended
 ```
 
 ## Refutation of P1b (`R_r <= R_5 = 251/507` for all `r > 5`)
@@ -25,11 +25,11 @@ Whenever `m < 2^k` and `m >= 2`, `m` is the exact least member `>= 2` of its res
 
 Every witness above is verified by direct `BigUint` iteration of `T`, exact affine identity, `Cylinder::from_prefix`, modular-inverse residue, `certify`, and `verifier::verify_certificate`. Independent regression test: `tests/p1b_refutation.rs`.
 
-## Exhaustive mini-max envelope (`1 <= r <= 23`, `k <= 37`, 150456309 classes)
+## Exhaustive mini-max envelope (`1 <= r <= 33`, `k <= 53`, 3044240375549 classes)
 
-Across all 150456309 first-crossing classes on `1 <= r <= 23`, `R_r <= R_5` holds everywhere (with `R_5 = 251/507` uniquely maximal on this range, and the `r > 5` peak occurring at `r = 17`, `k = 27`, `m = 251`). This illustrates sharply why exhaustive verification through `r = 23` does not establish P1b, which fails at `r = 34`.
+Across all 3044240375549 first-crossing classes on `1 <= r <= 33`, `R_r <= R_5` holds everywhere (with `R_5 = 251/507` uniquely maximal on this range, and the `r > 5` peak occurring at `r = 17`, `k = 27`, `m = 251`). This illustrates sharply why exhaustive verification through `r = 33` does not establish P1b, which fails at `r = 34`.
 
-- **P1a counterexamples (`m_r != best_m`) on `1 <= r <= 23`:** `[6, 8, 14]`
+- **P1a counterexamples (`m_r != best_m`) on `1 <= r <= 33`:** `[6, 8, 14]`
 - **`E_r <= 2` status:** refuted (first counterexample: `Some(11)`)
 - **`E_r <= 3` status:** refuted (first counterexample: `Some(22)`)
 
@@ -58,6 +58,16 @@ Across all 150456309 first-crossing classes on `1 <= r <= 23`, `R_r <= R_5` hold
 | 21 | 34 | 13472296 | 1307 | 1307 | `20674103327/8782407387167` | `54020229503/8782407387167` | `54020229503/20674103327` | holds | no |
 | 22 | 35 | 39993895 | 871 | 871 | `51808559857/2594429199089` | `24378660443/370632742727` | `170650623101/51808559857` | holds | no |
 | 23 | 37 | 87986917 | 927 | 927 | `55577317807/8027036619183` | `529131738487/40135183095915` | `48102885317/25262417185` | holds | yes |
+| 24 | 39 | 257978502 | 671 | 671 | `705292626497/179375932140097` | `236587813171/25625133162871` | `1656114692197/705292626497` | holds | no |
+| 25 | 40 | 820236724 | 155 | 155 | `255516738637/3554051621965` | `1048644396707/7818913568323` | `5243221983535/2810684125007` | holds | yes |
+| 26 | 42 | 1899474678 | 103 | 103 | `6468656859457/191186610325825` | `16279421764493/191186610325825` | `16279421764493/6468656859457` | holds | no |
+| 27 | 43 | 5723030586 | 1639 | 1639 | `634469435593/44614934546633` | `51037288549031/1918442185505219` | `51037288549031/27282185730499` | holds | yes |
+| 28 | 45 | 12809477536 | 91 | 91 | `64458584017301/1119989746682261` | `157509912158197/1119989746682261` | `157509912158197/64458584017301` | holds | no |
+| 29 | 46 | 38036848410 | 3431 | 3431 | `194099512083163/5964336534651611` | `490121922519007/5964336534651611` | `490121922519007/194099512083163` | holds | no |
+| 30 | 48 | 84141805077 | 3399 | 3399 | `8431418056163/2823181185162723` | `30725513053997/5243050772445057` | `215078591377979/109608434730119` | holds | yes |
+| 31 | 50 | 248369601964 | 2287 | 2287 | `1511225692948955/1162314029647694299` | `4657387907292887/1162314029647694299` | `4657387907292887/1511225692948955` | holds | no |
+| 32 | 51 | 794919136728 | 71 | 71 | `5795355226319417/28313353363171897` | `14535113675299973/28313353363171897` | `14535113675299973/5795355226319417` | holds | no |
+| 33 | 53 | 1857112329035 | 6395 | 6395 | `19237533849607823/22050846910946074255` | `44731240932742543/22050846910946074255` | `44731240932742543/19237533849607823` | holds | no |
 
 ## Checks and evidence boundary
 

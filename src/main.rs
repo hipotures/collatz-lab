@@ -13,7 +13,7 @@ use collatz_lab::certificate::{certify, walk_first_descent, CoverNode};
 use collatz_lab::collatz;
 use collatz_lab::counting::{count_by_length, count_by_odd_positions, crossing_length};
 use collatz_lab::envelope::{
-    run_envelope, run_envelope_extended_with, EnvelopeRow, EXTENDED_MAX_ODD_STEPS,
+    run_envelope, run_envelope_extended_resume, EnvelopeRow, EXTENDED_MAX_ODD_STEPS,
 };
 use collatz_lab::hypothesis::{run_experiment, ExperimentParams, LedgerEntry};
 use collatz_lab::lyapunov::{run_lyapunov, DEFAULT_MAX_MODULUS_BITS};
@@ -91,13 +91,17 @@ struct EnvelopeArgs {
 
 #[derive(Args)]
 struct EnvelopeExtendedArgs {
-    /// Maximum odd-step count r (1 <= max_r <= 34; default reproduces the committed table).
+    /// Maximum odd-step count r (1 <= max_r <= 34; default 33 reproduces the committed table, ~2.7 h on 8 cores).
     #[arg(long, default_value_t = EXTENDED_MAX_ODD_STEPS)]
     max_r: usize,
     /// Worker threads for the exhaustive scan (0 = all available cores); the
     /// output does not depend on this value.
     #[arg(long, default_value_t = 0)]
     threads: usize,
+    /// Resume from a progress.jsonl checkpoint of an earlier run (rows are
+    /// re-checked, then the scan continues up to max_r).
+    #[arg(long)]
+    resume: Option<PathBuf>,
     /// Output directory for evidence.json and summary.md.
     #[arg(long, default_value = "research/envelope-extended")]
     out_dir: PathBuf,
@@ -786,7 +790,24 @@ fn cmd_envelope_extended(args: &EnvelopeExtendedArgs) -> CliResult<()> {
     fs::create_dir_all(&args.out_dir)?;
     // Checkpoint: one JSON line per completed r (timings only here and on
     // stderr, never in the deterministic evidence.json).
+    let prior: Vec<EnvelopeRow> = match &args.resume {
+        None => Vec::new(),
+        Some(path) => fs::read_to_string(path)?
+            .lines()
+            .filter(|l| !l.trim().is_empty())
+            .map(|l| {
+                let mut v: serde_json::Value = serde_json::from_str(l)?;
+                Ok(serde_json::from_value(v["row"].take())?)
+            })
+            .collect::<CliResult<_>>()?,
+    };
+    let prior: Vec<EnvelopeRow> = prior.into_iter().take(args.max_r).collect();
     let mut progress = fs::File::create(args.out_dir.join("progress.jsonl"))?;
+    for row in &prior {
+        use std::io::Write as _;
+        let line = serde_json::json!({ "wall_ms": null, "threads": threads, "row": row });
+        writeln!(progress, "{line}")?;
+    }
     let mut last = std::time::Instant::now();
     let mut on_row = |row: &EnvelopeRow| {
         use std::io::Write as _;
@@ -800,7 +821,7 @@ fn cmd_envelope_extended(args: &EnvelopeExtendedArgs) -> CliResult<()> {
             row.r, row.k, row.family_count, row.r_ratio, ms
         );
     };
-    let outcome = run_envelope_extended_with(args.max_r, threads, &mut on_row)?;
+    let outcome = run_envelope_extended_resume(prior, args.max_r, threads, &mut on_row)?;
     let mut evidence = serde_json::to_vec_pretty(&outcome)?;
     evidence.push(b'\n');
     let summary = render_envelope_extended(&outcome);
